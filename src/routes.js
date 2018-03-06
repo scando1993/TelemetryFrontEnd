@@ -58,7 +58,8 @@ const routes = [
         name: 'Repository',
         meta: {description: 'List of popular javascript repos'}
       }
-    ]
+    ],
+    meta: {requiresAuth: true}
   }, {
     // not found handler
     path: '*',

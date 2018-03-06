@@ -1,8 +1,8 @@
 {
-  "name": "copilot",
-  "version": "0.5.0",
+  "name": "Pacificsoft_IoT_Platform",
+  "version": "0.0.1",
   "description": "A fully responsive admin template based on AdminLTE with vue.js integration",
-  "author": "Gil Ferreira <gfgilly@gmail.com>",
+  "author": "Kevin Cando <kcando@pacificsoft.net>",
   "repository": "https://github.com/misterGF/CoPilot",
   "license": "MIT",
   "scripts": {

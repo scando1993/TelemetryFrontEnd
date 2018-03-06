@@ -1,13 +1,15 @@
 <template>
   <div :class="['wrapper', classes]">
     <header class="main-header">
-	<span class="logo-mini">
-		<a href="/"><img src="/static/img/copilot-logo-white.svg" alt="Logo" class="img-responsive center-block logo"></a>
-	</span>
+
+      <span class="logo-mini">
+        <a href="/"><img id="logo" src="/static/img/pacificsoft_logo_original.svg" alt="Logo" class="img-responsive center-block logo"></a>
+      </span>
+
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a id="toggleNav" href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
         <!-- Navbar Right Menu -->
@@ -47,7 +49,7 @@
               </ul>
             </li>
             <!-- /.messages-menu -->
-  
+
             <!-- Notifications Menu -->
             <li class="dropdown notifications-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -73,7 +75,7 @@
                 </li>
               </ul>
             </li>
-  
+
             <!-- Tasks Menu -->
             <li class="dropdown tasks-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -110,7 +112,7 @@
                 </li>
               </ul>
             </li>
-  
+
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -126,7 +128,7 @@
     </header>
     <!-- Left side column. contains the logo and sidebar -->
     <sidebar :display-name="demo.displayName" :picture-url="demo.avatar" />
-  
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -143,15 +145,15 @@
           <li class="active">{{$route.name.toUpperCase()}}</li>
         </ol>
       </section>
-  
+
       <router-view></router-view>
     </div>
     <!-- /.content-wrapper -->
-  
+
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong>Copyright &copy; {{year}}
-        <a href="javascript:;">CoPilot</a>.</strong> All rights reserved.
+        <a href="http://www.pacificsoft.net">Pacificsoft</a>.</strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->
@@ -196,7 +198,26 @@ export default {
   methods: {
     changeloading () {
       this.$store.commit('TOGGLE_SEARCHING')
+    },
+    changeLogo() {
+      $('#toggleNav').on('click', function () {
+        let div = $('body')
+        let image = $('#logo')
+        if (div.hasClass('sidebar-collapse')) {
+          image.attr('src', '/static/img/pacificsoft_logo_original.svg')
+        } else {
+          if (image.width() > 214) {
+            image.attr('src', '/static/img/pacificsoft_logo_original.svg')
+          } else {
+            console.log('normal width')
+            image.attr('src', '/static/img/pacificsoft_logo_collapse.svg')
+          }
+        }
+      })
     }
+  },
+  mounted() {
+    this.changeLogo()
   }
 }
 </script>

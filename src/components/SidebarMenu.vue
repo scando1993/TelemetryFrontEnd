@@ -14,19 +14,6 @@
       </a>
     </router-link>
 
-    <li class="header">ME</li>
-    <router-link tag="li" class="pageLink" to="/tasks">
-      <a>
-        <i class="fa fa-tasks"></i>
-        <span class="page">Tasks</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/setting">
-      <a>
-        <i class="fa fa-cog"></i>
-        <span class="page">Settings</span>
-      </a>
-    </router-link>
     <li class="treeview">
       <a href="#">
         <i class="fa fa-folder-o"></i>
@@ -53,6 +40,19 @@
         </li>
       </ul>
     </li>
+    <li class="header">MANAGEMENT</li>
+    <router-link tag="li" class="pageLink" to="/tasks">
+      <a>
+        <i class="fa fa-tasks"></i>
+        <span class="page">Tasks</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/setting">
+      <a>
+        <i class="fa fa-cog"></i>
+        <span class="page">Settings</span>
+      </a>
+    </router-link>
 
     <li class="header">LOGS</li>
     <router-link tag="li" class="pageLink" to="/access">
@@ -75,19 +75,6 @@
       </a>
     </router-link>
 
-    <li class="header">PAGES</li>
-    <router-link tag="li" class="pageLink" to="/login">
-      <a>
-        <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> Login</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/404">
-      <a>
-        <i class="fa fa-circle-o text-red"></i>
-        <span class="page"> 404</span>
-      </a>
-    </router-link>
   </ul>
 </template>
 <script>

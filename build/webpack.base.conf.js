@@ -1,5 +1,6 @@
 var path = require('path')
 var utils = require('./utils')
+var webpack = require('webpack')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
@@ -24,7 +25,15 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'utils': resolve('src/utils')
-    }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jquery: 'jquery',
+        'window.jQuery': 'jquery',
+        jQuery: 'jquery'
+      })
+    ]
   },
   module: {
     rules: [

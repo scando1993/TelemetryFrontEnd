@@ -104,6 +104,7 @@ import datepicker from 'vue-date-picker'
 
 export default {
   name: 'Settings',
+  props: ['styleObj'],
   components: { datepicker },
   computed: {
     datetime () {
@@ -114,7 +115,8 @@ export default {
     clearInput (vueModel) {
       vueModel = ''
     }
-  }
+  },
+  styleObj: {type: Object, default: {}}
 }
 </script>
 

@@ -10,5 +10,9 @@ export default {
   },
   SET_TOKEN (state, token) {
     state.token = token
+  },
+  SET_REFRESH_TOKEN (state, token) {
+    state.refreshToken = token
   }
+
 }

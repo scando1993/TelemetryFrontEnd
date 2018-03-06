@@ -24,6 +24,7 @@
 </template>
 
 <script>
+// import api from '../api'
 import api from '../api'
 
 export default {
@@ -44,10 +45,68 @@ export default {
       this.toggleLoading()
       this.resetResponse()
       this.$store.commit('TOGGLE_LOADING')
-
       /* Making API call to authenticate a user */
+      // $.ajax({
+      //   url: 'https://loka-app.com/api/login',
+      //   type: 'POST',
+      //   dataType: 'json',
+      //   data: { username, password },
+      //   async: false,
+      //   beforeSend: function(xhr) {
+      //     xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
+      //     xhr.setRequestHeader('Cache-Control', 'no-cache')
+      //   },
+      //   contentType: 'text/plain',
+      //   success: function(response) {
+      //     this.toggleLoading()
+      //
+      //     var data = response.data
+      //     /* Checking if error object was returned from the server */
+      //     if (data.error) {
+      //       var errorName = data.error.name
+      //       if (errorName) {
+      //         this.response =
+      //           errorName === 'InvalidCredentialsError'
+      //             ? 'Username/Password incorrect. Please try again.'
+      //             : errorName
+      //       } else {
+      //         this.response = data.error
+      //       }
+      //
+      //       return
+      //     }
+      //
+      //     /* Setting user in the state and caching record to the localStorage */
+      //     if (data.user) {
+      //       var token = 'Bearer ' + data.token
+      //       var refreshToken = data.refresh_token
+      //
+      //       this.$store.commit('SET_USER', data.user)
+      //       this.$store.commit('SET_TOKEN', token)
+      //       this.$store.commit('SET_REFRESH_TOKEN', refreshToken)
+      //
+      //       if (window.localStorage) {
+      //         window.localStorage.setItem('user', JSON.stringify(data.user))
+      //         window.localStorage.setItem('token', token)
+      //       }
+      //
+      //       this.$router.push(data.redirect ? data.redirect : '/')
+      //     }
+      //   },
+      //   error: function (error) {
+      //     this.$store.commit('TOGGLE_LOADING')
+      //     console.log(error)
+      //
+      //     this.response = 'Server appears to be offline'
+      //     this.toggleLoading()
+      //   }
+      // })
       api
-        .request('post', '/login', { username, password })
+        .request('post',
+          '/login',
+          { username, password },
+          {'Content-Type': 'application/json', 'Cache-Control': 'no-cache'}
+        )
         .then(response => {
           this.toggleLoading()
 
@@ -68,11 +127,13 @@ export default {
           }
 
           /* Setting user in the state and caching record to the localStorage */
-          if (data.user) {
+          if (data.username) {
             var token = 'Bearer ' + data.token
+            var refreshToken = data.refresh_token
 
             this.$store.commit('SET_USER', data.user)
             this.$store.commit('SET_TOKEN', token)
+            this.$store.commit('SET_REFRESH_TOKEN', refreshToken)
 
             if (window.localStorage) {
               window.localStorage.setItem('user', JSON.stringify(data.user))
