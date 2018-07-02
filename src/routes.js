@@ -4,7 +4,7 @@ import NotFoundView from './components/404.vue'
 
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
-import TablesView from './components/views/Tables.vue'
+import ChatBotView from './components/views/ChatBot.vue'
 import TasksView from './components/views/Tasks.vue'
 import SettingView from './components/views/Setting.vue'
 import AccessView from './components/views/Access.vue'
@@ -28,10 +28,10 @@ const routes = [
         name: 'Dashboard',
         meta: {description: 'Overview of environment'}
       }, {
-        path: 'tables',
-        component: TablesView,
-        name: 'Tables',
-        meta: {description: 'Simple and advance table in CoPilot'}
+        path: 'chatbot',
+        component: ChatBotView,
+        name: 'ChatBot',
+        meta: {description: 'ChatBot for the Telemetry Platform'}
       }, {
         path: 'tasks',
         component: TasksView,
@@ -59,7 +59,7 @@ const routes = [
         meta: {description: 'List of popular javascript repos'}
       }
     ],
-    meta: {requiresAuth: true}
+    meta: {requiresAuth: false}
   }, {
     // not found handler
     path: '*',

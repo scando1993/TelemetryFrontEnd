@@ -202,7 +202,7 @@ import 'datatables.net'
 import 'datatables.net-bs'
 
 export default {
-  name: 'Tables',
+  name: 'ChatBot',
   mounted () {
     this.$nextTick(() => {
       $('#example1').DataTable()
