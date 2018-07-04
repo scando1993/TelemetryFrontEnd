@@ -7,6 +7,12 @@
         <span class="page">Dashboard</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/devices">
+      <a>
+        <i class="fa fa-desktop"></i>
+        <span class="page">Devices</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/chatbot">
       <a>
         <i class="fa fa-table"></i>

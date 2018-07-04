@@ -4,6 +4,7 @@ import NotFoundView from './components/404.vue'
 
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
+import DevicesView from './components/views/Devices.vue'
 import ChatBotView from './components/views/ChatBot.vue'
 import TasksView from './components/views/Tasks.vue'
 import SettingView from './components/views/Setting.vue'
@@ -27,6 +28,11 @@ const routes = [
         component: DashboardView,
         name: 'Dashboard',
         meta: {description: 'Overview of environment'}
+      }, {
+        path: 'devices',
+        component: DevicesView,
+        name: 'Devices',
+        meta: {description: 'Devices Status and Information'}
       }, {
         path: 'chatbot',
         component: ChatBotView,
