@@ -8,7 +8,7 @@ import VueRouter from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import routes from './routes'
 import store from './store'
-
+import * as VueGoogleMaps from 'vue2-google-maps'
 // Import Helpers for filters
 import { domain, count, prettyDate, pluralize } from './filters'
 
@@ -60,7 +60,12 @@ if (window.localStorage) {
     store.commit('SET_TOKEN', window.localStorage.getItem('token'))
   }
 }
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyAcbrLDfCVb_oWxnNGbDQyD1znDnCCW30o',
+    libraries: 'places'
+  }
+})
 // Start out app!
 // eslint-disable-next-line no-new
 new Vue({

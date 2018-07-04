@@ -81,9 +81,10 @@
             <hr class="visible-xs-block">
             <div class="col-sm-6 col-xs-12">
               <p class="text-center">
-                <strong>Language Overview</strong>
+                <strong>Distribucion en la cuidad</strong>
               </p>
-              <canvas id="languagePie"></canvas>
+              <!--<canvas id="languagePie"></canvas>-->
+              <google-map />
             </div>
           </div>
         </div>
@@ -173,8 +174,12 @@
 
 <script>
 import Chart from 'chart.js'
+import GoogleMap from '../Geocalization/GoogleMap.vue'
 
 export default {
+  components: {
+    GoogleMap
+  },
   data () {
     return {
       generateRandomNumbers (numbers, max, min) {
@@ -237,7 +242,7 @@ export default {
 
       new Chart(ctx, config) // eslint-disable-line no-new
 
-      var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
+      /* var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
       var pieConfig = {
         type: 'pie',
         data: {
@@ -258,7 +263,7 @@ export default {
         }
       }
 
-      new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
+      new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new */
     })
   }
 }
