@@ -7,39 +7,60 @@
         <span class="page">Dashboard</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/chatbot">
+    <router-link tag="li" class="pageLink" to="/store">
       <a>
-        <i class="fa fa-table"></i>
-        <span class="page">ChatBot</span>
+        <i class="fa fa-laptop"></i>
+        <span class="page">Bodega</span>
       </a>
     </router-link>
-
-    <li class="treeview">
-      <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Files</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left fa-fw pull-right"></i>
-        </span>
+    <router-link tag="li" class="pageLink" to="/locales">
+      <a>
+        <i class="fa fa-building"></i>
+        <span class="page">Locales</span>
       </a>
-      <ul class="treeview-menu">
-        <li>
-          <a href="#">
-            <i class="fa fa-file-word-o"></i> Item 1
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-picture-o"></i> Item 2
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-pdf-o"></i> Item 3
-          </a>
-        </li>
-      </ul>
-    </li>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/format">
+      <a>
+        <i class="fa fa-puzzle-piece"></i>
+        <span class="page">Formato</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/ubication">
+      <a>
+        <i class="fa fa-map-marker"></i>
+        <span class="page">Ubicaciones</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/ubicationBoxcar">
+      <a>
+        <i class="fa fa-map"></i>
+        <span class="page">Ubicación Furgón</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/boxcar">
+      <a>
+        <i class="fa fa-truck"></i>
+        <span class="page">Furgón</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/devices">
+      <a>
+        <i class="fa fa-tablet"></i>
+        <span class="page">Dispositivos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/tracking">
+      <a>
+        <i class="fa fa-search"></i>
+        <span class="page">Tracking</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/wifiScan">
+      <a>
+        <i class="fa fa-wifi"></i>
+        <span class="page">Wifi Scan</span>
+      </a>
+    </router-link>
     <li class="header">MANAGEMENT</li>
     <router-link tag="li" class="pageLink" to="/tasks">
       <a>
@@ -53,7 +74,6 @@
         <span class="page">Settings</span>
       </a>
     </router-link>
-
     <li class="header">LOGS</li>
     <router-link tag="li" class="pageLink" to="/access">
       <a>
@@ -74,7 +94,6 @@
         <small class="label pull-right bg-green">AJAX</small>
       </a>
     </router-link>
-
   </ul>
 </template>
 <script>

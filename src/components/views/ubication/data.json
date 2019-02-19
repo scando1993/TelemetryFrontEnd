@@ -1,0 +1,32 @@
+[
+  {
+    "id": "10",
+    "zona": "nissan",
+    "regional": "10",
+    "provincia": "nissan",
+    "ciudad": "10",
+    "formatoID": "nissan",
+    "localesID": "10",
+    "bodegaID": "nissan"
+  },
+  {
+    "id": "17",
+    "zona": "nissan",
+    "regional": "10",
+    "provincia": "nissan",
+    "ciudad": "10",
+    "formatoID": "nissan",
+    "localesID": "10",
+    "bodegaID": "nissan"
+  },
+  {
+    "id": "08",
+    "zona": "nan",
+    "regional": "10",
+    "provincia": "nissan",
+    "ciudad": "10",
+    "formatoID": "nissan",
+    "localesID": "10",
+    "bodegaID": "nissan"
+  }
+]

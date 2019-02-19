@@ -3,17 +3,16 @@
     <router-view></router-view>
   </div>
 </template>
-
 <script>
   export default {
     name: 'App',
-    data () {
+    data() {
       return {
         section: 'Head'
       }
     },
     methods: {
-      logout () {
+      logout() {
         this.$store.commit('SET_USER', null)
         this.$store.commit('SET_TOKEN', null)
 
@@ -21,7 +20,6 @@
           window.localStorage.setItem('user', null)
           window.localStorage.setItem('token', null)
         }
-
         this.$router.push('/login')
       }
     }

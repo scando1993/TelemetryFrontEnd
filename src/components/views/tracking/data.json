@@ -1,0 +1,27 @@
+[
+  {
+    "id": "17",
+    "temperature": "52",
+    "location": "Favorita"
+  },
+  {
+    "id": "13",
+    "temperature": "32",
+    "location": "Favorita"
+  },
+  {
+    "id": "12",
+    "temperature": "42",
+    "location": "Favorita"
+  },
+  {
+    "id": "10",
+    "temperature": "15",
+    "location": "Favorita"
+  },
+  {
+    "id": "11",
+    "temperature": "18",
+    "location": "Favorita"
+  }
+]

@@ -4,7 +4,6 @@ import 'es6-promise/auto'
 // Import System requirements
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 import { sync } from 'vuex-router-sync'
 import routes from './routes'
 import store from './store'
@@ -20,7 +19,6 @@ Vue.filter('count', count)
 Vue.filter('domain', domain)
 Vue.filter('prettyDate', prettyDate)
 Vue.filter('pluralize', pluralize)
-
 Vue.use(VueRouter)
 
 // Routing logic
@@ -47,7 +45,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
 sync(store, router)
 
 // Check local storage to handle refreshes

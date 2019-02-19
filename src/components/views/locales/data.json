@@ -1,0 +1,50 @@
+[
+  {
+    "id": "10",
+    "numero": "562",
+    "nombre": "Favor",
+    "lugar": "Centro",
+    "longitud": "-2.2862504",
+    "latitud": "-79.570627"
+  },
+  {
+    "id": "01",
+    "numero": "234",
+    "nombre": "Norte",
+    "lugar": "Samanes",
+    "longitud": "-2.177426",
+    "latitud": "-79.910522"
+  },
+  {
+    "id": "80",
+    "numero": "8512",
+    "nombre": "Sur",
+    "lugar": "Centenerario",
+    "longitud": "-2.181435",
+    "latitud": "-79.908655"
+  },
+  {
+    "id": "52",
+    "numero": "5421",
+    "nombre": "Sur",
+    "lugar": "Centenerario",
+    "longitud": "-2.1762195",
+    "latitud": "-79.9094486"
+  },
+  {
+    "id": "14",
+    "numero": "9963",
+    "nombre": "Sur",
+    "lugar": "Paz",
+    "longitud": "-2.1688434",
+    "latitud": "-79.8993957"
+  },
+  {
+    "id": "03",
+    "numero": "1759",
+    "nombre": "Centro",
+    "lugar": "Centenerario",
+    "longitud": "-2.171518",
+    "latitud": "-79.893560"
+  }
+]

@@ -3,7 +3,7 @@
     <header class="main-header">
 
       <span class="logo-mini">
-        <a href="/"><img id="logo" src="/static/img/pacificsoft_logo_original.svg" alt="Logo" class="img-responsive center-block logo"></a>
+        <a href="/"><img id="logo" src="./../../static/img/pacificsoft_logo_original.svg" alt="Logo" class="img-responsive center-block logo"></a>
       </span>
 
       <!-- Header Navbar -->
@@ -204,13 +204,13 @@ export default {
         let div = $('body')
         let image = $('#logo')
         if (div.hasClass('sidebar-collapse')) {
-          image.attr('src', '/static/img/pacificsoft_logo_original.svg')
+          image.attr('src', './../../static/img/pacificsoft_logo_original.svg')
         } else {
           if (image.width() > 214) {
-            image.attr('src', '/static/img/pacificsoft_logo_original.svg')
+            image.attr('src', './../../static/img/pacificsoft_logo_original.svg')
           } else {
             console.log('normal width')
-            image.attr('src', '/static/img/pacificsoft_logo_collapse.svg')
+            image.attr('src', './../../static/img/pacificsoft_logo_collapse.svg')
           }
         }
       })
