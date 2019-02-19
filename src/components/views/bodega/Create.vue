@@ -14,13 +14,13 @@
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">ID</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <input type="number" class="form-control" placeholder="ID of element" name="id" v-model="id" id="id_store" maxlength="30" value="">
+                        <input type="number" class="form-control" placeholder="ID of element" name="id" v-model="dataPostDel.id" id="id_store" maxlength="30" value="">
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <input type="text" class="form-control" placeholder="Name of element" name="name" v-model="nombre" id="name_store" maxlength="50" value="">
+                        <input type="text" class="form-control" placeholder="Name of element" name="name" v-model="dataPostDel.nombre" id="name_store" maxlength="50" value="">
                       </div>
                     </div>
                     <!-- Submit and cancel -->
@@ -47,11 +47,34 @@
   </section>
 </template>
 <script>
-  export default {
-    methods: {
-      save: function () {
-        console.log(this.id + ' ' + this.nombre)
+import api from '@/api/goApi.js'
+
+export default {
+  methods: {
+    updateData(newData) {
+      this.error = newData.error
+      this.dataPostDel = newData.dataPostDel
+    },
+    save: function () {
+      // console.log(this.id + ' ' + this.nombre)
+      console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
+      this.updateData(api.post('/postBodega', this.data()))
+      /* Aun falta de modificar
+      fs = require('fs');
+      var m = JSON.parse(fs.readFileSync('data.json').toString());
+      m.push(this.dataPostDel)
+      fs.writeFile('data.json', JSON.stringify(m));
+      */
+    }
+  },
+  data() {
+    return {
+      error: '',
+      dataPostDel: { // este es basicamente un JSON
+        id: null,
+        nombre: ''
       }
     }
   }
+}
 </script>
