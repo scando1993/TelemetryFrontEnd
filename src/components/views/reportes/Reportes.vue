@@ -1,55 +1,15 @@
 <template>
   <div>
-    <h1 class="text-center">Repos</h1>
-    <h4 class="text-center">Github Repos</h4>
-
-    <section class="content">
-      <div class="row">
-        <div v-if="error">
-          Found an error
-        </div>
-        <div v-else>
-          <div class="col-md-4" v-if="response" v-for="repo in response" >
-            <div class="box box-widget widget-user">
-              <div class="widget-user-header bg-aqua-active text-center">
-                <h3 class="widget-user-username center-text">{{repo.name }}</h3>
-              </div>
-              <div class="widget-user-image">
-                <img class="img-circle" v-bind:src="repo.owner.avatar_url" alt="repo.owner.login + ' Avatar'">
-              </div>
-              <div class="box-footer">
-                <div class="row">
-                  <div class="col-sm-4 border-right">
-                    <div class="description-block">
-                      <h5 class="description-header">{{repo.stargazers_count}}</h5>
-                      <span class="description-text">Star</span>
-                    </div>
-                  </div>
-                  <div class="col-sm-4 border-right">
-                    <div class="description-block">
-                      <a v-bind:href="repo.owner.html_url" target="_blank">
-                        <button type="button" class="btn btn-default btn-lg">Visit</button>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="description-block">
-                      <h5 class="description-header">{{repo.forks_count}}</h5>
-                      <span class="description-text">Forks</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <h1 class='text-center'>Repos</h1>
+    <h4 class='text-center'>Github Repos</h4> 
+    <button @click="k">dame click </button>
+    <div id='reportContainer'></div>
   </div>
 </template>
 <script>
 import axios from 'axios'
-
+// import * as powerbi from 'powerbi-client'
+import api from './apiPowerBi.js'
 export default {
   name: 'Repository',
   data () {
@@ -77,10 +37,15 @@ export default {
           console.log('error', error.response)
           this.error = error.response.statusText
         })
+    },
+    k() {
+      api.callPowerBi()
     }
   },
   mounted () {
-    this.callGitHub()
+    // this.callGitHub(),
+    // this.callPowerBi()
+    api.callPowerBi()
   }
 }
 </script>

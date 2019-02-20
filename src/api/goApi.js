@@ -9,8 +9,8 @@ export default {
         data.error = response.statusText
         return data
       }
-      var data = response.data
-      data.dataGet = Object.values(data)
+      var info = response.data
+      data.dataGet = Object.values(info)
     })
     .catch((err) => {
     // Request failed.
@@ -32,8 +32,8 @@ export default {
         data.error = response.statusText
         return data
       }
-      var data = response.data
-      data.dataGet = Object.values(data)
+      var info = response.data
+      data.dataGet = Object.values(info)
     })
     .catch(error => {
       // Request failed.

@@ -6,10 +6,10 @@
         <div class='box-content'>
           <div class='btn-toolbar pull-right clearfix'>
             <div class='btn-group'>
-              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel'  data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel' v-on:click='exportExcel' data-table='table-terminals'>
                 <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF'  data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF' v-on:click='exportPDF' data-table='table-terminals'>
                 <i class='fa fa-file-pdf-o'></i>
               </a>
               <router-link class='pageLink' to='/createStore'>
@@ -138,6 +138,9 @@
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
+  import XLSX from 'xlsx'
+  import JsPDF from 'jspdf'
+  import 'jspdf-autotable'
 
   import api from '@/api/goApi.js'
   export default {
@@ -194,6 +197,26 @@
       crearBodega() {
       // se actualiza la data a realizar el post
         this.updateDefaultJSON()
+      },
+      exportExcel() {
+        var json = XLSX.utils.json_to_sheet(this.dataGet)
+        // A workbook is the name given to an Excel file
+        var wb = XLSX.utils.book_new() // make Workbook of Excel
+        XLSX.utils.book_append_sheet(wb, json, 'PrimeraPagina')
+        // export Excel file
+        XLSX.writeFile(wb, 'bodega.xlsx') // name of the file is 'book.xlsx'
+      },
+      exportPDF() {
+        console.log('Estamos aqui')
+        var columns = [
+          {title: 'ID', dataKey: 'id'},
+          {title: 'Nombre', dataKey: 'nombre'}
+        ]
+        var doc = new JsPDF('p', 'mm')
+        doc.autoTable(columns, this.dataGet)
+        doc.setFont('Georgia', 'italic')
+        doc.text('Hola mundo', 105, 10, {align: 'center'})
+        doc.save('bodega.pdf')
       }
     }
   }
