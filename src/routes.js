@@ -26,10 +26,7 @@ import TrackingView from './components/views/tracking/Tracking.vue'
 import CreateTrackingView from './components/views/tracking/Create.vue'
 import WifiScanView from './components/views/wifiScan/WifiScan.vue'
 import CreateWifiScanView from './components/views/wifiScan/Create.vue'
-import DeleteView from './components/views/options/delete.vue'
-import EditMultipleView from './components/views/options/edit-multiple.vue'
-import ExportExcelView from './components/views/options/exportExcel.vue'
-import ExportPDFView from './components/views/options/exportPDF.vue'
+import ReportesView from './components/views/reportes/Reportes.vue'
 // Routes
 const routes = [
   {
@@ -154,25 +151,9 @@ const routes = [
         name: 'Repository',
         meta: {description: 'List of popular javascript repos'}
       }, {
-        path: 'delete',
-        component: DeleteView,
-        name: 'Delete',
-        meta: { description: 'Delete' }
-      }, {
-        path: 'edit-multiple',
-        component: EditMultipleView,
-        name: 'Edit-multiple',
-        meta: { description: 'Edit-multiple' }
-      }, {
-        path: 'exportExcel',
-        component: ExportExcelView,
-        name: 'ExportExcel',
-        meta: { description: 'Export Excel' }
-      }, {
-        path: 'exportPDF',
-        component: ExportPDFView,
-        name: 'ExportPDF',
-        meta: { description: 'Export PDF' }
+        path: 'reportes',
+        component: ReportesView,
+        name: 'Reportes'
       }
     ],
     meta: { requiresAuth: false }

@@ -1,7 +1,7 @@
 [
   {
     "id": "10",
-    "zona": "nissan",
+    "zona": "mili",
     "regional": "10",
     "provincia": "nissan",
     "ciudad": "10",
@@ -11,7 +11,7 @@
   },
   {
     "id": "17",
-    "zona": "nissan",
+    "zona": "nano",
     "regional": "10",
     "provincia": "nissan",
     "ciudad": "10",
@@ -21,7 +21,7 @@
   },
   {
     "id": "08",
-    "zona": "nan",
+    "zona": "seg",
     "regional": "10",
     "provincia": "nissan",
     "ciudad": "10",

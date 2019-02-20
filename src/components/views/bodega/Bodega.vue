@@ -6,25 +6,17 @@
         <div class='box-content'>
           <div class='btn-toolbar pull-right clearfix'>
             <div class='btn-group'>
-              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel' href='./options/exportExcel' data-table='table-terminals'>
-                <!--<download-excel class='btn btn-default' :data='myJson' :fields='json_fields' name='bodega.xls'>
-                </download-excel>-->
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel'  data-table='table-terminals'>
                 <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF' href='./options/exportPDF' data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF'  data-table='table-terminals'>
                 <i class='fa fa-file-pdf-o'></i>
               </a>
               <router-link class='pageLink' to='/createStore'>
                 <a class='btn btn-circle show-tooltip' title='Add new element' href='/createStore'>
                   <i class='fa fa-plus'></i>
                 </a>
-              </router-link>
-              <a class='btn btn-circle show-tooltip link-checkbox-all visible-lg' title='Edit Selected' href='./options/edit-multiple'>
-                <i class='fa fa-pencil'></i>
-              </a>
-              <a class='btn btn-circle show-tooltip link-checkbox-all visible-lg' message='Are you sure to delete selected devices?' title='Delete selected' href='./options/delete'>
-                <i class='fa fa-trash-o'></i>
-              </a>
+              </router-link>             
               <router-link class='pageLink' to='/store'>
                 <a class='btn btn-circle show-tooltip' title='Refresh' id='refresh-administrators' href='/store'>
                   <i class='fa fa-repeat'></i>
@@ -68,12 +60,55 @@
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
                             <td>{{dato.nombre}}</td>
-                            <td class='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                            <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
                               </a>
+                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                                <i class="fa fa-pencil"></i>
+                              </a>
+                              <!-- Modal / Ventana / Overlay en HTML -->
+                              <div id="victorModal" class="modal fade">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <!--modal header-->
+                                    <div class="modal-header">
+                                      <v-button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</v-button>
+                                      <h4 class="modal-title">Edite el elemento</h4>
+                                    </div>
+                                    <!--end modal-header-->
+                                    <!--Modal-body-->
+                                    <div class="modal-body">
+                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                        <div class="form-group">
+                                          <label class="col-sm-1  control-label">ID</label>
+                                          <div class="col-sm-12 col-lg-15 controls">
+                                            <input type="number" class="form-control" name="id" v-model="dataGet[index].id" id="id_store" maxlength="30">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-1  control-label">Nombre</label>
+                                          <div class="col-sm-12 col-lg-15 controls">
+                                            <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
+                                          </div>
+                                        </div>
+                                      </form>
+                                    </div>
+                                    <!--end modal-body-->
+                                    <!--Modal-footer-->
+                                    <div class="modal-footer">
+                                      <router-link class="pageLink" to="/store">
+                                        <v-button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</v-button>
+                                        <v-button type="button" class="btn-circle" v-on:click="save">Guardar</v-button>
+                                      </router-link>
+                                    </div>
+                                    <!--end modal-footer-->
+                                  </div>
+                                </div>
+                              </div>
+                              <!--end modal-->
                             </td>
-                          </tr>
+                        </tr>
                     </tbody>
                     <tfoot>
                       <tr>

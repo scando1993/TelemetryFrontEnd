@@ -22,7 +22,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedFormat">
                           <option disabled value="">Please select one</option>
-                          <option v-for="datoU in myJson2 ">{{ datoU.id }}</option>
+                          <option v-for="datoU in myJson2 ">{{ datoU.zona }}</option>
                         </select>
                       </div>
                     </div>
@@ -31,7 +31,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedLocal">
                           <option disabled value="">Please select one</option>
-                          <option v-for="datoB in myJson3 ">{{ datoB.id }}</option>
+                          <option v-for="datoB in myJson3 ">{{ datoB.nombre }}</option>
                         </select>
                       </div>
                     </div>
@@ -60,7 +60,7 @@
   </section>
 </template>
 <script>
-  import jsonUbiBox from './../ubicationBoxcar/data.json'
+  import jsonUbiBox from './../ubication/data.json'
   import jsonBoxcar from './../boxcar/data.json'
   // Require needed datatables modules
   import 'datatables.net'

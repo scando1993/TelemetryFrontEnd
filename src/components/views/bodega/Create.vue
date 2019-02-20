@@ -28,7 +28,7 @@
                       <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
                         <router-link class="pageLink" to="/store">
                           <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Save</button>
-                          <a href="/store" type="button" class="btn">Cancel</a>
+                          <a href="/store" type="button" class="btn">Cancel </a>
                         </router-link>
                       </div>
                     </div>

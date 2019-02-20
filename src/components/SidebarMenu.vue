@@ -62,6 +62,12 @@
       </a>
     </router-link>
     <li class="header">MANAGEMENT</li>
+    <router-link tag="li" class="pageLink" to="/reportes">
+      <a>
+        <i class="fa fa-book"></i>
+        <span class="page">Reportes</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/tasks">
       <a>
         <i class="fa fa-tasks"></i>

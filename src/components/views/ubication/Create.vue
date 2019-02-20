@@ -46,7 +46,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedFormat">
                           <option disabled value="">Please select one</option>
-                          <option v-for="datoF in myJson4 ">{{ datoF.id }}</option>
+                          <option v-for="datoF in myJson4 ">{{ datoF.nombre }}</option>
                         </select>
                       </div>
                     </div>
@@ -55,7 +55,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedLocal">
                           <option disabled value="">Please select one</option>
-                          <option v-for="datoL in myJson3 ">{{ datoL.id }}</option>
+                          <option v-for="datoL in myJson3 ">{{ datoL.nombre }}</option>
                         </select>
                       </div>
                     </div>
@@ -64,7 +64,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedStore">
                           <option disabled value="">Please select one</option>
-                          <option v-for="datoB in myJson2 ">{{ datoB.id }}</option>
+                          <option v-for="datoB in myJson2 ">{{ datoB.nombre }}</option>
                         </select>
                       </div>
                     </div>
