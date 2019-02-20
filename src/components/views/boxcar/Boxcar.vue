@@ -6,23 +6,17 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" href="./options/exportExcel" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel"  data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" href="./options/exportPDF" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF"  data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createBoxcar">
                 <a class="btn btn-circle show-tooltip" title="Add new element" href="/createBoxcar">
                   <i class="fa fa-plus"></i>
                 </a>
-              </router-link>
-              <a class="btn btn-circle show-tooltip link-checkbox-all visible-lg" title="Edit Selected" href="./options/edit-multiple">
-                <i class="fa fa-pencil"></i>
-              </a>
-              <a class="btn btn-circle show-tooltip link-checkbox-all visible-lg" message="Are you sure to delete selected devices?" title="Delete selected" href="./options/delete">
-                <i class="fa fa-trash-o"></i>
-              </a>
+              </router-link>              
               <router-link class="pageLink" to="/boxcar">
                 <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/boxcar">
                   <i class="fa fa-repeat"></i>
@@ -37,11 +31,6 @@
 
         <div class="row center-block">
           <div class="col-md-12">
-            <!--<div class="box">-->
-            <div class="box-header">
-              <h3 class="box-title">Boxcar Table With Its Features</h3>
-            </div>
-            <!-- /.box-header -->
             <!--Box-body-->
             <div class="box-body">
               <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
@@ -71,6 +60,9 @@
                             <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                               <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
                                 <i class="fa fa-trash-o"></i>
+                              </a>
+                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                                <i class="fa fa-pencil"></i>
                               </a>
                             </td>
                           </tr>

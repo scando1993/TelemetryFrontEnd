@@ -1,49 +1,49 @@
 [
   {
-    "id": "10",
+    "id": "01",
     "numero": "562",
-    "nombre": "Favor",
-    "lugar": "Centro",
+    "nombre": "Local 1",
+    "lugar": "Lugar 1",
     "longitud": "-2.2862504",
     "latitud": "-79.570627"
   },
   {
-    "id": "01",
+    "id": "02",
     "numero": "234",
-    "nombre": "Norte",
-    "lugar": "Samanes",
+    "nombre": "Local 2",
+    "lugar": "Lugar 2",
     "longitud": "-2.177426",
     "latitud": "-79.910522"
   },
   {
-    "id": "80",
+    "id": "03",
     "numero": "8512",
-    "nombre": "Sur",
-    "lugar": "Centenerario",
+    "nombre": "Local 3",
+    "lugar": "Lugar 3",
     "longitud": "-2.181435",
     "latitud": "-79.908655"
   },
   {
-    "id": "52",
+    "id": "04",
     "numero": "5421",
-    "nombre": "Sur",
-    "lugar": "Centenerario",
+    "nombre": "Local 4",
+    "lugar": "Lugar 4",
     "longitud": "-2.1762195",
     "latitud": "-79.9094486"
   },
   {
-    "id": "14",
+    "id": "05",
     "numero": "9963",
-    "nombre": "Sur",
-    "lugar": "Paz",
+    "nombre": "Local 5",
+    "lugar": "Lugar 5",
     "longitud": "-2.1688434",
     "latitud": "-79.8993957"
   },
   {
-    "id": "03",
+    "id": "06",
     "numero": "1759",
-    "nombre": "Centro",
-    "lugar": "Centenerario",
+    "nombre": "Local 6",
+    "lugar": "Lugar 6",
     "longitud": "-2.171518",
     "latitud": "-79.893560"
   }

@@ -1,17 +1,17 @@
 [
   {
     "id": "01",
-    "ubicationID": "Object1",
-    "boxcarID": "10"
+    "ubicationID": "01",
+    "boxcarID": "01"
   },
   {
     "id": "02",
-    "ubicationID": "Object2",
-    "boxcarID": "11"
+    "ubicationID": "02",
+    "boxcarID": "02"
   },
   {
     "id": "03",
-    "ubicationID": "Object3",
-    "boxcarID": "12"
+    "ubicationID": "03",
+    "boxcarID": "03"
   }
 ]

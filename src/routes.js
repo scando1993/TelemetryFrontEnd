@@ -18,7 +18,7 @@ import UbicationBoxcarView from './components/views/ubicationBoxcar/UbicationBox
 import CreateUbicationBoxcarView from './components/views/ubicationBoxcar/Create.vue'
 import UbicationView from './components/views/ubication/Ubication.vue'
 import CreateUbicationView from './components/views/ubication/Create.vue'
-import LocalesView from './components/views/locales/Locales.vue'
+import LocalsView from './components/views/locales/Locales.vue'
 import CreateLocalView from './components/views/locales/Create.vue'
 import DevicesView from './components/views/devices/Devices.vue'
 import CreateDevicesView from './components/views/devices/Create.vue'
@@ -26,8 +26,10 @@ import TrackingView from './components/views/tracking/Tracking.vue'
 import CreateTrackingView from './components/views/tracking/Create.vue'
 import WifiScanView from './components/views/wifiScan/WifiScan.vue'
 import CreateWifiScanView from './components/views/wifiScan/Create.vue'
-import ReportesView from './components/views/reportes/Reportes.vue'
-// Routes
+import ReportesView from './components/views/reports/Reports.vue'
+import PathView from './components/views/path/Path.vue'
+import CreatePathView from './components/views/path/Create.vue'
+// Routes.
 const routes = [
   {
     path: '/login',
@@ -41,74 +43,71 @@ const routes = [
         path: 'dashboard',
         alias: '',
         component: DashboardView,
-        name: 'Dashboard',
-        meta: {description: 'Overview of environment'}
+        name: 'Dashboard'
       }, {
         path: 'store',
         component: BodegaView,
-        name: 'Store'
+        name: 'Bodega'
       }, {
         path: 'createStore',
         component: CreateBodegaView,
-        name: 'Create',
-        meta: { description: 'Overview of environment' }
+        name: 'Bodega'
       }, {
         path: 'locales',
-        component: LocalesView,
-        name: 'Locales',
-        meta: { description: 'Locales for the Telemetry Platform' }
+        component: LocalsView,
+        name: 'Locales'
       }, {
         path: 'createloc',
         component: CreateLocalView,
-        name: 'CreateLocal',
-        meta: { description: 'Overview of environment' }
+        name: 'Crear Local'
       }, {
         path: 'format',
         component: FormatoView,
-        name: 'Format',
-        meta: { description: 'Format for the Telemetry Platform' }
+        name: 'Formato'
       }, {
         path: 'createFormat',
         component: CreateFormatoView,
-        name: 'Create Format',
-        meta: { description: 'Formato for the Telemetry Platform' }
+        name: 'Creatar Formato'
       }, {
         path: 'ubicationBoxcar',
         component: UbicationBoxcarView,
-        name: 'Ubication Boxcar',
-        meta: { description: 'Ubication of Boxcars' }
+        name: 'Ubicacion del Furgón'
       }, {
         path: 'createUbicationBoxcar',
         component: CreateUbicationBoxcarView,
-        name: 'Create Ubication Boxcar'
+        name: 'ubicación del Furgón'
       }, {
         path: 'ubication',
         component: UbicationView,
-        name: 'Ubication',
-        meta: { description: 'Ubications' }
+        name: 'Ubicación'
       }, {
         path: 'createUbication',
         component: CreateUbicationView,
-        name: 'Create Ubication',
-        meta: { description: 'Ubications' }
+        name: 'Crear Ubicación'
       }, {
         path: 'boxcar',
         component: BoxcarView,
-        name: 'Boxcar'
+        name: 'furgón'
       }, {
         path: 'createBoxcar',
         component: CreateBoxcarView,
-        name: 'Create Boxcar'
+        name: 'furgón'
       }, {
         path: 'devices',
         component: DevicesView,
-        name: 'Devices',
-        meta: { description: 'Devices for the Telemetry Platform' }
+        name: 'Dispositivos'
       }, {
         path: 'createDevice',
         component: CreateDevicesView,
-        name: 'Create Device',
-        meta: { description: 'Overview of environment' }
+        name: 'Crear Dispositivo'
+      }, {
+        path: 'path',
+        component: PathView,
+        name: 'Rutas'
+      }, {
+        path: 'createPath',
+        component: CreatePathView,
+        name: 'Crear ruta'
       }, {
         path: 'tracking',
         component: TrackingView,
@@ -124,22 +123,19 @@ const routes = [
       }, {
         path: 'createWifiScan',
         component: CreateWifiScanView,
-        name: 'Create Wifi Scan'
+        name: 'Wifi Scan'
       }, {
         path: 'tasks',
         component: TasksView,
-        name: 'Tasks',
-        meta: {description: 'Tasks page in the form of a timeline'}
+        name: 'Tasks'
       }, {
         path: 'setting',
         component: SettingView,
-        name: 'Settings',
-        meta: {description: 'User settings page'}
+        name: 'Settings'
       }, {
         path: 'access',
         component: AccessView,
-        name: 'Access',
-        meta: {description: 'Example of using maps'}
+        name: 'Access'
       }, {
         path: 'server',
         component: ServerView,
@@ -148,10 +144,9 @@ const routes = [
       }, {
         path: 'repos',
         component: ReposView,
-        name: 'Repository',
-        meta: {description: 'List of popular javascript repos'}
+        name: 'Repository'
       }, {
-        path: 'reportes',
+        path: 'reports',
         component: ReportesView,
         name: 'Reportes'
       }

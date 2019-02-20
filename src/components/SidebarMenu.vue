@@ -61,8 +61,14 @@
         <span class="page">Wifi Scan</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/path">
+      <a>
+        <i class="fa fa-wifi"></i>
+        <span class="page">Ruta</span>
+      </a>
+    </router-link>
     <li class="header">MANAGEMENT</li>
-    <router-link tag="li" class="pageLink" to="/reportes">
+    <router-link tag="li" class="pageLink" to="/reports">
       <a>
         <i class="fa fa-book"></i>
         <span class="page">Reportes</span>

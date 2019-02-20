@@ -2,21 +2,21 @@
   {
     "id": "10",
     "numero": "28",
-    "nombre": "num"
+    "nombre": "Furgón 1"
   },
   {
     "id": "15",
     "numero": "10",
-    "nombre": "bliz"
+    "nombre": "Furgón 2"
   },
   {
     "id": "17",
     "numero": "14",
-    "nombre": "yum"
+    "nombre": "Furgón 3"
   },
   {
     "id": "08",
     "numero": "13",
-    "nombre": "nan"
+    "nombre": "Furgón 4"
   }
 ]

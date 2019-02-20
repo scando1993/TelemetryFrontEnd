@@ -12,13 +12,13 @@
               <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF' v-on:click='exportPDF' data-table='table-terminals'>
                 <i class='fa fa-file-pdf-o'></i>
               </a>
-              <router-link class='pageLink' to='/createStore'>
-                <a class='btn btn-circle show-tooltip' title='Add new element' href='/createStore'>
+              <router-link class='pageLink' to='/createPath'>
+                <a class='btn btn-circle show-tooltip' title='Add new element' href='/createPath'>
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>             
-              <router-link class='pageLink' to='/store'>
-                <a class='btn btn-circle show-tooltip' title='Refresh' id='refresh-administrators' href='/store'>
+              <router-link class='pageLink' to='/path'>
+                <a class='btn btn-circle show-tooltip' title='Refresh' id='refresh-administrators' href='/path'>
                   <i class='fa fa-repeat'></i>
                 </a>
               </router-link>
@@ -43,18 +43,24 @@
 
                 <div class='row'>
                   <div class='col-sm-12 table-responsive'>
-                      <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
+                      <table aria-describedby='Table_of_elements' role='grid' id='table_paths' class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
-                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID</th>
-                            <th aria-label='Nombre: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Nombre</th>
+                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID del elemento</th>
+                            <th aria-label='Boxcar ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón ID</th>
+                            <th aria-label='Tracking ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Tracking ID</th>
+                            <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha inicio</th>
+                            <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha fin</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
-                            <td>{{dato.nombre}}</td>
+                            <td>{{dato.boxcarID}}</td>
+                            <td>{{dato.trackingID}}</td>
+                            <td>{{dato.startDate}}</td>
+                            <td>{{dato.endDate}}</td>
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
@@ -62,47 +68,16 @@
                               <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
                                 <i class="fa fa-pencil"></i>
                               </a>
-                              <!-- Modal / Ventana / Overlay en HTML -->
-                              <div id="victorModal" class="modal fade">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <!--modal header-->
-                                    <div class="modal-header">
-                                      <v-button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</v-button>
-                                      <h4 class="modal-title">Editar</h4>
-                                    </div>
-                                    <!--end modal-header-->
-                                    <!--Modal-body-->
-                                    <div class="modal-body">
-                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">                                        
-                                        <div class="form-group">
-                                          <label class="col-sm-1  control-label">Nombre</label>
-                                          <div class="col-sm-12 col-lg-15 controls">
-                                            <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
-                                          </div>
-                                        </div>
-                                      </form>
-                                    </div>
-                                    <!--end modal-body-->
-                                    <!--Modal-footer-->
-                                    <div class="modal-footer">
-                                      <router-link class="pageLink" to="/store">
-                                        <v-button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</v-button>
-                                        <v-button type="button" class="btn-circle" v-on:click="save">Guardar</v-button>
-                                      </router-link>
-                                    </div>
-                                    <!--end modal-footer-->
-                                  </div>
-                                </div>
-                              </div>
-                              <!--end modal-->
                             </td>
-                        </tr>
+                          </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th colspan='1' rowspan='1'>ID del elemento</th>
-                        <th colspan='1' rowspan='1'>Nombre</th>
+                        <th colspan='1' rowspan='1'>ID</th>
+                        <th colspan='1' rowspan='1'>Furgón ID</th>
+                        <th colspan='1' rowspan='1'>Tracking ID</th>
+                        <th colspan='1' rowspan='1'>Fecha Inicio</th>
+                        <th colspan='1' rowspan='1'>Fecha Fin</th>
                         <th></th>
                       </tr>
                     </tfoot>
@@ -144,10 +119,10 @@
         }
       }
     },
-    name: 'Store',
+    name: 'Path',
     mounted() {
       this.$nextTick(() => {
-        $('#table_store').DataTable()
+        $('#table_paths').DataTable()
       })
     },
     methods: {
@@ -193,7 +168,7 @@
         var wb = XLSX.utils.book_new() // make Workbook of Excel
         XLSX.utils.book_append_sheet(wb, json, 'PrimeraPagina')
         // export Excel file
-        XLSX.writeFile(wb, 'bodega.xlsx') // name of the file is 'book.xlsx'
+        XLSX.writeFile(wb, 'rutas.xlsx') // name of the file is 'book.xlsx'
       },
       exportPDF() {
         console.log('Estamos aqui')
@@ -205,7 +180,7 @@
         doc.autoTable(columns, this.dataGet)
         doc.setFont('Georgia', 'italic')
         doc.text('Hola mundo', 105, 10, {align: 'center'})
-        doc.save('bodega.pdf')
+        doc.save('rutas.pdf')
       }
     }
   }
