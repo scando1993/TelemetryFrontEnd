@@ -8,7 +8,7 @@
 
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
+        <!-- Sidebar toggle button Prueba-->
         <a id="toggleNav" href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
