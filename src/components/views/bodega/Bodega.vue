@@ -59,16 +59,16 @@
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
                               </a>
-                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                                 <i class="fa fa-pencil"></i>
                               </a>
-                              <!-- Modal / Ventana / Overlay en HTML -->
-                              <div id="victorModal" class="modal fade">
+                              <!-- Modal / Ventana / Overlay en HTML  -->
+                              <div v-bind:id="index+'s'" class="modal fade">
                                 <div class="modal-dialog">
                                   <div class="modal-content">
                                     <!--modal header-->
                                     <div class="modal-header">
-                                      <v-button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</v-button>
+                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                       <h4 class="modal-title">Editar</h4>
                                     </div>
                                     <!--end modal-header-->
@@ -87,8 +87,8 @@
                                     <!--Modal-footer-->
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
-                                        <v-button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</v-button>
-                                        <v-button type="button" class="btn-circle" v-on:click="save">Guardar</v-button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                        <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -127,10 +127,6 @@
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
-  import XLSX from 'xlsx'
-  import JsPDF from 'jspdf'
-  import 'jspdf-autotable'
-
   import api from '@/api/goApi.js'
   export default {
     data() {
@@ -139,8 +135,9 @@
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          ID: '',
-          Nombre: ''
+          id: '',
+          ubicacion: '',
+          nombre: ''
         }
       }
     },
@@ -149,6 +146,7 @@
       this.$nextTick(() => {
         $('#table_store').DataTable()
       })
+      this.get()
     },
     methods: {
       updateData(newData) {
@@ -158,54 +156,57 @@
       },
       updateDefaultJSON(id = '', nombre = '') {
         this.dataPostDel = {
-          ID: id,
-          Nombre: nombre
+          id: id,
+          nombre: nombre
         }
       },
       get() {
-        this.updateData(api.getAll('/getBodega', this.data()))
+        api.getAll('/api/bodega', this.$data)
       },
       getCustom(objectFields) {
-        this.updateData(api.getCustom(objectFields, '/getCustomBodega', this.data()))
+        api.getCustom(objectFields, '/getCustomBodega', this.$data)
       },
       post() {
-        this.updateData(api.post('/postBodega', this.data()))
+        api.post('/postBodega', this.$data)
       },
-      delete() {
-        this.updateData(api.delete('/deleteBodega', this.data()))
+      delete(id) {
+        api.delete('/api/bodega/' + id, this.$data)
       },
       // se elimina los datos del Json ubicados en la pos del index
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
+        console.log('--------------------------dta a eleiminar')
+        console.log(this.dataPostDel)
         // se elimina localmente
         this.dataGet.splice(key, 1)
         // se actualiza la base de datos
-        this.post()
+        var id = this.dataPostDel.id
+        this.delete(id)
       },
       crearBodega() {
       // se actualiza la data a realizar el post
         this.updateDefaultJSON()
       },
+      save (index) {
+        console.log('Aun no hace nada')
+        console.log(index)
+        console.log(this.dataGet[index])
+      },
+      editOne(index) {
+        console.log('Edit one still does not do nothing')
+        console.log(index)
+      },
       exportExcel() {
-        var json = XLSX.utils.json_to_sheet(this.dataGet)
-        // A workbook is the name given to an Excel file
-        var wb = XLSX.utils.book_new() // make Workbook of Excel
-        XLSX.utils.book_append_sheet(wb, json, 'PrimeraPagina')
-        // export Excel file
-        XLSX.writeFile(wb, 'bodega.xlsx') // name of the file is 'book.xlsx'
+        api.exportExcel('bodega', this.dataGet)
       },
       exportPDF() {
-        console.log('Estamos aqui')
         var columns = [
           {title: 'ID', dataKey: 'id'},
+          {title: 'Ubicacion', dataKey: 'ubicacion'},
           {title: 'Nombre', dataKey: 'nombre'}
         ]
-        var doc = new JsPDF('p', 'mm')
-        doc.autoTable(columns, this.dataGet)
-        doc.setFont('Georgia', 'italic')
-        doc.text('Hola mundo', 105, 10, {align: 'center'})
-        doc.save('bodega.pdf')
+        api.exportPDF('bodega', 'Hola Mundo', columns, this.dataGet)
       }
     }
   }

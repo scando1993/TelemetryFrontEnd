@@ -6,10 +6,10 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" href="./options/exportExcel" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" v-on:click='exportExcel' data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" href="./options/exportPDF" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" v-on:click='exportPDF' data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createloc">
@@ -54,15 +54,15 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="even" role="row" v-for="dato in myJson ">
+                        <tr class="even" role="row" v-for="dato,index in dataGet ">
                           <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.numero}}</td>
+                          <td>{{dato.numeroLoc}}</td>
                           <td>{{dato.nombre}}</td>
                           <td>{{dato.lugar}}</td>
                           <td>{{dato.longitud}}</td>
                           <td>{{dato.latitud}}</td>
                           <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
@@ -130,10 +130,22 @@
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
+  import api from '@/api/goApi.js'
   export default {
     data() {
       return {
-        myJson: jSon
+        myJson: jSon,
+        nameToExport: 'Locales',
+        error: '', // aqui se guardara el ultimo status de error
+        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataPostDel: { // este es basicamente un JSON
+          id: '',
+          numeroLoc: '',
+          nombre: '',
+          lugar: '',
+          longitud: '',
+          latitud: ''
+        }
       }
     },
     name: 'Locales',
@@ -141,6 +153,53 @@
       this.$nextTick(() => {
         $('#tabla_locales').DataTable()
       })
+      this.get()
+    },
+    methods: {
+      get() {
+        api.getAll('/api/locales', this.$data)
+      },
+      post() {
+        api.post('/api/locales', this.$data)
+      },
+      delete(id) {
+        api.delete('/api/locales/' + id, this.$data)
+      },
+      deleteOne(key) {
+        // se actualiza la info a eliminar
+        this.dataPostDel = this.dataGet[key]
+        console.log('--------------------------dta a eleiminar')
+        console.log(this.dataPostDel)
+        // se elimina localmente
+        this.dataGet.splice(key, 1)
+        // se actualiza la base de datos
+        var id = this.dataPostDel.id
+        this.delete(id)
+      },
+      save (index) {
+        console.log('Aun no hace nada')
+        console.log(index)
+        console.log(this.dataGet[index])
+      },
+      editOne(index) {
+        console.log('Edit one still does not do nothing')
+        console.log(index)
+      },
+      exportExcel() {
+        api.exportExcel(this.nameToExport, this.dataGet)
+      },
+      exportPDF() {
+        var columns = [
+          {title: 'ID', dataKey: 'id'},
+          {title: 'No.Local', dataKey: 'numeroLoc'},
+          {title: 'Ubicaciones', dataKey: 'ubicaciones'},
+          {title: 'Nombre', dataKey: 'nombre'},
+          {title: 'Lugar', dataKey: 'lugar'},
+          {title: 'Longitud', dataKey: 'longitud'},
+          {title: 'Latitud', dataKey: 'latitud'}
+        ]
+        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, this.dataGet)
+      }
     }
   }
 </script>

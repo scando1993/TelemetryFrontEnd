@@ -54,12 +54,12 @@
                         </tr>
                       </thead>
                       <tbody id="campos_bodega">
-                        <tr class="even" role="row" v-for="dato in myJson ">
+                        <tr class="even" role="row" v-for="dato,index in dataGet ">
                           <td class="sorting_1">{{dato.id}}</td>
                           <td>{{dato.nombre}}</td>
                           <td>{{dato.ruta}}</td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
@@ -124,10 +124,20 @@
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
+  import api from '@/api/goApi.js'
+
   export default {
     data() {
       return {
-        myJson: jSon
+        myJson: jSon,
+        nameToExport: 'Locales',
+        error: '', // aqui se guardara el ultimo status de error
+        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataPostDel: { // este es basicamente un JSON
+          id: '',
+          nombre: '',
+          ruta: ''
+        }
       }
     },
     name: 'Formato',
@@ -135,6 +145,49 @@
       this.$nextTick(() => {
         $('#tabla_formato').DataTable()
       })
+      this.get()
+    },
+    methods: {
+      get() {
+        api.getAll('/api/formato', this.$data)
+      },
+      post() {
+        api.post('/api/formato', this.$data)
+      },
+      delete(id) {
+        api.delete('/api/formato/' + id, this.$data)
+      },
+      deleteOne(key) {
+        // se actualiza la info a eliminar
+        this.dataPostDel = this.dataGet[key]
+        console.log('--------------------------dta a eleiminar')
+        console.log(this.dataPostDel)
+        // se elimina localmente
+        this.dataGet.splice(key, 1)
+        // se actualiza la base de datos
+        var id = this.dataPostDel.id
+        this.delete(id)
+      },
+      save (index) {
+        console.log('Aun no hace nada')
+        console.log(index)
+        console.log(this.dataGet[index])
+      },
+      editOne(index) {
+        console.log('Edit one still does not do nothing')
+        console.log(index)
+      },
+      exportExcel() {
+        api.exportExcel(this.nameToExport, this.dataGet)
+      },
+      exportPDF() {
+        var columns = [
+          {title: 'ID', dataKey: 'id'},
+          {title: 'Nombre', dataKey: 'numnombre'},
+          {title: 'Ruta', dataKey: 'ruta'}
+        ]
+        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, this.dataGet)
+      }
     }
   }
 </script>

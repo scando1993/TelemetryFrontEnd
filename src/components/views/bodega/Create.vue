@@ -10,7 +10,7 @@
               <!-- /.box-header -->
               <div class="box-body">
                 <div class="box-content">
-                  <form action="/create" method="POST" class="form-horizontal" id="profile-form">
+                  <form method="POST" class="form-horizontal" id="profile-form">
                     
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
@@ -51,15 +51,8 @@ export default {
       this.dataPostDel = newData.dataPostDel
     },
     save: function () {
-      // console.log(this.id + ' ' + this.nombre)
       console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
-      this.updateData(api.post('/postBodega', this.data()))
-      /* Aun falta de modificar
-      fs = require('fs');
-      var m = JSON.parse(fs.readFileSync('data.json').toString());
-      m.push(this.dataPostDel)
-      fs.writeFile('data.json', JSON.stringify(m));
-      */
+      api.post('/api/bodega', this.$data)
     }
   },
   data() {
