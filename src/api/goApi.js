@@ -6,7 +6,7 @@ var apiUrlBase = 'http://172.16.10.125:8080'
 
 export default {
   getAll(url, data) {
-    console.log('Aqui')
+    console.log('Aqughjgjgjhi')
     console.log(apiUrlBase + url)
     axios.get(apiUrlBase + url)
     .then(response => {
