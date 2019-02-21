@@ -12,7 +12,7 @@
         <a id="toggleNav" href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
-        <!-- Navbar Right Menu -->
+        <!-- Navbar Right Menuu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <!-- Messages-->
