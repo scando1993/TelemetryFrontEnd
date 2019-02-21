@@ -31,15 +31,15 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Fecha inicio</label>
+                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha de inicio</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <input type="text" class="form-control" placeholder="Name of element" name="name" v-model="dataPostDel.nombre" id="name_store" maxlength="50" value="">
+                        <input type="date" name="fechaInicio">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Fecha Fin</label>
+                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha Fin</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <input type="text" class="form-control" placeholder="Name of element" name="name" v-model="dataPostDel.nombre" id="name_store" maxlength="50" value="">
+                        <input type="date" name="fechaFin">
                       </div>
                     </div>
                     <!-- Submit and cancel -->

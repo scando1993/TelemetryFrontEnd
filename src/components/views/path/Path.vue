@@ -49,7 +49,7 @@
                             <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID del elemento</th>
                             <th aria-label='Boxcar ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón ID</th>
                             <th aria-label='Tracking ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Tracking ID</th>
-                            <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha inicio</th>
+                            <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha inicio </th>
                             <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha fin</th>
                             <th></th>
                           </tr>
