@@ -6,10 +6,10 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" v-on:click='exportExcel' data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF"  data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" v-on:click='exportPDF' data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createFormat">
@@ -131,7 +131,7 @@
       return {
         myJson: jSon,
         apiBack: '/api/formato',
-        nameToExport: 'Locales',
+        nameToExport: 'Formato',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
@@ -184,7 +184,7 @@
       exportPDF() {
         var columns = [
           {title: 'ID', dataKey: 'id'},
-          {title: 'Nombre', dataKey: 'numnombre'},
+          {title: 'Nombre', dataKey: 'nombre'},
           {title: 'Ruta', dataKey: 'ruta'}
         ]
         api.exportPDF(this.nameToExport, 'Hola Mundo', columns, this.dataGet)
