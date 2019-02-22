@@ -59,7 +59,7 @@
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
                               </a>
-                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit">
                                 <i class="fa fa-pencil"></i>
                               </a>
                               <!-- Modal / Ventana / Overlay en HTML  -->
@@ -176,7 +176,7 @@
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------dta a eleiminar')
+        console.log('--------------------------data a eleiminar')
         console.log(this.dataPostDel)
         // se elimina localmente
         this.dataGet.splice(key, 1)
@@ -192,6 +192,10 @@
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
+        this.dataPostDel = this.dataGet[index]
+        var id = this.dataPostDel.id
+        api.put('/api/bodega' + id, this.$data)
+        this.get()
       },
       editOne(index) {
         console.log('Edit one still does not do nothing')
