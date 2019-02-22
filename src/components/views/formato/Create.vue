@@ -11,7 +11,7 @@
             <div class="box-body">
               <div class="box-content">
 
-                <form action="/create" method="POST" class="form-horizontal" id="profile-form">
+                <form  method="POST" class="form-horizontal" id="profile-form">
               
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
@@ -52,10 +52,23 @@
   </section>
 </template>
 <script>
+  import api from '@/api/goApi.js'
   export default {
     methods: {
-      save: function () {
-        console.log(this.id + ' ' + this.name + ' ' + this.path)
+      save() {
+        console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
+        api.post(this.apiBack, this.$data)
+      }
+    },
+    data() {
+      return {
+        apiBack: '/api/formato',
+        error: '',
+        dataPostDel: { // este es basicamente un JSON
+          id: '',
+          nombre: '',
+          ruta: ''
+        }
       }
     }
   }

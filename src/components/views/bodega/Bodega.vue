@@ -194,7 +194,7 @@
         console.log(this.dataGet[index])
         this.dataPostDel = this.dataGet[index]
         var id = this.dataPostDel.id
-        api.put('/api/bodega' + id, this.$data)
+        api.put('/api/bodega/' + id, this.$data)
         this.get()
       },
       editOne(index) {

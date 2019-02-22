@@ -11,7 +11,7 @@
             <div class="box-body">
               <div class="box-content">
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form v-on:submit='save' method="POST"  target="hiddenFrame" class="form-horizontal" id="profile-form">
+                <form  method="POST"  target="hiddenFrame" class="form-horizontal" id="profile-form">
 
                   
                   <div class="form-group">
@@ -48,7 +48,7 @@
                   <div class="form-group">
                     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
                       <router-link class="pageLink" to="/locales">
-                        <button type="submit" class="btn btn-primary" v-on:submit='save' ><i class="fa fa-ok"></i> Guardar </button>
+                        <button type="submit" class="btn btn-primary" v-on:click="save" ><i class="fa fa-ok"></i> Guardar </button>
                         <a href="/locales" type="button" class="btn">Cancelar</a>
                       </router-link>
                     </div>
@@ -75,11 +75,12 @@ export default {
   methods: {
     save() {
       console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
-      api.post('/api/locales', this.$data)
+      api.post(this.apiBack, this.$data)
     }
   },
   data() {
     return {
+      apiBack: '/api/locales',
       error: '',
       dataPostDel: { // este es basicamente un JSON
         numeroLoc: '',

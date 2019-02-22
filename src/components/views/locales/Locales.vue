@@ -65,7 +65,7 @@
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" >
                               <i class="fa fa-pencil"></i>
                             </a>
                           </td>
@@ -135,6 +135,7 @@
     data() {
       return {
         myJson: jSon,
+        apiBack: '/api/locales',
         nameToExport: 'Locales',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
@@ -157,13 +158,13 @@
     },
     methods: {
       get() {
-        api.getAll('/api/locales', this.$data)
+        api.getAll(this.apiBack, this.$data)
       },
       post() {
-        api.post('/api/locales', this.$data)
+        api.post(this.apiBack, this.$data)
       },
       delete(id) {
-        api.delete('/api/locales/' + id, this.$data)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       deleteOne(key) {
         // se actualiza la info a eliminar
@@ -180,10 +181,9 @@
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
-      },
-      editOne(index) {
-        console.log('Edit one still does not do nothing')
-        console.log(index)
+        var id = this.dataPostDel.id
+        api.put(this.apiBack + '/' + id, this.$data)
+        this.get()
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)
