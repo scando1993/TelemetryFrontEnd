@@ -69,8 +69,8 @@
                               <i class="fa fa-pencil"></i>
                             </a>
                           </td>
-                        </tr>                        
-                       </tbody>
+                        </tr>
+                      </tbody>
                       <tfoot>
                         <tr>
                           <th colspan="1" rowspan="1">ID</th>
@@ -88,6 +88,14 @@
               </div>
             </div>
             <!--End Box-body -->
+            <hr class="visible-xs-block">
+            <div class="col-sm-12 col-xs-12">
+              <p class="text-center">
+                <strong>Distribucion de locales</strong>
+              </p>
+              <!--<canvas id="languagePie"></canvas>-->
+              <google-map /><br />
+            </div>
           </div>
           <!--End Box-->
         </div>
@@ -131,7 +139,11 @@
   import 'datatables.net'
   import 'datatables.net-bs'
   import api from '@/api/goApi.js'
+  import GoogleMap from './../../Geocalization/GoogleMap.vue'
   export default {
+    components: {
+      GoogleMap
+    },
     data() {
       return {
         myJson: jSon,
@@ -145,6 +157,13 @@
           lugar: '',
           longitud: '',
           latitud: ''
+        },
+        generateRandomNumbers(numbers, max, min) {
+          var a = []
+          for (var i = 0; i < numbers; i++) {
+            a.push(Math.floor(Math.random() * (max - min + 1)) + max)
+          }
+          return a
         }
       }
     },

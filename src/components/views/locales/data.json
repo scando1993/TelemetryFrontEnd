@@ -1,7 +1,7 @@
 [
   {
     "id": "01",
-    "numero": "562",
+    "numeroLoc": "562",
     "nombre": "Local 1",
     "lugar": "Lugar 1",
     "longitud": "-2.2862504",
@@ -9,7 +9,7 @@
   },
   {
     "id": "02",
-    "numero": "234",
+    "numeroLoc": "234",
     "nombre": "Local 2",
     "lugar": "Lugar 2",
     "longitud": "-2.177426",
@@ -17,7 +17,7 @@
   },
   {
     "id": "03",
-    "numero": "8512",
+    "numeroLoc": "8512",
     "nombre": "Local 3",
     "lugar": "Lugar 3",
     "longitud": "-2.181435",
@@ -25,7 +25,7 @@
   },
   {
     "id": "04",
-    "numero": "5421",
+    "numeroLoc": "5421",
     "nombre": "Local 4",
     "lugar": "Lugar 4",
     "longitud": "-2.1762195",
@@ -33,7 +33,7 @@
   },
   {
     "id": "05",
-    "numero": "9963",
+    "numeroLoc": "9963",
     "nombre": "Local 5",
     "lugar": "Lugar 5",
     "longitud": "-2.1688434",
@@ -41,7 +41,7 @@
   },
   {
     "id": "06",
-    "numero": "1759",
+    "numeroLoc": "1759",
     "nombre": "Local 6",
     "lugar": "Lugar 6",
     "longitud": "-2.171518",

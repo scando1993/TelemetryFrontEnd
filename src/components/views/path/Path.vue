@@ -46,21 +46,23 @@
                       <table aria-describedby='Table_of_elements' role='grid' id='table_paths' class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
-                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID del elemento</th>
-                            <th aria-label='Boxcar ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón ID</th>
-                            <th aria-label='Tracking ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Tracking ID</th>
+                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID</th>
+                            <th aria-label='Boxcar ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón</th>
                             <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha inicio </th>
-                            <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha fin</th>
+                            <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Hora inicio</th>
+                            <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha fin </th>
+                            <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Hora fin</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
-                            <td>{{dato.boxcarID}}</td>
-                            <td>{{dato.trackingID}}</td>
+                            <td>{{dato.boxcarNo}}</td>
                             <td>{{dato.startDate}}</td>
+                            <td>{{dato.startHour}}</td>
                             <td>{{dato.endDate}}</td>
+                            <td>{{dato.endHour}}</td>
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
@@ -74,10 +76,11 @@
                     <tfoot>
                       <tr>
                         <th colspan='1' rowspan='1'>ID</th>
-                        <th colspan='1' rowspan='1'>Furgón ID</th>
-                        <th colspan='1' rowspan='1'>Tracking ID</th>
+                        <th colspan='1' rowspan='1'>Furgón</th>
                         <th colspan='1' rowspan='1'>Fecha Inicio</th>
+                        <th colspan='1' rowspan='1'>Hora Inicio</th>
                         <th colspan='1' rowspan='1'>Fecha Fin</th>
+                        <th colspan='1' rowspan='1'>Hora Fin</th>
                         <th></th>
                       </tr>
                     </tfoot>
@@ -98,6 +101,7 @@
 </template>
 <script>
   import $ from 'jquery'
+  import jSon2 from './../boxcar/data.json'
   import jSon from './data.json'
   // Require needed datatables modules
   import 'datatables.net'
@@ -111,6 +115,7 @@
     data() {
       return {
         myJson: jSon,
+        myJson2: jSon2,
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON

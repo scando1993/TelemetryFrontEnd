@@ -18,13 +18,13 @@ export default {
       data.dataGet = Object.values(info)
     })
     .catch((err) => {
-    // Request failed.
+    //  Request failed.
       data.error = err
       console.log('FAIL----', err)
     })
     return data
   },
-  uddate(url, data){
+  uddate(url, data) {
     axios.uddate(apiUrlBase + url)
     .then(response => {
       if (response.status !== 200) {

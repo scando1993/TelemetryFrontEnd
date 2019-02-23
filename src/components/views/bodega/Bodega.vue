@@ -48,6 +48,7 @@
                           <tr role='row'>
                             <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID</th>
                             <th aria-label='Nombre: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Nombre</th>
+                            <th aria-label='Nombre: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Ubicación</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -55,6 +56,7 @@
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
                             <td>{{dato.nombre}}</td>
+                            <td>{{dato.ubicacion.zona}}</td>
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
@@ -74,13 +76,24 @@
                                     <!--end modal-header-->
                                     <!--Modal-body-->
                                     <div class="modal-body">
-                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">                                        
-                                        <div class="form-group">
-                                          <label class="col-sm-1  control-label">Nombre</label>
-                                          <div class="col-sm-12 col-lg-15 controls">
-                                            <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
+                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                        
+                                          <div class="form-group">
+                                            <label class="col-sm-1  control-label">Nombre</label>
+                                            <div class="col-sm-12 col-lg-15 controls">
+                                              <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
+                                              <br /></div>
+                                          </div><br />
+                                          <div class="form-group">
+                                            <label class="col-sm-3 col-lg-2 control-label">Ubicación</label>
+                                            <div class="col-sm-12 col-lg-15 controls">
+                                              <select v-model="selectedBodega">
+                                                <option disabled value="">Por favor seleccionar uno</option>
+                                                <option  v-for="datoB in myJson3 ">{{ datoB.zona }}</option>
+                                              </select>
+                                            </div>
                                           </div>
-                                        </div>
+                                        
                                       </form>
                                     </div>
                                     <!--end modal-body-->
@@ -97,12 +110,13 @@
                               </div>
                               <!--end modal-->
                             </td>
-                        </tr>
+                          </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th colspan='1' rowspan='1'>ID del elemento</th>
+                        <th colspan='1' rowspan='1'>ID</th>
                         <th colspan='1' rowspan='1'>Nombre</th>
+                        <th colspan='1' rowspan='1'>Ubicación</th>
                         <th></th>
                       </tr>
                     </tfoot>
@@ -124,6 +138,7 @@
 <script>
   import $ from 'jquery'
   import jSon from './data.json'
+  import jsonUbiBox from './../ubication/data.json'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -131,6 +146,7 @@
   export default {
     data() {
       return {
+        myJson3: jsonUbiBox,
         myJson: jSon,
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
