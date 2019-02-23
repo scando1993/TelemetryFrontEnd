@@ -49,6 +49,7 @@
                             <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
                             <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Número del Furgón</th>
                             <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
+                            <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ubicaciones</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -57,6 +58,9 @@
                             <td class="sorting_1">{{dato.id}}</td>
                             <td>{{dato.numero}}</td>
                             <td>{{dato.nombre}}</td>
+                            <td>
+                              <tdd v-for="ubicacion in dato.ubicaciones ">{{ubicacion.zona}}<br /></tdd>
+                            </td>
                             <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                               <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
                                 <i class="fa fa-trash-o"></i>
@@ -72,6 +76,7 @@
                         <th colspan="1" rowspan="1">ID</th>
                         <th colspan="1" rowspan="1">Número del Furgón</th>
                         <th colspan="1" rowspan="1">Nombre</th>
+                        <th colspan="1" rowspan="1">Ubicaciones</th>
                         <th></th>
                       </tr>
                     </tfoot>

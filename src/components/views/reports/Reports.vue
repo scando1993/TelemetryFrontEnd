@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 class='text-center'>Repos</h1>
-    <h4 class='text-center'>Github Repos</h4> 
-    <button @click="k">dame click </button>
+    <h1 class='text-center'>Reportes</h1>
+    <iframe width="1400" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiOTZmZjFlOWYtMGM1MS00ZDY5LWJmOTctNDkxYWZiNGE0ZDZlIiwidCI6ImIyY2NlOWE2LTQ0M2YtNDJjNy1iMDg1LWQ4MGQyZmI4M2JmOCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
     <div id='reportContainer'></div>
   </div>
+
 </template>
 <script>
 import axios from 'axios'

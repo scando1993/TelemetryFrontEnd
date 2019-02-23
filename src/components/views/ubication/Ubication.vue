@@ -52,9 +52,9 @@
                           <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Regional</th>
                           <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Provincia</th>
                           <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ciudad</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Formato ID</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Locales ID</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Bodega ID</th>
+                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Formatos</th>
+                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Locales</th>
+                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Bodegas</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -65,9 +65,15 @@
                           <td>{{dato.regional}}</td>
                           <td>{{dato.provincia}}</td>
                           <td>{{dato.ciudad}}</td>
-                          <td>{{dato.formatoID}}</td>
-                          <td>{{dato.localesID}}</td>
-                          <td>{{dato.bodegaID}}</td>
+                          <td>
+                            <tdd v-for="formato in dato.formatos ">{{formato.nombre}}<br /></tdd>
+                          </td>
+                          <td>
+                            <tdd v-for="local in dato.locales">{{local.nombre}}<br /></tdd>
+                          </td>
+                          <td>
+                            <tdd v-for="bodega in dato.bodegas">{{bodega.nombre}}<br /></tdd>
+                          </td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
                               <i class="fa fa-trash-o"></i>
@@ -85,9 +91,9 @@
                           <th colspan="1" rowspan="1">Regional</th>
                           <th colspan="1" rowspan="1">Provincia</th>
                           <th colspan="1" rowspan="1">Ciudad</th>
-                          <th colspan="1" rowspan="1">Formato ID</th>
-                          <th colspan="1" rowspan="1">Locales ID</th>
-                          <th colspan="1" rowspan="1">Bodega ID</th>
+                          <th colspan="1" rowspan="1">Formatos</th>
+                          <th colspan="1" rowspan="1">Locales</th>
+                          <th colspan="1" rowspan="1">Bodegas</th>
                           <th></th>
                         </tr>
                       </tfoot>
@@ -115,14 +121,27 @@
   export default {
     data() {
       return {
-        myJson: jSon
+        myJson: jSon,
+        error: '', // aqui se guardara el ultimo status de error
+        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataPostDel: { // este es basicamente un JSON
+          id: '',
+          zona: '',
+          regional: '',
+          provincia: '',
+          ciudad: '',
+          formatos: [],
+          locales: [],
+          bodegas: []
+        }
       }
     },
-    name: 'Store',
+    name: 'Ubication',
     mounted() {
       this.$nextTick(() => {
         $('#table_ubication').DataTable()
       })
+      this.get()
     }
   }
 </script>

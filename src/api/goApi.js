@@ -18,7 +18,7 @@ export default {
       data.dataGet = Object.values(info)
     })
     .catch((err) => {
-    // Request failed.
+    //  Request failed.
       data.error = err
       console.log('FAIL----', err)
     })

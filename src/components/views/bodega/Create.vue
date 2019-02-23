@@ -11,11 +11,20 @@
               <div class="box-body">
                 <div class="box-content">
                   <form method="POST" class="form-horizontal" id="profile-form">
-                    
+
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="text" class="form-control" name="name" v-model="dataPostDel.nombre" id="name_store" maxlength="50" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Ubicación</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <select v-model="selectedLocal">
+                          <option disabled value="">Por favor seleccionar uno</option>
+                          <option v-for="datoB in myJson3 ">{{ datoB.zona }}</option>
+                        </select>
                       </div>
                     </div>
                     <!-- Submit and cancel -->
@@ -42,27 +51,29 @@
   </section>
 </template>
 <script>
-import api from '@/api/goApi.js'
+  import api from '@/api/goApi.js'
+  import jsonUbiBox from './../ubication/data.json'
 
-export default {
-  methods: {
-    updateData(newData) {
-      this.error = newData.error
-      this.dataPostDel = newData.dataPostDel
+  export default {
+    methods: {
+      updateData(newData) {
+        this.error = newData.error
+        this.dataPostDel = newData.dataPostDel
+      },
+      save: function () {
+        console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
+        api.post('/api/bodega', this.$data)
+      }
     },
-    save: function () {
-      console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
-      api.post('/api/bodega', this.$data)
-    }
-  },
-  data() {
-    return {
-      error: '',
-      dataPostDel: { // este es basicamente un JSON
-        id: null,
-        nombre: ''
+    data() {
+      return {
+        myJson3: jsonUbiBox,
+        error: '',
+        dataPostDel: { // este es basicamente un JSON
+          id: null,
+          nombre: ''
+        }
       }
     }
   }
-}
 </script>

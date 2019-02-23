@@ -56,7 +56,7 @@
                         <tr class="even" role="row" v-for="dato in myJson ">
                           <td class="sorting_1">{{dato.id}}</td>
                           <td>{{dato.ubicationID}}</td>
-                          <td>{{dato.boxcarID}}</td>
+                          <td>{{dato.boxcar}}</td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
                               <i class="fa fa-trash-o"></i>

@@ -11,7 +11,7 @@
               <div class="box-body">
                 <div class="box-content">
                   <form action="/create" method="POST" class="form-horizontal" id="profile-form">
-                    
+
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Furgón ID</label>
                       <div class="col-sm-9 col-lg-10 controls">
@@ -37,9 +37,21 @@
                       </div>
                     </div>
                     <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la Hora de inicio</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <input type="time" name="fechaInicio">
+                      </div>
+                    </div>
+                    <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha Fin</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="date" name="fechaFin">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la Hora de fin</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <input type="time" name="fechaInicio">
                       </div>
                     </div>
                     <!-- Submit and cancel -->
