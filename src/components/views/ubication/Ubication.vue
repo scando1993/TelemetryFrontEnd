@@ -66,13 +66,13 @@
                           <td>{{dato.provincia}}</td>
                           <td>{{dato.ciudad}}</td>
                           <td>
-                            <tdd v-for="formato in dato.formatos ">{{formato.nombre}}<br /></tdd>
+                            <tdd v-for="formato, index in dato.formatos" v-bind:data="index" v-bind:key="index.text">{{formato.nombre}}<br /></tdd>
                           </td>
                           <td>
-                            <tdd v-for="local in dato.locales">{{local.nombre}}<br /></tdd>
+                            <tdd v-for="local, index2 in dato.locales" v-bind:data="index2" v-bind:key="index2.text">{{local.nombre}}<br /></tdd>
                           </td>
                           <td>
-                            <tdd v-for="bodega in dato.bodegas">{{bodega.nombre}}<br /></tdd>
+                            <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.nombre}}<br /></tdd>
                           </td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">

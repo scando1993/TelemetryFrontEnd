@@ -59,7 +59,7 @@
                             <td>{{dato.numero}}</td>
                             <td>{{dato.nombre}}</td>
                             <td>
-                              <tdd v-for="ubicacion in dato.ubicaciones ">{{ubicacion.zona}}<br /></tdd>
+                              <tdd v-for="ubicacion, index in dato.ubicaciones" v-bind:data="index" v-bind:key="index.text">{{ubicacion.zona}}<br /></tdd>
                             </td>
                             <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                               <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
