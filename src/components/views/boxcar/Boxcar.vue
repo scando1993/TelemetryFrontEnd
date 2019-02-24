@@ -54,18 +54,18 @@
                           </tr>
                         </thead>
                         <tbody id="fields">
-                          <tr class="even" role="row" v-for="dato in myJson ">
+                          <tr class="even" role="row" v-for="dato, index in dataGet ">
                             <td class="sorting_1">{{dato.id}}</td>
-                            <td>{{dato.numero}}</td>
-                            <td>{{dato.nombre}}</td>
+                            <td>{{dato.numFurgon}}</td>
+                            <td>{{dato.name}}</td>
                             <td>
-                              <tdd v-for="ubicacion, index in dato.ubicaciones" v-bind:data="index" v-bind:key="index.text">{{ubicacion.zona}}<br /></tdd>
+                              <tdd v-for="ubicacion, indexUbi in dato.ubicacionFurgons" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.ubication.zone}}<br /></tdd>
                             </td>
                             <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                              <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
+                              <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                                 <i class="fa fa-trash-o"></i>
                               </a>
-                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                                 <i class="fa fa-pencil"></i>
                               </a>
                             </td>
@@ -101,17 +101,69 @@
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
+  import api from '@/api/goApi.js'
   export default {
     data() {
       return {
-        myJson: jSon
+        myJson: jSon,
+        error: '', // aqui se guardara el ultimo status de error
+        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataPostDel: { // este es basicamente un JSON
+          id: '',
+          numFurgon: '',
+          name: '',
+          ubicacionFurgons: []
+        }
       }
     },
     name: 'Store',
     mounted() {
       this.$nextTick(() => {
-        $('#table_store').DataTable()
+        $('#table_furgon').DataTable()
       })
+      this.get()
+    },
+    methods: {
+      get() {
+        api.getAll('/api/furgon/', this.$data)
+      },
+      post() {
+        api.post('/api/furgon', this.$data)
+      },
+      delete(id) {
+        api.delete('/api/furgon' + id, this.$data)
+      },
+      deleteOne(key) {
+        // se actualiza la info a eliminar
+        this.dataPostDel = this.dataGet[key]
+        console.log('--------------------------data a eliminar')
+        console.log(this.dataPostDel)
+        // se elimina localmente
+        this.dataGet.splice(key, 1)
+        // se actualiza la base de datos
+        var id = this.dataPostDel.id
+        this.delete(id)
+      },
+      save(index) {
+        console.log('Aun no hace nada')
+        console.log(index)
+        console.log(this.dataGet[index])
+      },
+      editOne(index) {
+        console.log('Edit one still does not do nothing')
+        console.log(index)
+      },
+      exportExcel() {
+        api.exportExcel(this.nameToExport, this.dataGet)
+      },
+      exportPDF() {
+        var columns = [
+          { title: 'ID', dataKey: 'id' },
+          { title: 'Nombre', dataKey: 'numnombre' },
+          { title: 'Ruta', dataKey: 'ruta' }
+        ]
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+      }
     }
   }
 </script>

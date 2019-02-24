@@ -1,17 +1,17 @@
 [
   {
     "id": "10",
-    "nombre": "nissan",
+    "name": "nissan",
     "ruta": "E-E-S"
   },
   {
     "id": "12",
-    "nombre": "bot",
+    "name": "bot",
     "ruta": "S-C-C"
   },
   {
     "id": "08",
-    "nombre": "Molecule Man",
+    "name": "Molecule Man",
     "ruta": "N-S-C"
   }
 ]

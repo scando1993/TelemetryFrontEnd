@@ -10,19 +10,17 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="box-content">
-
-                <form action="/create" method="POST" class="form-horizontal" id="profile-form">
-              
+                <form action="/create" method="POST" class="form-horizontal" id="profile-form">              
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="name" name="name"  maxlength="50" value="">
+                      <input type="text" class="form-control" v-model="dataPostDel.name" name="name"  maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="path" name="path"  maxlength="50" value="">
+                      <input type="text" class="form-control" v-model="dataPostDel.ruta" name="ruta"  maxlength="50" value="">
                     </div>
                   </div>
 
@@ -52,10 +50,26 @@
   </section>
 </template>
 <script>
+  import api from '@/api/goApi.js'
   export default {
     methods: {
+      updateData(newData) {
+        this.error = newData.error
+        this.dataPostDel = newData.dataPostDel
+      },
       save: function () {
-        console.log(this.id + ' ' + this.name + ' ' + this.path)
+        console.log(this.name + ' ' + this.ruta)
+        api.post('/api/formato', this.$data)
+      }
+    },
+    data() {
+      return {
+        error: '',
+        dataPostDel: { // este es basicamente un JSON
+          id: null,
+          name: '',
+          ruta: ''
+        }
       }
     }
   }

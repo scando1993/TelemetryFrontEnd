@@ -18,7 +18,7 @@
                 </a>
               </router-link>
               
-              <router-link class="pageLink" to="/formato">
+              <router-link class="pageLink" to="/format">
                 <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/format">
                   <i class="fa fa-repeat"></i>
                 </a>
@@ -56,15 +56,56 @@
                       <tbody id="campos_bodega">
                         <tr class="even" role="row" v-for="dato,index in dataGet ">
                           <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.nombre}}</td>
+                          <td>{{dato.name}}</td>
                           <td>{{dato.ruta}}</td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
+                            <!-- Modal / Ventana / Overlay en HTML  -->
+                            <div v-bind:id="index+'s'" class="modal fade">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!--modal header-->
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Editar</h4>
+                                  </div>
+                                  <!--end modal-header-->
+                                  <!--Modal-body-->
+                                  <div class="modal-body">
+                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                      <div class="form-group col-sm-12 col-lg-12">
+                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" v-model="dataPostDel.nombre" name="name" maxlength="50" value="">
+                                        </div>
+                                      </div><br />
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
+                                        </div>
+                                      </div>
+
+                                    </form>
+                                  </div>
+                                  <!--end modal-body-->
+                                  <!--Modal-footer-->
+                                  <div class="modal-footer">
+                                    <router-link class="pageLink" to="/format">
+                                      <button type="button" class="btn-circle" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                    </router-link>
+                                  </div>
+                                  <!--end modal-footer-->
+                                </div>
+                              </div>
+                            </div>
+                            <!--end modal-->
                           </td>
                         </tr>                        
                       </tbody>
@@ -84,33 +125,7 @@
             <!--End Box-body -->
           </div>
           <!--End Box-->
-        </div>
-
-        <!-- Filter communication and configuration -->
-
-        <div id="client-navigation" style="display: none">
-          <div class="table-client-link">
-            <a id="client-link-title" href="/client/show/#ID#">#clientNavigationID#</a>
-          </div>
-        </div>
-
-        <div id="terminal-navigation" style="display: none">
-          <div class="table-terminal-link">
-            <a id="terminal-link-title" href="/terminal/show/#ID#">#terminalNavigationID#</a>
-          </div>
-        </div>
-
-
-        <div class="terminal-btn-group hidden">
-          <div class="btn-group">
-            <a class="btn btn-circle show-tooltip" title="View" href="/terminal/show/#ID#">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/terminal/delete/#ID#">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </div>
+        </div>       
 
       </div>
     </div>
@@ -135,7 +150,7 @@
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           id: '',
-          nombre: '',
+          name: '',
           ruta: ''
         }
       }
@@ -149,7 +164,7 @@
     },
     methods: {
       get() {
-        api.getAll('/api/formato', this.$data)
+        api.getAll('/api/formato/', this.$data)
       },
       post() {
         api.post('/api/formato', this.$data)
@@ -160,7 +175,7 @@
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------dta a eleiminar')
+        console.log('--------------------------data a eliminar')
         console.log(this.dataPostDel)
         // se elimina localmente
         this.dataGet.splice(key, 1)
@@ -186,7 +201,7 @@
           {title: 'Nombre', dataKey: 'numnombre'},
           {title: 'Ruta', dataKey: 'ruta'}
         ]
-        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
     }
   }
