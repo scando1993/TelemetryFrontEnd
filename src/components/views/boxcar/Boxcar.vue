@@ -202,7 +202,20 @@
         this.get()
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var cad = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.formatos.forEach(e => {
+            cad = cad + e.zone + ' '
+          })
+          element.formatos = cad
+          cad = ''
+        })
+        console.log('Aqui la cadena' + cad)
+        rep.formatos = cad
+        api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
         var columns = [

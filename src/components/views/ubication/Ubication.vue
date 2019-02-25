@@ -230,7 +230,8 @@
         this.get()
       },
       exportExcel() {
-        var rep = this.dataGet
+        // var rep = this.dataGet
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
         var cad = ''
         console.log('Aqi esta la parte de rep')
         console.log(rep)
