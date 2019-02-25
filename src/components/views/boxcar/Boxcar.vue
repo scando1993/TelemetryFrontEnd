@@ -65,9 +65,56 @@
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
+                            <!-- Modal / Ventana / Overlay en HTML  -->
+                            <div v-bind:id="index+'s'" class="modal fade">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!--modal header-->
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Editar</h4>
+                                  </div>
+                                  <!--end modal-header-->
+                                  <!--Modal-body-->
+                                  <div class="modal-body">
+                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">No.Furgón</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="number" class="form-control" name="name" v-model="dataPostDel.numFurgon" id="name_store" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" name="name" v-model="dataPostDel.name" id="name_store" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="checkbox" id="ubicaciones" value="ubicaciones" v-model="dataPostDel.checkedNames">
+                                          <label v-for="datoL in dataGet ">{{ datoL.zone }}</label>
+                                        </div>
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <!--end modal-body-->
+                                  <!--Modal-footer-->
+                                  <div class="modal-footer">
+                                    <router-link class="pageLink" to="/format">
+                                      <button type="button" class="btn-circle" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                    </router-link>
+                                  </div>
+                                  <!--end modal-footer-->
+                                </div>
+                              </div>
+                            </div>
+                            <!--end modal-->
                           </td>
                         </tr>
                       </tbody>

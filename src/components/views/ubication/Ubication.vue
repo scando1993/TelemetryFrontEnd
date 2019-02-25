@@ -97,25 +97,25 @@
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Zona</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="zone" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control"  v-model="dataPostDel.zone" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Regional</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="regional" id="name_store" value="">
+                                          <input type="text" class="form-control" v-model="dataPostDel.regional" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Provincia</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="province" id="name_store" value="">
+                                          <input type="text" class="form-control" v-model="dataPostDel.province" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-3 col-lg-12 control-label">Ciudad</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="city" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control" v-model="dataPostDel.city" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
 
@@ -126,7 +126,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/ubication">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="editOne(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -226,10 +226,11 @@
         console.log(this.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
-        api.put(this.apiBack + '/' + id, this.$data)
+        api.put(this.apiBack + '/' + id + '/', this.$data)
         this.get()
       },
       exportExcel() {
+        console.log(this.dataGet)
         api.exportExcel(this.nameToExport, this.dataGet)
       },
       exportPDF() {

@@ -106,8 +106,8 @@
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/format">
-                                      <button type="button" class="btn-circle" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
