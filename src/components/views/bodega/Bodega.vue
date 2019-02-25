@@ -17,9 +17,9 @@
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>             
-              <router-link class='pageLink' to='/store'>
-                <a class='btn btn-circle show-tooltip' title='Refresh' id='refresh-administrators' href='/store'>
-                  <i class='fa fa-repeat'></i>
+              <router-link class="pageLink" to="/format">
+                <a class="btn btn-circle show-tooltip" title="Actualizar" v-on:click='refresh' id="refresh-administrators" href="/format">
+                  <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
             </div>
@@ -174,6 +174,9 @@
       api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
+      refresh() {
+        location.reload()
+      },
       get() {
         api.getAll(this.apiBack, this.$data)
         console.log('el data es')

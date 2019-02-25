@@ -6,20 +6,20 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" v-on:click='exportExcel' data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a Excel" v-on:click='exportExcel' data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" v-on:click='exportPDF' data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a PDF" v-on:click='exportPDF' data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createFormat">
-                <a class="btn btn-circle show-tooltip" title="Add new element" href="/createFormat">
+                <a class="btn btn-circle show-tooltip" title="Añadir formato" href="/createFormat">
                   <i class="fa fa-plus"></i>
                 </a>
               </router-link>
               
               <router-link class="pageLink" to="/format">
-                <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/format">
+                <a class="btn btn-circle show-tooltip" title="Actualizar"   v-on:click='refresh' id="refresh-administrators" href="/format">
                   <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
@@ -58,11 +58,11 @@
                           <td class="sorting_1">{{dato.id}}</td>
                           <td>{{dato.name}}</td>
                           <td>{{dato.ruta}}</td>
-                          <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
+                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Editar" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
@@ -77,22 +77,22 @@
                                   <!--end modal-header-->
                                   <!--Modal-body-->
                                   <div class="modal-body">
-                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
-                                      <div class="form-group col-sm-12 col-lg-12">
-                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
+                                    <form align-items="center" action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                      <div class="form-group">
+                                        <label class="col-sm-5  control-label">Nombre</label>
+                                        <div class="col-sm-9 controls">
                                           <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                                         </div>
                                       </div><br />
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
+                                        <label class="col-sm-4  control-label">Ruta</label>
+                                        <div class="col-sm-9 controls">
                                           <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
                                         </div>
                                       </div>
                                        <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
+                                        <label class="col-sm-5 control-label">Ubicaciones</label>
+                                        <div class="col-sm-9  controls">
                                           <select v-model="selectedLocal" >
                                             <option disabled value="">Por favor seleccionar uno</option>
                                             <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
@@ -179,6 +179,9 @@
       api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
+      refresh() {
+        location.reload()
+      },
       get() {
         api.getAll(this.apiBack, this.$data)
       },
