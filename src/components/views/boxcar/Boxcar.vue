@@ -61,11 +61,11 @@
                           <td>
                             <tdd v-for="ubicacion, indexUbi in dato.ubicacionFurgons" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.ubication.zone}}<br /></tdd>
                           </td>
-                          <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
+                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Editar" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
@@ -105,7 +105,7 @@
                                   <!--end modal-body-->
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
-                                    <router-link class="pageLink" to="/format">
+                                    <router-link class="pageLink" to="/boxcar">
                                       <button type="button" class="btn-circle" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
                                       <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
                                     </router-link>
@@ -154,13 +154,15 @@
     data() {
       return {
         myJson: jSon,
+        apiBackUbication: '/api/ubicacion',
         apiBack: '/api/furgon',
         nameToExport: 'Furgón',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           numFurgon: '',
-          name: ''
+          name: '',
+          ubication: []
         }
       }
     },
@@ -170,6 +172,7 @@
         $('#tabla_boxcar').DataTable()
       })
       this.get()
+      api.getAll(this.apiBackUbication, this.$data)
     },
     methods: {
       get() {
@@ -208,7 +211,7 @@
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'NumeroFurgón', dataKey: 'numFurgon' },
-          { title: 'Ruta', dataKey: 'ruta' }
+          { title: 'Nombre', dataKey: 'name' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }

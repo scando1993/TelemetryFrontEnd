@@ -15,7 +15,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <input type="text" class="form-control" name="name" v-model="dataPostDel.nombre" id="name_store" maxlength="50" value="">
+                        <input type="text" class="form-control" name="name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
                       </div>
                     </div>
                     <div class="form-group">
@@ -23,7 +23,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedLocal">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoB in myJson3 ">{{ datoB.zona }}</option>
+                          <option v-for="datoB in dataGet ">{{ datoB.zone }}</option>
                         </select>
                       </div>
                     </div>
@@ -52,28 +52,37 @@
 </template>
 <script>
   import api from '@/api/goApi.js'
-  import jsonUbiBox from './../ubication/data.json'
+  // import jsonUbiBox from './../ubication/data.json'
 
   export default {
     methods: {
-      updateData(newData) {
-        this.error = newData.error
-        this.dataPostDel = newData.dataPostDel
-      },
-      save: function () {
-        console.log(this.dataPostDel.nombre)
-        api.post('/api/bodega', this.$data)
+      save() {
+        console.log(this.dataPostDel.name + '----')
+        // se obtienne los ids de las ubicaciones
+        // api.getAll(this.apiBack, this.$data)
+        console.log(this.dataGet)
+        var id = api.search(this.dataGet, 'zone', this.selectedLocal).id
+        console.log('A  qui el id')
+        console.log(id)
+        console.log(this.dataPostDel)
+        api.post(this.apiBack + '/' + id, this.$data)
       }
     },
     data() {
       return {
-        myJson3: jsonUbiBox,
+        apiBack: '/api/bodega',
+        apiBackUbication: '/api/ubicacion',
         error: '',
+        selectedLocal: '',
+        dataGet: [],
         dataPostDel: { // este es basicamente un JSON
-          id: null,
-          nombre: ''
+          name: ''
         }
       }
+    },
+    mounted() {
+      // se obtiene las ubicaciones
+      api.getAll(this.apiBackUbication, this.$data)
     }
   }
 </script>

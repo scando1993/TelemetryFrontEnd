@@ -1,7 +1,7 @@
 [
   {
     "id": "10",
-    "boxcarNo": "15",
+    "numFurgon": "15",
     "trackingID": "10",
     "startDate": "10-02-19",
     "startHour": "02-19",
@@ -11,7 +11,7 @@
 
   {
     "id": "10",
-    "boxcarNo": "96",
+    "numFurgon": "96",
     "trackingID": "10",
     "startDate": "18-02-19",
     "startHour": "08-19",

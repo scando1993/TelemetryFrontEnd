@@ -73,7 +73,7 @@
                           <td>
                             <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.name}}<br /></tdd>
                           </td>
-                          <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
@@ -97,25 +97,25 @@
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Zona</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control"  v-model="dataPostDel.zone" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.zone" v-model="dataPostDel.zone" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Regional</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.regional" id="name_store" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.regional" v-model="dataPostDel.regional" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Provincia</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.province" id="name_store" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.province" v-model="dataPostDel.province" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-3 col-lg-12 control-label">Ciudad</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.city" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.city" v-model="dataPostDel.city" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
 
@@ -230,8 +230,21 @@
         this.get()
       },
       exportExcel() {
-        console.log(this.dataGet)
-        api.exportExcel(this.nameToExport, this.dataGet)
+        // var rep = this.dataGet
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var cad = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.formatos.forEach(e => {
+            cad = cad + e.name + ' '
+          })
+          element.formatos = cad
+          cad = ''
+        })
+        console.log('Aqui la cadena' + cad)
+        rep.formatos = cad
+        api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
         var columns = [
