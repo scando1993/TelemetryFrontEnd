@@ -55,8 +55,8 @@
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
-                            <td>{{dato.nombre}}</td>
-                            <td>{{dato.ubicacion.zona}}</td>
+                            <td>{{dato.name}}</td>
+                            <td>{{dato.ubication.zone}}</td>
                             <!--Start Buttom-->
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
@@ -82,7 +82,7 @@
                                           <div class="form-group">
                                             <label class="col-sm-1  control-label">Nombre</label>
                                             <div class="col-sm-12 col-lg-15 controls">
-                                              <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
+                                              <input type="text" class="form-control" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
                                               <br /></div>
                                           </div><br />
                                           <div class="form-group">
@@ -90,7 +90,7 @@
                                             <div class="col-sm-12 col-lg-15 controls">
                                               <select v-model="selectedBodega">
                                                 <option disabled value="">Por favor seleccionar uno</option>
-                                                <option  v-for="datoB in myJson3 ">{{ datoB.zona }}</option>
+                                                <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }}</option>
                                               </select>
                                             </div>
                                           </div>
@@ -150,12 +150,18 @@
       return {
         myJson3: jsonUbiBox,
         myJson: jSon,
+        apiBack: '/api/bodega',
+        apiBackUbication: '/api/ubicacion',
+        nameToExport: 'Bodega',
+        selectedBodega: '',
+        ubications: {
+          error: '',
+          dsa: []
+        },
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          id: '',
-          ubicacion: '',
-          nombre: ''
+          name: ''
         }
       }
     },
@@ -165,36 +171,24 @@
         $('#table_store').DataTable()
       })
       this.get()
+      api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
-      updateData(newData) {
-        this.error = newData.error
-        this.dataGet = newData.dataGet
-        this.dataPostDel = newData.dataPostDel
-      },
-      updateDefaultJSON(id = '', nombre = '') {
-        this.dataPostDel = {
-          id: id,
-          nombre: nombre
-        }
-      },
       get() {
-        api.getAll('/api/bodega', this.$data)
-      },
-      getCustom(objectFields) {
-        api.getCustom(objectFields, '/getCustomBodega', this.$data)
+        api.getAll(this.apiBack, this.$data)
+        console.log('el data es')
+        console.log(this.dataGet)
       },
       post() {
-        api.post('/postBodega', this.$data)
+        api.post(this.apiBack, this.$data)
       },
       delete(id) {
-        api.delete('/api/bodega/' + id, this.$data)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
-      // se elimina los datos del Json ubicados en la pos del index
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eleiminar')
+        console.log('--------------------------data a eliminar')
         console.log(this.dataPostDel)
         // se elimina localmente
         this.dataGet.splice(key, 1)
@@ -202,33 +196,43 @@
         var id = this.dataPostDel.id
         this.delete(id)
       },
-      crearBodega() {
-      // se actualiza la data a realizar el post
-        this.updateDefaultJSON()
-      },
       save (index) {
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
-        this.dataPostDel = this.dataGet[index]
-        var id = this.dataPostDel.id
-        api.put('/api/bodega/' + id, this.$data)
+        // this.dataPostDel = this.dataGet[index]
+        var id = this.dataGet[index].id
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
+        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },
-      editOne(index) {
-        console.log('Edit one still does not do nothing')
-        console.log(index)
-      },
       exportExcel() {
-        api.exportExcel('bodega', this.dataGet)
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        // var cad = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.ubication = element.ubication.zone
+        })
+        // console.log('Aqui la cadena' + cad)
+        // rep.ubication = cad
+        api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        // var cad = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.ubication = element.ubication.zone
+        })
         var columns = [
           {title: 'ID', dataKey: 'id'},
-          {title: 'Ubicacion', dataKey: 'ubicacion'},
-          {title: 'Nombre', dataKey: 'nombre'}
+          {title: 'Ubicacion', dataKey: 'ubication'},
+          {title: 'Nombre', dataKey: 'name'}
         ]
-        api.exportPDF('bodega', 'Hola Mundo', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, rep)
       }
     }
   }

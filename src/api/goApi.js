@@ -8,7 +8,7 @@ export default {
   getAll(url, data) {
     console.log('EN GET ALL')
     console.log(data)
-    console.log('Te gusto ?')
+    console.log('Te gusto ? ahora la url: ' + apiUrlBase + url)
     console.log(apiUrlBase + url)
     axios.get(apiUrlBase + url)
     .then(response => {
