@@ -81,13 +81,13 @@
                                       <div class="form-group col-sm-12 col-lg-12">
                                         <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.nombre" name="name" maxlength="50" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                                         </div>
                                       </div><br />
                                       <div class="form-group">
                                         <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
                                         </div>
                                       </div>
 
@@ -150,7 +150,6 @@
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          id: '',
           name: '',
           ruta: ''
         }
@@ -188,8 +187,8 @@
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
-        this.dataPostDel = this.dataGet[index]
-        var id = this.dataPostDel.id
+        // this.dataPostDel = this.dataGet[index]
+        var id = this.dataGet[index].id
         api.put(this.apiBack + '/' + id, this.$data)
         this.get()
       },
@@ -199,7 +198,7 @@
       exportPDF() {
         var columns = [
           {title: 'ID', dataKey: 'id'},
-          {title: 'Nombre', dataKey: 'nombre'},
+          {title: 'Nombre', dataKey: 'name'},
           {title: 'Ruta', dataKey: 'ruta'}
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
