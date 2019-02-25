@@ -1,10 +1,10 @@
 [
   {
     "id": "10",
-    "zona": "zona 1",
+    "zone": "zona 1",
     "regional": "10",
-    "provincia": "nissan",
-    "ciudad": "Guayaquil",
+    "province": "nissan",
+    "city": "Guayaquil",
     "formatos": [
       {
         "id": "10",
@@ -47,10 +47,10 @@
   },
   {
     "id": "17",
-    "zona": "zona 2",
+    "zone": "zona 2",
     "regional": "10",
-    "provincia": "nissan",
-    "ciudad": "Guayaquil",
+    "province": "nissan",
+    "city": "Guayaquil",
     "formatos": [
       {
         "id": "10",

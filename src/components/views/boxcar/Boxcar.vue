@@ -6,19 +6,19 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel"  data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF"  data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createBoxcar">
                 <a class="btn btn-circle show-tooltip" title="Add new element" href="/createBoxcar">
                   <i class="fa fa-plus"></i>
                 </a>
-              </router-link>              
+              </router-link>
               <router-link class="pageLink" to="/boxcar">
-                <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/boxcar">
+                <a class="btn btn-circle show-tooltip" title="Refresh" v-on:click='refresh' id="refresh-administrators" href="/boxcar">
                   <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
@@ -43,43 +43,43 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                      <table aria-describedby="Table_of_elements" role="grid" id="table_store" class="table table-bordered table-striped dataTable">
-                        <thead>
-                          <tr role="row">
-                            <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                            <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Número del Furgón</th>
-                            <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
-                            <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ubicaciones</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody id="fields">
-                          <tr class="even" role="row" v-for="dato, index in dataGet ">
-                            <td class="sorting_1">{{dato.id}}</td>
-                            <td>{{dato.numFurgon}}</td>
-                            <td>{{dato.name}}</td>
-                            <td>
-                              <tdd v-for="ubicacion, indexUbi in dato.ubicacionFurgons" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.ubication.zone}}<br /></tdd>
-                            </td>
-                            <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                              <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
-                                <i class="fa fa-trash-o"></i>
-                              </a>
-                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
-                                <i class="fa fa-pencil"></i>
-                              </a>
-                            </td>
-                          </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th colspan="1" rowspan="1">ID</th>
-                        <th colspan="1" rowspan="1">Número del Furgón</th>
-                        <th colspan="1" rowspan="1">Nombre</th>
-                        <th colspan="1" rowspan="1">Ubicaciones</th>
-                        <th></th>
-                      </tr>
-                    </tfoot>
+                    <table aria-describedby="Table_of_elements" role="grid" id="table_store" class="table table-bordered table-striped dataTable">
+                      <thead>
+                        <tr role="row">
+                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
+                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Número del Furgón</th>
+                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
+                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ubicaciones</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody id="fields">
+                        <tr class="even" role="row" v-for="dato, index in dataGet ">
+                          <td class="sorting_1">{{dato.id}}</td>
+                          <td>{{dato.numFurgon}}</td>
+                          <td>{{dato.name}}</td>
+                          <td>
+                            <tdd v-for="ubicacion, indexUbi in dato.ubicacionFurgons" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.ubication.zone}}<br /></tdd>
+                          </td>
+                          <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
+                              <i class="fa fa-trash-o"></i>
+                            </a>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                              <i class="fa fa-pencil"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="1" rowspan="1">ID</th>
+                          <th colspan="1" rowspan="1">Número del Furgón</th>
+                          <th colspan="1" rowspan="1">Nombre</th>
+                          <th colspan="1" rowspan="1">Ubicaciones</th>
+                          <th></th>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -102,36 +102,37 @@
   import 'datatables.net'
   import 'datatables.net-bs'
   import api from '@/api/goApi.js'
+
   export default {
     data() {
       return {
         myJson: jSon,
+        apiBack: '/api/furgon',
+        nameToExport: 'Furgón',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          id: '',
           numFurgon: '',
-          name: '',
-          ubicacionFurgons: []
+          name: ''
         }
       }
     },
-    name: 'Store',
+    name: 'Furgon',
     mounted() {
       this.$nextTick(() => {
-        $('#table_furgon').DataTable()
+        $('#tabla_boxcar').DataTable()
       })
       this.get()
     },
     methods: {
       get() {
-        api.getAll('/api/furgon/', this.$data)
+        api.getAll(this.apiBack, this.$data)
       },
       post() {
-        api.post('/api/furgon', this.$data)
+        api.post(this.apiBack, this.$data)
       },
       delete(id) {
-        api.delete('/api/furgon' + id, this.$data)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       deleteOne(key) {
         // se actualiza la info a eliminar
@@ -148,10 +149,10 @@
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
-      },
-      editOne(index) {
-        console.log('Edit one still does not do nothing')
-        console.log(index)
+        // this.dataPostDel = this.dataGet[index]
+        var id = this.dataGet[index].id
+        api.put(this.apiBack + '/' + id, this.$data)
+        this.get()
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)
@@ -159,7 +160,7 @@
       exportPDF() {
         var columns = [
           { title: 'ID', dataKey: 'id' },
-          { title: 'Nombre', dataKey: 'numnombre' },
+          { title: 'NumeroFurgón', dataKey: 'numFurgon' },
           { title: 'Ruta', dataKey: 'ruta' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
@@ -169,7 +170,7 @@
 </script>
 <style>
 
-    /* Using the bootstrap style, but overriding the font to not draw in
+  /* Using the bootstrap style, but overriding the font to not draw in
      the Glyphicons Halflings font as an additional requirement for sorting icons.
 
      An alternative to the solution active below is to use the jquery style
@@ -178,23 +179,23 @@
   @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
   */
 
-    @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+  @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:after {
-      font-family: 'FontAwesome';
-    }
+  table.dataTable thead .sorting:after,
+  table.dataTable thead .sorting_asc:after,
+  table.dataTable thead .sorting_desc:after {
+    font-family: 'FontAwesome';
+  }
 
-    table.dataTable thead .sorting:after {
-      content: "\f0dc";
-    }
+  table.dataTable thead .sorting:after {
+    content: "\f0dc";
+  }
 
-    table.dataTable thead .sorting_asc:after {
-      content: "\f0dd";
-    }
+  table.dataTable thead .sorting_asc:after {
+    content: "\f0dd";
+  }
 
-    table.dataTable thead .sorting_desc:after {
-      content: "\f0de";
-    }
+  table.dataTable thead .sorting_desc:after {
+    content: "\f0de";
+  }
 </style>
