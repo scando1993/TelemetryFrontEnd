@@ -6,20 +6,19 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a Excel" v-on:click='exportExcel' data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a PDF" v-on:click='exportPDF' data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createUbication">
-                <a class="btn btn-circle show-tooltip" title="Add new element" href="/createUbication">
+                <a class="btn btn-circle show-tooltip" title="Añadir nueva ubicación" href="/createUbication">
                   <i class="fa fa-plus"></i>
                 </a>
               </router-link>
-
               <router-link class="pageLink" to="/ubication">
-                <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/ubication">
+                <a class="btn btn-circle show-tooltip" v-on:click='refresh' title="Actualizar" id="refreshed" href="/ubication">
                   <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
@@ -59,26 +58,26 @@
                         </tr>
                       </thead>
                       <tbody id="fields">
-                        <tr class="even" role="row" v-for="dato in myJson ">
+                        <tr class="even" role="row" v-for="dato, index in dataGet ">
                           <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.zona}}</td>
+                          <td>{{dato.zone}}</td>
                           <td>{{dato.regional}}</td>
-                          <td>{{dato.provincia}}</td>
-                          <td>{{dato.ciudad}}</td>
+                          <td>{{dato.province}}</td>
+                          <td>{{dato.city}}</td>
                           <td>
-                            <tdd v-for="formato, index in dato.formatos" v-bind:data="index" v-bind:key="index.text">{{formato.nombre}}<br /></tdd>
+                            <tdd tdd v-for="formato, index1 in dato.formatos" v-bind:data="index1" v-bind:key="index1.text">{{formato.name}}<br /></tdd>
                           </td>
                           <td>
-                            <tdd v-for="local, index2 in dato.locales" v-bind:data="index2" v-bind:key="index2.text">{{local.nombre}}<br /></tdd>
+                            <tdd v-for="local, index2 in dato.locales" v-bind:data="index2" v-bind:key="index2.text">{{local.name}}<br /></tdd>
                           </td>
                           <td>
-                            <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.nombre}}<br /></tdd>
+                            <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.name}}<br /></tdd>
                           </td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Editar">
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
@@ -96,19 +95,27 @@
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
 
                                       <div class="form-group">
-                                        <label class="col-sm-1  control-label">Nombre</label>
-                                        <div class="col-sm-12 col-lg-15 controls">
-                                          <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
-                                          <br />
+                                        <label class="col-sm-12 col-lg-12 control-label">Zona</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" v-model="zone" id="name_store" maxlength="100" value="">
                                         </div>
-                                      </div><br />
+                                      </div>
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Ubicación</label>
-                                        <div class="col-sm-12 col-lg-15 controls">
-                                          <select v-model="selectedBodega">
-                                            <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoB in myJson3 ">{{ datoB.zone }}</option>
-                                          </select>
+                                        <label class="col-sm-12 col-lg-12 control-label">Regional</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" v-model="regional" id="name_store" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-12 col-lg-12 control-label">Provincia</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" v-model="province" id="name_store" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-12 control-label">Ciudad</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control" v-model="city" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
 
@@ -117,9 +124,9 @@
                                   <!--end modal-body-->
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
-                                    <router-link class="pageLink" to="/store">
+                                    <router-link class="pageLink" to="/ubication">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="editOne(index)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -170,56 +177,42 @@
     data() {
       return {
         myJson: jSon,
+        apiBack: '/api/ubicacion',
+        nameToExport: 'Ubicaciones',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          id: '',
-          zona: '',
+          zone: '',
           regional: '',
-          provincia: '',
-          ciudad: '',
-          formatos: [],
-          locales: [],
-          bodegas: []
+          province: '',
+          city: ''
         }
       }
     },
     name: 'Ubication',
     mounted() {
       this.$nextTick(() => {
-        $('#table_ubication').DataTable()
+        $('#tabla_ubication').DataTable()
       })
       this.get()
     },
     methods: {
-      updateData(newData) {
-        this.error = newData.error
-        this.dataGet = newData.dataGet
-        this.dataPostDel = newData.dataPostDel
-      },
-      updateDefaultJSON(id = '', zone = '') {
-        this.dataPostDel = {
-          id: id,
-          zone: zone
-        }
+      refresh() {
+        location.reload()
       },
       get() {
-        api.getAll('/api/ubicacion', this.$data)
-      },
-      getCustom(objectFields) {
-        api.getCustom(objectFields, '/getCustomUbicacion', this.$data)
+        api.getAll(this.apiBack, this.$data)
       },
       post() {
-        api.post('/postUbicacion', this.$data)
+        api.post(this.apiBack, this.$data)
       },
       delete(id) {
-        api.delete('/api/ubicacion/' + id, this.$data)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
-      // se elimina los datos del Json ubicados en la pos del index
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------dta a eleiminar')
+        console.log('--------------------------data a eliminar')
         console.log(this.dataPostDel)
         // se elimina localmente
         this.dataGet.splice(key, 1)
@@ -227,29 +220,27 @@
         var id = this.dataPostDel.id
         this.delete(id)
       },
-      crearUbicacion() {
-        // se actualiza la data a realizar el post
-        this.updateDefaultJSON()
-      },
       save(index) {
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
-      },
-      editOne(index) {
-        console.log('Edit one still does not do nothing')
-        console.log(index)
+        // this.dataPostDel = this.dataGet[index]
+        var id = this.dataGet[index].id
+        api.put(this.apiBack + '/' + id, this.$data)
+        this.get()
       },
       exportExcel() {
-        api.exportExcel('ubicacion', this.dataGet)
+        api.exportExcel(this.nameToExport, this.dataGet)
       },
       exportPDF() {
         var columns = [
           { title: 'ID', dataKey: 'id' },
-          { title: 'Ubicacion', dataKey: 'ubicacion' },
-          { title: 'Nombre', dataKey: 'nombre' }
+          { title: 'Zona', dataKey: 'zone' },
+          { title: 'Regional', dataKey: 'regional' },
+          { title: 'Provincia', dataKey: 'province' },
+          { title: 'Ciudad', dataKey: 'city' }
         ]
-        api.exportPDF('bodega', 'Hola Mundo', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
     }
   }

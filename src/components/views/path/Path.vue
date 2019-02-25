@@ -18,7 +18,7 @@
                 </a>
               </router-link>             
               <router-link class='pageLink' to='/path'>
-                <a class='btn btn-circle show-tooltip' title='Refresh' id='refresh-administrators' href='/path'>
+                <a class='btn btn-circle show-tooltip' title='Refresh' v-on:click='refresh' id='refresh-administrators' href='/path'>
                   <i class='fa fa-repeat'></i>
                 </a>
               </router-link>
@@ -131,6 +131,9 @@
       })
     },
     methods: {
+      refresh() {
+        location.reload()
+      },
       updateData(newData) {
         this.error = newData.error
         this.dataGet = newData.dataGet

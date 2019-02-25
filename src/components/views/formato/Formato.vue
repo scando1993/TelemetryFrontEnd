@@ -6,10 +6,10 @@
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
             <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" v-on:click='exportExcel' data-table="table-terminals">
                 <i class="fa fa-file-excel-o"></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF"  data-table="table-terminals">
+              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" v-on:click='exportPDF' data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
               <router-link class="pageLink" to="/createFormat">
@@ -81,13 +81,22 @@
                                       <div class="form-group col-sm-12 col-lg-12">
                                         <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.nombre" name="name" maxlength="50" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                                         </div>
                                       </div><br />
                                       <div class="form-group">
                                         <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                       <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <select v-model="selectedLocal" >
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
+                                          </select>
                                         </div>
                                       </div>
 
@@ -145,11 +154,17 @@
     data() {
       return {
         myJson: jSon,
-        nameToExport: 'Locales',
+        apiBack: '/api/formato',
+        apiBackUbication: '/api/ubicacion',
+        selectedLocal: '',
+        ubications: {
+          error: '',
+          dataGet: []
+        },
+        nameToExport: 'Formato',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          id: '',
           name: '',
           ruta: ''
         }
@@ -161,16 +176,17 @@
         $('#tabla_formato').DataTable()
       })
       this.get()
+      api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
       get() {
-        api.getAll('/api/formato/', this.$data)
+        api.getAll(this.apiBack, this.$data)
       },
       post() {
-        api.post('/api/formato', this.$data)
+        api.post(this.apiBack, this.$data)
       },
       delete(id) {
-        api.delete('/api/formato/' + id, this.$data)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       deleteOne(key) {
         // se actualiza la info a eliminar
@@ -187,10 +203,12 @@
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
-      },
-      editOne(index) {
-        console.log('Edit one still does not do nothing')
-        console.log(index)
+        // this.dataPostDel = this.dataGet[index]
+        var id = this.dataGet[index].id
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
+        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
+        this.get()
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)
@@ -198,7 +216,7 @@
       exportPDF() {
         var columns = [
           {title: 'ID', dataKey: 'id'},
-          {title: 'Nombre', dataKey: 'numnombre'},
+          {title: 'Nombre', dataKey: 'name'},
           {title: 'Ruta', dataKey: 'ruta'}
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)

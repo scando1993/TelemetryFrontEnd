@@ -41,7 +41,7 @@ const routes = [
         path: 'routes',
         alias: '',
         component: RoutesView,
-        name: 'Rutas'
+        name: 'Tablero Rutas'
       }, {
         path: 'store',
         component: BodegaView,
@@ -49,7 +49,7 @@ const routes = [
       }, {
         path: 'createStore',
         component: CreateBodegaView,
-        name: 'Bodega'
+        name: 'Crear Bodega'
       }, {
         path: 'locales',
         component: LocalsView,
@@ -65,7 +65,7 @@ const routes = [
       }, {
         path: 'createFormat',
         component: CreateFormatoView,
-        name: 'Creatar Formato'
+        name: 'Crear Formato'
       }, {
         path: 'ubication',
         component: UbicationView,
@@ -114,7 +114,7 @@ const routes = [
       }, {
         path: 'localStat',
         component: LocalStatView,
-        name: 'Locales'
+        name: 'Tablero Locales'
       }
     ],
     meta: { requiresAuth: false }

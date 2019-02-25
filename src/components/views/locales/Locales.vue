@@ -18,7 +18,7 @@
                 </a>
               </router-link>
                
-                <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/locales">
+                <a class="btn btn-circle show-tooltip" title="Refresh" v-on:click='refresh' id="refresh-administrators" href="/locales">
                   <i class="fa fa-repeat"></i>
                 </a>
             </div>
@@ -175,6 +175,9 @@
       this.get()
     },
     methods: {
+      refresh() {
+        location.reload()
+      },
       get() {
         api.getAll('/api/locales', this.$data)
       },

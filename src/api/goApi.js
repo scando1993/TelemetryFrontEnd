@@ -6,7 +6,9 @@ var apiUrlBase = 'http://172.16.10.125:8080'
 
 export default {
   getAll(url, data) {
-    console.log('Aqughjgjgjhi')
+    console.log('EN GET ALL')
+    console.log(data)
+    console.log('Te gusto ?')
     console.log(apiUrlBase + url)
     axios.get(apiUrlBase + url)
     .then(response => {
@@ -15,6 +17,8 @@ export default {
         return data
       }
       var info = response.data
+      console.log('Ahora la informacio')
+      console.log(info)
       data.dataGet = Object.values(info)
     })
     .catch((err) => {
@@ -24,15 +28,21 @@ export default {
     })
     return data
   },
-  uddate(url, data) {
-    axios.uddate(apiUrlBase + url)
+  put(url, data) {
+    console.log('EN PUT')
+    console.log(apiUrlBase + url)
+    console.log(data)
+    axios.put(
+      apiUrlBase + url,
+      data.dataPostDel
+    )
     .then(response => {
       if (response.status !== 200) {
         data.error = response.statusText
+        console.log('Inesperado')
         return data
       }
-      var info = response.data
-      data.dataGet = Object.values(info)
+      console.log('EXITO!!!')
     })
     .catch((err) => {
     // Request failed.
@@ -140,5 +150,37 @@ export default {
     doc.setFont('Georgia', 'italic')
     doc.text(title, 105, 10, {align: 'center'})
     doc.save(name + '.pdf') // name of the file
+  },
+  readXlSX(name) {
+    return XLSX.readFile(name + '.xlsx')
+  },
+  readFormatCell(name, cell) {
+    var workbook = this.readXlSX(name)
+    var firstSheetName = workbook.SheetNames[0]
+    var addressCell = cell
+    /* Get worksheet */
+    var worksheet = workbook.Sheets[firstSheetName]
+    /* Find desired cell */
+    var desiredCell = worksheet[addressCell]
+    /* return cell type
+       type: b Boolean, e Error, n Number, d Date, s Text, z Stub
+    */
+    return desiredCell.t
+  },
+  compareFormatCell(name, cellToCompare, format) {
+    var cell = this.readFormatCell(name, cellToCompare)
+    if (cell === format) {
+      return true
+    } else {
+      return false
+    }
+  },
+  search(myArray, key, value) {
+    console.log('En search')
+    for (var i = 0; i < myArray.length; i++) {
+      if (myArray[i][key] === value) {
+        return myArray[i]
+      }
+    }
   }
 }
