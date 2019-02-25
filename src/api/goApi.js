@@ -173,8 +173,9 @@ export default {
     }
   },
   search(myArray, key, value) {
+    console.log('En search')
     for (var i = 0; i < myArray.length; i++) {
-      if (myArray[i].key === value) {
+      if (myArray[i][key] === value) {
         return myArray[i]
       }
     }
