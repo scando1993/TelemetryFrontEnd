@@ -2,31 +2,27 @@
   <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row">
-      <!--<div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-check"></i> CoPilot is open source!</h4>
-        Click on icon to check it out on github. <a href="https://github.com/misterGF/CoPilot" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-      </div>-->
-      <div class="col-md-3 col-sm-6 col-xs-12">
+    <div class="row">      
+      <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+          <span class="info-box-icon bg-aqua"></span>
           <div class="info-box-content">
-            <span class="info-box-text">CPU Traffic</span>
-            <span class="info-box-number">90<small>%</small></span>
-            <span class="info-box-text">CPU Traffic</span>
+            <span class="info-box-text">Temperatura ideal</span>
+            <span class="info-box-number">Mínima: -2<small>%</small></span>
+            <span class="info-box-number">Máxima: 8<small>%</small></span>
           </div>
           <!-- /.info-box-content -->
         </div>
         <!-- /.info-box -->
       </div>
       <!-- /.col -->
-      <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+          <span class="info-box-icon bg-red"></span>
           <div class="info-box-content">
-            <span class="info-box-text">Likes</span>
-            <span class="info-box-number">41,410</span>
+            <span class="info-box-text">Temperatura aceptable</span>
+            <span class="info-box-number">Mínima: 1<small>%</small></span>
+            <span class="info-box-number">Máxima: 4<small>%</small></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -34,8 +30,7 @@
       </div>
       <!-- /.col -->
       <!-- fix for small devices only -->
-      <div class="clearfix visible-sm-block"></div>
-      
+      <div class="clearfix visible-sm-block"></div>      
       <!-- /.col -->
     </div>
     <!-- /.row -->
@@ -48,16 +43,10 @@
               <p class="text-center">
                 <strong>Web Traffic Overview</strong>
               </p>
-              <canvas id="trafficBar"></canvas>
+              <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+              
             </div>
-            <hr class="visible-xs-block">
-            <div class="col-sm-6 col-xs-12">
-              <p class="text-center">
-                <strong>Distribucion en la cuidad</strong>
-              </p>
-              <!--<canvas id="languagePie"></canvas>-->
-              <google-map />
-            </div>
+            <hr class="visible-xs-block">            
           </div>
         </div>
       </div>
@@ -81,148 +70,184 @@
           <!-- /.info-box-content -->
         </div>
       </div>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-green">
-          <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Mentions</span>
-            <span class="info-box-number">92,050</span>
-            <div class="progress">
-              <div class="progress-bar" style="width: 20%"></div>
-            </div>
-            <span class="progress-description">
-              20% Increase
-            </span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-red">
-          <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Downloads</span>
-            <span class="info-box-number">114,381</span>
-            <div class="progress">
-              <div class="progress-bar" style="width: 70%"></div>
-            </div>
-            <span class="progress-description">
-              70% Increase
-            </span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-aqua">
-          <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Direct Messages</span>
-            <span class="info-box-number">163,921</span>
-            <div class="progress">
-              <div class="progress-bar" style="width: 40%"></div>
-            </div>
-            <span class="progress-description">
-              40% Increase
-            </span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-      </div>
+      
     </div>
     <!-- /.row -->
   </section>
   <!-- /.content -->
 </template>
-<script>import Chart from 'chart.js'
-
-export default {
-  data () {
-    return {
-      generateRandomNumbers (numbers, max, min) {
-        var a = []
-        for (var i = 0; i < numbers; i++) {
-          a.push(Math.floor(Math.random() * (max - min + 1)) + max)
-        }
-        return a
+<script type="text/javascript">
+  import Chart from 'chart.js'
+  window.onload = function () {
+    var aceptableMinima = -5
+    var aceptableMaxima = 10
+    var idealMinima = 0
+    var idealMaxima = 5
+    var data = [[2002, 4], [2003, 3], [2004, 8], [2005, 11], [2006, 4], [2007, 2], [2008, -1], [2009, -2], [2010, -8], [2011, 4], [2012, 6], [2013, 9]]
+    var values = []
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][1] <= aceptableMinima) {
+        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'red', markerType: 'cross' })
+      } else if (data[i][1] <= idealMinima) {
+        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'yellow', markerType: 'triangle' })
+      } else if (data[i][1] >= aceptableMaxima) {
+        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'red', markerType: 'cross' })
+      } else if (data[i][1] >= idealMaxima) {
+        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'yellow', markerType: 'triangle' })
+      } else {
+        values.push({ x: new Date(data[i][0], 0), y: data[i][1] })
       }
     }
-  },
-  computed: {
-    coPilotNumbers () {
-      return this.generateRandomNumbers(12, 1000000, 10000)
-    },
-    personalNumbers () {
-      return this.generateRandomNumbers(12, 1000000, 10000)
-    },
-    isMobile () {
-      return (window.innerWidth <= 800 && window.innerHeight <= 600)
-    }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      var ctx = document.getElementById('trafficBar').getContext('2d')
-      var config = {
-        type: 'line',
-        data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-          datasets: [{
-            label: 'CoPilot',
-            fill: false,
-            borderColor: '#284184',
-            pointBackgroundColor: '#284184',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            data: this.coPilotNumbers
-          }, {
-            label: 'Personal Site',
-            borderColor: '#4BC0C0',
-            pointBackgroundColor: '#4BC0C0',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            data: this.personalNumbers
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: !this.isMobile,
-          legend: {
-            position: 'bottom',
-            display: true
+    var chart = new Chart('chartContainer', {
+      animationEnabled: true,
+      title: {
+        text: 'Music Album Sales by Year'
+      },
+      axisY: {
+        title: 'Units Sold',
+        valueFormatString: '##,#',
+        suffix: ' ℃',
+        stripLines: [
+
+          {
+
+            value: idealMinima,
+            label: 'Ideal minima',
+            color: 'black',
+            thickness: 2,
+            labelPlacement: 'inside',
+            labelFontColor: 'black',
+            lineDashType: 'longDashDot'
           },
-          tooltips: {
-            mode: 'label',
-            xPadding: 10,
-            yPadding: 10,
-            bodySpacing: 10
+          {
+            value: idealMaxima,
+            label: 'Ideal maxima',
+            labelAlign: 'near',
+            color: 'black',
+            labelFontColor: 'black',
+            labelPlacement: 'inside',
+            lineDashType: 'longDash',
+            thickness: 2
+          },
+          {
+            value: aceptableMinima,
+            label: 'Aceptable minima',
+            color: 'red',
+            labelPlacement: 'inside',
+            labelFontColor: 'green',
+            lineDashType: 'longDashDot',
+            thickness: 2
+          },
+          {
+            value: aceptableMaxima,
+            label: 'Aceptable maxima',
+            color: 'red',
+            labelFontColor: 'green',
+            lineDashType: 'longDash',
+            labelPlacement: 'inside',
+            labelAlign: 'near',
+            thickness: 2
           }
-        }
-      }
-
-      new Chart(ctx, config) // eslint-disable-line no-new
-
-      /* var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
-      var pieConfig = {
-        type: 'pie',
-        data: {
-          labels: ['HTML', 'JavaScript', 'CSS'],
-          datasets: [{
-            data: [56.6, 37.7, 4.1],
-            backgroundColor: ['#00a65a', '#f39c12', '#00c0ef'],
-            hoverBackgroundColor: ['#00a65a', '#f39c12', '#00c0ef']
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: !this.isMobile,
-          legend: {
-            position: 'bottom',
-            display: true
-          }
-        }
-      }
-
-      new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new */
+        ]
+      },
+      data: [{
+        showInLegend: true,
+        legendText: 'Valores',
+        yValueFormatString: '##,# ',
+        xValueFormatString: 'YYYY',
+        type: 'spline',
+        dataPoints: values
+      }]
     })
+    chart.render()
   }
+  export default {
+    data() {
+      return {
+        generateRandomNumbers: function (numbers, max, min) {
+          var a = []
+          for (var i = 0; i < numbers; i++) {
+            a.push(Math.floor(Math.random() * (max - min + 1)) + max)
+          }
+          return a
+        }
+      }
+    },
+    computed: {
+      coPilotNumbers () {
+        return this.generateRandomNumbers(12, 1000000, 10000)
+      },
+      personalNumbers () {
+        return this.generateRandomNumbers(12, 1000000, 10000)
+      },
+      isMobile () {
+        return (window.innerWidth <= 800 && window.innerHeight <= 600)
+      }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        var ctx = document.getElementById('trafficBar').getContext('2d')
+        var config = {
+          type: 'line',
+          data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+              label: 'CoPilot',
+              fill: false,
+              borderColor: '#284184',
+              pointBackgroundColor: '#284184',
+              backgroundColor: 'rgba(0, 0, 0, 0)',
+              data: this.coPilotNumbers
+            }, {
+              label: 'Personal Site',
+              borderColor: '#4BC0C0',
+              pointBackgroundColor: '#4BC0C0',
+              backgroundColor: 'rgba(0, 0, 0, 0)',
+              data: this.personalNumbers
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: !this.isMobile,
+            legend: {
+              position: 'bottom',
+              display: true
+            },
+            tooltips: {
+              mode: 'label',
+              xPadding: 10,
+              yPadding: 10,
+              bodySpacing: 10
+            }
+          }
+        }
+
+        new Chart(ctx, config) // eslint-disable-line no-new
+
+        /* var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
+        var pieConfig = {
+          type: 'pie',
+          data: {
+            labels: ['HTML', 'JavaScript', 'CSS'],
+            datasets: [{
+              data: [56.6, 37.7, 4.1],
+              backgroundColor: ['#00a65a', '#f39c12', '#00c0ef'],
+              hoverBackgroundColor: ['#00a65a', '#f39c12', '#00c0ef']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: !this.isMobile,
+            legend: {
+              position: 'bottom',
+              display: true
+            }
+          }
+        }
+
+        new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new */
+      })
+    }
 }</script>
 <style>
 

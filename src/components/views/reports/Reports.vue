@@ -1,54 +1,28 @@
 <template>
   <div>
     <h1 class='text-center'>Reportes</h1>
-    <iframe width="1400" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiOTZmZjFlOWYtMGM1MS00ZDY5LWJmOTctNDkxYWZiNGE0ZDZlIiwidCI6ImIyY2NlOWE2LTQ0M2YtNDJjNy1iMDg1LWQ4MGQyZmI4M2JmOCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-    <div id='reportContainer'></div>
+    <!--<iframe width="1400" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiOTZmZjFlOWYtMGM1MS00ZDY5LWJmOTctNDkxYWZiNGE0ZDZlIiwidCI6ImIyY2NlOWE2LTQ0M2YtNDJjNy1iMDg1LWQ4MGQyZmI4M2JmOCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>-->
+    <div>
+      <!-- Embed Report-->
+      <div>
+        <asp:Panel ID="PanelEmbed" runat="server" Visible="true">
+          <div>
+            <div><b class="step">Step 3</b>: Embed a report</div>
+
+            <div>Enter an embed url for a report from Step 2 (starts with https://):</div>
+            <input type="text" id="tb_EmbedURL" style="width: 1024px;" />
+            <br />
+            <input type="button" id="bEmbedReportAction" value="Embed Report" />
+          </div>
+
+          <div id="reportContainer"></div>
+        </asp:Panel>
+      </div>
+    </div>
   </div>
 
 </template>
-<script>
-import axios from 'axios'
-// import * as powerbi from 'powerbi-client'
-import api from './apiPowerBi.js'
-export default {
-  name: 'Repository',
-  data () {
-    return {
-      githubUrl: 'https://api.github.com/search/repositories?q=language%3Ajavascript&sort=stars',
-      response: null,
-      error: null
-    }
-  },
-  methods: {
-    callGitHub () {
-      axios.get(this.githubUrl)
-        .then(response => {
-          console.log('GitHub Response:', response)
 
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-
-          this.response = response.data.items
-        })
-        .catch(error => {
-          // Request failed.
-          console.log('error', error.response)
-          this.error = error.response.statusText
-        })
-    },
-    k() {
-      api.callPowerBi()
-    }
-  },
-  mounted () {
-    // this.callGitHub(),
-    // this.callPowerBi()
-    api.callPowerBi()
-  }
-}
-</script>
 
 <style>
 </style>

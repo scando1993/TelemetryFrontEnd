@@ -1,13 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\PowerBI-Developer-Samples-master",
+    "\\PowerBI-Developer-Samples-master\\API Samples - NodeJS",
+    "\\PowerBI-Developer-Samples-master\\App Owns Data",
+    "\\PowerBI-Developer-Samples-master\\App Owns Data\\PowerBIEmbedded_AppOwnsData",
     "\\src",
     "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\src\\components\\views\\locales",
-    "\\src\\components\\views\\path"
+    "\\src\\components\\views\\reports"
   ],
-  "SelectedNode": "\\src\\components\\views\\path",
+  "SelectedNode": "\\PowerBI-Developer-Samples-master\\App Owns Data\\PowerBIEmbedded_AppOwnsData.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -57,6 +57,7 @@
                             <td class='sorting_1'>{{dato.id}}</td>
                             <td>{{dato.nombre}}</td>
                             <td>{{dato.ubicacion.zona}}</td>
+                            <!--Start Buttom-->
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
@@ -110,6 +111,7 @@
                               </div>
                               <!--end modal-->
                             </td>
+                            <!--End Buttom-->
                           </tr>
                     </tbody>
                     <tfoot>

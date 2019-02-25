@@ -17,7 +17,7 @@
                   <i class="fa fa-plus"></i>
                 </a>
               </router-link>
-              
+
               <router-link class="pageLink" to="/ubication">
                 <a class="btn btn-circle show-tooltip" title="Refresh" id="refresh-administrators" href="/ubication">
                   <i class="fa fa-repeat"></i>
@@ -75,12 +75,59 @@
                             <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.nombre}}<br /></tdd>
                           </td>
                           <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/bodega/delete/#ID#">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?">
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" v-on:click='EditOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
+                            <!-- Modal / Ventana / Overlay en HTML  -->
+                            <div v-bind:id="index+'s'" class="modal fade">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!--modal header-->
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Editar</h4>
+                                  </div>
+                                  <!--end modal-header-->
+                                  <!--Modal-body-->
+                                  <div class="modal-body">
+                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+
+                                      <div class="form-group">
+                                        <label class="col-sm-1  control-label">Nombre</label>
+                                        <div class="col-sm-12 col-lg-15 controls">
+                                          <input type="text" class="form-control" name="name" v-model="dataGet[index].nombre" id="name_store" maxlength="50" value="">
+                                          <br />
+                                        </div>
+                                      </div><br />
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ubicación</label>
+                                        <div class="col-sm-12 col-lg-15 controls">
+                                          <select v-model="selectedBodega">
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoB in myJson3 ">{{ datoB.zone }}</option>
+                                          </select>
+                                        </div>
+                                      </div>
+
+                                    </form>
+                                  </div>
+                                  <!--end modal-body-->
+                                  <!--Modal-footer-->
+                                  <div class="modal-footer">
+                                    <router-link class="pageLink" to="/store">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                    </router-link>
+                                  </div>
+                                  <!--end modal-footer-->
+                                </div>
+                              </div>
+                            </div>
+                            <!--end modal-->
+
                           </td>
                         </tr>
                       </tbody>
@@ -115,6 +162,7 @@
 <script>
   import $ from 'jquery'
   import jSon from './data.json'
+  import api from '@/api/goApi.js'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -142,11 +190,71 @@
         $('#table_ubication').DataTable()
       })
       this.get()
+    },
+    methods: {
+      updateData(newData) {
+        this.error = newData.error
+        this.dataGet = newData.dataGet
+        this.dataPostDel = newData.dataPostDel
+      },
+      updateDefaultJSON(id = '', zone = '') {
+        this.dataPostDel = {
+          id: id,
+          zone: zone
+        }
+      },
+      get() {
+        api.getAll('/api/ubicacion', this.$data)
+      },
+      getCustom(objectFields) {
+        api.getCustom(objectFields, '/getCustomUbicacion', this.$data)
+      },
+      post() {
+        api.post('/postUbicacion', this.$data)
+      },
+      delete(id) {
+        api.delete('/api/ubicacion/' + id, this.$data)
+      },
+      // se elimina los datos del Json ubicados en la pos del index
+      deleteOne(key) {
+        // se actualiza la info a eliminar
+        this.dataPostDel = this.dataGet[key]
+        console.log('--------------------------dta a eleiminar')
+        console.log(this.dataPostDel)
+        // se elimina localmente
+        this.dataGet.splice(key, 1)
+        // se actualiza la base de datos
+        var id = this.dataPostDel.id
+        this.delete(id)
+      },
+      crearUbicacion() {
+        // se actualiza la data a realizar el post
+        this.updateDefaultJSON()
+      },
+      save(index) {
+        console.log('Aun no hace nada')
+        console.log(index)
+        console.log(this.dataGet[index])
+      },
+      editOne(index) {
+        console.log('Edit one still does not do nothing')
+        console.log(index)
+      },
+      exportExcel() {
+        api.exportExcel('ubicacion', this.dataGet)
+      },
+      exportPDF() {
+        var columns = [
+          { title: 'ID', dataKey: 'id' },
+          { title: 'Ubicacion', dataKey: 'ubicacion' },
+          { title: 'Nombre', dataKey: 'nombre' }
+        ]
+        api.exportPDF('bodega', 'Hola Mundo', columns, this.dataGet)
+      }
     }
   }
 </script>
 <style>
-
   /* Using the bootstrap style, but overriding the font to not draw in
      the Glyphicons Halflings font as an additional requirement for sorting icons.
 
@@ -155,7 +263,6 @@
 
   @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
   */
-
   @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 
   table.dataTable thead .sorting:after,

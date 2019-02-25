@@ -1,8 +1,9 @@
 import * as powerbi from 'powerbi-client'
 export default {
   callPowerBi() {
+
     // Read embed application token from textbox
-    //  var txtAccessToken = $('#txtCreateAccessToken').val()
+    // var txtAccessToken = $('#txtCreateAccessToken').val()
 
     // Read embed URL from textbox
     //  var txtEmbedUrl = $('#txtCreateReportEmbed').val()
@@ -53,7 +54,7 @@ export default {
     // Read embed application token from Model
     var accessToken = '6e8ae41f-c84d-46a5-811d-1993e09d5d80'
     // Read embed URL from Model
-    var embedUrl = 'https://app.powerbi.com/reportEmbed?reportId=f6bfd646-b718-44dc-a378-b73e6b528204&groupId=be8908da-da25-452e-b220-163f52476cdd&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVVTLU5PUlRILUNFTlRSQUwtcmVkaXJlY3QuYW5hbHlzaXMud2luZG93cy5uZXQifQ%3d%3d'
+    var embedUrl = 'https://app.powerbi.com/groups/cf09135e-3b8f-42fe-85b0-33839eebd351/reports/f74713f1-47ba-40da-a863-effcede1fc82/ReportSection'
     // Read report Id from Model
     var embedReportId = 'f74713f1-47ba-40da-a863-effcede1fc82'
     // Get models. models contains enums that can be used.

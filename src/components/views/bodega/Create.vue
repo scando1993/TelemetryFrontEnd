@@ -61,7 +61,7 @@
         this.dataPostDel = newData.dataPostDel
       },
       save: function () {
-        console.log(this.dataPostDel.id + '----' + this.dataPostDel.nombre)
+        console.log(this.dataPostDel.nombre)
         api.post('/api/bodega', this.$data)
       }
     },

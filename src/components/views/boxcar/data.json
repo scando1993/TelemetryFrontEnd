@@ -1,15 +1,15 @@
 [
   {
     "id": "10",
-    "numero": "28",
-    "nombre": "Furgón 1",
-    "ubicaciones": [
+    "numFurgon": "28",
+    "name": "Furgón 1",
+    "ubicacionFurgons": [
       {
         "id": "10",
-        "zona": "zona 1",
+        "zone": "zona 1",
         "regional": "10",
-        "provincia": "nissan",
-        "ciudad": "Guayaquil",
+        "province": "nissan",
+        "city": "Guayaquil",
         "formatos": [
           {
             "id": "10",
