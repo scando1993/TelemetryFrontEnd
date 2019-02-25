@@ -6,7 +6,9 @@ var apiUrlBase = 'http://172.16.10.125:8080'
 
 export default {
   getAll(url, data) {
-    console.log('hgjdsahhsadhsadpihips')
+    console.log('EN GET ALL')
+    console.log(data)
+    console.log('Te gusto ?')
     console.log(apiUrlBase + url)
     axios.get(apiUrlBase + url)
     .then(response => {
@@ -15,6 +17,7 @@ export default {
         return data
       }
       var info = response.data
+      console.log('Ahora la informacio')
       console.log(info)
       data.dataGet = Object.values(info)
     })

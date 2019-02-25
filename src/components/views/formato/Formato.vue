@@ -90,6 +90,15 @@
                                           <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
                                         </div>
                                       </div>
+                                       <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <select v-model="selectedLocal" >
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
+                                          </select>
+                                        </div>
+                                      </div>
 
                                     </form>
                                   </div>
@@ -146,6 +155,12 @@
       return {
         myJson: jSon,
         apiBack: '/api/formato',
+        apiBackUbication: '/api/ubicacion',
+        selectedLocal: '',
+        ubications: {
+          error: '',
+          dataGet: []
+        },
         nameToExport: 'Formato',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
@@ -161,6 +176,7 @@
         $('#tabla_formato').DataTable()
       })
       this.get()
+      api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
       get() {
@@ -189,7 +205,9 @@
         console.log(this.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
-        api.put(this.apiBack + '/' + id, this.$data)
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
+        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },
       exportExcel() {
