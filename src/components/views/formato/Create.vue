@@ -11,23 +11,23 @@
             <div class="box-body">
               <div class="box-content">
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form action="/create" method="POST" target="hiddenFrame" class="form-horizontal" id="profile-form">              
+                <form action="/create" method="POST" target="hiddenFrame" class="form-horizontal" id="profile-form">
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="dataPostDel.name" name="name"  maxlength="50" value="">
+                      <input type="text" class="form-control" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="dataPostDel.ruta" name="ruta"  maxlength="50" value="">
+                      <input type="text" class="form-control" v-model="dataPostDel.ruta" name="ruta" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <select v-model="selectedLocal" >
+                      <select v-model="selectedLocal">
                         <option disabled value="">Por favor seleccionar uno</option>
                         <option v-for="datoL in dataGet ">{{ datoL.zone }}</option>
                       </select>
@@ -36,10 +36,10 @@
                   <!-- Submit and cancel -->
                   <div class="form-group">
                     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
-                        <router-link class="pageLink" to="/format">
+                      <router-link class="pageLink" to="/format">
                         <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
                         <a href="/format" type="button" class="btn">Cancelar</a>
-                        </router-link>
+                      </router-link>
                     </div>
                   </div>
                   <!--End Submit and cancel-->

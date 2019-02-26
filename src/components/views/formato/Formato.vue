@@ -5,22 +5,21 @@
         <!--Box content-->
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
-            <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a Excel" v-on:click='exportExcel' data-table="table-terminals">
-                <i class="fa fa-file-excel-o"></i>
+            <div class='btn-group'>
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
+                <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a PDF" v-on:click='exportPDF' data-table="table-terminals">
-                <i class="fa fa-file-pdf-o"></i>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Exportar a PDF' v-on:click='exportPDF' data-table='table-terminals'>
+                <i class='fa fa-file-pdf-o'></i>
               </a>
-              <router-link class="pageLink" to="/createFormat">
-                <a class="btn btn-circle show-tooltip" title="Añadir formato" href="/createFormat">
-                  <i class="fa fa-plus"></i>
+              <router-link class='pageLink' to='/createFormat'>
+                <a class='btn btn-circle show-tooltip' title='Añadir formato' href='/createFormat'>
+                  <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-              
-              <router-link class="pageLink" to="/format">
-                <a class="btn btn-circle show-tooltip" title="Actualizar"   v-on:click='refresh' id="refresh-administrators" href="/format">
-                  <i class="fa fa-repeat"></i>
+              <router-link class='pageLink' to='/path'>
+                <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
+                  <i class='fa fa-repeat'></i>
                 </a>
               </router-link>
             </div>
@@ -59,10 +58,10 @@
                           <td>{{dato.name}}</td>
                           <td>{{dato.ruta}}</td>
                           <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Editar" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
@@ -77,23 +76,23 @@
                                   <!--end modal-header-->
                                   <!--Modal-body-->
                                   <div class="modal-body">
-                                    <form align-items="center" action="/create" method="POST" class="form-horizontal" id="bodega-form">
-                                      <div class="form-group">
-                                        <label class="col-sm-5  control-label">Nombre</label>
-                                        <div class="col-sm-9 controls">
+                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                      <div class="form-group col-sm-12 col-lg-12">
+                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
                                           <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                                         </div>
                                       </div><br />
                                       <div class="form-group">
-                                        <label class="col-sm-4  control-label">Ruta</label>
-                                        <div class="col-sm-9 controls">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
                                           <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
                                         </div>
                                       </div>
-                                       <div class="form-group">
-                                        <label class="col-sm-5 control-label">Ubicaciones</label>
-                                        <div class="col-sm-9  controls">
-                                          <select v-model="selectedLocal" >
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <select v-model="selectedLocal">
                                             <option disabled value="">Por favor seleccionar uno</option>
                                             <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
                                           </select>
@@ -116,7 +115,7 @@
                             </div>
                             <!--end modal-->
                           </td>
-                        </tr>                        
+                        </tr>
                       </tbody>
                       <tfoot>
                         <tr>
@@ -134,7 +133,7 @@
             <!--End Box-body -->
           </div>
           <!--End Box-->
-        </div>       
+        </div>
 
       </div>
     </div>
@@ -149,7 +148,6 @@
   import 'datatables.net'
   import 'datatables.net-bs'
   import api from '@/api/goApi.js'
-
   export default {
     data() {
       return {
@@ -202,7 +200,7 @@
         var id = this.dataPostDel.id
         this.delete(id)
       },
-      save (index) {
+      save(index) {
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index])
@@ -218,9 +216,9 @@
       },
       exportPDF() {
         var columns = [
-          {title: 'ID', dataKey: 'id'},
-          {title: 'Nombre', dataKey: 'name'},
-          {title: 'Ruta', dataKey: 'ruta'}
+          { title: 'ID', dataKey: 'id' },
+          { title: 'Nombre', dataKey: 'name' },
+          { title: 'Ruta', dataKey: 'ruta' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
@@ -229,16 +227,12 @@
 </script>
 
 <style>
-
   /* Using the bootstrap style, but overriding the font to not draw in
      the Glyphicons Halflings font as an additional requirement for sorting icons.
-
      An alternative to the solution active below is to use the jquery style
      which uses images, but the color on the images does not match adminlte.
-
   @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
   */
-
   @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 
   table.dataTable thead .sorting:after,

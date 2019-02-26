@@ -38,7 +38,7 @@ export default {
         return data
       }
       var info = response.data
-      console.log('Ahora la informacio')
+      console.log('Ahora la informacion')
       console.log(info)
       data.dataGet = Object.values(info)
     })

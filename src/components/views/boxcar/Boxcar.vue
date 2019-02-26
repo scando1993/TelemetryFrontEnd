@@ -5,21 +5,21 @@
         <!--Box content-->
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
-            <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" data-table="table-terminals">
-                <i class="fa fa-file-excel-o"></i>
+            <div class='btn-group'>
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
+                <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" data-table="table-terminals">
-                <i class="fa fa-file-pdf-o"></i>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Exportar a PDF' v-on:click='exportPDF' data-table='table-terminals'>
+                <i class='fa fa-file-pdf-o'></i>
               </a>
-              <router-link class="pageLink" to="/createBoxcar">
-                <a class="btn btn-circle show-tooltip" title="Add new element" href="/createBoxcar">
-                  <i class="fa fa-plus"></i>
+              <router-link class='pageLink' to='/createBoxcar'>
+                <a class='btn btn-circle show-tooltip' title='Añadir ruta' href='/createBoxcar'>
+                  <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-              <router-link class="pageLink" to="/boxcar">
-                <a class="btn btn-circle show-tooltip" title="Refresh" v-on:click='refresh' id="refresh-administrators" href="/boxcar">
-                  <i class="fa fa-repeat"></i>
+              <router-link class='pageLink' to='/boxcar'>
+                <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
+                  <i class='fa fa-repeat'></i>
                 </a>
               </router-link>
             </div>
@@ -59,7 +59,7 @@
                           <td>{{dato.numFurgon}}</td>
                           <td>{{dato.name}}</td>
                           <td>
-                            <tdd v-for="ubicacion, indexUbi in dato.ubicacionFurgons" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.ubication.zone}}<br /></tdd>
+                            <tdd v-for="ubicacion, indexUbi in dato.Ubicaciones" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.zone}}<br /></tdd>
                           </td>
                           <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
@@ -82,32 +82,38 @@
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">No.Furgón</label>
+                                        <label class="col-sm-5 control-label">No.Furgón</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="number" class="form-control" name="name" v-model="dataPostDel.numFurgon" id="name_store" value="">
+                                          <input type="number" class="form-control" v-bind:placeholder="dato.numFurgon" name="name" v-model="dataPostDel.numFurgon" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                        <label class="col-sm-5 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" name="name" v-model="dataPostDel.name" id="name_store" value="">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" name="name" v-model="dataPostDel.name" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="checkbox" id="ubicaciones" value="ubicaciones" v-model="dataPostDel.checkedNames">
-                                          <label v-for="datoL in dataGet ">{{ datoL.zone }}</label>
-                                        </div>
+                                        <label class="col-sm-offset-3 control-label">Seleccione las Ubicaciones</label>
+                                        <br />
                                       </div>
+                                      <div id="checkboxUbi" class="form-group">
+                                        <ul>
+                                          <li v-for="datoL, indexU in ubications.dataGet" class="col-sm-3  controls">
+                                            <input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
+                                            <label>{{datoL.zone}}--{{datoL.city}}</label>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      
                                     </form>
                                   </div>
                                   <!--end modal-body-->
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/boxcar">
-                                      <button type="button" class="btn-circle" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -153,16 +159,21 @@
   export default {
     data() {
       return {
+        el: '#checkboxUbi',
         myJson: jSon,
-        apiBackUbication: '/api/ubicacion',
         apiBack: '/api/furgon',
+        apiBackUbication: '/api/ubicacion',
+        checkedNames: [],
+        ubications: {
+          error: '',
+          dataGet: []
+        },
         nameToExport: 'Furgón',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           numFurgon: '',
-          name: '',
-          ubication: []
+          name: ''
         }
       }
     },
@@ -172,9 +183,28 @@
         $('#tabla_boxcar').DataTable()
       })
       this.get()
-      api.getAll(this.apiBackUbication, this.$data)
+      api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
+      check: function (e) {
+        if (e.target.checked) {
+          console.log(e.target.value)
+        }
+      },
+      searchUbication() {
+        var ubicationsArray = []
+        for (var i = 0; i < this.checkedNames.length; i++) {
+          for (var j = 0; j < this.dataGet.length; j++) {
+            if (this.dataGet[i] === this.checkedNames[j]) {
+              ubicationsArray.append(this.dataGet[i])
+            }
+          }
+        }
+        return ubicationsArray
+      },
+      refresh() {
+        location.reload()
+      },
       get() {
         api.getAll(this.apiBack, this.$data)
       },
@@ -186,13 +216,8 @@
       },
       deleteOne(key) {
         // se actualiza la info a eliminar
-        this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
+        var id = this.dataGet[key].id
         this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
-        var id = this.dataPostDel.id
         this.delete(id)
       },
       save(index) {
@@ -201,7 +226,9 @@
         console.log(this.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
-        api.put(this.apiBack + '/' + id, this.$data)
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
+        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },
       exportExcel() {
@@ -223,7 +250,7 @@
       exportPDF() {
         var columns = [
           { title: 'ID', dataKey: 'id' },
-          { title: 'NumeroFurgón', dataKey: 'numFurgon' },
+          { title: 'Numero Furgón', dataKey: 'numFurgon' },
           { title: 'Nombre', dataKey: 'name' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
