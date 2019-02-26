@@ -20,7 +20,7 @@
         <span class="page">Bodega</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/locales">
+    <router-link tag="li" class="pageLink" to="/locals">
       <a>
         <i class="fa fa-building"></i>
         <span class="page">Locales</span>

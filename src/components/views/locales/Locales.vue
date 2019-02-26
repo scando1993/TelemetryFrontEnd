@@ -5,26 +5,25 @@
         <!--Box content-->
         <div class="box-content">
           <div class="btn-toolbar pull-right clearfix">
-            <div class="btn-group">
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to Excel" v-on:click='exportExcel' data-table="table-terminals">
-                <i class="fa fa-file-excel-o"></i>
+            <div class='btn-group'>
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
+                <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class="btn btn-circle show-tooltip export-to-file" title="Export to PDF" v-on:click='exportPDF' data-table="table-terminals">
-                <i class="fa fa-file-pdf-o"></i>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Exportar a PDF' v-on:click='exportPDF' data-table='table-terminals'>
+                <i class='fa fa-file-pdf-o'></i>
               </a>
-              <router-link class="pageLink" to="/createloc">
-                <a class="btn btn-circle show-tooltip" title="Add new element" href="/createloc">
-                  <i class="fa fa-plus"></i>
+              <router-link class='pageLink' to='/createLocal'>
+                <a class='btn btn-circle show-tooltip' title='Añadir local' href='/createLocal'>
+                  <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-               
-                <a class="btn btn-circle show-tooltip" title="Refresh" v-on:click='refresh' id="refresh-administrators" href="/locales">
-                  <i class="fa fa-repeat"></i>
+              <router-link class='pageLink' to='/locals'>
+                <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
+                  <i class='fa fa-repeat'></i>
                 </a>
+              </router-link>
             </div>
-          </div>
-          <br />
-          <br />
+          </div><br /><br />
         </div>
         <!-- END Box Content -->
 
@@ -41,7 +40,7 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="example1_info" role="grid" id="tabla_locales" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="example1_info" role="grid" id="tabla_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="Local ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
@@ -56,18 +55,86 @@
                       <tbody>
                         <tr class="even" role="row" v-for="dato,index in dataGet ">
                           <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.numeroLoc}}</td>
-                          <td>{{dato.nombre}}</td>
-                          <td>{{dato.lugar}}</td>
-                          <td>{{dato.longitud}}</td>
-                          <td>{{dato.latitud}}</td>
+                          <td>{{dato.numLoc}}</td>
+                          <td>{{dato.name}}</td>
+                          <td>{{dato.place}}</td>
+                          <td>{{dato.length}}</td>
+                          <td>{{dato.latitude}}</td>
                           <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" href="#victorModal" data-toggle="modal" role="button" title="Edit" >
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
+                            <!-- Modal / Ventana / Overlay en HTML  -->
+                            <div v-bind:id="index+'s'" class="modal fade">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!--Modal header-->
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Editar</h4>
+                                  </div>
+                                  <!--End Modal-Header-->
+                                  <!--Modal-Body-->
+                                  <div class="modal-body">
+                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">No.Loc</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.numLoc" name="name" id="noLoc" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">Nombre</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" id="name" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">Lugar</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="text" class="form-control" v-bind:placeholder="dato.place" v-model="dataPostDel.place" name="name" id="place" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">Longitud</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.length" name="name" id="noLoc" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">Latitud</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.latitude" name="name" id="noLoc" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-5  control-label">Ubicaciones</label>
+                                        <div class="col-sm-9  controls">
+                                          <select v-model="selectedLocal">
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
+                                          </select>
+                                        </div>
+                                      </div>
+
+                                    </form>
+                                  </div>
+                                  <!--End Modal-Body-->
+                                  <!--Modal-footer-->
+                                  <div class="modal-footer">
+                                    <router-link class="pageLink" to="/locals">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
+                                    </router-link>
+                                  </div>
+                                  <!--End Modal-Footer-->
+                                </div>
+                              </div>
+                            </div>
+                            <!--End Modal-->
                           </td>
                         </tr>
                       </tbody>
@@ -99,28 +166,12 @@
           </div>
           <!--End Box-->
         </div>
-
-        <!-- Filter communication and configuration -->
-
-        <div id="client-navigation" style="display: none">
-          <div class="table-client-link">
-            <a id="client-link-title" href="/client/show/#ID#">#clientNavigationID#</a>
-          </div>
-        </div>
-
-        <div id="terminal-navigation" style="display: none">
-          <div class="table-terminal-link">
-            <a id="terminal-link-title" href="/terminal/show/#ID#">#terminalNavigationID#</a>
-          </div>
-        </div>
-
-
         <div class="terminal-btn-group hidden">
           <div class="btn-group">
             <a class="btn btn-circle show-tooltip" title="View" href="/terminal/show/#ID#">
               <i class="fa fa-search-plus"></i>
             </a>
-            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" href="/terminal/delete/#ID#">
+            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?">
               <i class="fa fa-trash-o"></i>
             </a>
           </div>
@@ -148,16 +199,21 @@
       return {
         myJson: jSon,
         apiBack: '/api/locales',
+        apiBackUbication: '/api/ubicacion',
+        selectedLocal: '',
+        ubications: {
+          error: '',
+          dataGet: []
+        },
         nameToExport: 'Locales',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          id: '',
-          numeroLoc: '',
-          nombre: '',
-          lugar: '',
-          longitud: '',
-          latitud: ''
+          numLoc: 0,
+          name: '',
+          place: '',
+          length: 0,
+          latitude: 0
         },
         generateRandomNumbers(numbers, max, min) {
           var a = []
@@ -171,9 +227,10 @@
     name: 'Locales',
     mounted() {
       this.$nextTick(() => {
-        $('#tabla_locales').DataTable()
+        $('#tabla_locals').DataTable()
       })
       this.get()
+      api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
       refresh() {
@@ -191,7 +248,7 @@
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------dta a eleiminar')
+        console.log('--------------------------data a eliminar')
         console.log(this.dataPostDel)
         // se elimina localmente
         this.dataGet.splice(key, 1)
@@ -199,12 +256,17 @@
         var id = this.dataPostDel.id
         this.delete(id)
       },
-      save (index) {
-        console.log('Aun no hace nada')
-        console.log(index)
-        console.log(this.dataGet[index])
-        var id = this.dataPostDel.id
-        api.put(this.apiBack + '/' + id, this.$data)
+      save(index) {
+        console.log('Guardando..')
+        console.log('*******************************************')
+        console.log(this.dataPostDel)
+        console.log('*******************************************')
+        api.post(this.apiBack, this.$data)
+        // this.dataPostDel = this.dataGet[index]
+        var id = this.dataGet[index].id
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
+        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },
       exportExcel() {
@@ -212,22 +274,21 @@
       },
       exportPDF() {
         var columns = [
-          {title: 'ID', dataKey: 'id'},
-          {title: 'No.Local', dataKey: 'numeroLoc'},
-          {title: 'Ubicaciones', dataKey: 'ubicaciones'},
-          {title: 'Nombre', dataKey: 'nombre'},
-          {title: 'Lugar', dataKey: 'lugar'},
-          {title: 'Longitud', dataKey: 'longitud'},
-          {title: 'Latitud', dataKey: 'latitud'}
+          { title: 'ID', dataKey: 'id' },
+          { title: 'No.Local', dataKey: 'numLoc' },
+          { title: 'Nombre', dataKey: 'name' },
+          { title: 'Lugar', dataKey: 'place' },
+          { title: 'Longitud', dataKey: 'length' },
+          { title: 'Latitud', dataKey: 'latitude' }
         ]
-        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
     }
   }
 </script>
 <style>
 
-    /* Using the bootstrap style, but overriding the font to not draw in
+  /* Using the bootstrap style, but overriding the font to not draw in
      the Glyphicons Halflings font as an additional requirement for sorting icons.
 
      An alternative to the solution active below is to use the jquery style
@@ -236,23 +297,23 @@
   @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
   */
 
-    @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+  @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:after {
-      font-family: 'FontAwesome';
-    }
+  table.dataTable thead .sorting:after,
+  table.dataTable thead .sorting_asc:after,
+  table.dataTable thead .sorting_desc:after {
+    font-family: 'FontAwesome';
+  }
 
-    table.dataTable thead .sorting:after {
-      content: "\f0dc";
-    }
+  table.dataTable thead .sorting:after {
+    content: "\f0dc";
+  }
 
-    table.dataTable thead .sorting_asc:after {
-      content: "\f0dd";
-    }
+  table.dataTable thead .sorting_asc:after {
+    content: "\f0dd";
+  }
 
-    table.dataTable thead .sorting_desc:after {
-      content: "\f0de";
-    }
+  table.dataTable thead .sorting_desc:after {
+    content: "\f0de";
+  }
 </style>
