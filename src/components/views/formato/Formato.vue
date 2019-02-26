@@ -17,7 +17,7 @@
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-              <router-link class='pageLink' to='/path'>
+              <router-link class='pageLink' to='/format'>
                 <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
                   <i class='fa fa-repeat'></i>
                 </a>

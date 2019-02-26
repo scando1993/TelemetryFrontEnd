@@ -6,19 +6,19 @@
         <div class='box-content'>
           <div class='btn-toolbar pull-right clearfix'>
             <div class='btn-group'>
-              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel' v-on:click='exportExcel' data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
                 <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF' v-on:click='exportPDF' data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Exportar a PDF' v-on:click='exportPDF' data-table='table-terminals'>
                 <i class='fa fa-file-pdf-o'></i>
               </a>
               <router-link class='pageLink' to='/createStore'>
-                <a class='btn btn-circle show-tooltip' title='Add new element' href='/createStore'>
+                <a class='btn btn-circle show-tooltip' title='Añadir una bodega' href='/createStore'>
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>             
-              <router-link class="pageLink" to="/format">
-                <a class="btn btn-circle show-tooltip" title="Actualizar" v-on:click='refresh' id="refresh-administrators" href="/format">
+              <router-link class="pageLink" to="/store">
+                <a class="btn btn-circle show-tooltip" title="Actualizar" v-on:click='refresh' id="refresh-administrators" href="/store">
                   <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
@@ -53,7 +53,7 @@
                           </tr>
                         </thead>
                         <tbody id='fields'>
-                          <tr class='even' role='row' v-for='dato,index in dataGet '>
+                          <tr class='even' role='row' v-for='dato,index in bodegas.dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
                             <td>{{dato.name}}</td>
                             <td>{{dato.zone}}</td>
@@ -88,7 +88,7 @@
                                           <div class="form-group">
                                             <label class="col-sm-3 col-lg-2 control-label">Ubicación</label>
                                             <div class="col-sm-12 col-lg-15 controls">
-                                              <select v-model="selectedBodega">
+                                              <select v-model="selectedUbication">
                                                 <option disabled value="">Por favor seleccionar uno</option>
                                                 <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }}</option>
                                               </select>
@@ -102,7 +102,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"  v-on:click="save(index)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -153,10 +153,14 @@
         apiBack: '/api/bodega',
         apiBackUbication: '/api/ubicacion',
         nameToExport: 'Bodega',
-        selectedBodega: '',
+        selectedUbication: '',
         ubications: {
           error: '',
-          dsa: []
+          dataGet: []
+        },
+        bodegas: {
+          error: '',
+          dataGet: {}
         },
         error: '', // aqui se guardara el ultimo status de error
         dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
@@ -178,9 +182,18 @@
         location.reload()
       },
       get() {
-        api.getAll(this.apiBack, this.$data)
-        console.log('el data es')
+        var d = api.getAll(this.apiBack, this.bodegas)
+        // this.dataGet = d.dataGet
+        console.log('--------Aqui despues del primer get')
+        console.log(d)
+        var s = d['dataGet']
+        console.log(s)
+        // console.log(d['dataGet'])
+        console.log('Ahora el fin del primero')
+        // api.getAll(this.apiBack, this.$data)
+        console.log('el data del segundo---------------------')
         console.log(this.dataGet)
+        console.log('-------------------------------------')
       },
       post() {
         api.post(this.apiBack, this.$data)
@@ -190,11 +203,11 @@
       },
       deleteOne(key) {
         // se actualiza la info a eliminar
-        this.dataPostDel = this.dataGet[key]
+        this.dataPostDel = this.bodegas.dataGet[key]
         console.log('--------------------------data a eliminar')
         console.log(this.dataPostDel)
         // se elimina localmente
-        this.dataGet.splice(key, 1)
+        this.bodegas.dataGet.splice(key, 1)
         // se actualiza la base de datos
         var id = this.dataPostDel.id
         this.delete(id)
@@ -202,37 +215,28 @@
       save (index) {
         console.log('Aun no hace nada')
         console.log(index)
-        console.log(this.dataGet[index])
+        console.log(this.bodegas.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
-        var id = this.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
+        var id = this.bodegas.dataGet[index].id
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedUbication).id
         console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
         api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },
       exportExcel() {
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var rep = JSON.parse(JSON.stringify(this.bodegas.dataGet))
         // var cad = ''
         console.log('Aqi esta la parte de rep')
         console.log(rep)
-        rep.forEach(element => {
-          element.ubication = element.ubication.zone
-        })
         // console.log('Aqui la cadena' + cad)
         // rep.ubication = cad
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
-        // var cad = ''
-        console.log('Aqi esta la parte de rep')
-        console.log(rep)
-        rep.forEach(element => {
-          element.ubication = element.ubication.zone
-        })
+        var rep = JSON.parse(JSON.stringify(this.bodegas.dataGet))
         var columns = [
           {title: 'ID', dataKey: 'id'},
-          {title: 'Ubicacion', dataKey: 'ubication'},
+          {title: 'Ubicacion', dataKey: 'zone'},
           {title: 'Nombre', dataKey: 'name'}
         ]
         api.exportPDF(this.nameToExport, 'Hola Mundo', columns, rep)
