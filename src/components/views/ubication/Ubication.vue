@@ -233,61 +233,55 @@
         // var rep = this.dataGet
         var rep = JSON.parse(JSON.stringify(this.dataGet))
         var cad = ''
-        var bodeg = ''
-        var local = ''
+        var cad2 = ''
+        var cad3 = ''
         console.log('Aqi esta la parte de rep')
         console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
             cad = cad + e.name + ' '
           })
-          element.bodegas.forEach(e => {
-            bodeg = bodeg + e.name + ' '
+          element.bodegas.forEach(u => {
+            cad2 = cad2 + u.name + ''
           })
-          element.locales.forEach(e => {
-            local = local + e.name + ' '
+          element.locales.forEach(y => {
+            cad3 = cad3 + y.name + ''
           })
+          element.bodegas = cad2
           element.formatos = cad
-          element.locales = local
-          element.bodegas = bodeg
+          element.locales = cad3
           cad = ''
-          bodeg = ''
-          local = ''
+          cad2 = ''
+          cad3 = ''
         })
-        console.log('Aqui la cadena' + cad + bodeg + local)
+        console.log('Aqui la cadena' + cad)
         rep.formatos = cad
-        rep.locales = local
-        rep.bodegas = bodeg
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
         var rep = JSON.parse(JSON.stringify(this.dataGet))
         var cad = ''
-        var bodeg = ''
-        var local = ''
+        var cad2 = ''
+        var cad3 = ''
         console.log('Aqi esta la parte de rep')
         console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
-            cad = cad + e.name + '\n'
+            cad = cad + e.name + ' '
           })
-          element.bodegas.forEach(e => {
-            bodeg = bodeg + e.name + '\n'
+          element.bodegas.forEach(u => {
+            cad2 = cad2 + u.name + ''
           })
-          element.locales.forEach(e => {
-            local = local + e.name + '\n'
+          element.locales.forEach(y => {
+            cad3 = cad3 + y.name + ''
           })
+          element.bodegas = cad2
           element.formatos = cad
-          element.locales = local
-          element.bodegas = bodeg
+          element.locales = cad3
           cad = ''
-          bodeg = ''
-          local = ''
+          cad2 = ''
+          cad3 = ''
         })
-        console.log('Aqui la cadena' + cad + bodeg + local)
-        rep.formatos = cad
-        rep.locales = local
-        rep.bodegas = bodeg
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Zona', dataKey: 'zone' },

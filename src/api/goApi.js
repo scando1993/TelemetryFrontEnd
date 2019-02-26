@@ -2,9 +2,53 @@ import axios from 'axios'
 import XLSX from 'xlsx'
 import JsPDF from 'jspdf'
 import 'jspdf-autotable'
-var apiUrlBase = 'http://172.16.10.125:8080'
+// var apiUrlBase = 'http://172.16.10.125:8080'
+var apiUrlBase = 'http://192.168.10.32:8080'
+// var apiUrlBase = 'http://25.4.250.51:8080'
 
 export default {
+  postEmpty(url, errCode) {
+    console.log('En POST')
+    axios.post(apiUrlBase + url)
+    .then(response => {
+      if (response.status !== 201) {
+        console.log('ErrorrrrrrPost')
+        console.log(response)
+        errCode = response.statusText
+        return errCode
+      }
+      console.log('Exito!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ahora la info:')
+      var info = response.data
+      console.log(info)
+    })
+    .catch(error => {
+      // Request failed.
+      console.log('FAlla')
+      console.log(error)
+      errCode = error
+    })
+    return errCode
+  },
+  getGeneral (url, data) {
+    console.log('En el get general')
+    axios.get(url)
+    .then(response => {
+      if (response.status !== 200) {
+        data.error = response.statusText
+        return data
+      }
+      var info = response.data
+      console.log('Ahora la informacio')
+      console.log(info)
+      data.dataGet = Object.values(info)
+    })
+    .catch((err) => {
+    //  Request failed.
+      data.error = err
+      console.log('FAIL----', err)
+    })
+    return data
+  },
   getAll(url, data) {
     console.log('EN GET ALL')
     console.log(data)
@@ -82,13 +126,16 @@ export default {
     data.dataPostDel // esto debe cambiar acuerdo a como se use el form
     )
     .then(response => {
-      if (response.status !== 200) {
-        console.log('Errorrrrrr')
+      if (response.status !== 201) {
+        console.log('ErrorrrrrrPost')
         console.log(response)
         data.error = response.statusText
         return data
       }
-      console.log('Exito')
+      console.log('Exito!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ahora la info:')
+      var info = response.data
+      console.log(info)
+      data.dataRespond = info
     })
     .catch(error => {
       // Request failed.

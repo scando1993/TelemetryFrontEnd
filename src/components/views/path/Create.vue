@@ -14,12 +14,30 @@
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">No.Furgón</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedLocal">
+                        <select v-model="selectedFurgon" >
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoL in dataGet ">{{ datoL.numFurgon }}</option>
                         </select>
                       </div>
                     </div>
+                    <div class="form-group">
+                    <label class="col-sm-3 col-lg-2 control-label">Familia Dispositivo</label>
+                    <div class="col-sm-9 col-lg-10 controls">
+                      <select v-model="selectedFamily" v-on:click="loadDevices">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoF in families.dataGet ">{{ datoF.family }}</option>
+                      </select>
+                    </div>
+                  </div>
+                    <div class="form-group">
+                    <label class="col-sm-3 col-lg-2 control-label">Dispositivo</label>
+                    <div class="col-sm-9 col-lg-10 controls">
+                      <select v-model="selectedDevice">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoD in devices.listDevices">{{ datoD }}</option>
+                      </select>
+                    </div>
+                  </div>
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha de inicio</label>
                       <div class="col-sm-9 col-lg-10 controls">
@@ -71,38 +89,44 @@
   import api from '@/api/goApi.js'
   export default {
     methods: {
-      updateData(newData) {
-        this.error = newData.error
-        this.dataPostDel = newData.dataPostDel
-      },
-      get() {
-        api.getAll(this.apiBack, this.$data)
-      },
       save() {
-        console.log(this.dataPostDel.start_date + '----' + this.dataPostDel.end_date)
-        // se obtienne los ids de las ubicaciones
-        // api.getAll(this.apiBack, this.$data)
-        console.log(this.dataGet)
-        var id = ''
-        console.log(id + 'neh')
-        for (var i = 0; i < this.dataGet.length; i++) {
-          if (this.DataGet[i]['furgon']['numFurgon'] === this.selectedLocal) {
-            id = this.DataGet[i]['id']
-          }
-        }
-        console.log('A  qui el id')
-        console.log(id)
-        console.log(this.dataPostDel)
-        api.post(this.apiBack + '/' + id, this.$data)
+        console.log('El actual furgon es: ' + this.selectedFurgon)
+        // se obtienne el id de furgon
+        var idFurgon = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
+        api.post(this.apiBack + '/' + idFurgon, this.$data)
+      },
+      loadDevices() {
+        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+        var newDevices = []
+        this.devices.listDevices = []
+        this.devices.dataGet.forEach(element => {
+          element.Devices.forEach(e => {
+            newDevices.push(e.DeviceName)
+          })
+        })
+        this.devices.listDevices = newDevices
       }
     },
     data() {
       return {
         apiBack: '/api/path',
         apiBackFurgon: '/api/furgon',
+        apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
+        apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/groupby?family=',
         error: '',
-        selectedLocal: '',
+        selectedFurgon: 0,
+        selectedFamily: '',
+        selectedDevice: '',
         dataGet: [],
+        families: {
+          erro: '',
+          dataGet: []
+        },
+        devices: {
+          error: '',
+          dataGet: [],
+          listDevices: []
+        },
         dataPostDel: { // este es basicamente un JSON
           start_date: '',
           start_hour: '',
@@ -114,6 +138,7 @@
     mounted() {
       // se obtiene las ubicaciones
       api.getAll(this.apiBackFurgon, this.$data)
+      api.getGeneral(this.apiFamilies, this.families)
     }
   }
 </script>

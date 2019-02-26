@@ -86,9 +86,27 @@
                                         <div class="form-group">
                                           <label class="col-sm-6  control-label">No.Furgón</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <select v-model="selectedLocal">
+                                            <select v-model="selectedFurgon" v-on:click="loadDevices">
                                               <option disabled value="">Por favor seleccionar uno</option>
-                                              <option v-for="datoL in dataGet ">{{ datoL.furgon.numFurgon }}</option>
+                                              <option v-for="datoL in furgones.dataGet ">{{ datoL.numFurgon }}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-6  control-label">Familia Dispositivo</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedFamily" v-on:click="loadDevices">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoF in families.dataGet">{{ datoF.family }}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-6  control-label">Dispositivo</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedDevice">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoD in devices.listDevices ">{{ datoD }}</option>
                                             </select>
                                           </div>
                                         </div>
@@ -175,10 +193,23 @@
         myJson: jSon,
         apiBack: '/api/ruta',
         apiBackFurgon: '/api/furgon',
-        selectedLocal: '',
+        apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
+        apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/groupby?family=',
+        selectedFurgon: '',
+        selectedFamily: '',
+        selectedDevice: '',
         furgones: {
           error: '',
           dataGet: []
+        },
+        families: {
+          erro: '',
+          dataGet: []
+        },
+        devices: {
+          error: '',
+          dataGet: [],
+          listDevices: []
         },
         nameToExport: 'Rutas',
         error: '', // aqui se guardara el ultimo status de error
@@ -199,6 +230,7 @@
       })
       this.get()
       api.getAll(this.apiBackFurgon, this.furgones)
+      api.getGeneral(this.apiFamilies, this.families)
     },
     methods: {
       refresh() {
@@ -224,15 +256,29 @@
         var id = this.dataPostDel.id
         this.delete(id)
       },
+      loadDevices() {
+        console.log('LA familia es ' + this.selectedFamily)
+        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+        var newDevices = []
+        this.devices.listDevices = []
+        this.devices.dataGet.forEach(element => {
+          element.Devices.forEach(e => {
+            newDevices.push(e.DeviceName)
+          })
+        })
+        console.log('Aqui la lista de dis--------------')
+        console.log(newDevices)
+        this.devices.listDevices = newDevices
+      },
       save(index) {
         console.log('Aun no hace nada')
         console.log(index)
         console.log(this.dataGet[index].startHour)
         // this.dataPostDel = this.dataGet[index]
-        var id = this.dataGet[index].id
-        var idFurgon = api.search(this.furgones.dataGet, 'numFurgon', this.selectedLocal).id
-        console.log('El ide foraneo es' + idFurgon + 'El id de formato es' + id)
-        api.put(this.apiBack + '/' + id + '/' + idFurgon, this.$data)
+        var idTracking = this.dataGet[index].id
+        var idFurgon = api.search(this.furgones.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
+        console.log('El ide foraneo es' + idFurgon + 'El id de formato es' + idTracking)
+        api.put(this.apiBack + '/' + idTracking + '/' + idFurgon, this.$data)
         this.get()
       },
       exportExcel() {

@@ -43,7 +43,7 @@
                         <router-link class="pageLink" to="/boxcar">
                           <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
                           <a href="/boxcar" type="button" class="btn">Cancelar</a>
-                        </router-link>
+                          </router-link>
                       </div>
                     </div>
                     <!--End Submit and cancel-->
@@ -63,6 +63,7 @@
 </template>
 <script>
   import api from '@/api/goApi.js'
+import { setTimeout } from 'timers'
   export default {
     methods: {
       check: function (e) {
@@ -77,8 +78,25 @@
       get() {
         api.getAll(this.apiBack, this.$data)
       },
+      resto() {
+        console.log('Ya en resto')
+        console.log(this.dataRespond)
+        var idFurgon = this.dataRespond.id
+        console.log('.....en checknames')
+        console.log(this.checkedNames)
+        var errCode = ''
+        this.checkedNames.forEach(element => {
+          console.log(this.apiBackUbicationBoxcar + '/' + element + '/' + idFurgon)
+          api.postEmpty(this.apiBackUbicationBoxcar + '/' + element + '/' + idFurgon, errCode)
+          console.log(errCode)
+        })
+      },
+      getBodega() {
+        api.getAll(this.apiBack, this.furgon)
+      },
       save() {
         console.log(this.dataPostDel.numFurgon + '----' + this.dataPostDel.name)
+        this.dataPostDel.numFurgon = Number(this.dataPostDel.numFurgon)
         // se obtienne los ids de las ubicaciones
         // api.getAll(this.apiBack, this.$data)
         console.log('aqui checkbox--------------------------------------------------------')
@@ -89,25 +107,8 @@
         console.log('fin dataget--------------------------------------------------------')
         console.log(this.dataPostDel)
         console.log('fin datapost--------------------------------------------------------')
-        api.getAll(this.apiBack, this.furgon)
-        console.log(this.furgon)
-        console.log('fin furgon--------------------------------------------------------')
-        console.log(this.furgon.dataGet.value)
-        console.log('fin dataget furgon------------------------------------------__---------------')
-        console.log(this.furgon.dataGet.length)
-        console.log('se mostro el array de dataget de furgon--------------------------------------------------------')
-        console.log(this.furgon.dataGet[0]['numFurgon'])
-        console.log('pos 0 de dataget furgon---------------------**-----------------------------------')
-        for (var i = 0; i < this.furgon.dataGet.length; i++) {
-          console.log(this.furgon.dataGet[i])
-          if (this.furgon.dataGet[i]['numFurgon'] === this.dataPostDel.numFurgon) {
-            console.log('lllllllllllllllllllllllllllllllllll-')
-          }
-        }
-        console.log('fin var k--------------------------------------------------------')
-        this.checkedNames.forEach(function (e) {
-          console.log(e)
-        })
+        // setTimeout(this.getBodega, 500)
+        setTimeout(this.resto, 500)
       }
     },
     data() {
@@ -126,7 +127,8 @@
         dataPostDel: { // este es basicamente un JSON
           name: '',
           numFurgon: 0
-        }
+        },
+        dataRespond: []
       }
     },
     mounted() {
