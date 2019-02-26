@@ -2,7 +2,8 @@ import axios from 'axios'
 import XLSX from 'xlsx'
 import JsPDF from 'jspdf'
 import 'jspdf-autotable'
-var apiUrlBase = 'http://172.16.10.125:8080'
+// var apiUrlBase = 'http://172.16.10.125:8080'
+var apiUrlBase = 'http://192.168.10.32:8080'
 // var apiUrlBase = 'http://25.4.250.51:8080'
 
 export default {

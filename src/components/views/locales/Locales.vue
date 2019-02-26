@@ -156,13 +156,7 @@
             </div>
             <!--End Box-body -->
             <hr class="visible-xs-block">
-            <div class="col-sm-12 col-xs-12">
-              <p class="text-center">
-                <strong>Distribucion de locales</strong>
-              </p>
-              <!--<canvas id="languagePie"></canvas>-->
-              <google-map /><br />
-            </div>
+           
           </div>
           <!--End Box-->
         </div>
