@@ -1,17 +1,28 @@
 import DashView from './components/Dash.vue'
 import LoginView from './components/Login.vue'
 import NotFoundView from './components/404.vue'
-
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
-import ChatBotView from './components/views/ChatBot.vue'
+import BoxcarView from './components/views/boxcar/Boxcar.vue'
+import CreateBoxcarView from './components/views/boxcar/Create.vue'
 import TasksView from './components/views/Tasks.vue'
 import SettingView from './components/views/Setting.vue'
-import AccessView from './components/views/Access.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
-
-// Routes
+import BodegaView from './components/views/bodega/Bodega.vue'
+import CreateBodegaView from './components/views/bodega/Create.vue'
+import FormatoView from './components/views/formato/Formato.vue'
+import CreateFormatoView from './components/views/formato/Create.vue'
+import UbicationView from './components/views/ubication/Ubication.vue'
+import CreateUbicationView from './components/views/ubication/Create.vue'
+import LocalsView from './components/views/locales/Locales.vue'
+import CreateLocalView from './components/views/locales/Create.vue'
+import ReportesView from './components/views/reports/Reports.vue'
+import PathView from './components/views/path/Path.vue'
+import CreatePathView from './components/views/path/Create.vue'
+import RoutesView from './components/views/routes/Routes.vue'
+import LocalStatView from './components/views/localStat/Local.vue'
+// Routes.
 const routes = [
   {
     path: '/login',
@@ -25,28 +36,68 @@ const routes = [
         path: 'dashboard',
         alias: '',
         component: DashboardView,
-        name: 'Dashboard',
-        meta: {description: 'Overview of environment'}
+        name: 'Dashboard'
       }, {
-        path: 'chatbot',
-        component: ChatBotView,
-        name: 'ChatBot',
-        meta: {description: 'ChatBot for the Telemetry Platform'}
+        path: 'routes',
+        alias: '',
+        component: RoutesView,
+        name: 'Tablero Rutas'
+      }, {
+        path: 'store',
+        component: BodegaView,
+        name: 'Bodega'
+      }, {
+        path: 'createStore',
+        component: CreateBodegaView,
+        name: 'Crear Bodega'
+      }, {
+        path: 'locals',
+        component: LocalsView,
+        name: 'Locales'
+      }, {
+        path: 'createLocal',
+        component: CreateLocalView,
+        name: 'Crear Local'
+      }, {
+        path: 'format',
+        component: FormatoView,
+        name: 'Formato'
+      }, {
+        path: 'createFormat',
+        component: CreateFormatoView,
+        name: 'Crear Formato'
+      }, {
+        path: 'ubication',
+        component: UbicationView,
+        name: 'Ubicación'
+      }, {
+        path: 'createUbication',
+        component: CreateUbicationView,
+        name: 'Crear Ubicación'
+      }, {
+        path: 'boxcar',
+        component: BoxcarView,
+        name: 'furgón'
+      }, {
+        path: 'createBoxcar',
+        component: CreateBoxcarView,
+        name: 'furgón'
+      }, {
+        path: 'path',
+        component: PathView,
+        name: 'Rutas'
+      }, {
+        path: 'createPath',
+        component: CreatePathView,
+        name: 'Crear ruta'
       }, {
         path: 'tasks',
         component: TasksView,
-        name: 'Tasks',
-        meta: {description: 'Tasks page in the form of a timeline'}
+        name: 'Tasks'
       }, {
         path: 'setting',
         component: SettingView,
-        name: 'Settings',
-        meta: {description: 'User settings page'}
-      }, {
-        path: 'access',
-        component: AccessView,
-        name: 'Access',
-        meta: {description: 'Example of using maps'}
+        name: 'Settings'
       }, {
         path: 'server',
         component: ServerView,
@@ -55,16 +106,22 @@ const routes = [
       }, {
         path: 'repos',
         component: ReposView,
-        name: 'Repository',
-        meta: {description: 'List of popular javascript repos'}
+        name: 'Repository'
+      }, {
+        path: 'reports',
+        component: ReportesView,
+        name: 'Reportes'
+      }, {
+        path: 'localStat',
+        component: LocalStatView,
+        name: 'Tablero Locales'
       }
     ],
-    meta: {requiresAuth: false}
+    meta: { requiresAuth: false }
   }, {
     // not found handler
     path: '*',
     component: NotFoundView
   }
 ]
-
 export default routes

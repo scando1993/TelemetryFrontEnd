@@ -1,0 +1,21 @@
+[
+  {
+    "id": "10",
+    "numFurgon": "15",
+    "trackingID": "10",
+    "startDate": "10-02-19",
+    "startHour": "02-19",
+    "endDate": "11-02-19",
+    "endHour": "10-02"
+  },
+
+  {
+    "id": "10",
+    "numFurgon": "96",
+    "trackingID": "10",
+    "startDate": "18-02-19",
+    "startHour": "08-19",
+    "endDate": "21-02-19",
+    "endHour": "12-02"
+  }
+]

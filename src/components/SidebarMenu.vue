@@ -1,46 +1,63 @@
 <template>
   <ul class="sidebar-menu">
-    <li class="header">TOOLS</li>
-    <router-link tag="li" class="pageLink" to="/">
+    <li class="header">DASHBOARD</li>
+    <router-link tag="li" class="pageLink" to="/routes">
       <a>
-        <i class="fa fa-desktop"></i>
-        <span class="page">Dashboard</span>
+        <i class="fa fa-laptop"></i>
+        <span class="page">Rutas</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/chatbot">
+    <router-link tag="li" class="pageLink" to="/localStat">
       <a>
-        <i class="fa fa-table"></i>
-        <span class="page">ChatBot</span>
+        <i class="fa fa-laptop"></i>
+        <span class="page">Locales</span>
       </a>
     </router-link>
-
-    <li class="treeview">
-      <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Files</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left fa-fw pull-right"></i>
-        </span>
+    <li class="header">ADQUISICIÓN DE DATOS</li>
+    <router-link tag="li" class="pageLink" to="/store">
+      <a>
+        <i class="fa fa-laptop"></i>
+        <span class="page">Bodega</span>
       </a>
-      <ul class="treeview-menu">
-        <li>
-          <a href="#">
-            <i class="fa fa-file-word-o"></i> Item 1
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-picture-o"></i> Item 2
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-pdf-o"></i> Item 3
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li class="header">MANAGEMENT</li>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/locals">
+      <a>
+        <i class="fa fa-building"></i>
+        <span class="page">Locales</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/format">
+      <a>
+        <i class="fa fa-puzzle-piece"></i>
+        <span class="page">Formato</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/ubication">
+      <a>
+        <i class="fa fa-map-marker"></i>
+        <span class="page">Ubicaciones</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/boxcar">
+      <a>
+        <i class="fa fa-truck"></i>
+        <span class="page">Furgón</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/path">
+      <a>
+        <i class="fa fa-road"></i>
+        <span class="page">Ruta</span>
+      </a>
+    </router-link>
+    <li class="header">REPORTES</li>
+    <router-link tag="li" class="pageLink" to="/reports">
+      <a>
+        <i class="fa fa-book"></i>
+        <span class="page">Reportes</span>
+      </a>
+    </router-link>
+    <li class="header">ADMINISTRACIÓN</li>
     <router-link tag="li" class="pageLink" to="/tasks">
       <a>
         <i class="fa fa-tasks"></i>
@@ -53,25 +70,10 @@
         <span class="page">Settings</span>
       </a>
     </router-link>
-
-    <li class="header">LOGS</li>
-    <router-link tag="li" class="pageLink" to="/access">
-      <a>
-        <i class="fa fa-book"></i>
-        <span class="page">Access</span>
-      </a>
-    </router-link>
     <router-link tag="li" class="pageLink" to="/server">
       <a>
         <i class="fa fa-hdd-o"></i>
         <span class="page">Server</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/repos">
-      <a>
-        <i class="fa fa-heart"></i>
-        <span class="page">Repos</span>
-        <small class="label pull-right bg-green">AJAX</small>
       </a>
     </router-link>
 

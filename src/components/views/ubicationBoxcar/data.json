@@ -1,0 +1,17 @@
+[
+  {
+    "id": "01",
+    "ubicationID": "01",
+    "boxcarID": "01"
+  },
+  {
+    "id": "02",
+    "ubicationID": "02",
+    "boxcarID": "02"
+  },
+  {
+    "id": "03",
+    "ubicationID": "03",
+    "boxcarID": "03"
+  }
+]

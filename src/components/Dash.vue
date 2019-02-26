@@ -3,16 +3,16 @@
     <header class="main-header">
 
       <span class="logo-mini">
-        <a href="/"><img id="logo" src="/static/img/pacificsoft_logo_original.svg" alt="Logo" class="img-responsive center-block logo"></a>
+        <a href="/"><img id="logo" src="./../../static/img/pacificsoft_logo_original.svg" alt="Logo" class="img-responsive center-block logo"></a>
       </span>
 
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
+        <!-- Sidebar toggle button Prueba-->
         <a id="toggleNav" href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
-        <!-- Navbar Right Menu -->
+        <!-- Navbar Right Menuu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <!-- Messages-->
@@ -204,13 +204,13 @@ export default {
         let div = $('body')
         let image = $('#logo')
         if (div.hasClass('sidebar-collapse')) {
-          image.attr('src', '/static/img/pacificsoft_logo_original.svg')
+          image.attr('src', './../../static/img/pacificsoft_logo_original.svg')
         } else {
           if (image.width() > 214) {
-            image.attr('src', '/static/img/pacificsoft_logo_original.svg')
+            image.attr('src', './../../static/img/pacificsoft_logo_original.svg')
           } else {
             console.log('normal width')
-            image.attr('src', '/static/img/pacificsoft_logo_collapse.svg')
+            image.attr('src', './../../static/img/pacificsoft_logo_collapse.svg')
           }
         }
       })
