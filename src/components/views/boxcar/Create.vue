@@ -13,22 +13,22 @@
                 <form action="/create" method="POST" class="form-horizontal" id="profile-form">
 
                   <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">No.Furgón</label>
+                    <label class="col-sm-3 control-label">No.Furgón</label>
                     <div class="col-sm-9 col-lg-10 controls">
                       <input type="number" class="form-control" name="name" v-model="dataPostDel.numFurgon" id="name_store" value="">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                    <label class="col-sm-3  control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
                       <input type="text" class="form-control" name="name" v-model="dataPostDel.name" id="name_store" value="">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
-                    <div class="col-sm-9 col-lg-10 controls">
-                      <input type="checkbox" id="ubicaciones" value="ubicaciones" v-model="dataPostDel.checkedNames">
-                      <label v-for="datoL in dataGet ">{{ datoL.zone }}</label>
+                    <label class="col-sm-offset-4 control-label">Seleccione las Ubicaciones</label><br/>
+                    <div   class="col-sm-3  controls" id="checkboxUbiCreate">
+                      <input v-for="datoL, indexUb in dataGet" type="checkbox"  value="indexUb+'s'" id="indexUb+'s'" v-model="checkedNames">
+                      <label>{{datoL.zone}}--{{ datoL.province}}--{{datoL.city}}</label>
                     </div>
                   </div>
                   <!-- Submit and cancel -->
@@ -67,11 +67,11 @@
         api.getAll(this.apiBack, this.$data)
       },
       save() {
-        console.log(this.dataPostDel.name + '----' + this.dataPostDel.ruta)
+        console.log(this.dataPostDel.nunFurgon + '----' + this.dataPostDel.name)
         // se obtienne los ids de las ubicaciones
         // api.getAll(this.apiBack, this.$data)
         console.log(this.dataGet)
-        var id = api.search(this.dataGet, 'zone', this.selectedLocal).id
+        var id = api.search(this.dataGet, 'zone', this.checkedNames).id
         console.log('A  qui el id')
         console.log(id)
         console.log(this.dataPostDel)
@@ -80,14 +80,15 @@
     },
     data() {
       return {
+        el: '#checkboxUbiCreate',
         apiBack: '/api/furgon',
-        apiBackUbication: '/api/furgon',
+        apiBackUbication: '/api/ubicacion',
         error: '',
-        selectedLocal: [],
+        checkedNames: [],
         dataGet: [],
         dataPostDel: { // este es basicamente un JSON
-          numFurgon: '',
-          name: ''
+          name: '',
+          ruta: ''
         }
       }
     },
