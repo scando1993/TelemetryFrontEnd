@@ -17,7 +17,7 @@
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-              <router-link class='pageLink' to='/format'>
+              <router-link class='pageLink' to='/path'>
                 <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
                   <i class='fa fa-repeat'></i>
                 </a>
@@ -77,21 +77,21 @@
                                   <!--Modal-body-->
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
-                                      <div class="form-group">
-                                        <label class="col-sm-5 control-label">Nombre</label>
-                                        <div class="col-sm-9  controls">
+                                      <div class="form-group col-sm-12 col-lg-12">
+                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
                                           <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                                         </div>
                                       </div><br />
                                       <div class="form-group">
-                                        <label class="col-sm-4  control-label">Ruta</label>
-                                        <div class="col-sm-9  controls">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
                                           <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-5  control-label">Ubicaciones</label>
-                                        <div class="col-sm-9  controls">
+                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
                                           <select v-model="selectedLocal">
                                             <option disabled value="">Por favor seleccionar uno</option>
                                             <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
