@@ -233,28 +233,66 @@
         // var rep = this.dataGet
         var rep = JSON.parse(JSON.stringify(this.dataGet))
         var cad = ''
+        var cad2 = ''
+        var cad3 = ''
         console.log('Aqi esta la parte de rep')
         console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
             cad = cad + e.name + ' '
           })
+          element.bodegas.forEach(u => {
+            cad2 = cad2 + u.name + ''
+          })
+          element.locales.forEach(y => {
+            cad3 = cad3 + y.name + ''
+          })
+          element.bodegas = cad2
           element.formatos = cad
+          element.locales = cad3
           cad = ''
+          cad2 = ''
+          cad3 = ''
         })
         console.log('Aqui la cadena' + cad)
         rep.formatos = cad
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var cad = ''
+        var cad2 = ''
+        var cad3 = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.formatos.forEach(e => {
+            cad = cad + e.name + ' '
+          })
+          element.bodegas.forEach(u => {
+            cad2 = cad2 + u.name + ''
+          })
+          element.locales.forEach(y => {
+            cad3 = cad3 + y.name + ''
+          })
+          element.bodegas = cad2
+          element.formatos = cad
+          element.locales = cad3
+          cad = ''
+          cad2 = ''
+          cad3 = ''
+        })
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Zona', dataKey: 'zone' },
           { title: 'Regional', dataKey: 'regional' },
           { title: 'Provincia', dataKey: 'province' },
-          { title: 'Ciudad', dataKey: 'city' }
+          { title: 'Ciudad', dataKey: 'city' },
+          { title: 'Formatos', dataKey: 'formatos' },
+          { title: 'Locales', dataKey: 'locales' },
+          { title: 'Bodegas', dataKey: 'bodegas' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }
