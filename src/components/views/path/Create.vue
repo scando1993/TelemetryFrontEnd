@@ -91,26 +91,9 @@
     methods: {
       save() {
         console.log('El actual furgon es: ' + this.selectedFurgon)
-        // se obtienne los ids de las ubicaciones
-        // api.getAll(this.apiBack, this.$data)
-        console.log(this.dataGet)
-        /*
-        var id = ''
-        console.log(id + 'neh')
-        for (var i = 0; i < this.dataGet.length; i++) {
-          console.log(this.dataGet[i].numFurgon + ' ' + this.selectedFurgon)
-          if (this.dataGet[i].numFurgon === Number(this.selectedFurgon)) {
-            console.log('entramos!!!!!!!!!!!!!!1')
-            id = this.dataGet[i].id
-          }
-        }
-        */
-        var id = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
-        console.log('A  qui el id')
-        console.log(id)
-        console.log('FIN')
-        console.log(this.dataPostDel)
-        api.post(this.apiBack + '/' + id, this.$data)
+        // se obtienne el id de furgon
+        var idFurgon = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
+        api.post(this.apiBack + '/' + idFurgon, this.$data)
       },
       loadDevices() {
         api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
