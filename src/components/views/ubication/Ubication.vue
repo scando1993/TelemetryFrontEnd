@@ -233,28 +233,72 @@
         // var rep = this.dataGet
         var rep = JSON.parse(JSON.stringify(this.dataGet))
         var cad = ''
+        var bodeg = ''
+        var local = ''
         console.log('Aqi esta la parte de rep')
         console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
             cad = cad + e.name + ' '
           })
+          element.bodegas.forEach(e => {
+            bodeg = bodeg + e.name + ' '
+          })
+          element.locales.forEach(e => {
+            local = local + e.name + ' '
+          })
           element.formatos = cad
+          element.locales = local
+          element.bodegas = bodeg
           cad = ''
+          bodeg = ''
+          local = ''
         })
-        console.log('Aqui la cadena' + cad)
+        console.log('Aqui la cadena' + cad + bodeg + local)
         rep.formatos = cad
+        rep.locales = local
+        rep.bodegas = bodeg
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var cad = ''
+        var bodeg = ''
+        var local = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.formatos.forEach(e => {
+            cad = cad + e.name + '\n'
+          })
+          element.bodegas.forEach(e => {
+            bodeg = bodeg + e.name + '\n'
+          })
+          element.locales.forEach(e => {
+            local = local + e.name + '\n'
+          })
+          element.formatos = cad
+          element.locales = local
+          element.bodegas = bodeg
+          cad = ''
+          bodeg = ''
+          local = ''
+        })
+        console.log('Aqui la cadena' + cad + bodeg + local)
+        rep.formatos = cad
+        rep.locales = local
+        rep.bodegas = bodeg
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Zona', dataKey: 'zone' },
           { title: 'Regional', dataKey: 'regional' },
           { title: 'Provincia', dataKey: 'province' },
-          { title: 'Ciudad', dataKey: 'city' }
+          { title: 'Ciudad', dataKey: 'city' },
+          { title: 'Formatos', dataKey: 'formatos' },
+          { title: 'Locales', dataKey: 'locales' },
+          { title: 'Bodegas', dataKey: 'bodegas' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }

@@ -92,7 +92,7 @@
         api.getAll(this.apiBack, this.furgon)
         console.log(this.furgon)
         console.log('fin furgon--------------------------------------------------------')
-        console.log(this.furgon.dataGet)
+        console.log(this.furgon.dataGet.value)
         console.log('fin dataget furgon------------------------------------------__---------------')
         console.log(this.furgon.dataGet.length)
         console.log('se mostro el array de dataget de furgon--------------------------------------------------------')

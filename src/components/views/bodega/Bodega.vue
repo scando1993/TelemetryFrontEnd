@@ -6,19 +6,19 @@
         <div class='box-content'>
           <div class='btn-toolbar pull-right clearfix'>
             <div class='btn-group'>
-              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel' v-on:click='exportExcel' data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
                 <i class='fa fa-file-excel-o'></i>
               </a>
-              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF' v-on:click='exportPDF' data-table='table-terminals'>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Exportar a PDF' v-on:click='exportPDF' data-table='table-terminals'>
                 <i class='fa fa-file-pdf-o'></i>
               </a>
               <router-link class='pageLink' to='/createStore'>
-                <a class='btn btn-circle show-tooltip' title='Add new element' href='/createStore'>
+                <a class='btn btn-circle show-tooltip' title='Añadir una bodega' href='/createStore'>
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>             
-              <router-link class="pageLink" to="/format">
-                <a class="btn btn-circle show-tooltip" title="Actualizar" v-on:click='refresh' id="refresh-administrators" href="/format">
+              <router-link class="pageLink" to="/store">
+                <a class="btn btn-circle show-tooltip" title="Actualizar" v-on:click='refresh' id="refresh-administrators" href="/store">
                   <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
@@ -102,7 +102,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn-circle" v-on:click="save(index)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"  v-on:click="save(index)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
