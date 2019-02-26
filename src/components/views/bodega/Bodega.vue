@@ -56,7 +56,7 @@
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
                             <td class='sorting_1'>{{dato.id}}</td>
                             <td>{{dato.name}}</td>
-                            <td>{{dato.ubication.zone}}</td>
+                            <td>{{dato.zone}}</td>
                             <!--Start Buttom-->
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>

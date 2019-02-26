@@ -93,13 +93,19 @@
                                           <input type="text" class="form-control" v-bind:placeholder="dato.name" name="name" v-model="dataPostDel.name" id="name_store" value="">
                                         </div>
                                       </div>
-                                      <div class="form-group" id="checkboxUbi" >
-                                        <label class="col-sm-5 control-label">Ubicaciones</label>
-                                        <div  v-for="datoL, indexU in ubicationss.dataGet " class="col-sm-9  controls" >
-                                          <input  type="checkbox"  name="indexU+'s'" id="indexU+'s'" v-model="checkedNames">
-                                          <label  >{{ datoL.zone }}</label>                                          
-                                        </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-offset-3 control-label">Seleccione las Ubicaciones</label>
+                                        <br />
                                       </div>
+                                      <div id="checkboxUbi" class="form-group">
+                                        <ul>
+                                          <li v-for="datoL, indexU in ubications.dataGet" class="col-sm-3  controls">
+                                            <input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
+                                            <label>{{datoL.zone}}--{{datoL.city}}</label>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      
                                     </form>
                                   </div>
                                   <!--end modal-body-->
@@ -158,7 +164,7 @@
         apiBack: '/api/furgon',
         apiBackUbication: '/api/ubicacion',
         checkedNames: [],
-        ubicationss: {
+        ubications: {
           error: '',
           dataGet: []
         },
@@ -177,9 +183,14 @@
         $('#tabla_boxcar').DataTable()
       })
       this.get()
-      api.getAll(this.apiBackUbication, this.ubicationss)
+      api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
+      check: function (e) {
+        if (e.target.checked) {
+          console.log(e.target.value)
+        }
+      },
       searchUbication() {
         var ubicationsArray = []
         for (var i = 0; i < this.checkedNames.length; i++) {
@@ -205,13 +216,8 @@
       },
       deleteOne(key) {
         // se actualiza la info a eliminar
-        this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
+        var id = this.dataGet[key].id
         this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
-        var id = this.dataPostDel.id
         this.delete(id)
       },
       save(index) {
