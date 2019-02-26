@@ -51,11 +51,11 @@ const routes = [
         component: CreateBodegaView,
         name: 'Crear Bodega'
       }, {
-        path: 'locales',
+        path: 'locals',
         component: LocalsView,
         name: 'Locales'
       }, {
-        path: 'createloc',
+        path: 'createLocal',
         component: CreateLocalView,
         name: 'Crear Local'
       }, {
