@@ -3,8 +3,29 @@ import XLSX from 'xlsx'
 import JsPDF from 'jspdf'
 import 'jspdf-autotable'
 var apiUrlBase = 'http://172.16.10.125:8080'
+// var apiUrlBase = 'http://25.4.250.51:8080'
 
 export default {
+  getGeneral (url, data) {
+    console.log('En el get general')
+    axios.get(url)
+    .then(response => {
+      if (response.status !== 200) {
+        data.error = response.statusText
+        return data
+      }
+      var info = response.data
+      console.log('Ahora la informacio')
+      console.log(info)
+      data.dataGet = Object.values(info)
+    })
+    .catch((err) => {
+    //  Request failed.
+      data.error = err
+      console.log('FAIL----', err)
+    })
+    return data
+  },
   getAll(url, data) {
     console.log('EN GET ALL')
     console.log(data)
