@@ -23,7 +23,7 @@
                       <div class="col-sm-9 col-lg-10 controls">
                         <select v-model="selectedLocal">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoB in dataGet ">{{ datoB.zone }}</option>
+                          <option v-for="datoB in dataGet ">{{ datoB.zone }} - {{datoB.province}} - {{datoB.city}}</option>
                         </select>
                       </div>
                     </div>
@@ -61,7 +61,7 @@
         // se obtienne los ids de las ubicaciones
         // api.getAll(this.apiBack, this.$data)
         console.log(this.dataGet)
-        var id = api.search(this.dataGet, 'zone', this.selectedLocal).id
+        var id = api.search(this.dataGet, 'zone', this.selectedLocal.split(' - ')[0]).id
         console.log('A  qui el id')
         console.log(id)
         console.log(this.dataPostDel)
