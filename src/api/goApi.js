@@ -186,13 +186,15 @@ export default {
     axios.delete(apiUrlBase + url)
     .then(response => {
       if (response.status !== 200) {
+        console.log('ERROR DELETE')
         data.error = response.statusText
         return data
       }
+      console.log('EXITO DELETE')
     })
     .catch(error => {
       // Request failed.
-      console.log('Fatal')
+      console.log('Fatal Delete')
       console.log(error)
       data.error = error
     })
