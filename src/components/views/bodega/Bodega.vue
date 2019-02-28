@@ -242,7 +242,7 @@
           {title: 'Ubicacion', dataKey: 'zone'},
           {title: 'Nombre', dataKey: 'name'}
         ]
-        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, rep)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }

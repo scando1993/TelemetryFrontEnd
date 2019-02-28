@@ -344,12 +344,20 @@
         this.get()
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        rep.forEach(element => {
+          element.furgon = element.furgon.numFurgon
+        })
+        api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        rep.forEach(element => {
+          element.furgon = element.furgon.numFurgon
+        })
         var columns = [
           { title: 'ID', dataKey: 'id' },
-          { title: 'Número del furgón', dataKey: 'numFurgon' },
+          { title: 'Número del furgón', dataKey: 'furgon' },
           { title: 'Fecha inicio', dataKey: 'start_date' },
           { title: 'Hora inicio', dataKey: 'start_hour' },
           { title: 'Fecha fin', dataKey: 'end_date' },
@@ -360,7 +368,7 @@
           { title: 'Temperatura máxima aceptable', dataKey: 'temp_max_ap' },
           { title: 'Temperatura mínima aceptable', dataKey: 'temp_min_ap' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }

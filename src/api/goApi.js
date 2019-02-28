@@ -211,10 +211,10 @@ export default {
   },
   exportPDF(name, title, columns, json) {
     console.log('----Exportando PDF------')
-    var doc = new JsPDF('p', 'mm')
+    var doc = new JsPDF('l', 'mm', 'a3')
     doc.autoTable(columns, json)
     doc.setFont('Georgia', 'italic')
-    doc.text(title, 105, 10, {align: 'center'})
+    // doc.text(title, 105, 10, {align: 'center'})
     doc.save(name + '.pdf') // name of the file
   },
   readXlSX(name) {
