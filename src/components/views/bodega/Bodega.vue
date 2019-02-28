@@ -71,7 +71,7 @@
                                   <div class="modal-content">
                                     <!--modal header-->
                                     <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                      <button type="button" class="close" data-dismiss="modal" @click="editar(index)" aria-hidden="true">&times;</button>
                                       <h4 class="modal-title">Editar</h4>
                                     </div>
                                     <!--end modal-header-->
@@ -242,7 +242,7 @@
           {title: 'Ubicacion', dataKey: 'zone'},
           {title: 'Nombre', dataKey: 'name'}
         ]
-        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, rep)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }

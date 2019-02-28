@@ -117,25 +117,30 @@
         return api.search(this.devices.dataGet, 'Name', String(this.selectedDevice)).IdDevice
       },
       save() {
+        console.log('aqui el dat form.....................................')
+        console.log(this.dataPostDel)
+        console.log('-------------------------------------------------------')
         console.log('El actual furgon es: ' + this.selectedFurgon)
         console.log('----------------hey-------')
         console.log(this.dataGet)
         console.log(this.dataPostDel)
         // se obtienne el id de furgon
         var idFurgon = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
-        setTimeout(this.searchIdDevice, 500)
         this.dataPostDel.device_id = this.searchIdDevice()
         //  var idDevice = api.search(this.devices.dataGet[0].Devices, 'DeviceName', this.selectedDevice).id
         api.post(this.apiBack + '/' + idFurgon, this.$data)
       },
-      loadDevices() {
-        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+      resto() {
         var newDevices = []
         this.devices.listDevices = []
         this.devices.dataGet.forEach(element => {
           newDevices.push(element.Name)
         })
         this.devices.listDevices = newDevices
+      },
+      loadDevices() {
+        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+        setTimeout(this.resto, 500)
       }
     },
     data() {

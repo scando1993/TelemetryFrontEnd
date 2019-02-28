@@ -234,7 +234,7 @@
         apiBackFurgon: '/api/furgon',
         apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
         apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/groupby?family=',
-        apiNameDevice: 'http://104.209.223.100/chaintrack/auth/api/tracking/getDeviceInfo?deviceId=',
+        apiNameDevice: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllDevice?family=',
         selectedFurgon: '',
         selectedFamily: '',
         selectedDevice: '',
@@ -284,13 +284,6 @@
       api.getGeneral(this.apiFamilies, this.families)
     },
     methods: {
-      nameOfDevice(idDevice) {
-        var response = api.getGeneralDev(this.apiNameDevice + String(idDevice)).then((res) => { console.log(res) })
-        console.log('.............named')
-        console.log(response)
-        console.log('.............d')
-        return response
-      },
       searchIdDevice() {
         return api.search(this.devices.dataGet, 'Name', String(this.selectedDevice)).IdDevice
       },
@@ -317,37 +310,54 @@
         var id = this.dataPostDel.id
         this.delete(id)
       },
-      loadDevices() {
-        console.log('LA familia es ' + this.selectedFamily)
-        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+      resto() {
+        console.log('En resto')
         var newDevices = []
         this.devices.listDevices = []
         this.devices.dataGet.forEach(element => {
-          element.Devices.forEach(e => {
-            newDevices.push(e.DeviceName)
-          })
+          newDevices.push(element.Name)
         })
         console.log('Aqui la lista de dis--------------')
         console.log(newDevices)
         this.devices.listDevices = newDevices
       },
+      loadDevices() {
+        console.log('LA familia es ' + this.selectedFamily)
+        console.log(this.apiNameDevice + this.selectedFamily)
+        api.getGeneral(this.apiNameDevice + this.selectedFamily, this.devices)
+        setTimeout(this.resto, 500)
+      },
       save(index) {
+        console.log('AQUI EN SAVE')
         var id = this.dataGet[index].id
+        console.log('El id del path es ' + id)
         var idFurgon = api.search(this.furgones.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
-        console.log(idFurgon)
-        setTimeout(this.searchIdDevice, 500)
+        console.log('Elid de l furgon es: ' + idFurgon)
+        console.log('La data de devices')
+        console.log(this.devices.dataGet)
         this.dataPostDel.device_id = this.searchIdDevice()
+        this.dataPostDel.n
+        console.log('FInalmente la data a enviar es')
+        console.log(this.dataPostDel)
         //  var idDevice = api.search(this.devices.dataGet[0].Devices, 'DeviceName', this.selectedDevice).id
         api.put(this.apiBack + '/' + id, this.$data)
         this.get()
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        rep.forEach(element => {
+          element.furgon = element.furgon.numFurgon
+        })
+        api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        rep.forEach(element => {
+          element.furgon = element.furgon.numFurgon
+        })
         var columns = [
           { title: 'ID', dataKey: 'id' },
-          { title: 'Número del furgón', dataKey: 'numFurgon' },
+          { title: 'Número del furgón', dataKey: 'furgon' },
           { title: 'Fecha inicio', dataKey: 'start_date' },
           { title: 'Hora inicio', dataKey: 'start_hour' },
           { title: 'Fecha fin', dataKey: 'end_date' },
@@ -358,7 +368,7 @@
           { title: 'Temperatura máxima aceptable', dataKey: 'temp_max_ap' },
           { title: 'Temperatura mínima aceptable', dataKey: 'temp_min_ap' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }
