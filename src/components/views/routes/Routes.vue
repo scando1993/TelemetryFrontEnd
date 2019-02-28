@@ -2,35 +2,65 @@
   <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row">      
-      <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-aqua"></span>
+          <span class="info-box-icon bg-green fa fa-laptop">Verduras</span>
           <div class="info-box-content">
-            <span class="info-box-text">Temperatura ideal</span>
-            <span class="info-box-number">Mínima: -2<small>%</small></span>
-            <span class="info-box-number">Máxima: 8<small>%</small></span>
+            <span class="info-box-number"><br/><br />Temperatura ideal: ( 1ºC a 4ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -2ºC a 8ºC )</span>
           </div>
-          <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box -->
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-aqua fa fa-laptop">Embutidos</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( 2ºC a 3ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -1ºC a 4ºC )</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-yellow fa fa-laptop">Pollos</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( 1ºC a 3ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -2ºC a 5ºC )</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-blue fa fa-laptop">Helado</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( -2ºC a 0ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -4ºC a 2ºC )</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-orange fa fa-laptop">Mariscos</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( -3ºC a 2ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -5ºC a 4ºC )</span>
+          </div>
+        </div>
       </div>
       <!-- /.col -->
-      <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-red"></span>
+          <span class="info-box-icon bg-red fa fa-laptop">Carnes</span>
           <div class="info-box-content">
-            <span class="info-box-text">Temperatura aceptable</span>
-            <span class="info-box-number">Mínima: 1<small>%</small></span>
-            <span class="info-box-number">Máxima: 4<small>%</small></span>
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( -2ºC a 1ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -3ºC a 2ºC )</span>
           </div>
-          <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box -->
       </div>
       <!-- /.col -->
       <!-- fix for small devices only -->
-      <div class="clearfix visible-sm-block"></div>      
+      <div class="clearfix visible-sm-block"></div>
       <!-- /.col -->
     </div>
     <!-- /.row -->
