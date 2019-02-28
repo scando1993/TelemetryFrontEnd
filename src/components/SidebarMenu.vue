@@ -3,14 +3,8 @@
     <li class="header">DASHBOARD</li>
     <router-link tag="li" class="pageLink" to="/routes">
       <a>
-        <i class="fa fa-laptop"></i>
-        <span class="page">Rutas</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/localStat">
-      <a>
-        <i class="fa fa-laptop"></i>
-        <span class="page">Locales</span>
+        <i class="fa fa-road"></i>
+        <span class="page">Rutas Activas</span>
       </a>
     </router-link>
     <li class="header">ADQUISICIÓN DE DATOS</li>
@@ -58,7 +52,7 @@
       </a>
     </router-link>
     <li class="header">ADMINISTRACIÓN</li>
-    <router-link tag="li" class="pageLink" to="/tasks">
+    <!--<router-link tag="li" class="pageLink" to="/tasks">
       <a>
         <i class="fa fa-tasks"></i>
         <span class="page">Tasks</span>
@@ -69,14 +63,15 @@
         <i class="fa fa-cog"></i>
         <span class="page">Settings</span>
       </a>
-    </router-link>
+    </router-link>-->
+
     <router-link tag="li" class="pageLink" to="/server">
       <a>
         <i class="fa fa-hdd-o"></i>
-        <span class="page">Server</span>
+        <span class="page">Administrador</span>
       </a>
     </router-link>
-
+        
   </ul>
 </template>
 <script>

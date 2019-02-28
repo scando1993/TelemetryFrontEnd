@@ -2,7 +2,7 @@ import DashView from './components/Dash.vue'
 import LoginView from './components/Login.vue'
 import NotFoundView from './components/404.vue'
 // Import Views - Dash
-import DashboardView from './components/views/Dashboard.vue'
+//  import DashboardView from './components/views/Dashboard.vue'
 import BoxcarView from './components/views/boxcar/Boxcar.vue'
 import CreateBoxcarView from './components/views/boxcar/Create.vue'
 import TasksView from './components/views/Tasks.vue'
@@ -33,15 +33,10 @@ const routes = [
     component: DashView,
     children: [
       {
-        path: 'dashboard',
-        alias: '',
-        component: DashboardView,
-        name: 'Dashboard'
-      }, {
         path: 'routes',
         alias: '',
         component: RoutesView,
-        name: 'Tablero Rutas'
+        name: 'Rutas Activas'
       }, {
         path: 'store',
         component: BodegaView,
@@ -100,9 +95,12 @@ const routes = [
         name: 'Settings'
       }, {
         path: 'server',
+        beforeEnter(to, from, next) {
+          window.location = 'http://104.209.196.204:9090/view/dashboard/favorita'
+        },
         component: ServerView,
         name: 'Servers',
-        meta: {description: 'List of our servers', requiresAuth: true}
+        meta: {description: 'List of our servers', requiresAuth: false}
       }, {
         path: 'repos',
         component: ReposView,

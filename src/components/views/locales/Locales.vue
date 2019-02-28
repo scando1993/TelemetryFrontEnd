@@ -185,6 +185,7 @@
   import 'datatables.net-bs'
   import api from '@/api/goApi.js'
   import GoogleMap from './../../Geocalization/GoogleMap.vue'
+  import { setTimeout } from 'timers'
   export default {
     components: {
       GoogleMap
@@ -192,6 +193,7 @@
     data() {
       return {
         myJson: jSon,
+        inicialDelay: 3000,
         apiBack: '/api/locales',
         apiBackUbication: '/api/ubicacion',
         selectedLocal: '',
@@ -201,7 +203,7 @@
         },
         nameToExport: 'Locales',
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           numLoc: 0,
           name: '',
@@ -220,13 +222,18 @@
     },
     name: 'Locales',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_locals').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#tabla_locals').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
+      loquesea() {
+        console.log('as')
+      },
       refresh() {
         location.reload()
       },

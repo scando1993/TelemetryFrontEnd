@@ -3,19 +3,19 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img :src="pictureUrl" />
-        </div>
-        <div class="pull-left info">
-          <div>
-            <p class="white">{{ displayName }}</p>
-          </div>
-          <a href="javascript:;">
-            <i class="fa fa-circle text-success"></i> Online
-          </a>
-        </div>
-      </div>
+      <!--<div class="user-panel">-->
+        <!--<div class="pull-left image">-->
+          <!--<img :src="pictureUrl" />-->
+        <!--</div>-->
+        <!--<div class="pull-left info">-->
+          <!--<div>-->
+            <!--<p class="white">{{ displayName }}</p>-->
+          <!--</div>-->
+          <!--<a href="javascript:;">-->
+            <!--<i class="fa fa-circle text-success"></i> Online-->
+          <!--</a>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <!-- search form (Optional) -->
       <form v-on:submit.prevent class="sidebar-form" style="border: none; padding-left: 0; padding-right: 0">
