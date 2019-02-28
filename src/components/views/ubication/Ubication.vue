@@ -177,6 +177,7 @@
     data() {
       return {
         myJson: jSon,
+        inicialDelay: 15000,
         apiBack: '/api/ubicacion',
         nameToExport: 'Ubicaciones',
         error: '', // aqui se guardara el ultimo status de error
@@ -191,9 +192,11 @@
     },
     name: 'Ubication',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_ubication').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_ubication').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
     },
     methods: {

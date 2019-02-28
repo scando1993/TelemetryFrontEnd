@@ -152,6 +152,7 @@
     data() {
       return {
         myJson: jSon,
+        inicialDelay: 3000,
         apiBack: '/api/formato',
         apiBackUbication: '/api/ubicacion',
         selectedLocal: '',
@@ -170,9 +171,11 @@
     },
     name: 'Formato',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_formato').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#tabla_formato').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
     },

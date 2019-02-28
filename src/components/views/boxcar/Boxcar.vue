@@ -160,6 +160,7 @@
     data() {
       return {
         el: '#checkboxUbi',
+        inicialDelay: 35000,
         myJson: jSon,
         apiBack: '/api/furgon',
         apiBackUbication: '/api/ubicacion',
@@ -184,9 +185,11 @@
     },
     name: 'Furgon',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_boxcar').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_store').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
       api.getAll(this.apiBackUbicationFurgon, this.ubicacionFurgon)
