@@ -177,7 +177,7 @@
     data() {
       return {
         myJson: jSon,
-        inicialDelay: 15000,
+        inicialDelay: 3000,
         apiBack: '/api/ubicacion',
         nameToExport: 'Ubicaciones',
         error: '', // aqui se guardara el ultimo status de error

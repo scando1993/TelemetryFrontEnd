@@ -160,7 +160,7 @@
     data() {
       return {
         el: '#checkboxUbi',
-        inicialDelay: 35000,
+        inicialDelay: 3000,
         myJson: jSon,
         apiBack: '/api/furgon',
         apiBackUbication: '/api/ubicacion',
