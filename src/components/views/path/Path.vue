@@ -47,11 +47,16 @@
                         <thead>
                           <tr role='row'>
                             <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID</th>
-                            <th aria-label='Boxcar ID: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón</th>
+                            <th aria-label='Boxcar: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón</th>
                             <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha inicio </th>
                             <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Hora inicio</th>
                             <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha fin </th>
                             <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Hora fin</th>
+                            <th aria-label='TemperaturaMaxIdeal: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura máxima ideal</th>
+                            <th aria-label='TemperaturaMinIdeal: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura mínima ideal </th>
+                            <th aria-label='TemperaturaMaxAp: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura máxima aceptable</th>
+                            <th aria-label='TemperaturaMinAp: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura mínima aceptable </th>
+                            <th aria-label='Device: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Dispositivo</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -63,6 +68,11 @@
                             <td>{{dato.start_hour}}</td>
                             <td>{{dato.end_date}}</td>
                             <td>{{dato.end_hour}}</td>
+                            <td>{{dato.temp_max_ideal}}</td>
+                            <td>{{dato.temp_min_ideal}}</td>
+                            <td>{{dato.temp_max_ap}}</td>
+                            <td>{{dato.temp_min_ap}}</td>
+                            <td>{{dato.device_id}}</td>
                             <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Eliminar' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
@@ -81,11 +91,11 @@
                                     </div>
                                     <!--end modal-header-->
                                     <!--Modal-body-->
-                                    <div class="modal-body">
+                                    <div class="modal-body col-md-25">
                                       <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
-                                        <div class="form-group">
-                                          <label class="col-sm-6  control-label">No.Furgón</label>
-                                          <div class="col-sm-9 col-lg-10 controls">
+                                        <div class="form-group ">
+                                          <label class="col-xs-12 col-sm-6 control-label">No.Furgón</label>
+                                          <div class="col-xs-12 col-sm-6 col-lg-8 controls">
                                             <select v-model="selectedFurgon" v-on:click="loadDevices">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoL in furgones.dataGet ">{{ datoL.numFurgon }}</option>
@@ -93,7 +103,7 @@
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-6  control-label">Familia Dispositivo</label>
+                                          <label class="col-xs-12 col-sm-12 col-lg-10 control-label form-inline">Familia del dispositivo</label>
                                           <div class="col-sm-9 col-lg-10 controls">
                                             <select v-model="selectedFamily" v-on:click="loadDevices">
                                               <option disabled value="">Por favor seleccionar uno</option>
@@ -102,7 +112,7 @@
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-6  control-label">Dispositivo</label>
+                                          <label class="col-xs-12 col-sm-5 form-inline control-label">Dispositivo</label>
                                           <div class="col-sm-9 col-lg-10 controls">
                                             <select v-model="selectedDevice">
                                               <option disabled value="">Por favor seleccionar uno</option>
@@ -111,30 +121,53 @@
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-6 control-label">Seleccione la fecha de inicio</label>
-                                          <div class="col-sm-9 col-lg-10 controls">
+                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Seleccione la fecha de inicio</label>
+                                          <div class="col-sm-9 controls">
                                             <input type="date" v-model="dataPostDel.start_date" name="fechaInicio">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-6 control-label">Seleccione la Hora de inicio</label>
-                                          <div class="col-sm-9 col-lg-10 controls">
-                                            <input type="time" v-model="dataPostDel.start_hour" name="fechaInicio">
+                                          <label class="col-xs-15 col-sm-25 col-lg-25 form-horizontal control-label">Seleccione la Hora de inicio</label>
+                                          <div class="col-sm-10 controls">
+                                            <input type="time" v-model="dataPostDel.start_hour" name="hora_inicio">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-6  control-label">Seleccione la fecha Fin</label>
-                                          <div class="col-sm-9 col-lg-10 controls">
-                                            <input type="date" v-model="dataPostDel.end_date" name="fechaFin">
+                                          <label class="col-xs-15 col-sm-13 col-lg-15 form-horizontal control-label">Seleccione la fecha Fin</label>
+                                          <div class="col-sm-9 controls">
+                                            <input type="date" v-model="dataPostDel.end_date" name="end_date">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-6control-label">Seleccione la Hora de fin</label>
-                                          <div class="col-sm-9 col-lg-10 controls">
-                                            <input type="time" v-model="dataPostDel.end_hour" name="fechaInicio">
+                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Seleccione la Hora de fin</label>
+                                          <div class="col-sm-10 controls">
+                                            <input type="time" v-model="dataPostDel.end_hour" name="end_hour">
                                           </div>
                                         </div>
-
+                                        <div class="form-group">
+                                          <label class=" col-sm-15 col-lg-15 form-inline control-label">Ingrese temperatura máxima ideal</label>
+                                          <div class="col-sm-9  controls">
+                                            <input type="number" class="form-control" v-model="dataPostDel.temp_max_ideal" v-bind:placeholder="dato.temp_max_ideal"name="temp_max_ideal" maxlength="50" value="">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Ingrese temperatura mínima ideal</label>
+                                          <div class="col-sm-9  controls">
+                                            <input type="number" class="form-control" v-model="dataPostDel.temp_min_ideal" v-bind:placeholder="dato.temp_min_ideal" name="temp_min_ideal" maxlength="50" value="">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline  control-label">Ingrese temperatura máxima aceptable</label>
+                                          <div class="col-sm-9 controls">
+                                            <input type="number" class="form-control" v-model="dataPostDel.temp_max_ap" v-bind:placeholder="dato.temp_max_ap" name="temp_max_ap" maxlength="50" value="">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Ingrese temperatura mínima aceptable</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <input type="number" class="form-control" v-model="dataPostDel.temp_min_ap" v-bind:placeholder="dato.temp_min_ap" name="temp_min_ap" maxlength="50" value="">
+                                          </div>
+                                        </div>
                                       </form>
                                     </div>
                                     <!--end modal-body-->
@@ -161,6 +194,11 @@
                         <th colspan='1' rowspan='1'>Hora Inicio</th>
                         <th colspan='1' rowspan='1'>Fecha Fin</th>
                         <th colspan='1' rowspan='1'>Hora Fin</th>
+                        <th colspan='1' rowspan='1'>Temperatura máxima ideal</th>
+                        <th colspan='1' rowspan='1'>Temperatura mínima ideal</th>
+                        <th colspan='1' rowspan='1'>Temperatura máxima aceptable</th>
+                        <th colspan='1' rowspan='1'>Temperatura mínima aceptable</th>
+                        <th colspan='1' rowspan='1'>Dispositivo</th>
                         <th></th>
                       </tr>
                     </tfoot>
@@ -195,31 +233,41 @@
         apiBackFurgon: '/api/furgon',
         apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
         apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/groupby?family=',
+        apiNameDevice: 'http://104.209.223.100/chaintrack/auth/api/tracking/getDeviceInfo?deviceId=',
         selectedFurgon: '',
         selectedFamily: '',
         selectedDevice: '',
+        nameToExport: 'Rutas',
+        error: '', // aqui se guardara el ultimo status de error
+        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
         furgones: {
           error: '',
           dataGet: []
         },
-        families: {
-          erro: '',
-          dataGet: []
+        deviceNameid: {
+          IdDevice: 0,
+          Family: '',
+          Name: ''
         },
         devices: {
           error: '',
           dataGet: [],
           listDevices: []
         },
-        nameToExport: 'Rutas',
-        error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        families: {
+          erro: '',
+          dataGet: []
+        },
         dataPostDel: { // este es basicamente un JSON
-          numFurgon: '',
           start_date: '',
-          end_date: '',
           start_hour: '',
-          end_hour: ''
+          end_date: '',
+          end_hour: '',
+          temp_max_ideal: 0,
+          temp_min_ideal: 0,
+          temp_max_ap: 0,
+          temp_min_ap: 0,
+          device_id: 0
         }
       }
     },
@@ -233,6 +281,16 @@
       api.getGeneral(this.apiFamilies, this.families)
     },
     methods: {
+      nameOfDevice(idDevice) {
+        var response = api.getGeneralDev(this.apiNameDevice + String(idDevice)).then((res) => { console.log(res) })
+        console.log('.............named')
+        console.log(response)
+        console.log('.............d')
+        return response
+      },
+      searchIdDevice() {
+        return api.search(this.devices.dataGet, 'Name', String(this.selectedDevice)).IdDevice
+      },
       refresh() {
         location.reload()
       },
@@ -271,14 +329,13 @@
         this.devices.listDevices = newDevices
       },
       save(index) {
-        console.log('Aun no hace nada')
-        console.log(index)
-        console.log(this.dataGet[index].startHour)
-        // this.dataPostDel = this.dataGet[index]
-        var idTracking = this.dataGet[index].id
+        var id = this.dataGet[index].id
         var idFurgon = api.search(this.furgones.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
-        console.log('El ide foraneo es' + idFurgon + 'El id de formato es' + idTracking)
-        api.put(this.apiBack + '/' + idTracking + '/' + idFurgon, this.$data)
+        console.log(idFurgon)
+        setTimeout(this.searchIdDevice, 500)
+        this.dataPostDel.device_id = this.searchIdDevice()
+        //  var idDevice = api.search(this.devices.dataGet[0].Devices, 'DeviceName', this.selectedDevice).id
+        api.put(this.apiBack + '/' + id, this.$data)
         this.get()
       },
       exportExcel() {
@@ -291,7 +348,12 @@
           { title: 'Fecha inicio', dataKey: 'start_date' },
           { title: 'Hora inicio', dataKey: 'start_hour' },
           { title: 'Fecha fin', dataKey: 'end_date' },
-          { title: 'Hora fin', dataKey: 'end_hour' }
+          { title: 'Hora fin', dataKey: 'end_hour' },
+          { title: 'Dispositivo', dataKey: 'device_id' },
+          { title: 'Temperatura máxima ideal', dataKey: 'temp_max_ideal' },
+          { title: 'Temperatura mínima ideal', dataKey: 'temp_min_ideal' },
+          { title: 'Temperatura máxima aceptable', dataKey: 'temp_max_ap' },
+          { title: 'Temperatura mínima aceptable', dataKey: 'temp_min_ap' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
