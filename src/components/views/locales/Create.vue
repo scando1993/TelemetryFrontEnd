@@ -47,7 +47,7 @@
                     <div class="col-sm-9 col-lg-10 controls">
                       <select v-model="selectedLocal">
                         <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoL in dataGet ">{{ datoL.zone }}</option>
+                        <option v-for="datoL in dataGet ">{{ datoL.zone }} - {{datoL.province}} - {{datoL.city}}</option>
                       </select>
                     </div>
                   </div>

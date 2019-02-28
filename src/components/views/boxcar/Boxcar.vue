@@ -163,8 +163,13 @@
         myJson: jSon,
         apiBack: '/api/furgon',
         apiBackUbication: '/api/ubicacion',
+        apiBackUbicationFurgon: 'api/ubicacionFurgon',
         checkedNames: [],
         ubications: {
+          error: '',
+          dataGet: []
+        },
+        ubicacionFurgon: {
           error: '',
           dataGet: []
         },
@@ -184,6 +189,7 @@
       })
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
+      api.getAll(this.apiBackUbicationFurgon, this.ubicacionFurgon)
     },
     methods: {
       check: function (e) {
@@ -225,10 +231,29 @@
         console.log(index)
         console.log(this.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
-        var id = this.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
-        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
-        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
+        var idFurgon = this.dataGet[index].id
+        // var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal.split('--')[0]).id
+        var idRelacion = ''
+        this.ubicacionFurgon.dataGet.forEach(element => {
+          if (element.furgon.id === Number(idFurgon)) {
+            idRelacion = element.id
+          }
+        })
+        console.log('El idRelacion es: ' + idRelacion + '\nSe procede a hacer el put de furgon')
+        console.log(this.apiBack + '/' + idFurgon)
+        api.put(this.apiBack + '/' + idFurgon)
+        // console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+        console.log('Ahora se elimina la relacion:')
+        console.log(this.apiBackUbicationFurgon + '/' + idRelacion)
+        api.delete(this.apiBackUbicationFurgon + '/' + idRelacion)
+        console.log('Ahora los campos seleccionados: ')
+        console.log(this.checkedNames)
+        this.checkedNames.forEach(idUbicacion => {
+          console.log(this.apiBackUbicationFurgon + '/' + idRelacion + '/' + idUbicacion + '/' + idFurgon)
+          api.put(this.apiBackUbicationFurgon + '/' + idUbicacion + '/' + idFurgon)
+        })
+        console.log('Listo!!')
+        // api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },
       exportExcel() {
@@ -237,10 +262,10 @@
         console.log('Aqi esta la parte de rep')
         console.log(rep)
         rep.forEach(element => {
-          element.formatos.forEach(e => {
-            cad = cad + e.zone + ' '
+          element.Ubicaciones.forEach(e => {
+            cad = cad + e.zone + '-' + e.city + ', '
           })
-          element.formatos = cad
+          element.Ubicaciones = cad
           cad = ''
         })
         console.log('Aqui la cadena' + cad)
@@ -248,12 +273,24 @@
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var cad = ''
+        console.log('Aqi esta la parte de rep')
+        console.log(rep)
+        rep.forEach(element => {
+          element.Ubicaciones.forEach(e => {
+            cad = cad + e.zone + '-' + e.city + ', '
+          })
+          element.Ubicaciones = cad
+          cad = ''
+        })
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Numero Furgón', dataKey: 'numFurgon' },
-          { title: 'Nombre', dataKey: 'name' }
+          { title: 'Nombre', dataKey: 'name' },
+          {title: 'Ubicaciones', dataKey: 'Ubicaciones'}
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }

@@ -239,13 +239,13 @@
         console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
-            cad = cad + e.name + ' '
+            cad = cad + e.name + ', '
           })
           element.bodegas.forEach(u => {
-            cad2 = cad2 + u.name + ''
+            cad2 = cad2 + u.name + ', '
           })
           element.locales.forEach(y => {
-            cad3 = cad3 + y.name + ''
+            cad3 = cad3 + y.name + ', '
           })
           element.bodegas = cad2
           element.formatos = cad
@@ -267,13 +267,13 @@
         console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
-            cad = cad + e.name + ' '
+            cad = cad + e.name + ', '
           })
           element.bodegas.forEach(u => {
-            cad2 = cad2 + u.name + ''
+            cad2 = cad2 + u.name + ', '
           })
           element.locales.forEach(y => {
-            cad3 = cad3 + y.name + ''
+            cad3 = cad3 + y.name + ', '
           })
           element.bodegas = cad2
           element.formatos = cad
