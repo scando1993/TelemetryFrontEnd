@@ -71,7 +71,7 @@
                                   <div class="modal-content">
                                     <!--modal header-->
                                     <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                      <button type="button" class="close" data-dismiss="modal" @click="editar(index)" aria-hidden="true">&times;</button>
                                       <h4 class="modal-title">Editar</h4>
                                     </div>
                                     <!--end modal-header-->
@@ -90,7 +90,7 @@
                                             <div class="col-sm-12 col-lg-15 controls">
                                               <select v-model="selectedUbication">
                                                 <option disabled value="">Por favor seleccionar uno</option>
-                                                <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }}</option>
+                                                <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }} - {{datoB.province}} - {{datoB.city}}</option>
                                               </select>
                                             </div>
                                           </div>
@@ -150,6 +150,7 @@
       return {
         myJson3: jsonUbiBox,
         myJson: jSon,
+        inicialDelay: 3000,
         apiBack: '/api/bodega',
         apiBackUbication: '/api/ubicacion',
         nameToExport: 'Bodega',
@@ -171,9 +172,11 @@
     },
     name: 'Store',
     mounted() {
-      this.$nextTick(() => {
-        $('#table_store').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_store').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
     },
@@ -218,7 +221,7 @@
         console.log(this.bodegas.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
         var id = this.bodegas.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedUbication).id
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedUbication.split(' - ')[0]).id
         console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
         api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
@@ -239,7 +242,7 @@
           {title: 'Ubicacion', dataKey: 'zone'},
           {title: 'Nombre', dataKey: 'name'}
         ]
-        api.exportPDF(this.nameToExport, 'Hola Mundo', columns, rep)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
     }
   }

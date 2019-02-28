@@ -14,30 +14,30 @@
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">No.Furgón</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedFurgon" >
+                        <select v-model="selectedFurgon">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoL in dataGet ">{{ datoL.numFurgon }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Familia Dispositivo</label>
-                    <div class="col-sm-9 col-lg-10 controls">
-                      <select v-model="selectedFamily" v-on:click="loadDevices">
-                        <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoF in families.dataGet ">{{ datoF.family }}</option>
-                      </select>
+                      <label class="col-sm-3 col-lg-2 control-label">Familia Dispositivo</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <select v-model="selectedFamily" v-on:click="loadDevices">
+                          <option disabled value="">Por favor seleccionar uno</option>
+                          <option v-for="datoF in families.dataGet ">{{ datoF.family }}</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
                     <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Dispositivo</label>
-                    <div class="col-sm-9 col-lg-10 controls">
-                      <select v-model="selectedDevice">
-                        <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoD in devices.listDevices">{{ datoD }}</option>
-                      </select>
+                      <label class="col-sm-3 col-lg-2 control-label">Dispositivo</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <select v-model="selectedDevice">
+                          <option disabled value="">Por favor seleccionar uno</option>
+                          <option v-for="datoD in devices.listDevices">{{ datoD }}</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
                     <div class="form-group">
                       <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha de inicio</label>
                       <div class="col-sm-9 col-lg-10 controls">
@@ -60,6 +60,30 @@
                       <label class="col-sm-3 col-lg-2 control-label">Seleccione la Hora de fin</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="time" v-model="dataPostDel.end_hour" name="fechaInicio">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura máxima ideal</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <input type="number" class="form-control" v-model="dataPostDel.temp_max_ideal" name="temp_max_ideal" maxlength="50" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura mínima ideal</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <input type="number" class="form-control" v-model="dataPostDel.temp_min_ideal" name="temp_min_ideal" maxlength="50" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura máxima aceptable</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <input type="number" class="form-control" v-model="dataPostDel.temp_max_ap" name="temp_max_ap" maxlength="50" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura mínima aceptable</label>
+                      <div class="col-sm-9 col-lg-10 controls">
+                        <input type="number" class="form-control" v-model="dataPostDel.temp_min_ap" name="temp_min_ap" maxlength="50" value="">
                       </div>
                     </div>
                     <!-- Submit and cancel -->
@@ -89,49 +113,66 @@
   import api from '@/api/goApi.js'
   export default {
     methods: {
+      searchIdDevice() {
+        return api.search(this.devices.dataGet, 'Name', String(this.selectedDevice)).IdDevice
+      },
       save() {
+        console.log('aqui el dat form.....................................')
+        console.log(this.dataPostDel)
+        console.log('-------------------------------------------------------')
         console.log('El actual furgon es: ' + this.selectedFurgon)
+        console.log('----------------hey-------')
+        console.log(this.dataGet)
+        console.log(this.dataPostDel)
         // se obtienne el id de furgon
         var idFurgon = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
+        this.dataPostDel.device_id = this.searchIdDevice()
+        //  var idDevice = api.search(this.devices.dataGet[0].Devices, 'DeviceName', this.selectedDevice).id
         api.post(this.apiBack + '/' + idFurgon, this.$data)
       },
-      loadDevices() {
-        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+      resto() {
         var newDevices = []
         this.devices.listDevices = []
         this.devices.dataGet.forEach(element => {
-          element.Devices.forEach(e => {
-            newDevices.push(e.DeviceName)
-          })
+          newDevices.push(element.Name)
         })
         this.devices.listDevices = newDevices
+      },
+      loadDevices() {
+        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
+        setTimeout(this.resto, 500)
       }
     },
     data() {
       return {
-        apiBack: '/api/path',
+        apiBack: '/api/ruta',
         apiBackFurgon: '/api/furgon',
         apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
-        apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/groupby?family=',
+        apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllDevice?family=',
         error: '',
         selectedFurgon: 0,
         selectedFamily: '',
         selectedDevice: '',
         dataGet: [],
-        families: {
-          erro: '',
-          dataGet: []
-        },
         devices: {
           error: '',
           dataGet: [],
           listDevices: []
         },
+        families: {
+          erro: '',
+          dataGet: []
+        },
         dataPostDel: { // este es basicamente un JSON
           start_date: '',
           start_hour: '',
           end_date: '',
-          end_hour: ''
+          end_hour: '',
+          temp_max_ideal: 0,
+          temp_min_ideal: 0,
+          temp_max_ap: 0,
+          temp_min_ap: 0,
+          device_id: 0
         }
       }
     },

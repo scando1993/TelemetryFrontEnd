@@ -1,36 +1,66 @@
 <template>
   <!-- Main content -->
-  <section class="content">
+  <section class="content ">
     <!-- Info boxes -->
-    <div class="row">      
-      <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-aqua"></span>
+          <span class="info-box-icon bg-green icofont-broccoli">Verduras</span>
           <div class="info-box-content">
-            <span class="info-box-text">Temperatura ideal</span>
-            <span class="info-box-number">Mínima: -2<small>%</small></span>
-            <span class="info-box-number">Máxima: 8<small>%</small></span>
+            <span class="info-box-number"><br/><br />Temperatura ideal: ( 1ºC a 4ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -2ºC a 8ºC )</span>
           </div>
-          <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box -->
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-aqua icofont-sausage">Embutidos</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( 2ºC a 3ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -1ºC a 4ºC )</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-yellow icofont-chicken">Pollos</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( 1ºC a 3ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -2ºC a 5ºC )</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-blue icofont-ice-cream-alt">Helado</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( -2ºC a 0ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -4ºC a 2ºC )</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-orange icofont-shrimp">Mariscos</span>
+          <div class="info-box-content">
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( -3ºC a 2ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -5ºC a 4ºC )</span>
+          </div>
+        </div>
       </div>
       <!-- /.col -->
-      <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-red"></span>
+          <span class="info-box-icon bg-red icofont-cow">Carnes</span>
           <div class="info-box-content">
-            <span class="info-box-text">Temperatura aceptable</span>
-            <span class="info-box-number">Mínima: 1<small>%</small></span>
-            <span class="info-box-number">Máxima: 4<small>%</small></span>
+            <span class="info-box-number"><br /><br />Temperatura ideal: ( -2ºC a 1ºC )</span>
+            <span class="info-box-number">Temperatura aceptable: ( -3ºC a 2ºC )</span>
           </div>
-          <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box -->
       </div>
       <!-- /.col -->
       <!-- fix for small devices only -->
-      <div class="clearfix visible-sm-block"></div>      
+      <div class="clearfix visible-sm-block"></div>
       <!-- /.col -->
     </div>
     <!-- /.row -->
@@ -40,9 +70,7 @@
           <h3 class="box-title"></h3>
           <div class="box-body">
             <div class="col-sm-6 col-xs-12">
-              <p class="text-center">
-                <strong>Web Traffic Overview</strong>
-              </p>
+              
               <div id="chartContainer" style="height: 370px; width: 100%;"></div>
               
             </div>
@@ -53,26 +81,7 @@
     </div>
     <!-- /.row -->
     <!-- Main row -->
-    <div class="row">
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box bg-yellow">
-          <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Inventory</span>
-            <span class="info-box-number">5,200</span>
-            <div class="progress">
-              <div class="progress-bar" style="width: 50%"></div>
-            </div>
-            <span class="progress-description">
-              50% Increase
-            </span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-      </div>
-      
-    </div>
-    <!-- /.row -->
+    
   </section>
   <!-- /.content -->
 </template>
