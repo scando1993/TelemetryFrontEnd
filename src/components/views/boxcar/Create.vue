@@ -108,7 +108,7 @@ import { setTimeout } from 'timers'
         console.log(this.dataPostDel)
         console.log('fin datapost--------------------------------------------------------')
         // setTimeout(this.getBodega, 500)
-        setTimeout(this.resto, 500)
+        setTimeout(this.resto, 3000)
       }
     },
     data() {

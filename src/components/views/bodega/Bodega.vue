@@ -90,7 +90,7 @@
                                             <div class="col-sm-12 col-lg-15 controls">
                                               <select v-model="selectedUbication">
                                                 <option disabled value="">Por favor seleccionar uno</option>
-                                                <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }}</option>
+                                                <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }} - {{datoB.province}} - {{datoB.city}}</option>
                                               </select>
                                             </div>
                                           </div>
@@ -218,7 +218,7 @@
         console.log(this.bodegas.dataGet[index])
         // this.dataPostDel = this.dataGet[index]
         var id = this.bodegas.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedUbication).id
+        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedUbication.split(' - ')[0]).id
         console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
         api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
