@@ -95,9 +95,12 @@ const routes = [
         name: 'Settings'
       }, {
         path: 'server',
+        beforeEnter(to, from, next) {
+          window.location = 'http://104.209.196.204:9090/view/dashboard/favorita'
+        },
         component: ServerView,
         name: 'Servers',
-        meta: {description: 'List of our servers', requiresAuth: true}
+        meta: {description: 'List of our servers', requiresAuth: false}
       }, {
         path: 'repos',
         component: ReposView,

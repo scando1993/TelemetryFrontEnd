@@ -64,6 +64,7 @@
         <span class="page">Settings</span>
       </a>
     </router-link>-->
+
     <router-link tag="li" class="pageLink" to="/server">
       <a>
         <i class="fa fa-hdd-o"></i>

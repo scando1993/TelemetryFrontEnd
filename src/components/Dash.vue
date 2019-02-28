@@ -118,9 +118,10 @@
             <li class="dropdown user user-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img v-bind:src="demo.avatar" class="user-image" alt="User Image">
+                <!--<img v-bind:src="demo.avatar" class="user-image" alt="User Image">-->
+                <img src="./../../static/img/favorita.png"  alt="User Image" style="height: 30px; width: 130px">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">{{ demo.displayName }}</span>
+                <!--<span class="hidden-xs">{{ demo.displayName }}</span>-->
               </a>
             </li>
           </ul>
