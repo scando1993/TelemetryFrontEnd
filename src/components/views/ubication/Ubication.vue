@@ -177,10 +177,11 @@
     data() {
       return {
         myJson: jSon,
+        inicialDelay: 3000,
         apiBack: '/api/ubicacion',
         nameToExport: 'Ubicaciones',
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           zone: '',
           regional: '',
@@ -191,9 +192,11 @@
     },
     name: 'Ubication',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_ubication').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_ubication').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
     },
     methods: {

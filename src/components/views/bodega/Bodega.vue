@@ -150,6 +150,7 @@
       return {
         myJson3: jsonUbiBox,
         myJson: jSon,
+        inicialDelay: 3000,
         apiBack: '/api/bodega',
         apiBackUbication: '/api/ubicacion',
         nameToExport: 'Bodega',
@@ -171,9 +172,11 @@
     },
     name: 'Store',
     mounted() {
-      this.$nextTick(() => {
-        $('#table_store').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_store').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
     },

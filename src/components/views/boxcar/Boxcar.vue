@@ -160,10 +160,11 @@
     data() {
       return {
         el: '#checkboxUbi',
+        inicialDelay: 3000,
         myJson: jSon,
         apiBack: '/api/furgon',
         apiBackUbication: '/api/ubicacion',
-        apiBackUbicationFurgon: 'api/ubicacionFurgon',
+        apiBackUbicationFurgon: '/api/ubicacionFurgon',
         checkedNames: [],
         ubications: {
           error: '',
@@ -175,7 +176,7 @@
         },
         nameToExport: 'Furgón',
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           numFurgon: '',
           name: ''
@@ -184,9 +185,11 @@
     },
     name: 'Furgon',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_boxcar').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_store').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackUbication, this.ubications)
       api.getAll(this.apiBackUbicationFurgon, this.ubicacionFurgon)
@@ -237,24 +240,31 @@
         this.ubicacionFurgon.dataGet.forEach(element => {
           if (element.furgon.id === Number(idFurgon)) {
             idRelacion = element.id
+            console.log('Ahora se elimina la relacion:')
+            console.log(this.apiBackUbicationFurgon + '/' + idRelacion)
+            api.delete(this.apiBackUbicationFurgon + '/' + idRelacion, this.$data)
           }
         })
-        console.log('El idRelacion es: ' + idRelacion + '\nSe procede a hacer el put de furgon')
-        console.log(this.apiBack + '/' + idFurgon)
-        api.put(this.apiBack + '/' + idFurgon)
-        // console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
-        console.log('Ahora se elimina la relacion:')
-        console.log(this.apiBackUbicationFurgon + '/' + idRelacion)
-        api.delete(this.apiBackUbicationFurgon + '/' + idRelacion)
-        console.log('Ahora los campos seleccionados: ')
-        console.log(this.checkedNames)
-        this.checkedNames.forEach(idUbicacion => {
-          console.log(this.apiBackUbicationFurgon + '/' + idRelacion + '/' + idUbicacion + '/' + idFurgon)
-          api.put(this.apiBackUbicationFurgon + '/' + idUbicacion + '/' + idFurgon)
+        setInterval(e => {
+          console.log('El idRelacion es: ' + idRelacion + '\nSe procede a hacer el put de furgon')
+          // this.dataPostDel.numFurgon = Number(this.dataPostDel.numFurgon)
+          console.log(this.apiBack + '/' + idFurgon)
+          api.put(this.apiBack + '/' + idFurgon, this.$data)
+          // console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
+          console.log('Ahora los campos seleccionados: ')
+          console.log(this.checkedNames)
+          console.log('fin campos---------------')
+          this.checkedNames.forEach(idUbicacion => {
+            console.log(this.apiBackUbicationFurgon + '/' + idRelacion + '/' + idUbicacion + '/' + idFurgon)
+            api.post(this.apiBackUbicationFurgon + '/' + idUbicacion + '/' + idFurgon, this.$data)
+          })
+          console.log('Listo!!')
+          // api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
+          // this.get()
+        }, 3000)
+        setInterval(e => {
+          this.get()
         })
-        console.log('Listo!!')
-        // api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
-        this.get()
       },
       exportExcel() {
         var rep = JSON.parse(JSON.stringify(this.dataGet))

@@ -229,6 +229,7 @@
     data() {
       return {
         myJson: jSon,
+        inicialDelay: 3000,
         apiBack: '/api/ruta',
         apiBackFurgon: '/api/furgon',
         apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
@@ -239,7 +240,7 @@
         selectedDevice: '',
         nameToExport: 'Rutas',
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         furgones: {
           error: '',
           dataGet: []
@@ -273,9 +274,11 @@
     },
     name: 'Ruta',
     mounted() {
-      this.$nextTick(() => {
-        $('#tabla_path').DataTable()
-      })
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_path').DataTable()
+        })
+      }, this.inicialDelay)
       this.get()
       api.getAll(this.apiBackFurgon, this.furgones)
       api.getGeneral(this.apiFamilies, this.families)
