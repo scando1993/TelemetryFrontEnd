@@ -63,14 +63,14 @@
         <i class="fa fa-cog"></i>
         <span class="page">Settings</span>
       </a>
-    </router-link>
+    </router-link>-->
     <router-link tag="li" class="pageLink" to="/server">
       <a>
         <i class="fa fa-hdd-o"></i>
-        <span class="page">Server</span>
+        <span class="page">Administrador</span>
       </a>
     </router-link>
-        -->
+        
   </ul>
 </template>
 <script>

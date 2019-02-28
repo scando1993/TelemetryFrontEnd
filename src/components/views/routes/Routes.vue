@@ -71,6 +71,7 @@
           <div class="box-body">
             <div class="col-sm-6 col-xs-12">
               
+              <div id="chartContainer" style="height: 370px; width: 100%;"></div>
               
             </div>
             <hr class="visible-xs-block">            
