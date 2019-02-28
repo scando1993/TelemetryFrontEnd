@@ -92,7 +92,9 @@
         // se obtienne los ids de las ubicaciones
         // api.getAll(this.apiBack, this.$data)
         console.log(this.dataGet)
-        var id = api.search(this.dataGet, 'zone', this.selectedLocal).id
+        console.log('Aqui la el selected')
+        console.log(this.selectedLocal)
+        var id = api.search(this.dataGet, 'zone', this.selectedLocal.split(' - ')[0]).id
         console.log('A  qui el id')
         console.log(id)
         console.log(this.dataPostDel)
