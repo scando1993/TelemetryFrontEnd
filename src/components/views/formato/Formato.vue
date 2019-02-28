@@ -162,7 +162,7 @@
         },
         nameToExport: 'Formato',
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: Object.values(jSon), // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           name: '',
           ruta: ''
