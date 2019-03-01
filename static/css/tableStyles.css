@@ -1,0 +1,13 @@
+td.ToButtons {
+  width:auto; /*Aquí va el ancho de la Celda*/
+  height: 15px; /*Aquí el Alto*/
+  text-align: center;
+}
+th.ToButtons {
+  width: auto; /*Aquí va el ancho de la Celda*/
+  height: 15px; /*Aquí el Alto*/
+  text-align: center;
+}
+td.TextFieldC{
+  text-align: center;
+}
