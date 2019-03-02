@@ -43,24 +43,24 @@
                     <table aria-describedby="example1_info" role="grid" id="tabla_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="Local ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                          <th aria-label="No.Loc: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">No. Loc</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
-                          <th aria-label="Lugar : activate to sort column ascending" style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Lugar</th>
-                          <th aria-label="Longitud: activate to sort column ascending" style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Longitud</th>
-                          <th aria-label="Latitud: activate to sort column ascending" style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Latitud</th>
-                          <th></th>
+                          <th aria-label="Local ID: activate to sort column descending" aria-sort="ascending" style="width: 22px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc TextCenterTH">ID</th>
+                          <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">No. Loc</th>
+                          <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
+                          <th aria-label="Lugar : activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Lugar</th>
+                          <th aria-label="Longitud: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Longitud</th>
+                          <th aria-label="Latitud: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Latitud</th>
+                          <th class="ToButtons"></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr class="even" role="row" v-for="dato,index in dataGet ">
-                          <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.numLoc}}</td>
-                          <td>{{dato.name}}</td>
-                          <td>{{dato.place}}</td>
-                          <td>{{dato.length}}</td>
-                          <td>{{dato.latitude}}</td>
-                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                          <td class="TextFieldC">{{dato.numLoc}}</td>
+                          <td class="TextFieldC">{{dato.name}}</td>
+                          <td class="TextFieldC">{{dato.place}}</td>
+                          <td class="TextFieldC">{{dato.length}}</td>
+                          <td class="TextFieldC">{{dato.latitude}}</td>
+                          <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
@@ -83,37 +83,37 @@
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">No.Loc</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.numLoc" name="name" id="noLoc" maxlength="50" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.numLoc" name="name" id="noLoc" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Nombre</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" id="name" maxlength="50" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" id="name" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Lugar</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.place" v-model="dataPostDel.place" name="name" id="place" maxlength="50" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.place" v-model="dataPostDel.place" name="name" id="place" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Longitud</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.length" name="name" id="noLoc" maxlength="50" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.length" name="name" id="noLoc" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Latitud</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.latitude" name="name" id="noLoc" maxlength="50" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.latitude" name="name" id="noLoc" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-5  control-label">Ubicaciones</label>
                                         <div class="col-sm-9  controls">
-                                          <select v-model="selectedLocal">
+                                          <select v-model="selectedLocal" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
                                             <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
                                           </select>
@@ -138,17 +138,6 @@
                           </td>
                         </tr>
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="1" rowspan="1">ID</th>
-                          <th colspan="1" rowspan="1">No. Loc.</th>
-                          <th colspan="1" rowspan="1">Nombre</th>
-                          <th colspan="1" rowspan="1">Lugar</th>
-                          <th colspan="1" rowspan="1">Longitud</th>
-                          <th colspan="1" rowspan="1">Latitud</th>
-                          <th></th>
-                        </tr>
-                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -179,7 +168,6 @@
 </template>
 <script>
   import $ from 'jquery'
-  import jSon from './data.json'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -192,7 +180,6 @@
     },
     data() {
       return {
-        myJson: jSon,
         inicialDelay: 3000,
         apiBack: '/api/locales',
         apiBackUbication: '/api/ubicacion',
@@ -231,9 +218,6 @@
       api.getAll(this.apiBackUbication, this.ubications)
     },
     methods: {
-      loquesea() {
-        console.log('as')
-      },
       refresh() {
         location.reload()
       },
@@ -249,24 +233,14 @@
       deleteOne(key) {
         // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
         this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
         var id = this.dataPostDel.id
         this.delete(id)
       },
       save(index) {
-        console.log('Guardando..')
-        console.log('*******************************************')
-        console.log(this.dataPostDel)
-        console.log('*******************************************')
         api.post(this.apiBack, this.$data)
-        // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
         var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
-        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
         api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
         this.get()
       },

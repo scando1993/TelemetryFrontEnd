@@ -32,7 +32,7 @@
         <span class="page">Ubicaciones</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/boxcar">
+    <router-link tag="li" class="pageLink" to="/boxcar" >
       <a>
         <i class="fa fa-truck"></i>
         <span class="page">Furgón</span>
@@ -52,19 +52,6 @@
       </a>
     </router-link>
     <li class="header">ADMINISTRACIÓN</li>
-    <!--<router-link tag="li" class="pageLink" to="/tasks">
-      <a>
-        <i class="fa fa-tasks"></i>
-        <span class="page">Tasks</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/setting">
-      <a>
-        <i class="fa fa-cog"></i>
-        <span class="page">Settings</span>
-      </a>
-    </router-link>-->
-
     <router-link tag="li" class="pageLink" to="/server">
       <a>
         <i class="fa fa-hdd-o"></i>

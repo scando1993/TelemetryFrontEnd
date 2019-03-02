@@ -8,6 +8,169 @@ th.ToButtons {
   height: 15px; /*Aquí el Alto*/
   text-align: center;
 }
+td.JustifyButtonTD {
+  width: 78px;
+  text-align: center;
+}
 td.TextFieldC{
   text-align: center;
+}
+th.TextCenterTH {
+  text-align: center;
+}
+li.controls {
+  width: 50%;
+  height: auto;
+  display: block;
+  text-align: left !important;
+  padding: inherit;
+}
+li.controls-modal {
+  width: 80%;
+  height: auto;
+  display: block;
+  text-align: left !important;
+  padding: inherit;
+}
+router-link.SaveCancel {
+  justify-content: right;
+  padding: 0px 2% 2% 2%;
+  text-align: right;
+}
+div.form-group-create { /*Grupo de objetos create*/
+  text-align: right;
+  width: 450px;
+  height: auto;
+  justify-content: center;
+}
+div.controls-create { /*Contenedor de objetos modal*/
+  width: -webkit-fill-available;
+  height: auto;
+  text-align: left !important;
+  box-sizing: border-box;
+}
+div.form-group { /*Grupo de objetos en el modal*/
+  text-align: left;
+  width: -webkit-fill-available;
+  height: auto;
+  justify-content: center;
+  padding: 1% 0% 1% 0%;
+}
+div.SaveCancel {
+  justify-content: right;
+  padding: 0px 2% 2% 2%;
+  text-align: right;
+}
+div.form-group-checkbox { /*Grupo de objetos en el modal*/
+  text-align: right;
+  width: inherit;
+  height: auto;
+  justify-content: center;
+  padding: 0px 1px 0px 6px;
+}
+div.controls { /*Contenedor de objetos modal*/
+  width: -webkit-fill-available;
+  height: auto;
+  text-align: left !important;
+}
+form.form-horizontal { /*Grupo modal */
+  padding: 2% 14% 2% 14%;
+  width: -webkit-fill-available;
+  resize: both;
+}
+form.form-horizontal-create { /*Grupo modal */
+  resize: both;
+  width: -webkit-fill-available;
+  height: auto;
+  text-align: center;
+  justify-content: center;
+  padding: 2% 18% 2% 18%;
+}
+div.form-horizontal-create { /*Grupo modal */
+  float: left;
+  width: 100%;
+  height: inherit;
+  padding: 1px 1px 2px 6px;
+  padding-left: 20em;
+  padding-right: 20em;
+  resize: both;
+}
+form.form-horizontal-create-img { /*Grupo create con img */
+  float: inherit;
+  width: 115%;
+  height: inherit;
+  padding: 28px 19px 42px 23px;
+  resize: both;
+}
+label.control-label { /*Para la etiqueta de cada objeto en el modal*/
+  padding-top: 7px;
+  padding: 5px 17px 0px 15px;
+  width: -webkit-fill-available;
+  height: auto;
+  text-align: left !important;
+  vertical-align: inherit;
+  display: -webkit-box;
+}
+input.form-control { /*Para las cajas de texto*/
+  width: -webkit-fill-available;
+  height: auto;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input.form-control-modal { /*Para las cajas de texto*/
+  width: -webkit-fill-available;
+  height: auto;
+  box-sizing: border-box;
+  resize: vertical;
+}
+input.form-control-search { /*Para las cajas de texto*/
+  width: 150px !important; /*Aquí va el ancho de la Celda*/
+  height: 25px; /*Aquí el Alto*/
+}
+input.FormatDate {
+  width: 135px !important; /*Aquí va el ancho de la Celda*/
+  height: 25px;
+  text-align: left !important;
+  justify-content: flex-start;
+}
+input.FormatHour {
+  width: 135px !important; /*Aquí va el ancho de la Celda*/
+  height: 25px;
+  text-align: left !important;
+  justify-content: flex-start;
+}
+select.FormatSelect { /* Para la lista desplegable*/
+  width: -webkit-fill-available; /*Aquí va el ancho de la Celda*/
+  height: auto; /*Aquí el Alto*/
+  resize:vertical;
+}
+ul.GroupCheckbox {
+  margin-top: 35px;
+}
+ul.GroupCheckboxCreate {
+  width: -webkit-fill-available;
+  height: auto;
+  text-align: left !important;
+  justify-content: flex-start;
+}
+img.logo-create {
+  width: 260px; /*Aquí va el ancho de la Celda*/
+  height: 190px;
+  opacity: 0.09;
+  filter: alpha(opacity=50);
+  padding: 0 0 0 0;
+  background-color: transparent;
+}
+div.box-content-create {
+  text-align: center !important;
+  width: unset;
+  height: auto;
+  resize: both;
+}
+div-form-group-boxcar {
+  text-align: left;
+  width: 80%;
+  height: auto;
+  justify-content: center;
+  padding: 0px 1px 0px 6px;
 }

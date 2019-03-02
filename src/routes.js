@@ -5,10 +5,7 @@ import NotFoundView from './components/404.vue'
 //  import DashboardView from './components/views/Dashboard.vue'
 import BoxcarView from './components/views/boxcar/Boxcar.vue'
 import CreateBoxcarView from './components/views/boxcar/Create.vue'
-import TasksView from './components/views/Tasks.vue'
-import SettingView from './components/views/Setting.vue'
 import ServerView from './components/views/Server.vue'
-import ReposView from './components/views/Repos.vue'
 import BodegaView from './components/views/bodega/Bodega.vue'
 import CreateBodegaView from './components/views/bodega/Create.vue'
 import FormatoView from './components/views/formato/Formato.vue'
@@ -86,14 +83,6 @@ const routes = [
         component: CreatePathView,
         name: 'Crear ruta'
       }, {
-        path: 'tasks',
-        component: TasksView,
-        name: 'Tasks'
-      }, {
-        path: 'setting',
-        component: SettingView,
-        name: 'Settings'
-      }, {
         path: 'server',
         beforeEnter(to, from, next) {
           window.location = 'http://104.209.196.204:9090/view/dashboard/favorita'
@@ -101,10 +90,6 @@ const routes = [
         component: ServerView,
         name: 'Servers',
         meta: {description: 'List of our servers', requiresAuth: false}
-      }, {
-        path: 'repos',
-        component: ReposView,
-        name: 'Repository'
       }, {
         path: 'reports',
         component: ReportesView,

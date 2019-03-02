@@ -46,34 +46,34 @@
                       <table aria-describedby='Table_of_elements' role='grid' id='table_path' class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
-                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 167px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc'>ID</th>
-                            <th aria-label='Boxcar: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Furgón</th>
-                            <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha inicio </th>
-                            <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Hora inicio</th>
-                            <th aria-label='StarDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Fecha fin </th>
-                            <th aria-label='EndDate: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Hora fin</th>
-                            <th aria-label='TemperaturaMaxIdeal: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura máxima ideal</th>
-                            <th aria-label='TemperaturaMinIdeal: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura mínima ideal </th>
-                            <th aria-label='TemperaturaMaxAp: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura máxima aceptable</th>
-                            <th aria-label='TemperaturaMinAp: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Temperatura mínima aceptable </th>
-                            <th aria-label='Device: activate to sort column ascending' style='width: 207px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting'>Dispositivo</th>
-                            <th></th>
+                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 15px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc TextCenterTH'>ID</th>
+                            <th aria-label='Boxcar: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Furgón</th>
+                            <th aria-label='StarDate: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Fecha inicio </th>
+                            <th aria-label='EndDate: activate to sort column ascending'colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Hora inicio</th>
+                            <th aria-label='StarDate: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Fecha fin </th>
+                            <th aria-label='EndDate: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Hora fin</th>
+                            <th aria-label='TemperaturaMaxIdeal: activate to sort column ascending'  colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Temperatura máxima ideal</th>
+                            <th aria-label='TemperaturaMinIdeal: activate to sort column ascending'  colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Temperatura mínima ideal </th>
+                            <th aria-label='TemperaturaMaxAp: activate to sort column ascending'  colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Temperatura máxima aceptable</th>
+                            <th aria-label='TemperaturaMinAp: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Temperatura mínima aceptable </th>
+                            <th aria-label='Device: activate to sort column ascending'  colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Dispositivo</th>
+                            <th class="JustifyButtonTD"></th>
                           </tr>
                         </thead>
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in dataGet '>
-                            <td class='sorting_1'>{{dato.id}}</td>
-                            <td>{{dato.furgon.numFurgon}}</td>
-                            <td>{{dato.start_date}}</td>
-                            <td>{{dato.start_hour}}</td>
-                            <td>{{dato.end_date}}</td>
-                            <td>{{dato.end_hour}}</td>
-                            <td>{{dato.temp_max_ideal}}</td>
-                            <td>{{dato.temp_min_ideal}}</td>
-                            <td>{{dato.temp_max_ap}}</td>
-                            <td>{{dato.temp_min_ap}}</td>
-                            <td>{{dato.device_id}}</td>
-                            <td class='col-lg-2 col-md-1 col-sm-1 col-xs-1'>
+                            <td class='sorting_1 TextFieldC'>{{dato.id}}</td>
+                            <td class="TextFieldC">{{dato.furgon.numFurgon}}</td>
+                            <td class="TextFieldC">{{dato.start_date}}</td>
+                            <td class="TextFieldC">{{dato.start_hour}}</td>
+                            <td class="TextFieldC">{{dato.end_date}}</td>
+                            <td class="TextFieldC">{{dato.end_hour}}</td>
+                            <td class="TextFieldC">{{dato.temp_max_ideal}}</td>
+                            <td class="TextFieldC">{{dato.temp_min_ideal}}</td>
+                            <td class="TextFieldC">{{dato.temp_max_ap}}</td>
+                            <td class="TextFieldC">{{dato.temp_min_ap}}</td>
+                            <td class="TextFieldC">{{dato.device_id}}</td>
+                            <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Eliminar' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
                               </a>
@@ -94,78 +94,78 @@
                                     <div class="modal-body col-md-25">
                                       <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
                                         <div class="form-group ">
-                                          <label class="col-xs-12 col-sm-6 control-label">No.Furgón</label>
-                                          <div class="col-xs-12 col-sm-6 col-lg-8 controls">
-                                            <select v-model="selectedFurgon" v-on:click="loadDevices">
+                                          <label class=" col-sm-6 control-label">Número de Furgón</label>
+                                          <div class="col-sm-6 controls">
+                                            <select v-model="selectedFurgon" v-on:click="loadDevices" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoL in furgones.dataGet ">{{ datoL.numFurgon }}</option>
                                             </select>
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-12 col-sm-12 col-lg-10 control-label form-inline">Familia del dispositivo</label>
+                                          <label class="col-sm-12 control-label">Familia del dispositivo</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <select v-model="selectedFamily" v-on:click="loadDevices">
+                                            <select v-model="selectedFamily" v-on:click="loadDevices" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoF in families.dataGet">{{ datoF.family }}</option>
                                             </select>
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-12 col-sm-5 form-inline control-label">Dispositivo</label>
+                                          <label class="col-sm-12 control-label">Dispositivo</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <select v-model="selectedDevice">
+                                            <select v-model="selectedDevice" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoD in devices.listDevices ">{{ datoD }}</option>
                                             </select>
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Seleccione la fecha de inicio</label>
-                                          <div class="col-sm-9 controls">
-                                            <input type="date" v-model="dataPostDel.start_date" name="fechaInicio">
+                                          <label class="col-sm-12 control-label">Seleccione la fecha de inicio</label>
+                                          <div class="col-sm-3 controls">
+                                            <input type="date" class="FormatDate" v-model="dataPostDel.start_date" name="fechaInicio">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-25 col-lg-25 form-horizontal control-label">Seleccione la Hora de inicio</label>
+                                          <label class="col-sm-12 control-label">Seleccione la Hora de inicio</label>
                                           <div class="col-sm-10 controls">
-                                            <input type="time" v-model="dataPostDel.start_hour" name="hora_inicio">
+                                            <input type="time" class="FormatHour" v-model="dataPostDel.start_hour" name="hora_inicio">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-13 col-lg-15 form-horizontal control-label">Seleccione la fecha Fin</label>
+                                          <label class="col-sm-12 control-label">Seleccione la fecha Fin</label>
                                           <div class="col-sm-9 controls">
-                                            <input type="date" v-model="dataPostDel.end_date" name="end_date">
+                                            <input type="date" class="FormatDate" v-model="dataPostDel.end_date" name="end_date">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Seleccione la Hora de fin</label>
+                                          <label class="col-sm-12 control-label">Seleccione la Hora de fin</label>
                                           <div class="col-sm-10 controls">
-                                            <input type="time" v-model="dataPostDel.end_hour" name="end_hour">
+                                            <input type="time" class="FormatHour" v-model="dataPostDel.end_hour" name="end_hour">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class=" col-sm-15 col-lg-15 form-inline control-label">Ingrese temperatura máxima ideal</label>
+                                          <label class="col-sm-12 control-label">Ingrese temperatura máxima ideal</label>
                                           <div class="col-sm-9  controls">
-                                            <input type="number" class="form-control" v-model="dataPostDel.temp_max_ideal" v-bind:placeholder="dato.temp_max_ideal"name="temp_max_ideal" maxlength="50" value="">
+                                            <input type="number" class="form-control-modal" v-model="dataPostDel.temp_max_ideal" v-bind:placeholder="dato.temp_max_ideal"name="temp_max_ideal" maxlength="50" value="">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Ingrese temperatura mínima ideal</label>
+                                          <label class="col-sm-12 control-label">Ingrese temperatura mínima ideal</label>
                                           <div class="col-sm-9  controls">
-                                            <input type="number" class="form-control" v-model="dataPostDel.temp_min_ideal" v-bind:placeholder="dato.temp_min_ideal" name="temp_min_ideal" maxlength="50" value="">
+                                            <input type="number" class="form-control-modal" v-model="dataPostDel.temp_min_ideal" v-bind:placeholder="dato.temp_min_ideal" name="temp_min_ideal" maxlength="50" value="">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline  control-label">Ingrese temperatura máxima aceptable</label>
+                                          <label class="col-sm-12 control-label">Ingrese temperatura máxima aceptable</label>
                                           <div class="col-sm-9 controls">
-                                            <input type="number" class="form-control" v-model="dataPostDel.temp_max_ap" v-bind:placeholder="dato.temp_max_ap" name="temp_max_ap" maxlength="50" value="">
+                                            <input type="number" class="form-control-modal" v-model="dataPostDel.temp_max_ap" v-bind:placeholder="dato.temp_max_ap" name="temp_max_ap" maxlength="50" value="">
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-xs-15 col-sm-15 col-lg-15 form-inline control-label">Ingrese temperatura mínima aceptable</label>
+                                          <label class="col-sm-12 control-label">Ingrese temperatura mínima aceptable</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <input type="number" class="form-control" v-model="dataPostDel.temp_min_ap" v-bind:placeholder="dato.temp_min_ap" name="temp_min_ap" maxlength="50" value="">
+                                            <input type="number" class="form-control-modal" v-model="dataPostDel.temp_min_ap" v-bind:placeholder="dato.temp_min_ap" name="temp_min_ap" maxlength="50" value="">
                                           </div>
                                         </div>
                                       </form>
@@ -186,22 +186,6 @@
                             </td>
                           </tr>
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th colspan='1' rowspan='1'>ID</th>
-                        <th colspan='1' rowspan='1'>Furgón</th>
-                        <th colspan='1' rowspan='1'>Fecha Inicio</th>
-                        <th colspan='1' rowspan='1'>Hora Inicio</th>
-                        <th colspan='1' rowspan='1'>Fecha Fin</th>
-                        <th colspan='1' rowspan='1'>Hora Fin</th>
-                        <th colspan='1' rowspan='1'>Temperatura máxima ideal</th>
-                        <th colspan='1' rowspan='1'>Temperatura mínima ideal</th>
-                        <th colspan='1' rowspan='1'>Temperatura máxima aceptable</th>
-                        <th colspan='1' rowspan='1'>Temperatura mínima aceptable</th>
-                        <th colspan='1' rowspan='1'>Dispositivo</th>
-                        <th></th>
-                      </tr>
-                    </tfoot>
                     </table>
                   </div>
                 </div>
@@ -219,7 +203,6 @@
 </template>
 <script>
   import $ from 'jquery'
-  import jSon from './data.json'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -228,7 +211,6 @@
   export default {
     data() {
       return {
-        myJson: jSon,
         inicialDelay: 3000,
         apiBack: '/api/ruta',
         apiBackFurgon: '/api/furgon',
@@ -300,46 +282,27 @@
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       deleteOne(key) {
-        // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
         this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
         var id = this.dataPostDel.id
         this.delete(id)
       },
       resto() {
-        console.log('En resto')
         var newDevices = []
         this.devices.listDevices = []
         this.devices.dataGet.forEach(element => {
           newDevices.push(element.Name)
         })
-        console.log('Aqui la lista de dis--------------')
-        console.log(newDevices)
         this.devices.listDevices = newDevices
       },
       loadDevices() {
-        console.log('LA familia es ' + this.selectedFamily)
-        console.log(this.apiNameDevice + this.selectedFamily)
         api.getGeneral(this.apiNameDevice + this.selectedFamily, this.devices)
         setTimeout(this.resto, 500)
       },
       save(index) {
-        console.log('AQUI EN SAVE')
         var id = this.dataGet[index].id
-        console.log('El id del path es ' + id)
-        var idFurgon = api.search(this.furgones.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
-        console.log('Elid de l furgon es: ' + idFurgon)
-        console.log('La data de devices')
-        console.log(this.devices.dataGet)
         this.dataPostDel.device_id = this.searchIdDevice()
         this.dataPostDel.n
-        console.log('FInalmente la data a enviar es')
-        console.log(this.dataPostDel)
-        //  var idDevice = api.search(this.devices.dataGet[0].Devices, 'DeviceName', this.selectedDevice).id
         api.put(this.apiBack + '/' + id, this.$data)
         this.get()
       },

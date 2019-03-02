@@ -46,34 +46,34 @@
                     <table aria-describedby="Table_of_Ubications" role="grid" id="table_ubication" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Zona</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Regional</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Provincia</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ciudad</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Formatos</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Locales</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Bodegas</th>
-                          <th></th>
+                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 15px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="ToButtons sorting_asc">ID</th>
+                          <th aria-label="Zona: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Zona</th>
+                          <th aria-label="Regional: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Regional</th>
+                          <th aria-label="Provincia: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Provincia</th>
+                          <th aria-label="Ciudad: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Ciudad</th>
+                          <th aria-label="Formatos: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Formatos</th>
+                          <th aria-label="Locales: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Locales</th>
+                          <th aria-label="Bodegas: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Bodegas</th>
+                          <th class="JustifyButtonTD" ></th>
                         </tr>
                       </thead>
                       <tbody id="fields">
-                        <tr class="even" role="row" v-for="dato, index in dataGet ">
-                          <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.zone}}</td>
-                          <td>{{dato.regional}}</td>
-                          <td>{{dato.province}}</td>
-                          <td>{{dato.city}}</td>
-                          <td>
+                        <tr class="even" role="row" v-for="dato, index in dataGet">
+                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                          <td class="TextFieldC">{{dato.zone}}</td>
+                          <td class="TextFieldC">{{dato.regional}}</td>
+                          <td class="TextFieldC">{{dato.province}}</td>
+                          <td class="TextFieldC">{{dato.city}}</td>
+                          <td class="TextFieldC">
                             <tdd tdd v-for="formato, index1 in dato.formatos" v-bind:data="index1" v-bind:key="index1.text">{{formato.name}}<br /></tdd>
                           </td>
-                          <td>
+                          <td class="TextFieldC">
                             <tdd v-for="local, index2 in dato.locales" v-bind:data="index2" v-bind:key="index2.text">{{local.name}}<br /></tdd>
                           </td>
-                          <td>
+                          <td class="TextFieldC">
                             <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.name}}<br /></tdd>
                           </td>
-                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                          <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
@@ -97,25 +97,25 @@
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Zona</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.zone" v-model="dataPostDel.zone" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.zone" v-model="dataPostDel.zone" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Regional</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.regional" v-model="dataPostDel.regional" id="name_store" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.regional" v-model="dataPostDel.regional" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Provincia</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.province" v-model="dataPostDel.province" id="name_store" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.province" v-model="dataPostDel.province" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-3 col-lg-12 control-label">Ciudad</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.city" v-model="dataPostDel.city" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.city" v-model="dataPostDel.city" id="name_store" maxlength="100" value="">
                                         </div>
                                       </div>
 
@@ -138,19 +138,6 @@
                           </td>
                         </tr>
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="1" rowspan="1">ID</th>
-                          <th colspan="1" rowspan="1">Zona</th>
-                          <th colspan="1" rowspan="1">Regional</th>
-                          <th colspan="1" rowspan="1">Provincia</th>
-                          <th colspan="1" rowspan="1">Ciudad</th>
-                          <th colspan="1" rowspan="1">Formatos</th>
-                          <th colspan="1" rowspan="1">Locales</th>
-                          <th colspan="1" rowspan="1">Bodegas</th>
-                          <th></th>
-                        </tr>
-                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -168,7 +155,6 @@
 </template>
 <script>
   import $ from 'jquery'
-  import jSon from './data.json'
   import api from '@/api/goApi.js'
   // Require needed datatables modules
   import 'datatables.net'
@@ -176,7 +162,6 @@
   export default {
     data() {
       return {
-        myJson: jSon,
         inicialDelay: 3000,
         apiBack: '/api/ubicacion',
         nameToExport: 'Ubicaciones',
@@ -213,21 +198,12 @@
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       deleteOne(key) {
-        // se actualiza la info a eliminar
         this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
         this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
         var id = this.dataPostDel.id
         this.delete(id)
       },
       save(index) {
-        console.log('Aun no hace nada')
-        console.log(index)
-        console.log(this.dataGet[index])
-        // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
         api.put(this.apiBack + '/' + id + '/', this.$data)
         this.get()
@@ -238,8 +214,6 @@
         var cad = ''
         var cad2 = ''
         var cad3 = ''
-        console.log('Aqi esta la parte de rep')
-        console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
             cad = cad + e.name + ', '
@@ -257,7 +231,6 @@
           cad2 = ''
           cad3 = ''
         })
-        console.log('Aqui la cadena' + cad)
         rep.formatos = cad
         api.exportExcel(this.nameToExport, rep)
       },
@@ -266,8 +239,6 @@
         var cad = ''
         var cad2 = ''
         var cad3 = ''
-        console.log('Aqi esta la parte de rep')
-        console.log(rep)
         rep.forEach(element => {
           element.formatos.forEach(e => {
             cad = cad + e.name + ', '

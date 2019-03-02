@@ -1,11 +1,9 @@
 <template>
   <div :class="['wrapper', classes]">
     <header class="main-header">
-
       <span class="logo-mini">
         <a href="/"><img id="logo" src="./../../static/img/pacificsoft_logo_original.svg" alt="Logo" class="img-responsive center-block logo"></a>
       </span>
-
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button Prueba-->
@@ -14,106 +12,7 @@
         </a>
         <!-- Navbar Right Menuu -->
         <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
-            <!-- Messages-->
-
-            <!--<li class="dropdown messages-menu">-->
-              <!--<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">-->
-                <!--<i class="fa fa-envelope-o"></i>-->
-                <!--<span class="label label-success">{{ userInfo.messages | count }}</span>-->
-              <!--</a>-->
-              <!--<ul class="dropdown-menu">-->
-                <!--<li class="header">You have {{ userInfo.messages | count }} message(s)</li>-->
-                <!--<li v-if="userInfo.messages.length > 0">-->
-                  <!--&lt;!&ndash; inner menu: contains the messages &ndash;&gt;-->
-                  <!--<ul class="menu">-->
-                    <!--<li>-->
-                      <!--&lt;!&ndash; start message &ndash;&gt;-->
-                      <!--<a href="javascript:;">-->
-                        <!--&lt;!&ndash; Message title and timestamp &ndash;&gt;-->
-                        <!--<h4>-->
-                          <!--Support Team-->
-                          <!--<small>-->
-                            <!--<i class="fa fa-clock-o"></i> 5 mins</small>-->
-                        <!--</h4>-->
-                        <!--&lt;!&ndash; The message &ndash;&gt;-->
-                        <!--<p>Why not consider this a test message?</p>-->
-                      <!--</a>-->
-                    <!--</li>-->
-                    <!--&lt;!&ndash; end message &ndash;&gt;-->
-                  <!--</ul>-->
-                  <!--&lt;!&ndash; /.menu &ndash;&gt;-->
-                <!--</li>-->
-                <!--<li class="footer" v-if="userInfo.messages.length > 0">-->
-                  <!--<a href="javascript:;">See All Messages</a>-->
-                <!--</li>-->
-              <!--</ul>-->
-            <!--</li>-->
-            <!-- /.messages-menu -->
-
-            <!-- Notifications Menu -->
-            <!--<li class="dropdown notifications-menu">-->
-              <!--<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">-->
-                <!--<i class="fa fa-bell-o"></i>-->
-                <!--<span class="label label-warning">{{ userInfo.notifications | count }}</span>-->
-              <!--</a>-->
-              <!--<ul class="dropdown-menu">-->
-                <!--<li class="header">You have {{ userInfo.notifications | count }} notification(s)</li>-->
-                <!--<li v-if="userInfo.notifications.length > 0">-->
-                  <!--&lt;!&ndash; Inner Menu: contains the notifications &ndash;&gt;-->
-                  <!--<ul class="menu">-->
-                    <!--<li>-->
-                      <!--&lt;!&ndash; start notification &ndash;&gt;-->
-                      <!--<a href="javascript:;">-->
-                        <!--<i class="fa fa-users text-aqua"></i> 5 new members joined today-->
-                      <!--</a>-->
-                    <!--</li>-->
-                    <!--&lt;!&ndash; end notification &ndash;&gt;-->
-                  <!--</ul>-->
-                <!--</li>-->
-                <!--<li class="footer" v-if="userInfo.notifications.length > 0">-->
-                  <!--<a href="javascript:;">View all</a>-->
-                <!--</li>-->
-              <!--</ul>-->
-            <!--</li>-->
-
-            <!-- Tasks Menu -->
-            <!--<li class="dropdown tasks-menu">-->
-              <!--<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">-->
-                <!--<i class="fa fa-flag-o"></i>-->
-                <!--<span class="label label-danger">{{ userInfo.tasks | count }} </span>-->
-              <!--</a>-->
-              <!--<ul class="dropdown-menu">-->
-                <!--<li class="header">You have {{ userInfo.tasks | count }} task(s)</li>-->
-                <!--<li v-if="userInfo.tasks.length > 0">-->
-                  <!--&lt;!&ndash; Inner menu: contains the tasks &ndash;&gt;-->
-                  <!--<ul class="menu">-->
-                    <!--<li>-->
-                      <!--&lt;!&ndash; Task item &ndash;&gt;-->
-                      <!--<a href="javascript:;">-->
-                        <!--&lt;!&ndash; Task title and progress text &ndash;&gt;-->
-                        <!--<h3>-->
-                          <!--Design some buttons-->
-                          <!--<small class="pull-right">20%</small>-->
-                        <!--</h3>-->
-                        <!--&lt;!&ndash; The progress bar &ndash;&gt;-->
-                        <!--<div class="progress xs">-->
-                          <!--&lt;!&ndash; Change the css width attribute to simulate progress &ndash;&gt;-->
-                          <!--<div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">-->
-                            <!--<span class="sr-only">20% Complete</span>-->
-                          <!--</div>-->
-                        <!--</div>-->
-                      <!--</a>-->
-                    <!--</li>-->
-                    <!--&lt;!&ndash; end task item &ndash;&gt;-->
-                  <!--</ul>-->
-                <!--</li>-->
-                <!--<li class="footer" v-if="userInfo.tasks.length > 0">-->
-                  <!--<a href="javascript:;">View all tasks</a>-->
-                <!--</li>-->
-              <!--</ul>-->
-            <!--</li>-->
-
+          <ul class="nav navbar-nav">            
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -140,10 +39,11 @@
           <small>{{ $route.meta.description }}</small>
         </h1>
         <ol class="breadcrumb">
-          <li>
-            <a href="javascript:;">
-              <i class="fa fa-home"></i>Home</a>
-          </li>
+          <router-link tag="li" class="pageLink" to="/">
+            <li>
+              <a href="/"><i class="fa fa-home"></i>Inicio</a>
+            </li>
+          </router-link>
           <li class="active">{{$route.name.charAt(0).toUpperCase() + $route.name.slice(1).toLowerCase()}}</li>
         </ol>
       </section>
@@ -252,19 +152,16 @@ export default {
 .logo-mini,
 .logo-lg {
   text-align: left;
-
   img {
     padding: .4em !important;
   }
 }
-
 .logo-lg {
   img {
     display: -webkit-inline-box;
     width: 25%;
   }
 }
-
 .user-panel {
   height: 4em;
 }

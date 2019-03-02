@@ -8,88 +8,92 @@
                 <h3 class="box-title">Añadir una nueva ruta</h3>
               </div>
               <!-- /.box-header -->
-              <div class="box-body">
-                <div class="box-content">
-                  <form action="/create" method="POST" class="form-horizontal" id="profile-form">
+              <div class="box-body ">
+                <div class="box-content table-responsive">
+                  <form action="/create" method="POST" class="form-horizontal-create" id="profile-form">
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">No.Furgón</label>
+                      <label class="col-sm-3 control-label">No.Furgón</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedFurgon">
+                        <select v-model="selectedFurgon" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoL in dataGet ">{{ datoL.numFurgon }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Familia Dispositivo</label>
+                      <label class="col-sm-3 control-label">Familia Dispositivo</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedFamily" v-on:click="loadDevices">
+                        <select v-model="selectedFamily" v-on:click="loadDevices" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoF in families.dataGet ">{{ datoF.family }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Dispositivo</label>
+                      <label class="col-sm-3 control-label">Dispositivo</label>
                       <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedDevice">
+                        <select v-model="selectedDevice" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoD in devices.listDevices">{{ datoD }}</option>
                         </select>
                       </div>
                     </div>
-                    <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha de inicio</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="date" v-model="dataPostDel.start_date" name="fechaInicio">
+                    <div class="">
+                      <div class="form-group">
+                        <label class="col-sm-3  control-label">Seleccione la fecha de inicio</label>
+                        <div class="col-sm-9 col-lg-10 controls">
+                          <input type="date" v-model="dataPostDel.start_date" name="fechaInicio">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Seleccione la Hora de inicio</label>
+                        <div class="col-sm-9 col-lg-10 controls">
+                          <input type="time" v-model="dataPostDel.start_hour" name="fechaInicio">
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Seleccione la fecha Fin</label>
+                        <div class="col-sm-9 col-lg-10 controls">
+                          <input type="date" v-model="dataPostDel.end_date" name="fechaFin">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Seleccione la Hora de fin</label>
+                        <div class="col-sm-9 col-lg-10 controls">
+                          <input type="time" v-model="dataPostDel.end_hour" name="fechaInicio">
+                        </div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la Hora de inicio</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="time" v-model="dataPostDel.start_hour" name="fechaInicio">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la fecha Fin</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="date" v-model="dataPostDel.end_date" name="fechaFin">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Seleccione la Hora de fin</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="time" v-model="dataPostDel.end_hour" name="fechaInicio">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura máxima ideal</label>
+                      <label class="col-sm-3 control-label">Ingrese temperatura máxima ideal</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="number" class="form-control" v-model="dataPostDel.temp_max_ideal" name="temp_max_ideal" maxlength="50" value="">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura mínima ideal</label>
+                      <label class="col-sm-3 control-label">Ingrese temperatura mínima ideal</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="number" class="form-control" v-model="dataPostDel.temp_min_ideal" name="temp_min_ideal" maxlength="50" value="">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura máxima aceptable</label>
+                      <label class="col-sm-3 control-label">Ingrese temperatura máxima aceptable</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="number" class="form-control" v-model="dataPostDel.temp_max_ap" name="temp_max_ap" maxlength="50" value="">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 col-lg-2 control-label">Ingrese temperatura mínima aceptable</label>
+                      <label class="col-sm-3  control-label">Ingrese temperatura mínima aceptable</label>
                       <div class="col-sm-9 col-lg-10 controls">
                         <input type="number" class="form-control" v-model="dataPostDel.temp_min_ap" name="temp_min_ap" maxlength="50" value="">
                       </div>
                     </div>
                     <!-- Submit and cancel -->
                     <div class="form-group">
-                      <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
-                        <router-link class="pageLink" to="/path">
+                      <div class="SaveCancel"><br />
+                        <router-link class="pageLink" to="/path"><br/>
                           <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
                           <a href="/path" type="button" class="btn">Cancelar </a>
                         </router-link>
@@ -117,17 +121,8 @@
         return api.search(this.devices.dataGet, 'Name', String(this.selectedDevice)).IdDevice
       },
       save() {
-        console.log('aqui el dat form.....................................')
-        console.log(this.dataPostDel)
-        console.log('-------------------------------------------------------')
-        console.log('El actual furgon es: ' + this.selectedFurgon)
-        console.log('----------------hey-------')
-        console.log(this.dataGet)
-        console.log(this.dataPostDel)
-        // se obtienne el id de furgon
         var idFurgon = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
         this.dataPostDel.device_id = this.searchIdDevice()
-        //  var idDevice = api.search(this.devices.dataGet[0].Devices, 'DeviceName', this.selectedDevice).id
         api.post(this.apiBack + '/' + idFurgon, this.$data)
       },
       resto() {

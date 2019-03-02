@@ -29,7 +29,7 @@ export default {
           accessToken: accessToken,
           embedUrl: embedUrl,
           id: embedReportId,
-          permissions: 7 /* gives maximum permissions */,
+          permissions: 5 /* gives maximum permissions */,
           viewMode: 1,
           settings: {
             filterPaneEnabled: true,
