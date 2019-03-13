@@ -11,89 +11,71 @@
               <div class="box-body ">
                 <div class="box-content table-responsive">
                   <form action="/create" method="POST" class="form-horizontal-create" id="profile-form">
-                    <div class="form-group">
-                      <label class="col-sm-3 control-label">No.Furgón</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedFurgon" class="FormatSelect">
+                    <div class="form-group ">
+                      <label class=" col-sm-6 control-label">Furgón</label>
+                      <div class="col-sm-6 controls-create">
+                        <select v-model="selectedBoxcar" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoL in dataGet ">{{ datoL.numFurgon }}</option>
+                          <option v-for="datoF in boxcar.dataGet ">{{ datoF.name}}</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">Familia Dispositivo</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <select v-model="selectedFamily" v-on:click="loadDevices" class="FormatSelect">
-                          <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoF in families.dataGet ">{{ datoF.family }}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-3 control-label">Dispositivo</label>
-                      <div class="col-sm-9 col-lg-10 controls">
+                      <label class="col-sm-12 control-label">Dispositivo</label>
+                      <div class="col-sm-9 col-lg-10 controls-create">
                         <select v-model="selectedDevice" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoD in devices.listDevices">{{ datoD }}</option>
+                          <option v-for="datoD in devices.dataGet">{{ datoD.name }}</option>
                         </select>
                       </div>
                     </div>
-                    <div class="">
-                      <div class="form-group">
-                        <label class="col-sm-3  control-label">Seleccione la fecha de inicio</label>
-                        <div class="col-sm-9 col-lg-10 controls">
-                          <input type="date" v-model="dataPostDel.start_date" name="fechaInicio">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-3 control-label">Seleccione la Hora de inicio</label>
-                        <div class="col-sm-9 col-lg-10 controls">
-                          <input type="time" v-model="dataPostDel.start_hour" name="fechaInicio">
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="form-group">
-                        <label class="col-sm-3 control-label">Seleccione la fecha Fin</label>
-                        <div class="col-sm-9 col-lg-10 controls">
-                          <input type="date" v-model="dataPostDel.end_date" name="fechaFin">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-3 control-label">Seleccione la Hora de fin</label>
-                        <div class="col-sm-9 col-lg-10 controls">
-                          <input type="time" v-model="dataPostDel.end_hour" name="fechaInicio">
-                        </div>
+                    <div class="form-group ">
+                      <label class=" col-sm-6 control-label">Producto</label>
+                      <div class="col-sm-6 controls-create">
+                        <select v-model="selectedProduct" class="FormatSelect">
+                          <option disabled value="">Por favor seleccionar uno</option>
+                          <option v-for="datoP in products.dataGet ">{{ datoP.name}}</option>
+                        </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">Ingrese temperatura máxima ideal</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="number" class="form-control" v-model="dataPostDel.temp_max_ideal" name="temp_max_ideal" maxlength="50" value="">
+                      <label class="col-sm-12 control-label">Seleccione la fecha y hora de inicio</label>
+                      <div class="col-sm-3 controls-create">
+                        <input type="date" class="FormatDate" v-model="$data.startDate" name="startDate">
+                        <input type="time" class="FormatHour" v-model="$data.start_hour" name="startHour">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-3 control-label">Ingrese temperatura mínima ideal</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="number" class="form-control" v-model="dataPostDel.temp_min_ideal" name="temp_min_ideal" maxlength="50" value="">
+                      <label class="col-sm-12 control-label">Seleccione la fecha y hora Fin</label>
+                      <div class="col-sm-9 controls-create">
+                        <input type="date" class="FormatDate" v-model="$data.endDate" name="endDate">
+                        <input type="time" class="FormatHour" v-model="$data.end_hour" name="endHour">
                       </div>
                     </div>
-                    <div class="form-group">
-                      <label class="col-sm-3 control-label">Ingrese temperatura máxima aceptable</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="number" class="form-control" v-model="dataPostDel.temp_max_ap" name="temp_max_ap" maxlength="50" value="">
+                    <div class="form-group ">
+                      <label class=" col-sm-6 control-label">Local Inicio</label>
+                      <div class="col-sm-6 controls-create">
+                        <select v-model="selectedStartLocal" class="FormatSelect">
+                          <option disabled value="">Por favor seleccionar uno</option>
+                          <option v-for="datoL in locals.dataGet ">{{ datoL.name}}</option>
+                        </select>
                       </div>
                     </div>
-                    <div class="form-group">
-                      <label class="col-sm-3  control-label">Ingrese temperatura mínima aceptable</label>
-                      <div class="col-sm-9 col-lg-10 controls">
-                        <input type="number" class="form-control" v-model="dataPostDel.temp_min_ap" name="temp_min_ap" maxlength="50" value="">
+                    <div class="form-group ">
+                      <label class=" col-sm-6 control-label">Local Fin</label>
+                      <div class="col-sm-6 controls-create">
+                        <select v-model="selectedEndLocal"  class="FormatSelect">
+                          <option disabled value="">Por favor seleccionar uno</option>
+                          <option v-for="datoL in locals.dataGet ">{{ datoL.name}}</option>
+                        </select>
                       </div>
                     </div>
                     <!-- Submit and cancel -->
                     <div class="form-group">
-                      <div class="SaveCancel"><br />
-                        <router-link class="pageLink" to="/path"><br/>
+                      <div class="SaveCancel">
+                        <br />
+                        <router-link class="pageLink" to="/path">
+                          <br />
                           <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
                           <a href="/path" type="button" class="btn">Cancelar </a>
                         </router-link>
@@ -117,64 +99,65 @@
   import api from '@/api/goApi.js'
   export default {
     methods: {
-      searchIdDevice() {
-        return api.search(this.devices.dataGet, 'Name', String(this.selectedDevice)).IdDevice
-      },
       save() {
-        var idFurgon = api.search(this.dataGet, 'numFurgon', Number(this.selectedFurgon)).id
-        this.dataPostDel.device_id = this.searchIdDevice()
-        api.post(this.apiBack + '/' + idFurgon, this.$data)
-      },
-      resto() {
-        var newDevices = []
-        this.devices.listDevices = []
-        this.devices.dataGet.forEach(element => {
-          newDevices.push(element.Name)
-        })
-        this.devices.listDevices = newDevices
-      },
-      loadDevices() {
-        api.getGeneral(this.apiDevices + this.selectedFamily, this.devices)
-        setTimeout(this.resto, 500)
+        var idBoxcar = api.search(this.boxcar.dataGet, 'name', this.selectedBoxcar).id
+        var idDevice = api.search(this.devices.dataGet, 'name', this.selectedDevice).id
+        var idProduct = api.search(this.products.dataGet, 'name', this.selectedProduct).id
+        var idStartLocal = api.search(this.locals.dataGet, 'name', this.selectedStartLocal).id
+        var idEndLocal = api.search(this.locals.dataGet, 'name', this.selectedEndLocal).id
+        this.dataPostDel.start_date = new Date(this.startDate + ' ' + this.start_hour)
+        this.dataPostDel.end_date = new Date(this.endDate + ' ' + this.end_hour)
+        console.log('+++++++')
+        console.log(this.$data)
+        api.post(this.apiBack + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal, this.$data)
       }
     },
     data() {
       return {
-        apiBack: '/api/ruta',
-        apiBackFurgon: '/api/furgon',
-        apiFamilies: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllFamilies',
-        apiDevices: 'http://104.209.223.100/chaintrack/auth/api/tracking/getAllDevice?family=',
-        error: '',
-        selectedFurgon: 0,
-        selectedFamily: '',
+        apiBack: '/ruta',
+        apiBoxcar: '/furgon',
+        apiDevice: '/device',
+        apiProduct: '/producto',
+        apiLocals: '/locales',
+        selectedBoxcar: '',
         selectedDevice: '',
+        selectedProduct: '',
+        selectedStartLocal: '',
+        selectedEndLocal: '',
+        error: '',
         dataGet: [],
-        devices: {
-          error: '',
-          dataGet: [],
-          listDevices: []
-        },
-        families: {
-          erro: '',
-          dataGet: []
-        },
         dataPostDel: { // este es basicamente un JSON
           start_date: '',
-          start_hour: '',
-          end_date: '',
-          end_hour: '',
-          temp_max_ideal: 0,
-          temp_min_ideal: 0,
-          temp_max_ap: 0,
-          temp_min_ap: 0,
-          device_id: 0
+          end_date: ''
+        },
+        boxcar: {
+          error: '',
+          dataGet: []
+        },
+        devices: {
+          error: '',
+          dataGet: []
+        },
+        startDate: '',
+        start_hour: '',
+        endDate: '',
+        end_hour: '',
+        products: {
+          error: '',
+          dataGet: []
+        },
+        locals: {
+          error: '',
+          dataGet: []
         }
       }
     },
     mounted() {
-      // se obtiene las ubicaciones
-      api.getAll(this.apiBackFurgon, this.$data)
-      api.getGeneral(this.apiFamilies, this.families)
+      api.getAll(this.apiBack, this.$data)
+      api.getAll(this.apiBoxcar, this.boxcar)
+      api.getAll(this.apiDevice, this.devices)
+      api.getAll(this.apiProduct, this.products)
+      api.getAll(this.apiLocals, this.locals)
     }
   }
 </script>

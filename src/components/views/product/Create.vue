@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Añadir un nuevo formato</h3>
+              <h3 class="box-title">Añadir un nuevo producto</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -19,26 +19,37 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Código</label>
+                    <label class="col-sm-3 col-lg-2 control-label">Temperatura máxima</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="dataPostDel.code" name="code" maxlength="50" value="">
+                      <input type="number" class="form-control" v-model="dataPostDel.temp_max" name="temp_max" maxlength="10" value="">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Local</label>
+                    <label class="col-sm-3 col-lg-2 control-label">Temperatura mínima</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <select v-model="selectedLocal" class="FormatSelect">
-                        <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoL in locals.dataGet ">{{ datoL.name }}</option>
-                      </select>
+                      <input type="number" class="form-control" v-model="dataPostDel.temp_min" name="temp_min" maxlength="10" value="">
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 col-lg-2 control-label">Temperatura máxima ideal </label>
+                    <div class="col-sm-9 col-lg-10 controls">
+                      <input type="number" class="form-control" v-model="dataPostDel.temp_max_ideal" name="temp_max_ideal" maxlength="10" value="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 col-lg-2 control-label">Temperatura mínima ideal</label>
+                    <div class="col-sm-9 col-lg-10 controls">
+                      <input type="number" class="form-control" v-model="dataPostDel.temp_min_ideal" name="temp_min_ideal" maxlength="10" value="">
+                    </div>
+                  </div>
+                  
                   <!-- Submit and cancel -->
                   <div class="form-group">
                     <div class="SaveCancel">
-                      <router-link class="pageLink" to="/format"><br/>
+                      <router-link class="pageLink" to="/products">
+                        <br />
                         <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
-                        <a href="/format" type="button" class="btn">Cancelar</a>
+                        <a href="/products" type="button" class="btn">Cancelar</a>
                       </router-link>
                     </div>
                   </div>
@@ -63,29 +74,25 @@
   export default {
     methods: {
       save() {
-        var id = api.search(this.locals.dataGet, 'name', this.selectedLocal).id
-        api.post(this.apiBack + '/' + id, this.$data)
+        api.post(this.apiBack, this.$data)
       }
     },
     data() {
       return {
-        apiBack: '/formato',
-        apiBackLocals: '/locales',
-        selectedLocal: '',
-        locals: {
-          error: '',
-          dataGet: []
-        },
+        apiBack: '/producto',
         error: '',
         dataGet: [],
         dataPostDel: { // este es basicamente un JSON
           name: '',
-          code: ''
+          temp_max: 0,
+          temp_min: 0,
+          temp_max_ideal: 0,
+          temp_min_ideal: 0
         }
       }
     },
     mounted() {
-      api.getAll(this.apiBackLocals, this.locals)
+      api.getAll(this.apiBack, this.$data)
     }
   }
 </script>

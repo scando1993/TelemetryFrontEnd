@@ -12,13 +12,13 @@
               <a class="btn btn-circle show-tooltip export-to-file" title="Exportar a PDF" v-on:click='exportPDF' data-table="table-terminals">
                 <i class="fa fa-file-pdf-o"></i>
               </a>
-              <router-link class="pageLink" to="/createUbication">
-                <a class="btn btn-circle show-tooltip" title="Añadir nueva ubicación" href="/createUbication">
+              <router-link class="pageLink" to="/createProduct">
+                <a class="btn btn-circle show-tooltip" title="Añadir nueva ubicación" href="/createProduct">
                   <i class="fa fa-plus"></i>
                 </a>
               </router-link>
-              <router-link class="pageLink" to="/ubication">
-                <a class="btn btn-circle show-tooltip" v-on:click='refresh' title="Actualizar" id="refreshed" href="/ubication">
+              <router-link class="pageLink" to="/products">
+                <a class="btn btn-circle show-tooltip" v-on:click='refresh' title="Actualizar" id="refreshed" href="/products">
                   <i class="fa fa-repeat"></i>
                 </a>
               </router-link>
@@ -43,36 +43,26 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Table_of_Ubications" role="grid" id="table_ubication" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Table_of_Products" role="grid" id="table_product" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 15px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="ToButtons sorting_asc">ID</th>
-                          <th aria-label="Zona: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Zona</th>
-                          <th aria-label="Regional: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Regional</th>
-                          <th aria-label="Provincia: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Provincia</th>
-                          <th aria-label="Ciudad: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Ciudad</th>
-                          <th aria-label="Formatos: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Formatos</th>
-                          <th aria-label="Locales: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Locales</th>
-                          <th aria-label="Bodegas: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Bodegas</th>
+                          <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
+                          <th aria-label="Temperatura máxima: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Temperatura máxima</th>
+                          <th aria-label="Temperatura mínima: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Temperatura mínima</th>
+                          <th aria-label="Temperatura máxmima ideal: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Temperatura máxima ideal</th>
+                          <th aria-label="Temperatura mínima ideal: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Temperatura mínima ideal</th>
                           <th class="JustifyButtonTD" ></th>
                         </tr>
                       </thead>
                       <tbody id="fields">
                         <tr class="even" role="row" v-for="dato, index in dataGet">
                           <td class="sorting_1 TextFieldC">{{dato.id}}</td>
-                          <td class="TextFieldC">{{dato.zone}}</td>
-                          <td class="TextFieldC">{{dato.regional}}</td>
-                          <td class="TextFieldC">{{dato.province}}</td>
-                          <td class="TextFieldC">{{dato.city}}</td>
-                          <td class="TextFieldC">
-                            <tdd tdd v-for="formato, index1 in dato.formatos" v-bind:data="index1" v-bind:key="index1.text">{{formato.name}}<br /></tdd>
-                          </td>
-                          <td class="TextFieldC">
-                            <tdd v-for="local, index2 in dato.locales" v-bind:data="index2" v-bind:key="index2.text">{{local.name}}<br /></tdd>
-                          </td>
-                          <td class="TextFieldC">
-                            <tdd v-for="bodega, index3 in dato.bodegas" v-bind:data="index3" v-bind:key="index3.text">{{bodega.name}}<br /></tdd>
-                          </td>
+                          <td class="TextFieldC">{{dato.name}}</td>
+                          <td class="TextFieldC">{{dato.temp_max}}</td>
+                          <td class="TextFieldC">{{dato.temp_min}}</td>
+                          <td class="TextFieldC">{{dato.temp_max_ideal}}</td>
+                          <td class="TextFieldC">{{dato.temp_min_ideal}}</td>
                           <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
@@ -95,36 +85,41 @@
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
 
                                       <div class="form-group">
-                                        <label class="col-sm-12 col-lg-12 control-label">Zona</label>
+                                        <label class="col-sm-12 col-lg-12 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.zone" v-model="dataPostDel.zone" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_product" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-12 col-lg-12 control-label">Regional</label>
+                                        <label class="col-sm-12 col-lg-12 control-label">Temperatura máxima</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.regional" v-model="dataPostDel.regional" id="name_store" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.temp_max" v-model="dataPostDel.temp_max" id="temp_max" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-12 col-lg-12 control-label">Provincia</label>
+                                        <label class="col-sm-12 col-lg-12 control-label">Temperatura mínima</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.province" v-model="dataPostDel.province" id="name_store" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.temp_min" v-model="dataPostDel.temp_min" id="temp_min" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-12 control-label">Ciudad</label>
+                                        <label class="col-sm-3 col-lg-12 control-label">Temperatura máxima ideal</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.city" v-model="dataPostDel.city" id="name_store" maxlength="100" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.temo_max_ideal" v-model="dataPostDel.temp_max_ideal" id="temp_max_ideal" maxlength="100" value="">
                                         </div>
                                       </div>
-
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-12 control-label">Temperatura mínima ideal</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.temp_min_ideal" v-model="dataPostDel.temp_min_ideal" id="temp_min_ideal" maxlength="100" value="">
+                                        </div>
+                                      </div>
                                     </form>
                                   </div>
                                   <!--end modal-body-->
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
-                                    <router-link class="pageLink" to="/ubication">
+                                    <router-link class="pageLink" to="/products">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
                                       <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
                                     </router-link>
@@ -163,23 +158,24 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/api/ubicacion',
-        nameToExport: 'Ubicaciones',
+        apiBack: '/producto',
+        nameToExport: 'Productos',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          zone: '',
-          regional: '',
-          province: '',
-          city: ''
+          name: '',
+          temp_max: 0,
+          temp_min: 0,
+          temp_max_ideal: 0,
+          temp_min_ideal: 0
         }
       }
     },
-    name: 'Ubication',
+    name: 'Product',
     mounted() {
       setTimeout(e => {
         this.$nextTick(() => {
-          $('#table_ubication').DataTable()
+          $('#table_product').DataTable()
         })
       }, this.inicialDelay)
       this.get()
@@ -191,82 +187,30 @@
       get() {
         api.getAll(this.apiBack, this.$data)
       },
-      post() {
-        api.post(this.apiBack, this.$data)
-      },
-      delete(id) {
-        api.delete(this.apiBack + '/' + id, this.$data)
-      },
       deleteOne(key) {
         this.dataPostDel = this.dataGet[key]
         this.dataGet.splice(key, 1)
         var id = this.dataPostDel.id
-        this.delete(id)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(index) {
         var id = this.dataGet[index].id
-        api.put(this.apiBack + '/' + id + '/', this.$data)
+        api.put(this.apiBack + '/' + id, this.$data)
         this.get()
       },
       exportExcel() {
-        // var rep = this.dataGet
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
-        var cad = ''
-        var cad2 = ''
-        var cad3 = ''
-        rep.forEach(element => {
-          element.formatos.forEach(e => {
-            cad = cad + e.name + ', '
-          })
-          element.bodegas.forEach(u => {
-            cad2 = cad2 + u.name + ', '
-          })
-          element.locales.forEach(y => {
-            cad3 = cad3 + y.name + ', '
-          })
-          element.bodegas = cad2
-          element.formatos = cad
-          element.locales = cad3
-          cad = ''
-          cad2 = ''
-          cad3 = ''
-        })
-        rep.formatos = cad
-        api.exportExcel(this.nameToExport, rep)
+        api.exportExcel(this.nameToExport, this.dataGet)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
-        var cad = ''
-        var cad2 = ''
-        var cad3 = ''
-        rep.forEach(element => {
-          element.formatos.forEach(e => {
-            cad = cad + e.name + ', '
-          })
-          element.bodegas.forEach(u => {
-            cad2 = cad2 + u.name + ', '
-          })
-          element.locales.forEach(y => {
-            cad3 = cad3 + y.name + ', '
-          })
-          element.bodegas = cad2
-          element.formatos = cad
-          element.locales = cad3
-          cad = ''
-          cad2 = ''
-          cad3 = ''
-        })
         var columns = [
           { title: 'ID', dataKey: 'id' },
-          { title: 'Zona', dataKey: 'zone' },
-          { title: 'Regional', dataKey: 'regional' },
-          { title: 'Provincia', dataKey: 'province' },
-          { title: 'Ciudad', dataKey: 'city' },
-          { title: 'Formatos', dataKey: 'formatos' },
-          { title: 'Locales', dataKey: 'locales' },
-          { title: 'Bodegas', dataKey: 'bodegas' }
+          { title: 'Nombre', dataKey: 'name' },
+          { title: 'Temperatura máxima aceptable', dataKey: 'temp_max' },
+          { title: 'Temperatura mínima aceptable', dataKey: 'temp_min' },
+          { title: 'Temperatura máxima ideal', dataKey: 'temp_max_ideal' },
+          { title: 'Temperatura mínima ideal', dataKey: 'temp_min_ideal' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
     }
   }

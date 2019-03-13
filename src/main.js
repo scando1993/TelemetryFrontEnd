@@ -8,6 +8,7 @@ import { sync } from 'vuex-router-sync'
 import routes from './routes'
 import store from './store'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import './../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
 // Import Helpers for filters
 import { domain, count, prettyDate, pluralize } from './filters'
 

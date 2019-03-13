@@ -11,34 +11,58 @@
             <div class="box-body ">
               <div class="box-content-create table-responsive">
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form method="POST" class="form-horizontal-create" target="hiddenFrame"  id="profile-form">
+                <form method="POST" class="form-horizontal-create" @submit="checkForm" target="hiddenFrame" id="store-create-form">
+                  <p v-if="errors.length">
+                    <b>Please correct the following error(s):</b>
+                    <ul>
+                      <li v-for="error in errors">{{ error }}</li>
+                    </ul>
+                  </p>
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
                       <input type="text" class="form-control" name="name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
                     </div>
                   </div>
-                      <div class="form-group">
-                        <label class="col-sm-3 control-label">Ubicación</label>
-                        <div class="col-sm-9 col-lg-10 controls-create">
-                          <select v-model="selectedLocal" class="FormatSelect">
-                            <option disabled value="">Por favor seleccionar uno</option>
-                            <option v-for="datoB in dataGet ">{{ datoB.zone }} - {{datoB.province}} - {{datoB.city}}</option>
-                          </select>
-                        </div>
-                      </div>
-                      <!-- Submit and cancel -->
-                      <div class="form-group">
-                        <div class="SaveCancel">
-                          <router-link class="pageLink" to="/store">
-                            <br />
-                            <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
-                            <a href="/store" type="button" class="btn">Cancelar </a>
-                          </router-link>
-                        </div>
-                      </div>
-                      <!--End Submit and cancel-->
-                    </form>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Zona</label>
+                    <div class="col-sm-9 col-lg-10 controls-create">
+                      <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect" required="required">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Provincia</label>
+                    <div class="col-sm-9 col-lg-10 controls-create">
+                      <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect" required="required">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Ciudad</label>
+                    <div class="col-sm-9 col-lg-10 controls-create">
+                      <select v-model="selectedCity" class="FormatSelect" required>
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- Submit and cancel -->
+                  <div class="form-group">
+                    <div class="SaveCancel">
+                      <router-link class="pageLink" to="/store">
+                        <br />
+                        <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
+                        <a href="/store" type="button" class="btn">Cancelar </a>
+                      </router-link>
+                    </div>
+                  </div>
+                  <!--End Submit and cancel-->
+                </form>
                 </div>
               <!-- /.box-body -->
             </div>
@@ -53,28 +77,61 @@
 </template>
 <script>
   import api from '@/api/goApi.js'
-  // import jsonUbiBox from './../ubication/data.json'
-
   export default {
     methods: {
+      checkForm: function (e) {
+        if (this.dataPostDel.name && this.selectedProvince && this.selectedZone && this.selectedCity) {
+          return true
+        }
+        this.errors = []
+        if (!this.dataPostDel.name) {
+          this.errors.push('El nombre es requerido.')
+        }
+        if (!this.selectedProvince) {
+          this.errors.push('Seleccione una provincia.')
+        }
+        if (!this.selectedZone) {
+          this.errors.push('Seleccione una zona.')
+        }
+        if (!this.selectedCity) {
+          this.errors.push('Seleccione una ciudad.')
+        }
+        e.preventDefault()
+      },
       save() {
-        console.log(this.dataPostDel.name + '----')
-        // se obtienne los ids de las ubicaciones
-        // api.getAll(this.apiBack, this.$data)
-        console.log(this.dataGet)
-        var id = api.search(this.dataGet, 'zone', this.selectedLocal.split(' - ')[0]).id
-        console.log('A  qui el id')
-        console.log(id)
-        console.log(this.dataPostDel)
+        var id = api.search(this.city.listCities, 'name', this.selectedCity).id
         api.post(this.apiBack + '/' + id, this.$data)
+      },
+      loadProvinces() {
+        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
+      },
+      loadCities() {
+        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
       }
     },
     data() {
       return {
-        apiBack: '/api/bodega',
-        apiBackUbication: '/api/ubicacion',
+        apiBack: '/bodega',
+        apiBackZone: '/zona',
         error: '',
-        selectedLocal: '',
+        errors: [],
+        selectedZone: '',
+        selectedProvince: '',
+        selectedCity: '',
+        zone: {
+          error: '',
+          dataGet: []
+        },
+        province: {
+          error: '',
+          dataGet: [],
+          listProvinces: []
+        },
+        city: {
+          error: '',
+          dataGet: [],
+          listCities: []
+        },
         dataGet: [],
         dataPostDel: { // este es basicamente un JSON
           name: ''
@@ -82,8 +139,7 @@
       }
     },
     mounted() {
-      // se obtiene las ubicaciones
-      api.getAll(this.apiBackUbication, this.$data)
+      api.getAll(this.apiBackZone, this.zone)
     }
   }
 </script>

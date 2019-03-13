@@ -6,6 +6,7 @@
         <div class='box-content'>
           <div class='btn-toolbar pull-right clearfix'>
             <div class='btn-group'>
+              <!--<TableMenu/>-->
               <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
                 <i class='fa fa-file-excel-o'></i>
               </a>
@@ -35,20 +36,15 @@
             <div class='box-body'>
               <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
                 <div class='row'>
-                  <div class='col-sm-6'>
-                    <div id='example1_length' class='dataTables_length'>
-                    </div>
-                  </div>
-                </div>
-
-                <div class='row'>
                   <div class='col-sm-12 table-responsive'>
                       <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
                             <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 35px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc TextCenterTH'>ID</th>
-                            <th aria-label='Nombre: activate to sort column ascending'  colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
-                            <th aria-label='Ubicacion: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ubicación</th>
+                            <th aria-label='Nombre: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
+                            <th aria-label='Zone: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Zona</th>
+                            <th aria-label='Province: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Provincia</th>
+                            <th aria-label='City: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ciudad</th>
                             <th class="JustifyButtonTD"></th>
                           </tr>
                         </thead>
@@ -56,7 +52,9 @@
                           <tr class='even' role='row' v-for='dato,index in bodegas.dataGet '>
                             <td class='sorting_1 TextFieldC'>{{dato.id}}</td>
                             <td class="TextFieldC">{{dato.name}}</td>
-                            <td class="TextFieldC">{{dato.zone}}</td>
+                            <td class="TextFieldC">{{dato.zoneName}}</td>
+                            <td class="TextFieldC">{{dato.provinceName}}</td>
+                            <td class="TextFieldC">{{dato.cityName}}</td>
                             <!--Start Buttom-->
                             <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
@@ -77,23 +75,42 @@
                                     <!--end modal-header-->
                                     <!--Modal-body-->
                                     <div class="modal-body">
-                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">                                        
-                                          <div class="form-group">
-                                            <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
-                                            <div class="col-sm-12 col-lg-15 controls">
-                                              <input type="text" class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
-                                              <br />
-                                            </div>
-                                          </div><br />
-                                          <div class="form-group">
-                                            <label class="col-sm-3 col-lg-2 control-label">Ubicación</label>
-                                            <div class="col-sm-12 col-lg-15 controls">
-                                              <select v-model="selectedUbication" class="FormatSelect">
-                                                <option disabled value="">Por favor seleccionar uno</option>
-                                                <option  v-for="datoB in ubications.dataGet ">{{ datoB.zone }} - {{datoB.province}} - {{datoB.city}}</option>
-                                              </select>
-                                            </div>
-                                          </div>                                        
+                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                        <div class="form-group">
+                                          <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                          <div class="col-sm-12 col-lg-15 controls">
+                                            <input type="text" class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
+                                            <br />
+                                          </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Zona</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Provincia</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Ciudad</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedCity" class="FormatSelect">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                                            </select>
+                                          </div>
+                                        </div>
                                       </form>
                                     </div>
                                     <!--end modal-body-->
@@ -101,7 +118,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn btn-default" v-on:click="save(index)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -130,21 +147,34 @@
 </template>
 <script>
   import $ from 'jquery'
-  // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
   import api from '@/api/goApi.js'
+  //  import TableMenu from './../TableMenu'
   export default {
+    //  components: { TableMenu },
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/api/bodega',
-        apiBackUbication: '/api/ubicacion',
+        apiBack: '/bodega',
+        apiBackZone: '/zona',
         nameToExport: 'Bodega',
-        selectedUbication: '',
-        ubications: {
+        selectedZone: '',
+        selectedProvince: '',
+        selectedCity: '',
+        zone: {
           error: '',
           dataGet: []
+        },
+        province: {
+          error: '',
+          dataGet: [],
+          listProvinces: []
+        },
+        city: {
+          error: '',
+          dataGet: [],
+          listCities: []
         },
         bodegas: {
           error: '',
@@ -164,35 +194,29 @@
           $('#table_store').DataTable()
         })
       }, this.inicialDelay)
-      this.get()
-      api.getAll(this.apiBackUbication, this.ubications)
+      api.getAll(this.apiBack, this.bodegas)
+      api.getAll(this.apiBackZone, this.zone)
     },
     methods: {
       refresh() {
         location.reload()
       },
-      get() {
-        var d = api.getAll(this.apiBack, this.bodegas)
-        var s = d['dataGet']
-        console.log(s)
+      loadProvinces() {
+        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
       },
-      post() {
-        api.post(this.apiBack, this.$data)
-      },
-      delete(id) {
-        api.delete(this.apiBack + '/' + id, this.$data)
+      loadCities() {
+        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
       },
       deleteOne(key) {
         this.dataPostDel = this.bodegas.dataGet[key]
         this.bodegas.dataGet.splice(key, 1)
         var id = this.dataPostDel.id
-        this.delete(id)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       save (index) {
         var id = this.bodegas.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedUbication.split(' - ')[0]).id
-        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
-        this.get()
+        var idCity = api.search(this.city.listCities, 'name', this.selectedCity).id
+        api.put(this.apiBack + '/' + id + '/' + idCity, this.$data)
       },
       exportExcel() {
         var rep = JSON.parse(JSON.stringify(this.bodegas.dataGet))
@@ -202,8 +226,10 @@
         var rep = JSON.parse(JSON.stringify(this.bodegas.dataGet))
         var columns = [
           {title: 'ID', dataKey: 'id'},
-          {title: 'Ubicacion', dataKey: 'zone'},
-          {title: 'Nombre', dataKey: 'name'}
+          { title: 'Nombre', dataKey: 'name' },
+          { title: 'Zona', dataKey: 'zoneName' },
+          { title: 'Provincia', dataKey: 'provinceName' },
+          { title: 'Ciudad', dataKey: 'cityName' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }

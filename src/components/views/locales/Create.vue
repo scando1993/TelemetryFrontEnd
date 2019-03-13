@@ -25,9 +25,36 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Lugar</label>
+                    <label class="col-sm-3 col-lg-2 control-label">Family</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="dataPostDel.place" name="ruta" maxlength="50" value="">
+                      <input type="text" class="form-control" v-model="dataPostDel.family" name="family" maxlength="50" value="">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Zona</label>
+                    <div class="col-sm-9 col-lg-10 controls-create">
+                      <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Provincia</label>
+                    <div class="col-sm-9 col-lg-10 controls-create">
+                      <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Ciudad</label>
+                    <div class="col-sm-9 col-lg-10 controls-create">
+                      <select v-model="selectedCity" class="FormatSelect">
+                        <option disabled value="">Por favor seleccionar uno</option>
+                        <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -42,21 +69,14 @@
                       <input type="number" class="form-control" v-model="dataPostDel.latitude" name="ruta" maxlength="50" value="">
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
-                    <div class="col-sm-9 col-lg-10 controls">
-                      <select v-model="selectedLocal" class="FormatSelect">
-                        <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoL in dataGet ">{{ datoL.zone }} - {{datoL.province}} - {{datoL.city}}</option>
-                      </select>
-                    </div>
-                  </div>
+
                   <!-- Submit and cancel -->
                   <div class="form-group">
                     <div class="SaveCancel">
-                      <router-link class="pageLink" to="/locals"><br/>
+                      <router-link class="pageLink" to="/locals">
+                        <br />
                         <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
-                        <a href="/format" type="button" class="btn">Cancelar</a>
+                        <a href="/locals" type="button" class="btn">Cancelar</a>
                       </router-link>
                     </div>
                   </div>
@@ -84,33 +104,51 @@
         this.error = newData.error
         this.dataPostDel = newData.dataPostDel
       },
-      get() {
-        api.getAll(this.apiBack, this.$data)
-      },
       save() {
-        var id = api.search(this.dataGet, 'zone', this.selectedLocal.split(' - ')[0]).id
+        var id = api.search(this.city.listCities, 'name', this.selectedCity).id
         api.post(this.apiBack + '/' + id, this.$data)
+      },
+      loadProvinces() {
+        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
+      },
+      loadCities() {
+        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
       }
     },
     data() {
       return {
-        apiBack: '/api/locales',
-        apiBackUbication: '/api/ubicacion',
+        apiBack: '/locales',
+        apiBackZone: '/zona',
         error: '',
-        selectedLocal: '',
+        selectedZone: '',
+        selectedProvince: '',
+        selectedCity: '',
+        zone: {
+          error: '',
+          dataGet: []
+        },
+        province: {
+          error: '',
+          dataGet: [],
+          listProvinces: []
+        },
+        city: {
+          error: '',
+          dataGet: [],
+          listCities: []
+        },
         dataGet: [],
         dataPostDel: { // este es basicamente un JSON
           numLoc: 0,
           name: '',
+          family: '',
           length: 0,
-          latitude: 0,
-          place: ''
+          latitude: 0
         }
       }
     },
     mounted() {
-      // se obtiene las ubicaciones
-      api.getAll(this.apiBackUbication, this.$data)
+      api.getAll(this.apiBackZone, this.zone)
     }
   }
 </script>

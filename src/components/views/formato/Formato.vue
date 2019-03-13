@@ -17,7 +17,7 @@
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-              <router-link class='pageLink' to='/path'>
+              <router-link class='pageLink' to='/format'>
                 <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
                   <i class='fa fa-repeat'></i>
                 </a>
@@ -47,8 +47,9 @@
                       <thead>
                         <tr role="row">
                           <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 35px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc ToCenterTH">ID</th>
-                          <th aria-label="Nombre: activate to sort column ascending"  colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
-                          <th aria-label="Ruta: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Ruta</th>
+                          <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
+                          <th aria-label="Codigo: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Código</th>
+                          <th aria-label="Local: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Local</th>
                           <th class="JustifyButtonTD"></th>
                         </tr>
                       </thead>
@@ -56,9 +57,10 @@
                         <tr class="even" role="row" v-for="dato,index in dataGet ">
                           <td class="sorting_1 TextFieldC">{{dato.id}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
-                          <td class="TextFieldC">{{dato.ruta}}</td>
+                          <td class="TextFieldC">{{dato.code}}</td>
+                          <td class="TextFieldC">{{dato.localName}}</td>
                           <td class="JustifyButtonTD">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete"  v-on:click='deleteOne(index)'>
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
@@ -84,17 +86,17 @@
                                         </div>
                                       </div><br />
                                       <div class="form-group">
-                                        <label class="col-sm-4 control-label">Ruta</label>
+                                        <label class="col-sm-4 control-label">Código</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.code" v-model="dataPostDel.code" name="code" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-4 control-label">Ubicaciones</label>
+                                        <label class="col-sm-4 control-label">Local</label>
                                         <div class="col-sm-9 controls">
                                           <select v-model="selectedLocal" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
+                                            <option v-for="datoL in locals.dataGet ">{{ datoL.name }}</option>
                                           </select>
                                         </div>
                                       </div>
@@ -143,10 +145,10 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/api/formato',
-        apiBackUbication: '/api/ubicacion',
+        apiBack: '/formato',
+        apiBackLocals: '/locales',
         selectedLocal: '',
-        ubications: {
+        locals: {
           error: '',
           dataGet: []
         },
@@ -155,7 +157,7 @@
         dataGet: [], // debe dejarse como arreglo vacio
         dataPostDel: { // este es basicamente un JSON
           name: '',
-          ruta: ''
+          code: ''
         }
       }
     },
@@ -167,7 +169,7 @@
         })
       }, this.inicialDelay)
       this.get()
-      api.getAll(this.apiBackUbication, this.ubications)
+      api.getAll(this.apiBackLocals, this.locals)
     },
     methods: {
       refresh() {
@@ -176,22 +178,16 @@
       get() {
         api.getAll(this.apiBack, this.$data)
       },
-      post() {
-        api.post(this.apiBack, this.$data)
-      },
-      delete(id) {
-        api.delete(this.apiBack + '/' + id, this.$data)
-      },
       deleteOne(key) {
         this.dataPostDel = this.dataGet[key]
         this.dataGet.splice(key, 1)
         var id = this.dataPostDel.id
-        this.delete(id)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(index) {
         var id = this.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
-        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
+        var idLocal = api.search(this.locals.dataGet, 'name', this.selectedLocal).id
+        api.put(this.apiBack + '/' + id + '/' + idLocal, this.$data)
         this.get()
       },
       exportExcel() {
@@ -201,7 +197,8 @@
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Nombre', dataKey: 'name' },
-          { title: 'Ruta', dataKey: 'ruta' }
+          { title: 'Código', dataKey: 'code' },
+          { title: 'Local', dataKey: 'localName' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }

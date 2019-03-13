@@ -9,7 +9,7 @@
             name="search"
             id="search"
             class="search form-control-search"
-            data-toggle="hideseek" placeholder="Search Menus"
+            data-toggle="hideseek" placeholder="Buscar Menus"
             data-list=".sidebar-menu">
           <span class="input-group-btn">
             <button type="submit" name="search" id="search-btn" class="btn btn-flat">

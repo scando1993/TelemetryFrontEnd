@@ -1,66 +1,51 @@
 <template>
-  <section class='content'>
-    <div class='span12'>
-      <div class='box'>
-        <!--Box content-->
-        <div class='box-content'>
-          <div class='btn-toolbar pull-right clearfix'>
-            <div class='btn-group'>
-              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Export to Excel'  data-table='table-terminals'>
-                <i class='fa fa-file-excel-o'></i>
-              </a>
-              <a class='btn btn-circle show-tooltip export-to-file' title='Export to PDF'  data-table='table-terminals'>
-                <i class='fa fa-file-pdf-o'></i>
-              </a>
-              <router-link class='pageLink' to='/createPath'>
-                <a class='btn btn-circle show-tooltip' title='Add new element' href='/createPath'>
-                  <i class='fa fa-plus'></i>
-                </a>
-              </router-link>             
-              <router-link class='pageLink' to='/path'>
-                <a class='btn btn-circle show-tooltip' title='Refresh' id='refresh-administrators' >
-                  <i class='fa fa-repeat'></i>
-                </a>
-              </router-link>
-            </div>
-          </div>
-          <br />
-          <br />
-        </div>
-        <!-- END Box Content -->
-
-        <div class='row center-block'>
-          <div class='col-md-12'>
-            <!--Box-body-->
-            <div class='box-body'>
-              <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
-                <div class='row'>
-                  <div class='col-sm-6'>
-                    <div id='example1_length' class='dataTables_length'>
-                    </div>
-                  </div>
-                </div>
-
-                <div class='row'>
-                  <div class='col-sm-12 table-responsive'>
-                      
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--End Box-body -->
-          </div>
-          <!--End Box-->
-        </div>
-      </div>
-    </div>
-    <!--</div>-->
-    <!--End content-->
-  </section>
+  <section class="content ">
+  <Timeline :timeline-items="timelineItems"
+            :message-when-no-items="messageWhenNoItems" />
+    </section>
 </template>
+
+<script>
+  import Timeline from 'timeline-vuejs'
+
+  export default {
+    components: {
+      Timeline
+    },
+    data: () => ({
+      messageWhenNoItems: 'There are not items',
+      dataTimeline: [
+        {
+          from: new Date(2018, 7),
+          title: 'Name',
+          description:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius earum architecto dolor, vitae magnam voluptate accusantium assumenda numquam error mollitia, officia facere consequuntur reprehenderit cum voluptates, ea tempore beatae unde.'
+        },
+        {
+          from: new Date(2016, 1),
+          title: 'Name',
+          description:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius earum architecto dolor, vitae magnam voluptate accusantium assumenda numquam error mollitia, officia facere consequuntur reprehenderit cum voluptates, ea tempore beatae unde.'
+        },
+        {
+          from: new Date(2016, 6),
+          title: 'Name',
+          description:
+            'Lorem ipsum dolor vitae magnam voluptate fea tempore beatae unde.'
+        },
+        {
+          from: new Date(2012, 1),
+          title: 'Name',
+          description:
+            'Lorem ipsum dognam voluptate accusantisequuntur reprehenderit cum a tempore beatae unde.'
+        }
+      ]
+    })
+  }
+</script>
 <style>
 
-    /* Using the bootstrap style, but overriding the font to not draw in
+  /* Using the bootstrap style, but overriding the font to not draw in
      the Glyphicons Halflings font as an additional requirement for sorting icons.
 
      An alternative to the solution active below is to use the jquery style
@@ -69,23 +54,23 @@
   @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
   */
 
-    @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+  @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:after {
-      font-family: 'FontAwesome';
-    }
+  table.dataTable thead .sorting:after,
+  table.dataTable thead .sorting_asc:after,
+  table.dataTable thead .sorting_desc:after {
+    font-family: 'FontAwesome';
+  }
 
-    table.dataTable thead .sorting:after {
-      content: '\f0dc';
-    }
+  table.dataTable thead .sorting:after {
+    content: '\f0dc';
+  }
 
-    table.dataTable thead .sorting_asc:after {
-      content: '\f0dd';
-    }
+  table.dataTable thead .sorting_asc:after {
+    content: '\f0dd';
+  }
 
-    table.dataTable thead .sorting_desc:after {
-      content: '\f0de';
-    }
+  table.dataTable thead .sorting_desc:after {
+    content: '\f0de';
+  }
 </style>
