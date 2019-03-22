@@ -15,25 +15,25 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">No.Local</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="number" class="form-control" v-model="dataPostDel.numLoc" name="name" maxlength="50" value="">
+                      <input type="number" required class="form-control" v-model="dataPostDel.numLoc" name="name" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="dataPostDel.name" name="ruta" maxlength="50" value="">
+                      <input type="text" required class="form-control" v-model="dataPostDel.name" name="ruta" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Family</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" v-model="dataPostDel.family" name="family" maxlength="50" value="">
+                      <input type="text" required class="form-control" v-model="dataPostDel.family" name="family" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Zona</label>
                     <div class="col-sm-9 col-lg-10 controls-create">
-                      <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect">
+                      <select v-model="selectedZone" required v-on:click="loadProvinces" class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
                         <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
                       </select>
@@ -42,7 +42,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Provincia</label>
                     <div class="col-sm-9 col-lg-10 controls-create">
-                      <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect">
+                      <select v-model="selectedProvince" required v-on:click="loadCities" class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
                         <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
                       </select>
@@ -51,7 +51,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Ciudad</label>
                     <div class="col-sm-9 col-lg-10 controls-create">
-                      <select v-model="selectedCity" class="FormatSelect">
+                      <select v-model="selectedCity" required class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
                         <option v-for="datoC in city.listCities">{{datoC.name}}</option>
                       </select>
@@ -60,24 +60,23 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Longitud</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="number" class="form-control" v-model="dataPostDel.length" name="name" maxlength="50" value="">
+                      <input type="number" required class="form-control" v-model="dataPostDel.length" name="name" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Latitud</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="number" class="form-control" v-model="dataPostDel.latitude" name="ruta" maxlength="50" value="">
+                      <input type="number" required class="form-control" v-model="dataPostDel.latitude" name="ruta" maxlength="50" value="">
                     </div>
                   </div>
 
                   <!-- Submit and cancel -->
                   <div class="form-group">
                     <div class="SaveCancel">
-                      <router-link class="pageLink" to="/locals">
-                        <br />
+                      <p>
                         <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
-                        <a href="/locals" type="button" class="btn">Cancelar</a>
-                      </router-link>
+                        <button class="btn btn-default" v-on:click="cancel">Cancelar </button>
+                      </p>
                     </div>
                   </div>
                   <!--End Submit and cancel-->
@@ -100,6 +99,9 @@
   import api from '@/api/goApi.js'
   export default {
     methods: {
+      cancel() {
+        this.$router.push(this.page)
+      },
       updateData(newData) {
         this.error = newData.error
         this.dataPostDel = newData.dataPostDel
@@ -107,6 +109,7 @@
       save() {
         var id = api.search(this.city.listCities, 'name', this.selectedCity).id
         api.post(this.apiBack + '/' + id, this.$data)
+        this.$router.push(this.page)
       },
       loadProvinces() {
         this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
@@ -123,6 +126,7 @@
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
+        page: '/locals',
         zone: {
           error: '',
           dataGet: []

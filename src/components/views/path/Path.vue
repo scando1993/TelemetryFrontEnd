@@ -261,7 +261,7 @@
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(index) {
-        var id = this.dataGet[index].id
+        //  var id = this.dataGet[index].id
         var idBoxcar = api.search(this.boxcar.dataGet, 'name', this.selectedBoxcar).id
         var idDevice = api.search(this.devices.dataGet, 'name', this.selectedDevice).id
         var idProduct = api.search(this.products.dataGet, 'name', this.selectedProduct).id
@@ -269,7 +269,7 @@
         var idEndLocal = api.search(this.locals.dataGet, 'name', this.selectedEndLocal).id
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
-        api.put(this.apiBack + '/' + id + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal, this.$data)
+        api.put(this.apiBack + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal, this.$data)
         this.get()
       },
       exportExcel() {

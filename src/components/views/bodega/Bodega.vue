@@ -79,7 +79,7 @@
                                         <div class="form-group">
                                           <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                                           <div class="col-sm-12 col-lg-15 controls">
-                                            <input type="text" class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
+                                            <input type="text" required class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
                                             <br />
                                           </div>
                                         </div>
@@ -87,7 +87,7 @@
                                         <div class="form-group">
                                           <label class="col-sm-3 control-label">Zona</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect">
+                                            <select v-model="selectedZone" required="required" v-on:click="loadProvinces" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
                                             </select>
@@ -96,7 +96,7 @@
                                         <div class="form-group">
                                           <label class="col-sm-3 control-label">Provincia</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect">
+                                            <select v-model="selectedProvince" required="required" v-on:click="loadCities" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
                                             </select>
@@ -105,7 +105,7 @@
                                         <div class="form-group">
                                           <label class="col-sm-3 control-label">Ciudad</label>
                                           <div class="col-sm-9 col-lg-10 controls">
-                                            <select v-model="selectedCity" class="FormatSelect">
+                                            <select v-model="selectedCity" required="required" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
                                               <option v-for="datoC in city.listCities">{{datoC.name}}</option>
                                             </select>

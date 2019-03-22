@@ -63,7 +63,7 @@ async function generateEmbedToken(){
     var options = {
             headers: headers,
             method: 'POST',
-            body: JSON.stringify({"accessLevel": "View"})
+            body: JSON.stringify({ "accessLevel": "Edit" })
     };
 
     var url = config.apiUrl + 'v1.0/myorg/groups/' + config.workspaceId + '/reports/' + reportId + '/GenerateToken';
@@ -88,8 +88,8 @@ async function generateEmbedTokenWithRls(username, roles){
     var authHeader = utils.getAuthHeader(token);
 
     //getting dataset for effective identity
-    var reportParams = utils.createGetReportRequestParams(token);
-    reportResp = await utils.sendGetReportRequestAsync(reportParams.url, reportParams.options);
+  var reportParams = utils.createGetReportRequestParams(token);
+  reportResp = await utils.sendGetReportRequestAsync(reportParams.url, reportParams.options);
     var reportId = reportResp.id;
     var datasetId = reportResp.datasetId;
     var datasetResp = await utils.sendGetDatasetRequestAsync(token, datasetId);
@@ -108,7 +108,8 @@ async function generateEmbedTokenWithRls(username, roles){
     ];
 
     var body = {
-        "accessLevel": "View",
+        "accessLevel": "Edit",
+        //  "allowSaveAs": "true",
         "identities": identities
     }
 

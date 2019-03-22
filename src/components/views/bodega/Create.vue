@@ -11,17 +11,12 @@
             <div class="box-body ">
               <div class="box-content-create table-responsive">
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form method="POST" class="form-horizontal-create" @submit="checkForm" target="hiddenFrame" id="store-create-form">
-                  <p v-if="errors.length">
-                    <b>Please correct the following error(s):</b>
-                    <ul>
-                      <li v-for="error in errors">{{ error }}</li>
-                    </ul>
-                  </p>
+                <form id="create-store"  action="/create" method="post" class="form-horizontal-create" target="hiddenFrame" >
+                  
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" name="name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
+                      <input type="text" class="form-control" required name="name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
@@ -54,11 +49,10 @@
                   <!-- Submit and cancel -->
                   <div class="form-group">
                     <div class="SaveCancel">
-                      <router-link class="pageLink" to="/store">
-                        <br />
-                        <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
-                        <a href="/store" type="button" class="btn">Cancelar </a>
-                      </router-link>
+                      <p>
+                        <button type="submit" class="btn btn-primary" v-on:click="save" ><i class="fa fa-ok"></i> Guardar</button>
+                        <button class="btn btn-default" v-on:click="cancel" >Cancelar </button>
+                      </p>
                     </div>
                   </div>
                   <!--End Submit and cancel-->
@@ -79,28 +73,13 @@
   import api from '@/api/goApi.js'
   export default {
     methods: {
-      checkForm: function (e) {
-        if (this.dataPostDel.name && this.selectedProvince && this.selectedZone && this.selectedCity) {
-          return true
-        }
-        this.errors = []
-        if (!this.dataPostDel.name) {
-          this.errors.push('El nombre es requerido.')
-        }
-        if (!this.selectedProvince) {
-          this.errors.push('Seleccione una provincia.')
-        }
-        if (!this.selectedZone) {
-          this.errors.push('Seleccione una zona.')
-        }
-        if (!this.selectedCity) {
-          this.errors.push('Seleccione una ciudad.')
-        }
-        e.preventDefault()
+      cancel() {
+        this.$router.push(this.page)
       },
       save() {
         var id = api.search(this.city.listCities, 'name', this.selectedCity).id
         api.post(this.apiBack + '/' + id, this.$data)
+        this.$router.push(this.page)
       },
       loadProvinces() {
         this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
@@ -114,10 +93,10 @@
         apiBack: '/bodega',
         apiBackZone: '/zona',
         error: '',
-        errors: [],
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
+        page: '/store',
         zone: {
           error: '',
           dataGet: []

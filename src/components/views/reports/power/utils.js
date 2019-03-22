@@ -46,7 +46,7 @@ function createGetReportRequestParams(accessToken){
   };
   var options = {
     headers: headers,
-    method: 'GET',
+    method: 'GET'
   };
   var url = config.apiUrl + 'v1.0/myorg/groups/' + config.workspaceId + '/reports/' + config.reportId;
 

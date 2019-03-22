@@ -185,3 +185,6 @@ i.formatIcon {
   width: 20px;
   display: inline-block;
 }
+section.content-headerPB {
+  padding: 8px 0 0 0px;
+}

@@ -10,11 +10,11 @@
               <!-- /.box-header -->
               <div class="box-body ">
                 <div class="box-content table-responsive">
-                  <form action="/create" method="POST" class="form-horizontal-create" id="profile-form">
+                  <form action="save" method="POST" class="form-horizontal-create" id="profile-form">
                     <div class="form-group ">
                       <label class=" col-sm-6 control-label">Furgón</label>
                       <div class="col-sm-6 controls-create">
-                        <select v-model="selectedBoxcar" class="FormatSelect">
+                        <select required v-model="selectedBoxcar" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoF in boxcar.dataGet ">{{ datoF.name}}</option>
                         </select>
@@ -23,7 +23,7 @@
                     <div class="form-group">
                       <label class="col-sm-12 control-label">Dispositivo</label>
                       <div class="col-sm-9 col-lg-10 controls-create">
-                        <select v-model="selectedDevice" class="FormatSelect">
+                        <select required v-model="selectedDevice" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoD in devices.dataGet">{{ datoD.name }}</option>
                         </select>
@@ -32,7 +32,7 @@
                     <div class="form-group ">
                       <label class=" col-sm-6 control-label">Producto</label>
                       <div class="col-sm-6 controls-create">
-                        <select v-model="selectedProduct" class="FormatSelect">
+                        <select required v-model="selectedProduct" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoP in products.dataGet ">{{ datoP.name}}</option>
                         </select>
@@ -41,21 +41,21 @@
                     <div class="form-group">
                       <label class="col-sm-12 control-label">Seleccione la fecha y hora de inicio</label>
                       <div class="col-sm-3 controls-create">
-                        <input type="date" class="FormatDate" v-model="$data.startDate" name="startDate">
-                        <input type="time" class="FormatHour" v-model="$data.start_hour" name="startHour">
+                        <input required type="date" class="FormatDate" v-model="$data.startDate" name="startDate">
+                        <input required type="time" class="FormatHour" v-model="$data.start_hour" name="startHour">
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-12 control-label">Seleccione la fecha y hora Fin</label>
                       <div class="col-sm-9 controls-create">
-                        <input type="date" class="FormatDate" v-model="$data.endDate" name="endDate">
-                        <input type="time" class="FormatHour" v-model="$data.end_hour" name="endHour">
+                        <input required type="date" class="FormatDate" v-model="$data.endDate" name="endDate">
+                        <input required type="time" class="FormatHour" v-model="$data.end_hour" name="endHour">
                       </div>
                     </div>
                     <div class="form-group ">
                       <label class=" col-sm-6 control-label">Local Inicio</label>
                       <div class="col-sm-6 controls-create">
-                        <select v-model="selectedStartLocal" class="FormatSelect">
+                        <select required v-model="selectedStartLocal" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoL in locals.dataGet ">{{ datoL.name}}</option>
                         </select>
@@ -64,7 +64,7 @@
                     <div class="form-group ">
                       <label class=" col-sm-6 control-label">Local Fin</label>
                       <div class="col-sm-6 controls-create">
-                        <select v-model="selectedEndLocal"  class="FormatSelect">
+                        <select required v-model="selectedEndLocal"  class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
                           <option v-for="datoL in locals.dataGet ">{{ datoL.name}}</option>
                         </select>
@@ -73,12 +73,10 @@
                     <!-- Submit and cancel -->
                     <div class="form-group">
                       <div class="SaveCancel">
-                        <br />
-                        <router-link class="pageLink" to="/path">
-                          <br />
+                        <p>
                           <button type="submit" class="btn btn-primary" v-on:click="save"><i class="fa fa-ok"></i> Guardar</button>
-                          <a href="/path" type="button" class="btn">Cancelar </a>
-                        </router-link>
+                          <button class="btn btn-default" v-on:click="cancel">Cancelar </button>
+                        </p>
                       </div>
                     </div>
                     <!--End Submit and cancel-->
@@ -99,17 +97,20 @@
   import api from '@/api/goApi.js'
   export default {
     methods: {
+      cancel() {
+        this.$router.push(this.page)
+      },
       save() {
         var idBoxcar = api.search(this.boxcar.dataGet, 'name', this.selectedBoxcar).id
         var idDevice = api.search(this.devices.dataGet, 'name', this.selectedDevice).id
         var idProduct = api.search(this.products.dataGet, 'name', this.selectedProduct).id
         var idStartLocal = api.search(this.locals.dataGet, 'name', this.selectedStartLocal).id
         var idEndLocal = api.search(this.locals.dataGet, 'name', this.selectedEndLocal).id
-        this.dataPostDel.start_date = new Date(this.startDate + ' ' + this.start_hour)
-        this.dataPostDel.end_date = new Date(this.endDate + ' ' + this.end_hour)
-        console.log('+++++++')
-        console.log(this.$data)
+        this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
+        this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
+        console.log(this.apiBack + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal)
         api.post(this.apiBack + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal, this.$data)
+        this.$router.push(this.page)
       }
     },
     data() {
@@ -119,6 +120,7 @@
         apiDevice: '/device',
         apiProduct: '/producto',
         apiLocals: '/locales',
+        page: '/path',
         selectedBoxcar: '',
         selectedDevice: '',
         selectedProduct: '',

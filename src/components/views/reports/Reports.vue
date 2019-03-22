@@ -1,5 +1,5 @@
 <template>
-  <section class="content-header">
+  <section class="content-headerPB">
     <div id='reportContainer' style="height: 800px"></div>
   </section>
 

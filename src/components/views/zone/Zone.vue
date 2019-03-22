@@ -84,14 +84,14 @@
                                       <div class="form-group">
                                         <label class="col-sm-12 col-lg-12 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_zone" maxlength="100" value="">
+                                          <input type="text" class="form-control-modal" required v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_zone" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-5 control-label">Seleccione la(s) Provincia(s)</label>
                                         <ul id="checkboxZone" class="GroupCheckbox">
                                           <li v-for="datoL, indexU in province.dataGet" class="controls-modal">
-                                            <input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
+                                            <input required type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
                                             <label>{{datoL.name}}</label>
                                           </li>
                                         </ul>
@@ -133,7 +133,6 @@
 <script>
   import $ from 'jquery'
   import api from '@/api/goApi.js'
-  import valid from '@/api/validated.js'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -174,9 +173,6 @@
       api.getAll(this.apiBackProvince, this.province)
     },
     methods: {
-      validatedF() {
-        return valid.emptyFields(this.$data, 'zone')
-      },
       check: function (e) {
         if (e.target.checked) {
           console.log(e.target.value)
