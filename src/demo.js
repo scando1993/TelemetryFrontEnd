@@ -44,28 +44,42 @@ export const stats = [{
 }]
 
 export const timeline = [{
-  icon: 'fa-envelope',
+  icon: 'icofont-map-pins',
   color: 'blue',
-  title: 'Write short novel',
+  title: 'Inicio de la ruta',
   time: moment().endOf('day').fromNow(),
-  body: 'Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle quora plaxo ideeli hulu weebly balihoo...',
-  buttons: [{
-    type: 'primary',
-    message: 'Read more',
-    href: 'https://github.com/misterGF/CoPilot',
-    target: '_blank'
-  }]
+  body: 'El furgón F85 con dispositivo *device1* y producto *product1* inicia el recorrido desde el Local *nameStartLocal* hasta *nameEndLocal* con fecha de inicio *start_date* y fecha estimada de llegada *end_date*. La temperatura del producto empieza con 26ºC'
+  //  buttons: [{
+    //  type: 'primary',
+    //  message: 'Read more',
+    //  href: 'https://github.com/misterGF/CoPilot',
+    //  target: '_blank'
+  //  }]
 },
 {
-  icon: 'fa-user',
+  icon: 'icofont-industries-4',
   color: 'yellow',
-  title: 'Sarah Young accepted your friend request',
+  title: 'Llegó a la bodega N',
+  time: moment().endOf('day').fromNow(),
+  body: 'El furgón F259 ha llegado al local/bodega *name*. Producto *p* posee una temperatura de 26ºC.'
+  //  buttons: [{
+  //  type: 'primary',
+  //  message: 'Read more',
+  //  href: 'https://github.com/misterGF/CoPilot',
+  //  target: '_blank'
+  //  }]
+},
+{
+  icon: 'fa fa-truck',
+  color: 'green',
+  title: 'En ruta',
   time: moment('20150620', 'MMM Do YY').fromNow()
 },
 {
-  icon: 'fa-camera',
-  color: 'purple',
-  title: 'Watch a youTube video',
+  icon: 'icofont-eye-alt',
+  color: 'red',
+  title: 'ALERTA!!',
   time: moment('20130620', 'YYYYMMDD').fromNow(),
-  body: '<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/8aGhZQkoFbQ" frameborder="0" allowfullscreen></iframe></div>'
+  body: 'Temperatura alta : 25ºC'
+  //  body: '<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="/routes" frameborder="0" allowfullscreen></iframe></div>'
 }]

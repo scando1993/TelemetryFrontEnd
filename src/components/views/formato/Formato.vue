@@ -17,7 +17,7 @@
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>
-              <router-link class='pageLink' to='/path'>
+              <router-link class='pageLink' to='/format'>
                 <a class='btn btn-circle show-tooltip' title='Actualizar' v-on:click='refresh' id='refresh-administrators'>
                   <i class='fa fa-repeat'></i>
                 </a>
@@ -46,19 +46,21 @@
                     <table aria-describedby="Tabla_de_elementos" role="grid" id="tabla_formato" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ruta</th>
-                          <th></th>
+                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 35px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc ToCenterTH">ID</th>
+                          <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
+                          <th aria-label="Codigo: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Código</th>
+                          <th aria-label="Local: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Local</th>
+                          <th class="JustifyButtonTD"></th>
                         </tr>
                       </thead>
                       <tbody id="campos_bodega">
                         <tr class="even" role="row" v-for="dato,index in dataGet ">
-                          <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.name}}</td>
-                          <td>{{dato.ruta}}</td>
-                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
-                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
+                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                          <td class="TextFieldC">{{dato.name}}</td>
+                          <td class="TextFieldC">{{dato.code}}</td>
+                          <td class="TextFieldC">{{dato.localName}}</td>
+                          <td class="JustifyButtonTD">
+                            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
@@ -77,24 +79,24 @@
                                   <!--Modal-body-->
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
-                                      <div class="form-group col-sm-12 col-lg-12">
-                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">Nombre</label>
+                                        <div class="col-sm-9  controls">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                                         </div>
                                       </div><br />
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Ruta</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.ruta" v-model="dataPostDel.ruta" name="path" maxlength="50" value="">
+                                        <label class="col-sm-4 control-label">Código</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.code" v-model="dataPostDel.code" name="code" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Ubicaciones</label>
-                                        <div class="col-sm-9 col-lg-10 controls">
-                                          <select v-model="selectedLocal">
+                                        <label class="col-sm-4 control-label">Local</label>
+                                        <div class="col-sm-9 controls">
+                                          <select v-model="selectedLocal" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
+                                            <option v-for="datoL in locals.dataGet ">{{ datoL.name }}</option>
                                           </select>
                                         </div>
                                       </div>
@@ -117,14 +119,6 @@
                           </td>
                         </tr>
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="1" rowspan="1">ID </th>
-                          <th colspan="1" rowspan="1">Nombre</th>
-                          <th colspan="1" rowspan="1">Ruta</th>
-                          <th></th>
-                        </tr>
-                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -143,7 +137,6 @@
 </template>
 <script>
   import $ from 'jquery'
-  import jSon from './data.json'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -151,21 +144,20 @@
   export default {
     data() {
       return {
-        myJson: jSon,
         inicialDelay: 3000,
-        apiBack: '/api/formato',
-        apiBackUbication: '/api/ubicacion',
+        apiBack: '/formato',
+        apiBackLocals: '/locales',
         selectedLocal: '',
-        ubications: {
+        locals: {
           error: '',
           dataGet: []
         },
         nameToExport: 'Formato',
         error: '', // aqui se guardara el ultimo status de error
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataGet: [], // debe dejarse como arreglo vacio
         dataPostDel: { // este es basicamente un JSON
           name: '',
-          ruta: ''
+          code: ''
         }
       }
     },
@@ -177,7 +169,7 @@
         })
       }, this.inicialDelay)
       this.get()
-      api.getAll(this.apiBackUbication, this.ubications)
+      api.getAll(this.apiBackLocals, this.locals)
     },
     methods: {
       refresh() {
@@ -186,32 +178,16 @@
       get() {
         api.getAll(this.apiBack, this.$data)
       },
-      post() {
-        api.post(this.apiBack, this.$data)
-      },
-      delete(id) {
+      deleteOne(key) {
+        this.dataPostDel = this.dataGet[key]
+        this.dataGet.splice(key, 1)
+        var id = this.dataPostDel.id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      deleteOne(key) {
-        // se actualiza la info a eliminar
-        this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
-        this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
-        var id = this.dataPostDel.id
-        this.delete(id)
-      },
       save(index) {
-        console.log('Aun no hace nada')
-        console.log(index)
-        console.log(this.dataGet[index])
-        // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
-        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
-        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
+        var idLocal = api.search(this.locals.dataGet, 'name', this.selectedLocal).id
+        api.put(this.apiBack + '/' + id + '/' + idLocal, this.$data)
         this.get()
       },
       exportExcel() {
@@ -221,7 +197,8 @@
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Nombre', dataKey: 'name' },
-          { title: 'Ruta', dataKey: 'ruta' }
+          { title: 'Código', dataKey: 'code' },
+          { title: 'Local', dataKey: 'localName' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }

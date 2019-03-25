@@ -43,24 +43,30 @@
                     <table aria-describedby="example1_info" role="grid" id="tabla_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="Local ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                          <th aria-label="No.Loc: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">No. Loc</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
-                          <th aria-label="Lugar : activate to sort column ascending" style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Lugar</th>
-                          <th aria-label="Longitud: activate to sort column ascending" style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Longitud</th>
-                          <th aria-label="Latitud: activate to sort column ascending" style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Latitud</th>
-                          <th></th>
+                          <th aria-label="Local ID: activate to sort column descending" aria-sort="ascending" style="width: 22px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc TextCenterTH">ID</th>
+                          <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">No. Loc</th>
+                          <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
+                          <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Zona</th>
+                          <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Provincia</th>
+                          <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Ciudad</th>
+                          <th aria-label="Family : activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Familia</th>
+                          <th aria-label="Length: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Longitud</th>
+                          <th aria-label="Latitude: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Latitud</th>
+                          <th class="ToButtons"></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr class="even" role="row" v-for="dato,index in dataGet ">
-                          <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.numLoc}}</td>
-                          <td>{{dato.name}}</td>
-                          <td>{{dato.place}}</td>
-                          <td>{{dato.length}}</td>
-                          <td>{{dato.latitude}}</td>
-                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                          <td class="TextFieldC">{{dato.numLoc}}</td>
+                          <td class="TextFieldC">{{dato.name}}</td>
+                          <td class="TextFieldC">{{dato.zoneName}}</td>
+                          <td class="TextFieldC">{{dato.provinceName}}</td>
+                          <td class="TextFieldC">{{dato.cityName}}</td>
+                          <td class="TextFieldC">{{dato.family}}</td>
+                          <td class="TextFieldC">{{dato.length}}</td>
+                          <td class="TextFieldC">{{dato.latitude}}</td>
+                          <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
@@ -83,42 +89,61 @@
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">No.Loc</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.numLoc" name="name" id="noLoc" maxlength="50" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.numLoc" name="name" id="noLoc" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Nombre</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" id="name" maxlength="50" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.name" v-model="dataPostDel.name" name="name" id="name" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-4 control-label">Lugar</label>
+                                        <label class="col-sm-4 control-label">Familia</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.place" v-model="dataPostDel.place" name="name" id="place" maxlength="50" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.family" v-model="dataPostDel.family" name="name" id="family" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Zona</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect">
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Provincia</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect">
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ciudad</label>
+                                        <div class="col-sm-9 col-lg-10 controls">
+                                          <select v-model="selectedCity" class="FormatSelect">
+                                            <option disabled value="">Por favor seleccionar uno</option>
+                                            <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                                          </select>
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Longitud</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.length" name="name" id="noLoc" maxlength="50" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.length" name="name" id="noLoc" maxlength="50" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-4 control-label">Latitud</label>
                                         <div class="col-sm-9 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.latitude" name="name" id="noLoc" maxlength="50" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numLoc" v-model="dataPostDel.latitude" name="name" id="noLoc" maxlength="50" value="">
                                         </div>
                                       </div>
-                                      <div class="form-group">
-                                        <label class="col-sm-5  control-label">Ubicaciones</label>
-                                        <div class="col-sm-9  controls">
-                                          <select v-model="selectedLocal">
-                                            <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoL in ubications.dataGet ">{{ datoL.zone }}</option>
-                                          </select>
-                                        </div>
-                                      </div>
+
 
                                     </form>
                                   </div>
@@ -138,17 +163,6 @@
                           </td>
                         </tr>
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="1" rowspan="1">ID</th>
-                          <th colspan="1" rowspan="1">No. Loc.</th>
-                          <th colspan="1" rowspan="1">Nombre</th>
-                          <th colspan="1" rowspan="1">Lugar</th>
-                          <th colspan="1" rowspan="1">Longitud</th>
-                          <th colspan="1" rowspan="1">Latitud</th>
-                          <th></th>
-                        </tr>
-                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -160,16 +174,6 @@
           </div>
           <!--End Box-->
         </div>
-        <div class="terminal-btn-group hidden">
-          <div class="btn-group">
-            <a class="btn btn-circle show-tooltip" title="View" href="/terminal/show/#ID#">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -179,7 +183,6 @@
 </template>
 <script>
   import $ from 'jquery'
-  import jSon from './data.json'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -192,14 +195,25 @@
     },
     data() {
       return {
-        myJson: jSon,
         inicialDelay: 3000,
-        apiBack: '/api/locales',
-        apiBackUbication: '/api/ubicacion',
-        selectedLocal: '',
-        ubications: {
+        apiBack: '/locales',
+        apiBackZone: '/zona',
+        selectedZone: '',
+        selectedProvince: '',
+        selectedCity: '',
+        zone: {
           error: '',
           dataGet: []
+        },
+        province: {
+          error: '',
+          dataGet: [],
+          listProvinces: []
+        },
+        city: {
+          error: '',
+          dataGet: [],
+          listCities: []
         },
         nameToExport: 'Locales',
         error: '', // aqui se guardara el ultimo status de error
@@ -207,7 +221,7 @@
         dataPostDel: { // este es basicamente un JSON
           numLoc: 0,
           name: '',
-          place: '',
+          family: '',
           length: 0,
           latitude: 0
         },
@@ -228,46 +242,32 @@
         })
       }, this.inicialDelay)
       this.get()
-      api.getAll(this.apiBackUbication, this.ubications)
+      api.getAll(this.apiBackZone, this.zone)
     },
     methods: {
-      loquesea() {
-        console.log('as')
-      },
       refresh() {
         location.reload()
       },
       get() {
         api.getAll(this.apiBack, this.$data)
       },
-      post() {
-        api.post(this.apiBack, this.$data)
-      },
-      delete(id) {
+      deleteOne(key) {
+        this.dataPostDel = this.dataGet[key]
+        this.dataGet.splice(key, 1)
+        var id = this.dataPostDel.id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      deleteOne(key) {
-        // se actualiza la info a eliminar
-        this.dataPostDel = this.dataGet[key]
-        console.log('--------------------------data a eliminar')
-        console.log(this.dataPostDel)
-        // se elimina localmente
-        this.dataGet.splice(key, 1)
-        // se actualiza la base de datos
-        var id = this.dataPostDel.id
-        this.delete(id)
+      loadProvinces() {
+        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
+      },
+      loadCities() {
+        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
       },
       save(index) {
-        console.log('Guardando..')
-        console.log('*******************************************')
-        console.log(this.dataPostDel)
-        console.log('*******************************************')
         api.post(this.apiBack, this.$data)
-        // this.dataPostDel = this.dataGet[index]
         var id = this.dataGet[index].id
-        var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal).id
-        console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
-        api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
+        var idCity = api.search(this.city.listCities, 'name', this.selectedCity).id
+        api.put(this.apiBack + '/' + id + '/' + idCity, this.$data)
         this.get()
       },
       exportExcel() {
@@ -278,7 +278,10 @@
           { title: 'ID', dataKey: 'id' },
           { title: 'No.Local', dataKey: 'numLoc' },
           { title: 'Nombre', dataKey: 'name' },
-          { title: 'Lugar', dataKey: 'place' },
+          { title: 'Familia', dataKey: 'family' },
+          { title: 'Zona', dataKey: 'zoneName' },
+          { title: 'Provincia', dataKey: 'provinceName' },
+          { title: 'Ciudad', dataKey: 'cityName' },
           { title: 'Longitud', dataKey: 'length' },
           { title: 'Latitud', dataKey: 'latitude' }
         ]

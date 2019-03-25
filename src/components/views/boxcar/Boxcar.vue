@@ -13,7 +13,7 @@
                 <i class='fa fa-file-pdf-o'></i>
               </a>
               <router-link class='pageLink' to='/createBoxcar'>
-                <a class='btn btn-circle show-tooltip' title='Añadir ruta' href='/createBoxcar'>
+                <a class='btn btn-circle show-tooltip' title='Añadir furgón' href='/createBoxcar'>
                   <i class='fa fa-plus'></i>
                 </a>
               </router-link>
@@ -43,25 +43,21 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Table_of_elements" role="grid" id="table_store" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Table_of_elements" role="grid" id="table_boxcar" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Número del Furgón</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Nombre</th>
-                          <th aria-label="Nombre: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Ubicaciones</th>
-                          <th></th>
+                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" colspan="1" rowspan="1" style="width:34px;" aria-controls="example1" tabindex="0" class="sorting_asc TextCenterTH">ID</th>
+                          <th aria-label="NoFurgon: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Número del Furgón</th>
+                          <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
+                          <th class="JustifyButtonTD"></th>
                         </tr>
                       </thead>
                       <tbody id="fields">
                         <tr class="even" role="row" v-for="dato, index in dataGet ">
-                          <td class="sorting_1">{{dato.id}}</td>
-                          <td>{{dato.numFurgon}}</td>
-                          <td>{{dato.name}}</td>
-                          <td>
-                            <tdd v-for="ubicacion, indexUbi in dato.Ubicaciones" v-bind:data="indexUbi" v-bind:key="indexUbi.text">{{ubicacion.zone}}<br /></tdd>
-                          </td>
-                          <td class="col-lg-2 col-md-1 col-sm-1 col-xs-1">
+                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                          <td class="TextFieldC">{{dato.numFurgon}}</td>
+                          <td class="TextFieldC">{{dato.name}}</td>
+                          <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
@@ -82,30 +78,17 @@
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
                                       <div class="form-group">
-                                        <label class="col-sm-5 control-label">No.Furgón</label>
+                                        <label class="col-sm-5 control-label">Número de Furgón</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="number" class="form-control" v-bind:placeholder="dato.numFurgon" name="name" v-model="dataPostDel.numFurgon" id="name_store" value="">
+                                          <input type="number" class="form-control-modal" v-bind:placeholder="dato.numFurgon" name="name" v-model="dataPostDel.numFurgon" id="name_store" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-5 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" v-bind:placeholder="dato.name" name="name" v-model="dataPostDel.name" id="name_store" value="">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.name" name="name" v-model="dataPostDel.name" id="name_store" value="">
                                         </div>
-                                      </div>
-                                      <div class="form-group">
-                                        <label class="col-sm-offset-3 control-label">Seleccione las Ubicaciones</label>
-                                        <br />
-                                      </div>
-                                      <div id="checkboxUbi" class="form-group">
-                                        <ul>
-                                          <li v-for="datoL, indexU in ubications.dataGet" class="col-sm-3  controls">
-                                            <input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
-                                            <label>{{datoL.zone}}--{{datoL.city}}</label>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                      
+                                      </div>                                  
                                     </form>
                                   </div>
                                   <!--end modal-body-->
@@ -124,15 +107,6 @@
                           </td>
                         </tr>
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="1" rowspan="1">ID</th>
-                          <th colspan="1" rowspan="1">Número del Furgón</th>
-                          <th colspan="1" rowspan="1">Nombre</th>
-                          <th colspan="1" rowspan="1">Ubicaciones</th>
-                          <th></th>
-                        </tr>
-                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -150,7 +124,6 @@
 </template>
 <script>
   import $ from 'jquery'
-  import jSon from './data.json'
   // Require needed datatables modules
   import 'datatables.net'
   import 'datatables.net-bs'
@@ -159,148 +132,53 @@
   export default {
     data() {
       return {
-        el: '#checkboxUbi',
         inicialDelay: 3000,
-        myJson: jSon,
-        apiBack: '/api/furgon',
-        apiBackUbication: '/api/ubicacion',
-        apiBackUbicationFurgon: '/api/ubicacionFurgon',
-        checkedNames: [],
-        ubications: {
-          error: '',
-          dataGet: []
-        },
-        ubicacionFurgon: {
-          error: '',
-          dataGet: []
-        },
+        apiBack: '/furgon',
         nameToExport: 'Furgón',
         error: '', // aqui se guardara el ultimo status de error
         dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
-          numFurgon: '',
+          numFurgon: 0,
           name: ''
         }
       }
     },
-    name: 'Furgon',
+    name: 'Boxcar',
     mounted() {
       setTimeout(e => {
         this.$nextTick(() => {
-          $('#table_store').DataTable()
+          $('#table_boxcar').DataTable()
         })
       }, this.inicialDelay)
       this.get()
-      api.getAll(this.apiBackUbication, this.ubications)
-      api.getAll(this.apiBackUbicationFurgon, this.ubicacionFurgon)
     },
     methods: {
-      check: function (e) {
-        if (e.target.checked) {
-          console.log(e.target.value)
-        }
-      },
-      searchUbication() {
-        var ubicationsArray = []
-        for (var i = 0; i < this.checkedNames.length; i++) {
-          for (var j = 0; j < this.dataGet.length; j++) {
-            if (this.dataGet[i] === this.checkedNames[j]) {
-              ubicationsArray.append(this.dataGet[i])
-            }
-          }
-        }
-        return ubicationsArray
-      },
       refresh() {
         location.reload()
       },
       get() {
         api.getAll(this.apiBack, this.$data)
       },
-      post() {
-        api.post(this.apiBack, this.$data)
-      },
-      delete(id) {
-        api.delete(this.apiBack + '/' + id, this.$data)
-      },
       deleteOne(key) {
-        // se actualiza la info a eliminar
         var id = this.dataGet[key].id
         this.dataGet.splice(key, 1)
-        this.delete(id)
+        api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(index) {
-        console.log('Aun no hace nada')
-        console.log(index)
-        console.log(this.dataGet[index])
-        // this.dataPostDel = this.dataGet[index]
-        var idFurgon = this.dataGet[index].id
-        // var idUbication = api.search(this.ubications.dataGet, 'zone', this.selectedLocal.split('--')[0]).id
-        var idRelacion = ''
-        this.ubicacionFurgon.dataGet.forEach(element => {
-          if (element.furgon.id === Number(idFurgon)) {
-            idRelacion = element.id
-            console.log('Ahora se elimina la relacion:')
-            console.log(this.apiBackUbicationFurgon + '/' + idRelacion)
-            api.delete(this.apiBackUbicationFurgon + '/' + idRelacion, this.$data)
-          }
-        })
-        setInterval(e => {
-          console.log('El idRelacion es: ' + idRelacion + '\nSe procede a hacer el put de furgon')
-          // this.dataPostDel.numFurgon = Number(this.dataPostDel.numFurgon)
-          console.log(this.apiBack + '/' + idFurgon)
-          api.put(this.apiBack + '/' + idFurgon, this.$data)
-          // console.log('El ide foraneo es' + idUbication + 'El id de formato es' + id)
-          console.log('Ahora los campos seleccionados: ')
-          console.log(this.checkedNames)
-          console.log('fin campos---------------')
-          this.checkedNames.forEach(idUbicacion => {
-            console.log(this.apiBackUbicationFurgon + '/' + idRelacion + '/' + idUbicacion + '/' + idFurgon)
-            api.post(this.apiBackUbicationFurgon + '/' + idUbicacion + '/' + idFurgon, this.$data)
-          })
-          console.log('Listo!!')
-          // api.put(this.apiBack + '/' + id + '/' + idUbication, this.$data)
-          // this.get()
-        }, 3000)
-        setInterval(e => {
-          this.get()
-        })
+        var id = this.dataGet[index].id
+        api.put(this.apiBack + '/' + id, this.$data)
+        this.get()
       },
       exportExcel() {
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
-        var cad = ''
-        console.log('Aqi esta la parte de rep')
-        console.log(rep)
-        rep.forEach(element => {
-          element.Ubicaciones.forEach(e => {
-            cad = cad + e.zone + '-' + e.city + ', '
-          })
-          element.Ubicaciones = cad
-          cad = ''
-        })
-        console.log('Aqui la cadena' + cad)
-        rep.formatos = cad
-        api.exportExcel(this.nameToExport, rep)
+        api.exportExcel(this.nameToExport, this.dataGet)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
-        var cad = ''
-        console.log('Aqi esta la parte de rep')
-        console.log(rep)
-        rep.forEach(element => {
-          element.Ubicaciones.forEach(e => {
-            cad = cad + e.zone + '-' + e.city + ', '
-          })
-          element.Ubicaciones = cad
-          cad = ''
-        })
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Numero Furgón', dataKey: 'numFurgon' },
-          { title: 'Nombre', dataKey: 'name' },
-          {title: 'Ubicaciones', dataKey: 'Ubicaciones'}
+          { title: 'Nombre', dataKey: 'name' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
     }
   }
