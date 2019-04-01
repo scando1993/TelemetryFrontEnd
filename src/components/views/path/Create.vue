@@ -10,7 +10,7 @@
               <!-- /.box-header -->
               <div class="box-body ">
                 <div class="box-content table-responsive">
-                  <form action="save" method="POST" class="form-horizontal-create" id="profile-form">
+                  <form  method="POST" class="form-horizontal-create" id="profile-form">
                     <div class="form-group ">
                       <label class=" col-sm-6 control-label">Furgón</label>
                       <div class="col-sm-6 controls-create">
@@ -108,7 +108,7 @@
         var idEndLocal = api.search(this.locals.dataGet, 'name', this.selectedEndLocal).id
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
-        console.log(this.apiBack + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal)
+        console.log(this.dataPostDel.start_date)
         api.post(this.apiBack + '/' + idBoxcar + '/' + idDevice + '/' + idProduct + '/' + idStartLocal + '/' + idEndLocal, this.$data)
         this.$router.push(this.page)
       }

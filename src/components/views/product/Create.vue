@@ -11,7 +11,7 @@
             <div class="box-body">
               <div class="box-content table-responsive">
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form action="/create" method="POST" target="hiddenFrame" class="form-horizontal-create" id="profile-form">
+                <form  method="POST" target="hiddenFrame" class="form-horizontal-create" id="profile-form">
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
@@ -76,8 +76,11 @@
         this.$router.push(this.page)
       },
       save() {
-        api.post(this.apiBack, this.$data)
-        this.$router.push(this.page)
+        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.temp_max.toString() !== '' && this.dataPostDel.temp_max_ideal.toString() !== '' && this.dataPostDel.temp_min.toString() !== '' && this.dataPostDel.temp_min_ideal.toString() !== '') {
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.post(this.apiBack, this.$data)
+          this.$router.push(this.page)
+        }
       }
     },
     data() {

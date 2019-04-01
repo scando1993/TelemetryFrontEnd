@@ -10,7 +10,7 @@
     <router-link tag="li" class="pageLink" to="/activeRoutes">
       <a>
         <i class="fa fa-tasks"></i>
-        <span class="page">Actividad Rutas</span>
+        <span class="page">En Ruta</span>
       </a>
     </router-link>
     <li class="header">ADQUISICIÓN DE DATOS</li>
@@ -36,6 +36,12 @@
       <a>
         <i class="fa fa-puzzle-piece"></i>
         <span class="page">Formatos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/devices">
+      <a>
+        <i class="formatIcon icofont-micro-chip"></i>
+        <span class="page">Dispositivos</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/products">
@@ -70,7 +76,6 @@
         <span class="page">Administrador</span>
       </a>
     </router-link>
-
   </ul>
 </template>
 <script>
