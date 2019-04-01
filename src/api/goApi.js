@@ -2,9 +2,9 @@ import axios from 'axios'
 import XLSX from 'xlsx'
 import JsPDF from 'jspdf'
 import 'jspdf-autotable'
-var apiUrlBase = 'http://172.16.10.108:2222'
+//  var apiUrlBase = 'http://172.16.10.108:2222'
 // var apiUrlBase = 'http://192.168.10.32:80'
-//  var apiUrlBase = 'http://25.4.250.51:8080'
+var apiUrlBase = 'http://25.4.250.51:2222'
 //  var apiUrlBase = 'http://104.209.196.204:8080'
 
 export default {
@@ -49,7 +49,6 @@ export default {
         return data
       }
       var info = response.data
-      console.log(info)
       data.dataGet = Object.values(info)
     })
     .catch((err) => {
@@ -92,6 +91,7 @@ export default {
     // Request failed.
       data.error = err
     })
+    console.log(data)
     return data
   },
   // para pedir campos en especifico, se pasa un objeto con los parametros del get y sus valores
@@ -120,8 +120,8 @@ export default {
     // se asume que exista un binding entre los campos del form con los de dataPostDel
   post(url, data) {
     axios.post(
-    apiUrlBase + url,
-    data.dataPostDel // esto debe cambiar acuerdo a como se use el form
+      apiUrlBase + url,
+      data.dataPostDel  // esto debe cambiar acuerdo a como se use el form
     )
     .then(response => {
       if (response.status !== 201) {
@@ -129,13 +129,26 @@ export default {
         return data
       }
       var info = response.data
-      data.dataRespond = info
+      data.dataRespond = Object.values(info)
     })
     .catch(error => {
       // Request failed.
       data.error = error
     })
+    console.log('dando respuesta del post')
+    console.log(data)
     return data
+  },
+  postWithHeader(url, head) {
+    console.log('header:...' + head)
+    axios.put(apiUrlBase + url, this.apiUrlBase + head, { headers: {'Content-Type': 'text/uri-list'} })
+      .then(function (response) {
+        console.log(response.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+        //  alert('Error')
+      })
   },
   delete(url, data) {
     console.log(url)
@@ -192,5 +205,20 @@ export default {
         return myArray[i]
       }
     }
+  },
+  searchActive(show, tag) {
+    if (show === true) {
+      document.getElementById(tag).style.visibility = 'visible'
+      show = false
+    } else {
+      document.getElementById(tag).style.visibility = 'hidden'
+      show = true
+    }
+    window.addEventListener('click', function (event) {
+      if (event.target !== true) {
+        document.getElementById(tag).style.visibility = 'hidden'
+        show = true
+      }
+    }, true)
   }
 }

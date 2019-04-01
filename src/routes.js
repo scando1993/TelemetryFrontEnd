@@ -7,21 +7,22 @@ import ActiveRouteView from './components/views/ActiveRoute.vue'
 import BoxcarView from './components/views/boxcar/Boxcar.vue'
 import CreateBoxcarView from './components/views/boxcar/Create.vue'
 import ServerView from './components/views/Server.vue'
-import BodegaView from './components/views/bodega/Bodega.vue'
-import CreateBodegaView from './components/views/bodega/Create.vue'
-import FormatoView from './components/views/formato/Formato.vue'
-import CreateFormatoView from './components/views/formato/Create.vue'
+import StoreView from './components/views/store/Store.vue'
+import CreateStoreView from './components/views/store/Create.vue'
+import FormatView from './components/views/format/Format.vue'
+import CreateFormatView from './components/views/format/Create.vue'
 import ZoneView from './components/views/zone/Zone.vue'
 import CreateZoneView from './components/views/zone/Create.vue'
-import LocalsView from './components/views/locales/Locales.vue'
-import CreateLocalView from './components/views/locales/Create.vue'
+import LocalsView from './components/views/locals/Locals.vue'
+import CreateLocalView from './components/views/locals/Create.vue'
 import ReportesView from './components/views/reports/Reports.vue'
 import PathView from './components/views/path/Path.vue'
 import CreatePathView from './components/views/path/Create.vue'
 import RoutesView from './components/views/routes/Routes.vue'
-import LocalStatView from './components/views/localStat/Local.vue'
 import ProductsView from './components/views/product/Product.vue'
 import CreateProductView from './components/views/product/Create.vue'
+import DeviceView from './components/views/device/Device.vue'
+import CreateDeviceView from './components/views/device/Create.vue'
 // Routes.
 const routes = [
   {
@@ -39,11 +40,11 @@ const routes = [
         name: 'Rutas Activas'
       }, {
         path: 'store',
-        component: BodegaView,
+        component: StoreView,
         name: 'Bodega'
       }, {
         path: 'createStore',
-        component: CreateBodegaView,
+        component: CreateStoreView,
         name: 'Crear Bodega'
       }, {
         path: 'locals',
@@ -55,11 +56,11 @@ const routes = [
         name: 'Crear Local'
       }, {
         path: 'format',
-        component: FormatoView,
+        component: FormatView,
         name: 'Formato'
       }, {
         path: 'createFormat',
-        component: CreateFormatoView,
+        component: CreateFormatView,
         name: 'Crear Formato'
       }, {
         path: 'zone',
@@ -110,9 +111,13 @@ const routes = [
         component: ActiveRouteView,
         name: 'Actividad Rutas'
       }, {
-        path: 'localStat',
-        component: LocalStatView,
-        name: 'Tablero Locales'
+        path: 'devices',
+        component: DeviceView,
+        name: 'Dispositivos'
+      }, {
+        path: 'createDevice',
+        component: CreateDeviceView,
+        name: 'Crear Dispositivos'
       }
     ],
     meta: { requiresAuth: false }

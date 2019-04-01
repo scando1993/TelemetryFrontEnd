@@ -11,7 +11,7 @@
             <div class="box-body">
               <div class="box-content table-responsive">
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form action="/create" method="POST" class="form-horizontal-create " id="create-boxcar"  target="hiddenFrame">
+                <form  method="POST" class="form-horizontal-create " id="create-boxcar"  target="hiddenFrame">
                   <div class="form-group-boxcar">
                     <label class="col-sm-6 control-label">No.Furgón</label>
                     <div class="col-sm-9 col-lg-10 controls">
@@ -56,8 +56,11 @@
         this.$router.push(this.page)
       },
       save() {
-        api.post(this.apiBack, this.$data)
-        this.$router.push(this.page)
+        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.numFurgon.toString() !== '') {
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.post(this.apiBack, this.$data)
+          this.$router.push(this.page)
+        }
       }
     },
     data() {

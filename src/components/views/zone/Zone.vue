@@ -53,18 +53,18 @@
                         </tr>
                       </thead>
                       <tbody id="fields">
-                        <tr class="even" role="row" v-for="dato, index in dataGet">
+                        <tr class="even" role="row" v-for="dato, index in zone.dataGet[0].zonas">
                           <td class="sorting_1 TextFieldC">{{dato.id}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">
-                            <tdd tdd v-for="provincia, index1 in dato.provincias" v-bind:data="index1" v-bind:key="index1.text">{{provincia.name}}<br /></tdd>
+                            <tdd tdd v-for="provincia, index1 in listProvinces[index]" v-bind:data="index1" v-bind:key="index1.text">{{provincia.name}}<br /></tdd>
                           </td>
                           
                           <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Eliminar" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Editar">
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit">
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
@@ -79,19 +79,18 @@
                                   <!--end modal-header-->
                                   <!--Modal-body-->
                                   <div class="modal-body">
-                                    <form action="#" method="post"  class="form-horizontal" id="bodega-form">
-
+                                    <form action="#" method="post" class="form-horizontal" id="bodega-form">
                                       <div class="form-group">
-                                        <label class="col-sm-12 col-lg-12 control-label">Nombre</label>
+                                        <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control-modal" required v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_zone" maxlength="100" value="">
+                                          <input type="text" class="form-control" required name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_zone" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-5 control-label">Seleccione la(s) Provincia(s)</label>
                                         <ul id="checkboxZone" class="GroupCheckbox">
-                                          <li v-for="datoL, indexU in province.dataGet" class="controls-modal">
-                                            <input required type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
+                                          <li v-for="datoL, indexU in province.dataGet[0].provincias" class="col-sm-12 controls">
+                                            <input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedNames" @click="check($event)">
                                             <label>{{datoL.name}}</label>
                                           </li>
                                         </ul>
@@ -102,8 +101,8 @@
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/zone">
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="submit" id="saveButton" class="btn btn-default" data-dismiss="modal"  v-on:click="save(index)">Guardar</button>
+                                      <button class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="submit" id="saveButton" class="btn btn-default" data-dismiss="modal"  v-on:click="save(dato.id)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -111,7 +110,6 @@
                               </div>
                             </div>
                             <!--end modal-->
-
                           </td>
                         </tr>
                       </tbody>
@@ -140,22 +138,40 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/zona',
-        apiBackProvince: '/provincia',
+        checkedNames: [],
+        apiBack: '/zonas',
+        apiBackProvince: '/provincias',
+        page: '/zone',
+        error: '',
         nameToExport: 'Zonas',
         validated: true,
-        el: '#checkboxZone',
-        checkedNames: [],
-        error: '', // aqui se guardara el ultimo status de error
-        zone: {
-          error: '',
-          dataGet: []
-        },
+        dataGet: [],
+        listProvinces: [],
+        dataRespond: [],
         province: {
-          error: '',
-          dataGet: []
+          dataGet: [
+            {
+              provincias: [{
+                id: '',
+                name: '',
+                _links: {}
+              }]
+            }
+          ],
+          error: ''
         },
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        zone: {
+          dataGet: [
+            {
+              zonas: [{
+                id: '',
+                name: '',
+                _links: {}
+              }]
+            }
+          ],
+          error: ''
+        },
         dataPostDel: { // este es basicamente un JSON
           name: ''
         }
@@ -165,12 +181,17 @@
     mounted() {
       setTimeout(e => {
         this.$nextTick(() => {
-          $('#table_ubication').DataTable()
+          $('#table_zone').DataTable()
         })
       }, this.inicialDelay)
-      api.getAll(this.apiBack, this.$data)
+      var listP = []
       api.getAll(this.apiBack, this.zone)
       api.getAll(this.apiBackProvince, this.province)
+      for (var i = 0; i < this.this.zone.dataGet[0].zonas.length; i++) {
+        listP = this.getProv(this.this.zone.dataGet[0].zonas[i]._links.provincias.href)
+        console.log(listP)
+        this.listProvinces.push(listP.dataGet[0].provincias)
+      }
     },
     methods: {
       check: function (e) {
@@ -178,24 +199,38 @@
           console.log(e.target.value)
         }
       },
-      save(index) {
-        var provinces = ''
-        for (var i = 0; i < this.checkedNames.length; i++) {
-          if (i === 0) {
-            provinces = provinces + this.checkedNames[i]
-          } else { provinces = provinces + ',' + this.checkedNames[i] }
+      getProv(url) {
+        var listProvince = {
+          dataGet: [{provincias: [{}]}], error: '' }
+        listProvince = api.getGeneral(url, listProvince)
+        setTimeout(e => {
+          console.log(listProvince.dataGet[0].provincias)
+          return listProvince.dataGet[0].provincias
+        }, 1000)
+      },
+      save(id) {
+        if (this.dataPostDel.name.trim() !== '' && this.checkedNames.length !== 0) {
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.post(this.apiBack + '/' + id, this.$data)
+          setTimeout(e => {
+            for (var i = 0; i < this.checkedNames.length; i++) {
+              var head = '/zonas/' + this.dataRespond[0]
+              console.log(head)
+              console.log(this.checkedNames[i])
+              api.postWithHeader(this.apiBackProvince + '/' + this.checkedNames[i] + '/zona', head)
+            }
+            this.$router.push(this.page)
+          }, 1300)
         }
-        var id = this.zone.dataGet[index].id
-        api.put(this.apiBack + '/' + id + '/' + provinces, this.$data)
       },
       refresh() {
         location.reload()
       },
       deleteOne(key) {
-        this.dataPostDel = this.dataGet[key]
-        this.dataGet.splice(key, 1)
-        var id = this.dataPostDel.id
+        var elementDeleted = this.zone.dataGet[0].zonas.splice(key, 1)
+        var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
+        this.dataPostDel = this.dataGet[key]
       },
       exportExcel() {
         // var rep = this.dataGet
