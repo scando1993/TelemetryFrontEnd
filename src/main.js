@@ -1,6 +1,7 @@
 // Import ES6 Promise
 import 'es6-promise/auto'
 
+
 // Import System requirements
 import Vue from 'vue'
 import VueRouter from 'vue-router'
