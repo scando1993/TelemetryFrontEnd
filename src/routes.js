@@ -23,6 +23,7 @@ import ProductsView from './components/views/product/Product.vue'
 import CreateProductView from './components/views/product/Create.vue'
 import DeviceView from './components/views/device/Device.vue'
 import CreateDeviceView from './components/views/device/Create.vue'
+import DeviceTelemtryView from './components/views/Telemetry/DeviceTelemtry.vue'
 // Routes.
 const routes = [
   {
@@ -118,6 +119,10 @@ const routes = [
         path: 'createDevice',
         component: CreateDeviceView,
         name: 'Crear Dispositivos'
+      }, {
+        path: 'deviceTelemetry',
+        component: DeviceTelemtryView,
+        name: 'Telemetria'
       }
     ],
     meta: { requiresAuth: false }
