@@ -84,16 +84,18 @@
       },
       async getSelectedTelemetries() {
         var url = this.devices.selectedDevice._links.telemetrias.href
+        url = '/' + url.split('/').slice(3).join('/')
         console.log(url)
-        api.getGeneral(url, this.telemetries)
+        api.getAll(url, this.telemetries)
         await this.sleep()
         this.telemetries.dataGet = this.telemetries.dataGet[0].telemetrias
         console.log(this.telemetries)
       },
       async getSelectedTrackings() {
         var url = this.devices.selectedDevice._links.trackings.href
+        url = '/' + url.split('/').slice(3).join('/')
         console.log(url)
-        api.getGeneral(url, this.trackings)
+        api.getAll(url, this.trackings)
         await this.sleep()
         this.trackings.dataGet = this.trackings.dataGet[0].trackings
       },
