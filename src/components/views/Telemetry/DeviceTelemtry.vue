@@ -19,12 +19,12 @@
                           <td>Ubicacion</td>
                           <td>DTM</td>
                       </tr>
-                      <tr role='row' v-for="data1, index1 in telemetries.dataGet">
+                      <tr role='row' v-for="data1, index1 in telemetries.t">
                             <td>{{devices.selectedDevice.name}}</td>
                             <td>{{data1.name}}</td>
                             <td>{{data1.value}}</td>
-                            <td>{{trackings.dataGet[index1].location}}</td>
-                            <td>{{trackings.dataGet[index1].dtm}}</td>           
+                            <td>{{trackings.t[index1].location}}</td>
+                            <td>{{trackings.t[index1].dtm}}</td>           
                       </tr>
                     </table>
                   </div>
@@ -60,17 +60,19 @@
         },
         telemetries: {
           error: '',
-          dataGet: []
+          dataGet: [],
+          t: []
         },
         trackings: {
           error: '',
-          dataGet: []
+          dataGet: [],
+          t: []
         }
       }
     },
     mounted() {
       this.getDevices()
-      this.timer = setInterval(this.getGetData, 10000)
+      // this.timer = setInterval(this.getGetData, 20000)
     },
     beforeDestroy() {
       clearInterval(this.timer)
@@ -87,17 +89,21 @@
         url = '/' + url.split('/').slice(3).join('/')
         console.log(url)
         api.getAll(url, this.telemetries)
-        await this.sleep()
-        this.telemetries.dataGet = this.telemetries.dataGet[0].telemetrias
-        console.log(this.telemetries)
+        // await this.sleep()
+        setTimeout(e => {
+          this.telemetries.t = this.telemetries.dataGet[0].telemetrias
+        }, 2000)
+        // console.log(this.telemetries)
       },
       async getSelectedTrackings() {
         var url = this.devices.selectedDevice._links.trackings.href
         url = '/' + url.split('/').slice(3).join('/')
         console.log(url)
         api.getAll(url, this.trackings)
-        await this.sleep()
-        this.trackings.dataGet = this.trackings.dataGet[0].trackings
+        // await this.sleep()
+        setTimeout(e => {
+          this.trackings.t = this.trackings.dataGet[0].trackings
+        }, 2000)
       },
       async getLastTelemetries() {
         this.devices.lastDevices.forEach(element => {
@@ -121,7 +127,7 @@
         })
       },
       sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms || this.DEF_DELAY))
+        return new Promise(resolve => setTimeout(resolve, this.DEF_DELAY))
       },
       cancelAutoUpdate() {
         clearInterval(this.timer)

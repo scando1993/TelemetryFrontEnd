@@ -83,7 +83,7 @@
                                       <div class="form-group">
                                         <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                                         <div class="col-sm-9 col-lg-10 controls">
-                                          <input type="text" class="form-control" required name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_zone" maxlength="100" value="">
+                                          <input type="text" class="form-control-modal" required name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_zone" maxlength="100" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
@@ -142,10 +142,8 @@
         apiBack: '/zonas',
         apiBackProvince: '/provincias',
         page: '/zone',
-        error: '',
         nameToExport: 'Zonas',
-        validated: true,
-        dataGet: [],
+        DEF_DELAY: 5000,
         listProvinces: [],
         dataRespond: [],
         province: {
@@ -184,14 +182,8 @@
           $('#table_zone').DataTable()
         })
       }, this.inicialDelay)
-      var listP = []
       api.getAll(this.apiBack, this.zone)
       api.getAll(this.apiBackProvince, this.province)
-      for (var i = 0; i < this.this.zone.dataGet[0].zonas.length; i++) {
-        listP = this.getProv(this.this.zone.dataGet[0].zonas[i]._links.provincias.href)
-        console.log(listP)
-        this.listProvinces.push(listP.dataGet[0].provincias)
-      }
     },
     methods: {
       check: function (e) {
@@ -199,22 +191,29 @@
           console.log(e.target.value)
         }
       },
-      getProv(url) {
+      /*  async generateArray() {
+        await this.sleep()
+        for (var i = 0; i < this.zone.dataGet[0].zonas.length; i++) {
+          listP = this.getProvinces(this.zone.dataGet[0].zonas[i]._links.provincias.href)
+          this.listProvinces.push(listP.dataGet[0].provincias)
+        }
+      },  */
+      async getProvinces(url) {
         var listProvince = {
           dataGet: [{provincias: [{}]}], error: '' }
         listProvince = api.getGeneral(url, listProvince)
-        setTimeout(e => {
-          console.log(listProvince.dataGet[0].provincias)
-          return listProvince.dataGet[0].provincias
-        }, 1000)
+        await this.sleep()
+        console.log(listProvince.dataGet[0].provincias)
+        this.listProvinces = listProvince
       },
       save(id) {
         if (this.dataPostDel.name.trim() !== '' && this.checkedNames.length !== 0) {
           this.dataPostDel.name = this.dataPostDel.name.trim()
+          console.log(this.$data)
           api.post(this.apiBack + '/' + id, this.$data)
           setTimeout(e => {
             for (var i = 0; i < this.checkedNames.length; i++) {
-              var head = '/zonas/' + this.dataRespond[0]
+              var head = '/zonas/' + id
               console.log(head)
               console.log(this.checkedNames[i])
               api.postWithHeader(this.apiBackProvince + '/' + this.checkedNames[i] + '/zona', head)
@@ -223,10 +222,13 @@
           }, 1300)
         }
       },
+      sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, this.DEF_DELAY))
+      },
       refresh() {
         location.reload()
       },
-      deleteOne(key) {
+      async deleteOne(key) {
         var elementDeleted = this.zone.dataGet[0].zonas.splice(key, 1)
         var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
