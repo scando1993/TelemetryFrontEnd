@@ -66,7 +66,8 @@
         },
         telemetries: {
           error: '',
-          dataGet: []
+          dataGet: [],
+          t: []
         },
         trackings: {
           error: '',
@@ -105,17 +106,21 @@
         url = '/' + url.split('/').slice(3).join('/')
         console.log(url)
         api.getAll(url, this.telemetries)
-        await this.sleep()
-        this.telemetries.dataGet = this.telemetries.dataGet[0].telemetrias
-        console.log(this.telemetries)
+        // await this.sleep()
+        setTimeout(e => {
+          this.telemetries.t = this.telemetries.dataGet[0].telemetrias
+        }, 2000)
+        // console.log(this.telemetries)
       },
       async getSelectedTrackings() {
         var url = this.devices.selectedDevice._links.trackings.href
         url = '/' + url.split('/').slice(3).join('/')
         console.log(url)
         api.getAll(url, this.trackings)
-        await this.sleep()
-        this.trackings.dataGet = this.trackings.dataGet[0].trackings
+        // await this.sleep()
+        setTimeout(e => {
+          this.trackings.t = this.trackings.dataGet[0].trackings
+        }, 2000)
       },
       async getLastTelemetries() {
         this.devices.lastDevices.forEach(element => {
@@ -139,7 +144,7 @@
         })
       },
       sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms || this.DEF_DELAY))
+        return new Promise(resolve => setTimeout(resolve, this.DEF_DELAY))
       },
       cancelAutoUpdate() {
         clearInterval(this.timer)

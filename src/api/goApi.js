@@ -3,7 +3,7 @@ import XLSX from 'xlsx'
 import JsPDF from 'jspdf'
 import 'jspdf-autotable'
 //  var apiUrlBase = 'http://172.16.10.108:2222'
-// var apiUrlBase = 'http://192.168.10.101'
+var apiUrlBase = 'http://192.168.10.101:2222'
 // var apiUrlBase = 'http://25.4.250.51:2222'
 var apiUrlBase = 'http://localhost:2222'
 //  var apiUrlBase = 'http://104.209.196.204:8080'
@@ -144,6 +144,7 @@ export default {
     // se realiza un post dependiedo lo que almacene dataPostDel
     // se asume que exista un binding entre los campos del form con los de dataPostDel
   post(url, data) {
+    console.log(apiUrlBase + url)
     axios.post(
       apiUrlBase + url,
       data.dataPostDel  // esto debe cambiar acuerdo a como se use el form

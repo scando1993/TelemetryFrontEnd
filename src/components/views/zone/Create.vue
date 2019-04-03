@@ -84,8 +84,6 @@
         apiBack: '/zonas',
         apiBackProvince: '/provincias',
         page: '/zone',
-        error: '',
-        dataGet: [],
         dataRespond: [],
         province: {
           dataGet: [

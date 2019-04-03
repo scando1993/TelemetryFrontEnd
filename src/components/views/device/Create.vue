@@ -71,7 +71,9 @@
           this.dataPostDel.name = this.dataPostDel.name.trim()
           this.dataPostDel.family = this.dataPostDel.family.trim()
           api.post(this.apiBack, this.$data)
+          console.log('+++++datarespond++++++++')
           console.log(this.dataRespond)
+          console.log('+++++datarespond++++++++')
           setTimeout(e => {
             var head = '/groups/' + idGroup
             api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/groupFamily', head)
@@ -83,7 +85,7 @@
                 this.$router.push(this.page)
               }, 1000)
             }, 1400)
-          }, 1800)
+          }, 1909)
         }
       }
     },

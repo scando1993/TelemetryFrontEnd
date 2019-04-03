@@ -115,7 +115,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/devices">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id,dato.description)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -194,7 +194,8 @@
         dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           name: '',
-          family: ''
+          family: '',
+          description: ''
         }
       }
     },
@@ -220,19 +221,14 @@
         console.log('mostrando mas info...')
         setTimeout(e => {
           if (this.devices.dataGet[0].devices[index].description === 'Activo') {
-            console.log('entro al if')
-            console.log(this.devices.dataGet[0].devices[index])
             var link = this.devices.dataGet[0].devices[index]._links.status.href
-            console.log(link)
             var statu = { dataGet: [] }
             api.getGeneral(link, statu)
-            setTimeout(e => {
-              this.showMoreText = statu
-              this.indexSelect = index
-              this.activeStatus(this.showMoreText)
-            }, 1200)
+            this.showMoreText = statu
+            this.indexSelect = index
+            this.activeStatus(this.showMoreText)
           } else { }
-        }, 1200)
+        }, 300)
       },
       refresh() {
         location.reload()
@@ -242,11 +238,12 @@
         var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      save(index) {
+      save(index, description) {
         var id = api.search(this.devices.dataGet[0].devices, 'id', index).id
         var idGroup = api.search(this.group.dataGet[0].groups, 'name', this.selectedGroup).id
         this.dataPostDel.name = this.dataPostDel.name.trim()
         this.dataPostDel.family = this.dataPostDel.family.trim()
+        this.dataPostDel.description = description
         api.put(this.apiBack + '/' + id, this.$data)
         setTimeout(e => {
           var head = '/groups/' + idGroup
