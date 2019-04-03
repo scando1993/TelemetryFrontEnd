@@ -47,7 +47,7 @@
                     </div>
                   </div>
                   <!-- Submit and cancel -->
-                  <div class="form-group">
+                  <div class="form-group" >
                     <div class="SaveCancel">
                       <p>
                         <button type="submit" class="btn btn-primary" v-on:click="save" ><i class="fa fa-ok"></i> Guardar</button>

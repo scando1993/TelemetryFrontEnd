@@ -40,7 +40,6 @@
                       <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
-                            <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 35px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc TextCenterTH'>ID</th>
                             <th aria-label='Nombre: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
                             <th aria-label='Zone: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Zona</th>
                             <th aria-label='Province: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Provincia</th>
@@ -50,11 +49,10 @@
                         </thead>
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in stores.dataGet[0].bodegas '>
-                            <td class='sorting_1 TextFieldC'>{{dato.id}}</td>
                             <td class="TextFieldC">{{dato.name}}</td>
-                            <td class="TextFieldC">{{dato.zone}}</td>
-                            <td class="TextFieldC">{{dato.province}}</td>
-                            <td class="TextFieldC">{{dato.city}}</td>
+                            <td class="TextFieldC">{{zon[index]}}</td>
+                            <td class="TextFieldC">{{prov[index]}}</td>
+                            <td class="TextFieldC">{{ciu[index]}}</td>
                             <!--Start Buttom-->
                             <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
@@ -155,7 +153,7 @@
     //  components: { TableMenu },
     data() {
       return {
-        inicialDelay: 3000,
+        inicialDelay: 2500,
         apiBack: '/bodegas',
         apiBackZone: '/zonas',
         apiBackCity: '/ciudads',
@@ -166,6 +164,9 @@
         dataRespond: [],
         page: '/store',
         nameToExport: 'Bodega',
+        ciu: [],
+        prov: [],
+        zon: [],
         zones: {
           dataGet: [
             {
@@ -201,10 +202,7 @@
           dataGet: [
             {
               bodegas: [{
-                name: '',
-                city: '',
-                province: '',
-                zone: ''
+                name: ''
               }]
             }]
         },
@@ -216,25 +214,40 @@
     name: 'Store',
     mounted() {
       setTimeout(e => {
-        this.$nextTick(() => {
+        api.getAll(this.apiBack, this.stores)
+        setTimeout(e => {
+          this.complete()
           $('#table_store').DataTable()
-        })
+        }, 1200)
       }, this.inicialDelay)
-      api.getAll(this.apiBack, this.stores)
-      this.complete()
       api.getAll(this.apiBackZone, this.zones)
     },
     methods: {
-      complete() {
-        console.log('completeee.')
-        for (var i = 0; i < this.stores.dataGet[0].bodegas.length; i++) { //  cada bodega
-          var urlCity = this.stores.dataGet[0].bodegas[i]._links.ciudad.href // se obtiene la url de la ciudad
+      async complete() {
+        var ciud = []
+        var pro = []
+        var zona = []
+        this.stores.dataGet[0].bodegas.forEach(function (k, index) {
+          var urlCity = k._links.ciudad.href
           var city = {}
           api.getGeneral(urlCity, city)
-          console.log('he aqui la ciudad chan chan chan...')
-          console.log(city)
-          this.stores.dataGet[0].bodegas[i].ciudad = city.name
-        }
+          setTimeout(e => {
+            ciud.push(city.dataGet[1])
+            var provinc = {}
+            provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
+            setTimeout(e => {
+              var zone = {}
+              pro.push(provinc.dataGet[1])
+              zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
+              setTimeout(e => {
+                zona.push(zone.dataGet[1])
+              }, 300)
+            }, 300)
+          }, 320)
+        })
+        this.ciu = ciud
+        this.prov = pro
+        this.zon = zona
       },
       refresh() {
         location.reload()
