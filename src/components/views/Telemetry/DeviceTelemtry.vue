@@ -74,20 +74,24 @@
         },
         updateTracks: {
           error: '',
-          dataGet: []
+          dataGet: [],
+          dataPostDel: {}
         },
         updateTelemetries: {
           error: '',
-          dataGet: []
+          dataGet: [],
+          dataPostDel: {}
         }
       }
     },
     mounted() {
       this.getDevices()
-      this.timer = setInterval(this.getUpdateData, 20000)
+      // this.timer = setInterval(this.getUpdateData, 20000)
     },
     beforeDestroy() {
-      clearInterval(this.timer)
+      if (this.devices.selectedDevice !== '') {
+        clearInterval(this.timer)
+      }
     },
     methods: {
       async getDevices() {
@@ -158,10 +162,12 @@
           startDate: initialDate,
           endDate: 'now'
         }
+        this.updateTelemetries.dataPostDel = this.updateJson
+        this.updateTracks.dataPostDel = this.updateJson
       },
       getUpdateData() {
-        api.getAll(this.endPointTelemetryBetweenDates, this.updateTelemetries)
-        api.getAll(this.endPointTrackingBetweenDates, this.updateTracks)
+        api.getWithData(this.endPointTelemetryBetweenDates, this.updateTelemetries)
+        api.getWithData(this.endPointTrackingBetweenDates, this.updateTracks)
         setTimeout(e => {
           this.setUpdateDate()
         }, 5000)
@@ -176,7 +182,7 @@
         this.updateTelemetries.dataGet.forEach(element => {
           var id = element.id
           if (api.boolSearch(this.telemetries.dataGet, 'id', id)) {
-            this.trackings.push(element)
+            this.telemetries.push(element)
           }
         })
       }
