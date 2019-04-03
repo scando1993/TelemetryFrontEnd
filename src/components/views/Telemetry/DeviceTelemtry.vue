@@ -50,8 +50,10 @@
         endPointTelemtries: '/telemtries',
         endPointLastTelemtry: '/getLastTelemetry?device=',
         endPointLastTracking: '/getLastTracking?device=',
+        endPointTelemetryBetweenDates: '/getTelemetryBetweenDates',
+        endPointTrackingBetweenDates: '/getTrackingBetweenDates',
         timer: 0,
-        initialDate: '',
+        updateJson: {},
         DEF_DELAY: 5000,
         devices: {
           error: '',
@@ -69,13 +71,20 @@
         trackings: {
           error: '',
           dataGet: []
+        },
+        updateTracks: {
+          error: '',
+          dataGet: []
+        },
+        updateTelemetries: {
+          error: '',
+          dataGet: []
         }
       }
     },
     mounted() {
       this.getDevices()
-      this.getActualTime()
-      // this.timer = setInterval(this.getGetData, 20000)
+      this.timer = setInterval(this.getUpdateData, 20000)
     },
     beforeDestroy() {
       clearInterval(this.timer)
@@ -135,14 +144,41 @@
         this.devices.selectedDevice = api.search(this.devices.lastDevices, 'name', deviceName)
       },
       getGetData() {
+        this.getActualTime()
         this.getSelectDevice(this.devices.selectedDeviceName)
         this.getSelectedTelemetries()
         this.getSelectedTrackings()
       },
       getActualTime() {
         var date = new Date()
-        this.initialDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + 'T' + date.getHours() + ':' + date.getMinutes()
+        var initialDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + 'T' + date.getHours() + ':' + date.getMinutes()
         console.log(this.initialDate)
+        this.updateJson = {
+          device: this.devices.selectedDeviceName,
+          startDate: initialDate,
+          endDate: 'now'
+        }
+      },
+      getUpdateData() {
+        api.getAll(this.endPointTelemetryBetweenDates, this.updateTelemetries)
+        api.getAll(this.endPointTrackingBetweenDates, this.updateTracks)
+        setTimeout(e => {
+          this.setUpdateDate()
+        }, 5000)
+      },
+      setUpdateDate() {
+        this.updateTracks.dataGet.forEach(element => {
+          var id = element.id
+          if (api.boolSearch(this.trackings.dataGet, 'id', id)) {
+            this.trackings.push(element)
+          }
+        })
+        this.updateTelemetries.dataGet.forEach(element => {
+          var id = element.id
+          if (api.boolSearch(this.telemetries.dataGet, 'id', id)) {
+            this.trackings.push(element)
+          }
+        })
       }
     }
   }

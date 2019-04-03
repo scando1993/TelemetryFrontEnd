@@ -207,6 +207,14 @@ export default {
       }
     }
   },
+  boolSearch(myArray, key, value) {
+    for (var i = 0; i < myArray.length; i++) {
+      if (myArray[i][key] === value) {
+        return true
+      }
+    }
+    return false
+  },
   searchActive(show, tag) {
     if (show === true) {
       document.getElementById(tag).style.visibility = 'visible'
