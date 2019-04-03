@@ -3,6 +3,7 @@
       <select v-model="devices.selectedDeviceName" v-on:change="getGetData">
         <option v-for="(item, index) in devices.lastDevices" :key="index">{{item.name}}</option>
       </select>
+      <button v-on:click="getGetData">Reload</button>
       <div class='span12'>
       <div class='box'>
       <div class='row center-block'>
