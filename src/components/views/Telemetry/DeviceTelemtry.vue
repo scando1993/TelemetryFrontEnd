@@ -12,20 +12,22 @@
               <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
                 <div class='row'>
                   <div class='col-sm-12 table-responsive'>
-                    <table class='table table-bordered table-striped dataTable'>
-                      <tr role='row'> 
-                          <td>Nombre</td> 
-                          <td>Telemetria</td>
-                          <td>Valor</td>
-                          <td>Ubicacion</td>
-                          <td>DTM</td>
-                      </tr>
+                    <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
+                      <thead>
+                        <tr role='row'> 
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th> 
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Telemetria</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0'  class='sorting ToButtons'>Valor</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ubicacion</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
+                        </tr>
+                      </thead>
                       <tr role='row' v-for="data1, index1 in telemetries.dataGet">
-                            <td>{{devices.selectedDevice.name}}</td>
-                            <td>{{data1.name}}</td>
-                            <td>{{data1.value}}</td>
-                            <td>{{trackings.dataGet[index1].location}}</td>
-                            <td>{{trackings.dataGet[index1].dtm}}</td>           
+                            <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
+                            <td class="TextFieldC">{{data1.name}}</td>
+                            <td class="TextFieldC">{{data1.value}}</td>
+                            <td class="TextFieldC">{{trackings.dataGet[index1].location}}</td>
+                            <td class="TextFieldC">{{data1.dtm}}</td>           
                       </tr>
                     </table>
                   </div>
@@ -49,6 +51,7 @@
         endPointLastTelemtry: '/getLastTelemetry?device=',
         endPointLastTracking: '/getLastTracking?device=',
         timer: 0,
+        initialDate: '',
         DEF_DELAY: 5000,
         devices: {
           error: '',
@@ -71,6 +74,7 @@
     },
     mounted() {
       this.getDevices()
+      this.getActualTime()
       // this.timer = setInterval(this.getGetData, 20000)
     },
     beforeDestroy() {
@@ -134,6 +138,11 @@
         this.getSelectDevice(this.devices.selectedDeviceName)
         this.getSelectedTelemetries()
         this.getSelectedTrackings()
+      },
+      getActualTime() {
+        var date = new Date()
+        this.initialDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + 'T' + date.getHours() + ':' + date.getMinutes()
+        console.log(this.initialDate)
       }
     }
   }
