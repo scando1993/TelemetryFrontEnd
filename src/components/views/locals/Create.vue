@@ -21,7 +21,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" required class="form-control" v-model="dataPostDel.name" name="ruta" maxlength="50" value="">
+                      <input type="text" required class="form-control" v-model="dataPostDel.name" name="name" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
@@ -35,7 +35,7 @@
                     <div class="col-sm-9 col-lg-10 controls-create">
                       <select v-model="selectedZone" required v-on:click="loadProvinces" class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                        <option v-for="datoB in zones.dataGet[0].zonas">{{datoB.name}}</option>
                       </select>
                     </div>
                   </div>
@@ -44,7 +44,7 @@
                     <div class="col-sm-9 col-lg-10 controls-create">
                       <select v-model="selectedProvince" required v-on:click="loadCities" class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                        <option v-for="datoP in provinces.dataGet[0].provincias">{{datoP.name}}</option>
                       </select>
                     </div>
                   </div>
@@ -53,7 +53,7 @@
                     <div class="col-sm-9 col-lg-10 controls-create">
                       <select v-model="selectedCity" required class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                        <option v-for="datoC in cities.dataGet[0].ciudads">{{datoC.name}}</option>
                       </select>
                     </div>
                   </div>
@@ -102,50 +102,71 @@
       cancel() {
         this.$router.push(this.page)
       },
-      updateData(newData) {
-        this.error = newData.error
-        this.dataPostDel = newData.dataPostDel
-      },
       save() {
-        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.numLoc.toString() !== '' && this.dataPostDel.family.trim() !== '' && this.dataPostDel.length.toString() !== '' && this.dataPostDel.latitude.toString() !== '') {
-          var id = api.search(this.city.listCities, 'name', this.selectedCity).id
+        if (this.dataPostDel.name.trim() !== '') {
+          var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
           this.dataPostDel.name = this.dataPostDel.name.trim()
           this.dataPostDel.family = this.dataPostDel.family.trim()
-          api.post(this.apiBack + '/' + id, this.$data)
-          this.$router.push(this.page)
+          api.post(this.apiBack, this.$data)
+          var head = '/ciudads/' + idCity
+          setTimeout(e => {
+            console.log(this.dataRespond[0])
+            console.log(this.apiBack + '/' + this.dataRespond[0] + '/ciudad')
+            api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/ciudad', head)
+            this.$router.push(this.page)
+          }, 1100)
         }
       },
       loadProvinces() {
-        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
+        var url = api.search(this.zones.dataGet[0].zonas, 'name', this.selectedZone)._links.provincias.href
+        api.getGeneral(url, this.provinces)
       },
       loadCities() {
-        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
+        var url = api.search(this.provinces.dataGet[0].provincias, 'name', this.selectedProvince)._links.ciudades.href
+        api.getGeneral(url, this.cities)
       }
     },
     data() {
       return {
-        apiBack: '/locales',
-        apiBackZone: '/zona',
-        error: '',
+        apiBack: '/localeses',
+        apiBackZone: '/zonas',
+        apiBackCity: '/ciudads',
+        apiBackProvince: '/provincias',
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
         page: '/locals',
-        zone: {
-          error: '',
-          dataGet: []
+        dataRespond: [],
+        zones: {
+          dataGet: [
+            {
+              zone: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        province: {
-          error: '',
-          dataGet: [],
-          listProvinces: []
+        provinces: {
+          dataGet: [
+            {
+              provinces: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        city: {
-          error: '',
-          dataGet: [],
-          listCities: []
+        cities: {
+          dataGet: [
+            {
+              cities: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        dataGet: [],
         dataPostDel: { // este es basicamente un JSON
           numLoc: 0,
           name: '',
@@ -156,7 +177,7 @@
       }
     },
     mounted() {
-      api.getAll(this.apiBackZone, this.zone)
+      api.getAll(this.apiBackZone, this.zones)
     }
   }
 </script>

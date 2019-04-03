@@ -43,7 +43,6 @@
                     <table aria-describedby="example1_info" role="grid" id="tabla_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="Local ID: activate to sort column descending" aria-sort="ascending" style="width: 22px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc TextCenterTH">ID</th>
                           <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">No. Loc</th>
                           <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
                           <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Zona</th>
@@ -56,13 +55,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="even" role="row" v-for="dato,index in dataGet ">
-                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                        <tr class="even" role="row" v-for="dato,index in locals.dataGet[0].localeses ">
                           <td class="TextFieldC">{{dato.numLoc}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
-                          <td class="TextFieldC">{{dato.zoneName}}</td>
-                          <td class="TextFieldC">{{dato.provinceName}}</td>
-                          <td class="TextFieldC">{{dato.cityName}}</td>
+                          <td class="TextFieldC">{{zon[index]}}</td>
+                          <td class="TextFieldC">{{prov[index]}}</td>
+                          <td class="TextFieldC">{{ciu[index]}}</td>
                           <td class="TextFieldC">{{dato.family}}</td>
                           <td class="TextFieldC">{{dato.length}}</td>
                           <td class="TextFieldC">{{dato.latitude}}</td>
@@ -109,7 +107,7 @@
                                         <div class="col-sm-9 col-lg-10 controls">
                                           <select v-model="selectedZone" v-on:click="loadProvinces" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                                            <option v-for="datoB in zones.dataGet[0].zonas">{{datoB.name}}</option>
                                           </select>
                                         </div>
                                       </div>
@@ -118,7 +116,7 @@
                                         <div class="col-sm-9 col-lg-10 controls">
                                           <select v-model="selectedProvince" v-on:click="loadCities" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                                            <option v-for="datoP in provinces.dataGet[0].provincias">{{datoP.name}}</option>
                                           </select>
                                         </div>
                                       </div>
@@ -127,7 +125,7 @@
                                         <div class="col-sm-9 col-lg-10 controls">
                                           <select v-model="selectedCity" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                                            <option v-for="datoC in cities.dataGet[0].ciudads">{{datoC.name}}</option>
                                           </select>
                                         </div>
                                       </div>
@@ -144,7 +142,6 @@
                                         </div>
                                       </div>
 
-
                                     </form>
                                   </div>
                                   <!--End Modal-Body-->
@@ -152,7 +149,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/locals">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--End Modal-Footer-->
@@ -196,28 +193,61 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/locales',
-        apiBackZone: '/zona',
+        apiBack: '/localeses',
+        apiBackZone: '/zonas',
+        apiBackCity: '/ciudads',
+        apiBackProvince: '/provincias',
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
-        zone: {
-          error: '',
-          dataGet: []
+        dataRespond: [],
+        ciu: [],
+        prov: [],
+        zon: [],
+        zones: {
+          dataGet: [
+            {
+              zone: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        province: {
-          error: '',
-          dataGet: [],
-          listProvinces: []
+        provinces: {
+          dataGet: [
+            {
+              provinces: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        city: {
+        cities: {
+          dataGet: [
+            {
+              cities: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
+        },
+        locals: {
           error: '',
-          dataGet: [],
-          listCities: []
+          dataGet: [
+            {
+              localeses: [{
+                numLoc: 0,
+                name: '',
+                family: '',
+                length: 0,
+                latitude: 0
+              }]
+            }]
         },
         nameToExport: 'Locales',
-        error: '', // aqui se guardara el ultimo status de error
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           numLoc: 0,
           name: '',
@@ -237,38 +267,69 @@
     name: 'Locales',
     mounted() {
       setTimeout(e => {
-        this.$nextTick(() => {
-          $('#tabla_locals').DataTable()
-        })
+        api.getAll(this.apiBack, this.locals)
+        setTimeout(e => {
+          this.loadRest()
+          $('#table_locals').DataTable()
+        }, 1200)
       }, this.inicialDelay)
-      this.get()
-      api.getAll(this.apiBackZone, this.zone)
+      api.getAll(this.apiBackZone, this.zones)
     },
     methods: {
       refresh() {
         location.reload()
       },
-      get() {
-        api.getAll(this.apiBack, this.$data)
+      async loadRest() {
+        var ciud = []
+        var pro = []
+        var zona = []
+        this.locals.dataGet[0].localeses.forEach(function (k, index) {
+          var urlCity = k._links.ciudad.href
+          var city = {}
+          api.getGeneral(urlCity, city)
+          setTimeout(e => {
+            ciud.push(city.dataGet[1])
+            var provinc = {}
+            provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
+            setTimeout(e => {
+              var zone = {}
+              pro.push(provinc.dataGet[1])
+              zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
+              setTimeout(e => {
+                zona.push(zone.dataGet[1])
+              }, 300)
+            }, 300)
+          }, 320)
+        })
+        this.ciu = ciud
+        this.prov = pro
+        this.zon = zona
       },
       deleteOne(key) {
-        this.dataPostDel = this.dataGet[key]
-        this.dataGet.splice(key, 1)
-        var id = this.dataPostDel.id
+        var elementDeleted = this.locals.dataGet[0].localeses.splice(key, 1)
+        var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       loadProvinces() {
-        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
+        var url = api.search(this.zones.dataGet[0].zonas, 'name', this.selectedZone)._links.provincias.href
+        api.getGeneral(url, this.provinces)
       },
       loadCities() {
-        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
+        var url = api.search(this.provinces.dataGet[0].provincias, 'name', this.selectedProvince)._links.ciudades.href
+        api.getGeneral(url, this.cities)
       },
-      save(index) {
-        api.post(this.apiBack, this.$data)
-        var id = this.dataGet[index].id
-        var idCity = api.search(this.city.listCities, 'name', this.selectedCity).id
-        api.put(this.apiBack + '/' + id + '/' + idCity, this.$data)
-        this.get()
+      save(id) {
+        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.family.trim() !== '') {
+          var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          this.dataPostDel.family = this.dataPostDel.family.trim()
+          api.put(this.apiBack + '/' + id, this.$data)
+          var head = '/ciudads/' + idCity
+          setTimeout(e => {
+            api.postWithHeader(this.apiBack + '/' + id + '/ciudad', head)
+            this.$router.push(this.page)
+          }, 1100)
+        }
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)
@@ -285,7 +346,7 @@
           { title: 'Longitud', dataKey: 'length' },
           { title: 'Latitud', dataKey: 'latitude' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.locals.dataGet[0].localeses)
       }
     }
   }

@@ -5,7 +5,7 @@ import 'jspdf-autotable'
 //  var apiUrlBase = 'http://172.16.10.108:2222'
 var apiUrlBase = 'http://192.168.10.101:2222'
 // var apiUrlBase = 'http://25.4.250.51:2222'
-var apiUrlBase = 'http://localhost:2222'
+//  var apiUrlBase = 'http://localhost:2222'
 //  var apiUrlBase = 'http://104.209.196.204:8080'
 
 export default {
