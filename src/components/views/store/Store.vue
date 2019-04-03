@@ -49,12 +49,12 @@
                           </tr>
                         </thead>
                         <tbody id='fields'>
-                          <tr class='even' role='row' v-for='dato,index in bodegas.dataGet[0].bodegas '>
+                          <tr class='even' role='row' v-for='dato,index in stores.dataGet[0].bodegas '>
                             <td class='sorting_1 TextFieldC'>{{dato.id}}</td>
                             <td class="TextFieldC">{{dato.name}}</td>
-                            <td class="TextFieldC">{{dato.zoneName}}</td>
-                            <td class="TextFieldC">{{dato.provinceName}}</td>
-                            <td class="TextFieldC">{{dato.cityName}}</td>
+                            <td class="TextFieldC">{{dato.zone}}</td>
+                            <td class="TextFieldC">{{dato.province}}</td>
+                            <td class="TextFieldC">{{dato.city}}</td>
                             <!--Start Buttom-->
                             <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
@@ -89,7 +89,7 @@
                                           <div class="col-sm-9 col-lg-10 controls">
                                             <select v-model="selectedZone" required="required" v-on:click="loadProvinces" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
-                                              <option v-for="datoB in zone.dataGet">{{datoB.name}}</option>
+                                              <option v-for="datoB in zones.dataGet[0].zonas">{{datoB.name}}</option>
                                             </select>
                                           </div>
                                         </div>
@@ -98,7 +98,7 @@
                                           <div class="col-sm-9 col-lg-10 controls">
                                             <select v-model="selectedProvince" required="required" v-on:click="loadCities" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
-                                              <option v-for="datoP in province.listProvinces">{{datoP.name}}</option>
+                                              <option v-for="datoP in provinces.dataGet[0].provincias">{{datoP.name}}</option>
                                             </select>
                                           </div>
                                         </div>
@@ -107,7 +107,7 @@
                                           <div class="col-sm-9 col-lg-10 controls">
                                             <select v-model="selectedCity" required="required" class="FormatSelect">
                                               <option disabled value="">Por favor seleccionar uno</option>
-                                              <option v-for="datoC in city.listCities">{{datoC.name}}</option>
+                                              <option v-for="datoC in cities.dataGet[0].ciudads">{{datoC.name}}</option>
                                             </select>
                                           </div>
                                         </div>
@@ -118,7 +118,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -157,31 +157,57 @@
       return {
         inicialDelay: 3000,
         apiBack: '/bodegas',
-        apiBackZone: '/zona',
-        nameToExport: 'Bodega',
+        apiBackZone: '/zonas',
+        apiBackCity: '/ciudads',
+        apiBackProvince: '/provincias',
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
-        zone: {
-          error: '',
-          dataGet: []
+        dataRespond: [],
+        page: '/store',
+        nameToExport: 'Bodega',
+        zones: {
+          dataGet: [
+            {
+              zone: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        province: {
-          error: '',
-          dataGet: [],
-          listProvinces: []
+        provinces: {
+          dataGet: [
+            {
+              provinces: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        city: {
-          error: '',
-          dataGet: [],
-          listCities: []
+        cities: {
+          dataGet: [
+            {
+              cities: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         },
-        bodegas: {
+        stores: {
           error: '',
-          dataGet: {}
+          dataGet: [
+            {
+              bodegas: [{
+                name: '',
+                city: '',
+                province: '',
+                zone: ''
+              }]
+            }]
         },
-        error: '', // aqui se guardara el ultimo status de error
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           name: ''
         }
@@ -194,36 +220,56 @@
           $('#table_store').DataTable()
         })
       }, this.inicialDelay)
-      api.getAll(this.apiBack, this.bodegas)
-      api.getAll(this.apiBackZone, this.zone)
+      api.getAll(this.apiBack, this.stores)
+      this.complete()
+      api.getAll(this.apiBackZone, this.zones)
     },
     methods: {
+      complete() {
+        console.log('completeee.')
+        for (var i = 0; i < this.stores.dataGet[0].bodegas.length; i++) { //  cada bodega
+          var urlCity = this.stores.dataGet[0].bodegas[i]._links.ciudad.href // se obtiene la url de la ciudad
+          var city = {}
+          api.getGeneral(urlCity, city)
+          console.log('he aqui la ciudad chan chan chan...')
+          console.log(city)
+          this.stores.dataGet[0].bodegas[i].ciudad = city.name
+        }
+      },
       refresh() {
         location.reload()
       },
       loadProvinces() {
-        this.province.listProvinces = api.search(this.zone.dataGet, 'name', this.selectedZone).provincias
+        var url = api.search(this.zones.dataGet[0].zonas, 'name', this.selectedZone)._links.provincias.href
+        api.getGeneral(url, this.provinces)
       },
       loadCities() {
-        this.city.listCities = api.search(this.province.listProvinces, 'name', this.selectedProvince).ciudades
+        var url = api.search(this.provinces.dataGet[0].provincias, 'name', this.selectedProvince)._links.ciudades.href
+        api.getGeneral(url, this.cities)
       },
       deleteOne(key) {
-        this.dataPostDel = this.bodegas.dataGet[key]
-        this.bodegas.dataGet.splice(key, 1)
-        var id = this.dataPostDel.id
+        var elementDeleted = this.stores.dataGet[0].bodegas.splice(key, 1)
+        var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      save (index) {
-        var id = this.bodegas.dataGet[index].id
-        var idCity = api.search(this.city.listCities, 'name', this.selectedCity).id
-        api.put(this.apiBack + '/' + id + '/' + idCity, this.$data)
+      save (id) {
+        if (this.dataPostDel.name.trim() !== '') {
+          var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.put(this.apiBack + '/' + id, this.$data)
+          var head = '/ciudads/' + idCity
+          setTimeout(e => {
+            api.postWithHeader(this.apiBack + '/' + id + '/ciudad', head)
+            this.$router.push(this.page)
+          }, 1100)
+        }
       },
       exportExcel() {
-        var rep = JSON.parse(JSON.stringify(this.bodegas.dataGet))
+        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.bodegas.dataGet))
+        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
         var columns = [
           {title: 'ID', dataKey: 'id'},
           { title: 'Nombre', dataKey: 'name' },
