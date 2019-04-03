@@ -17,6 +17,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "babel-runtime": "^5.8.0",
+    "bootstrap-sass": "^3.4.1",
     "chart.js": "2.3.0",
     "datatables.net": "^1.10.11",
     "datatables.net-bs": "^1.10.11",
