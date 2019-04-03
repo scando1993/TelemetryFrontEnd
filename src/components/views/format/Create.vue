@@ -29,7 +29,7 @@
                     <div class="col-sm-9 col-lg-10 controls">
                       <select v-model="selectedLocal" required="required" class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoL in locals.dataGet ">{{ datoL.name }}</option>
+                        <option v-for="datoL in locals.dataGet[0].localeses ">{{ datoL.name }}</option>
                       </select>
                     </div>
                   </div>
@@ -67,26 +67,45 @@
       },
       save() {
         if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.code.trim() !== '') {
-          var id = api.search(this.locals.dataGet, 'name', this.selectedLocal).id
+          var idLocal = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedLocal).id
           this.dataPostDel.name = this.dataPostDel.name.trim()
           this.dataPostDel.code = this.dataPostDel.code.trim()
-          api.post(this.apiBack + '/' + id, this.$data)
-          this.$router.push(this.page)
+          api.post(this.apiBack, this.$data)
+          var head = '/localeses/' + idLocal
+          setTimeout(e => {
+            console.log(this.dataRespond[0])
+            api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/locales', head)
+            this.$router.push(this.page)
+          }, 1200)
         }
       }
     },
     data() {
       return {
         page: '/format',
-        apiBack: '/formato',
-        apiBackLocals: '/locales',
+        apiBack: '/formatoes',
+        apiBackLocals: '/localeses',
         selectedLocal: '',
+        dataRespond: [],
+        formats: {
+          error: '',
+          dataGet: [
+            {
+              formatoes: [{
+                name: '',
+                code: ''
+              }]
+            }]
+        },
         locals: {
           error: '',
-          dataGet: []
+          dataGet: [
+            {
+              localeses: [{
+                name: ''
+              }]
+            }]
         },
-        error: '',
-        dataGet: [],
         dataPostDel: { // este es basicamente un JSON
           name: '',
           code: ''

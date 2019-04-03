@@ -46,7 +46,6 @@
                     <table aria-describedby="Tabla_de_elementos" role="grid" id="tabla_formato" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 35px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc ToCenterTH">ID</th>
                           <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
                           <th aria-label="Codigo: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Código</th>
                           <th aria-label="Local: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Local</th>
@@ -54,11 +53,10 @@
                         </tr>
                       </thead>
                       <tbody id="campos_bodega">
-                        <tr class="even" role="row" v-for="dato,index in dataGet ">
-                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                        <tr class="even" role="row" v-for="dato,index in formats.dataGet[0].formatoes ">
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">{{dato.code}}</td>
-                          <td class="TextFieldC">{{dato.localName}}</td>
+                          <td class="TextFieldC">{{local[index]}}</td>
                           <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
@@ -96,7 +94,7 @@
                                         <div class="col-sm-9 controls">
                                           <select v-model="selectedLocal" class="FormatSelect">
                                             <option disabled value="">Por favor seleccionar uno</option>
-                                            <option v-for="datoL in locals.dataGet ">{{ datoL.name }}</option>
+                                            <option v-for="datoL in locals.dataGet[0].localeses">{{ datoL.name }}</option>
                                           </select>
                                         </div>
                                       </div>
@@ -108,7 +106,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/format">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -145,12 +143,28 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/formato',
-        apiBackLocals: '/locales',
+        apiBack: '/formatoes',
+        apiBackLocals: '/localeses',
         selectedLocal: '',
+        local: [],
+        formats: {
+          error: '',
+          dataGet: [
+            {
+              formatoes: [{
+                name: '',
+                code: ''
+              }]
+            }]
+        },
         locals: {
           error: '',
-          dataGet: []
+          dataGet: [
+            {
+              localeses: [{
+                name: ''
+              }]
+            }]
         },
         nameToExport: 'Formato',
         error: '', // aqui se guardara el ultimo status de error
@@ -164,31 +178,48 @@
     name: 'Formato',
     mounted() {
       setTimeout(e => {
-        this.$nextTick(() => {
-          $('#tabla_formato').DataTable()
-        })
+        api.getAll(this.apiBack, this.formats)
+        setTimeout(e => {
+          this.loadData()
+          $('#table_formato').DataTable()
+        }, 1200)
       }, this.inicialDelay)
-      this.get()
       api.getAll(this.apiBackLocals, this.locals)
     },
     methods: {
       refresh() {
         location.reload()
       },
-      get() {
-        api.getAll(this.apiBack, this.$data)
+      async loadData() {
+        var loc = []
+        this.formats.dataGet[0].formatoes.forEach(function (k, index) {
+          var urlLocal = k._links.locales.href
+          var locResp = {}
+          api.getGeneral(urlLocal, locResp)
+          setTimeout(e => {
+            console.log(locResp)
+            loc.push(locResp.dataGet[4])
+          }, 200)
+        })
+        this.local = loc
       },
       deleteOne(key) {
-        this.dataPostDel = this.dataGet[key]
-        this.dataGet.splice(key, 1)
-        var id = this.dataPostDel.id
+        var elementDeleted = this.formats.dataGet[0].formatoes.splice(key, 1)
+        var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      save(index) {
-        var id = this.dataGet[index].id
-        var idLocal = api.search(this.locals.dataGet, 'name', this.selectedLocal).id
-        api.put(this.apiBack + '/' + id + '/' + idLocal, this.$data)
-        this.get()
+      save(id) {
+        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.code.trim() !== '') {
+          var idLocal = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedLocal).id
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          this.dataPostDel.code = this.dataPostDel.code.trim()
+          api.put(this.apiBack + '/' + id, this.$data)
+          var head = '/localeses/' + idLocal
+          setTimeout(e => {
+            api.postWithHeader(this.apiBack + '/' + id + '/locales', head)
+            this.$router.push(this.page)
+          }, 1100)
+        }
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)
