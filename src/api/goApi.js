@@ -5,7 +5,7 @@ import 'jspdf-autotable'
 //  var apiUrlBase = 'http://172.16.10.108:2222'
 var apiUrlBase = 'http://192.168.10.101:2222'
 // var apiUrlBase = 'http://25.4.250.51:2222'
-// var apiUrlBase = 'http://localhost:2222'
+var apiUrlBase = 'http://localhost:2222'
 //  var apiUrlBase = 'http://104.209.196.204:8080'
 
 export default {
@@ -57,6 +57,30 @@ export default {
       data.error = err
     })
     return data
+  },
+  getWithData(url, data2) {
+    console.log('se enviara:')
+    console.log(data2.dataPostDel)
+    console.log('---------')
+    axios({
+      method: 'get',
+      url: apiUrlBase + url,
+      data: data2.dataPostDel
+    })
+    .then(response => {
+      if (response.status !== 200) {
+        data2.error = response.statusText
+        return data2
+      }
+      var info = response.data
+      data2.dataGet = Object.values(info)
+    })
+    .catch((err) => {
+    //  Request failed.
+      data2.error = err
+    })
+    console.log(data2)
+    return data2
   },
   getAll(url, data) {
     axios.get(apiUrlBase + url)
@@ -207,6 +231,14 @@ export default {
         return myArray[i]
       }
     }
+  },
+  boolSearch(myArray, key, value) {
+    for (var i = 0; i < myArray.length; i++) {
+      if (myArray[i][key] === value) {
+        return true
+      }
+    }
+    return false
   },
   searchActive(show, tag) {
     if (show === true) {
