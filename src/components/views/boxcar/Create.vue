@@ -56,19 +56,20 @@
         this.$router.push(this.page)
       },
       save() {
-        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.numFurgon.toString() !== '') {
+        if (this.dataPostDel.name.trim() !== '') {
           this.dataPostDel.name = this.dataPostDel.name.trim()
           api.post(this.apiBack, this.$data)
-          this.$router.push(this.page)
+          setTimeout(e => {
+            this.$router.push(this.page)
+          }, 700)
         }
       }
     },
     data() {
       return {
-        apiBack: '/furgon',
+        apiBack: '/furgons',
         page: '/boxcar',
-        error: '', // aqui se guardara el ultimo status de error
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        dataRespond: [],
         dataPostDel: { // este es basicamente un JSON
           numFurgon: 0,
           name: ''
