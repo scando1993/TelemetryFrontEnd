@@ -16,7 +16,7 @@
                       <div class="col-sm-6 controls-create">
                         <select required v-model="selectedBoxcar" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoF in boxcar.dataGet ">{{ datoF.name}}</option>
+                          <option v-for="datoF in boxcars.dataGet[0].furgons ">{{ datoF.name}}</option>
                         </select>
                       </div>
                     </div>
@@ -25,7 +25,7 @@
                       <div class="col-sm-9 col-lg-10 controls-create">
                         <select required v-model="selectedDevice" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoD in devices.dataGet">{{ datoD.name }}</option>
+                          <option v-for="datoD in devices.dataGet[0].devices">{{ datoD.name }}</option>
                         </select>
                       </div>
                     </div>
@@ -34,7 +34,7 @@
                       <div class="col-sm-6 controls-create">
                         <select required v-model="selectedProduct" class="FormatSelect">
                           <option disabled value="">Por favor seleccionar uno</option>
-                          <option v-for="datoP in products.dataGet ">{{ datoP.name}}</option>
+                          <option v-for="datoP in products.dataGet[0].productoes ">{{ datoP.name}}</option>
                         </select>
                       </div>
                     </div>

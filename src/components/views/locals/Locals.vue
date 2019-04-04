@@ -267,12 +267,12 @@
     name: 'Locales',
     mounted() {
       setTimeout(e => {
-        api.getAll(this.apiBack, this.locals)
-        setTimeout(e => {
-          this.loadRest()
-          $('#table_locals').DataTable()
-        }, 1200)
+        this.loadRest()
+      }, 1000)
+      setTimeout(e => {
+        $('#table_locals').DataTable()
       }, this.inicialDelay)
+      api.getAll(this.apiBack, this.locals)
       api.getAll(this.apiBackZone, this.zones)
     },
     methods: {

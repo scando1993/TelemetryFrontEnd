@@ -213,17 +213,17 @@
     },
     name: 'Store',
     mounted() {
+      api.getAll(this.apiBack, this.stores)
       setTimeout(e => {
-        api.getAll(this.apiBack, this.stores)
-        setTimeout(e => {
-          this.complete()
-          $('#table_store').DataTable()
-        }, 1200)
+        this.loadData()
+      }, 1200)
+      setTimeout(e => {
+        $('#table_store').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackZone, this.zones)
     },
     methods: {
-      async complete() {
+      async loadData() {
         var ciud = []
         var pro = []
         var zona = []

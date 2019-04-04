@@ -177,12 +177,12 @@
     },
     name: 'Formato',
     mounted() {
+      api.getAll(this.apiBack, this.formats)
       setTimeout(e => {
-        api.getAll(this.apiBack, this.formats)
-        setTimeout(e => {
-          this.loadData()
-          $('#table_formato').DataTable()
-        }, 1200)
+        this.loadData()
+      }, 100)
+      setTimeout(e => {
+        $('#table_formato').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackLocals, this.locals)
     },

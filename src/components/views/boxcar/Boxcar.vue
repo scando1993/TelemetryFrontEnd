@@ -46,7 +46,7 @@
                     <table aria-describedby="Table_of_elements" role="grid" id="table_boxcar" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="NoFurgon: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Número del Furgón</th>
+                          <th aria-label="NoFurgon: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons" style="width: 20%;">Número del Furgón</th>
                           <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
                           <th class="JustifyButtonTD"></th>
                         </tr>
