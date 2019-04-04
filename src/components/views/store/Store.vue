@@ -37,7 +37,7 @@
               <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
                 <div class='row'>
                   <div class='col-sm-12 table-responsive'>
-                      <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
+                      <table aria-describedby='Table_of_elements' role='grid' id='table_store' v-if="full"class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
                             <th aria-label='Nombre: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
@@ -161,6 +161,7 @@
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
+        full: false,
         dataRespond: [],
         page: '/store',
         nameToExport: 'Bodega',
@@ -248,6 +249,7 @@
         this.ciu = ciud
         this.prov = pro
         this.zon = zona
+        if (this.zon !== 0) { this.full = true }
       },
       refresh() {
         location.reload()
