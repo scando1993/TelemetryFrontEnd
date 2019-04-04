@@ -48,8 +48,8 @@
       return {
         endPointDevices: '/devices',
         endPointTelemtries: '/telemtries',
-        endPointLastTelemtry: '/getLastTelemetry?device=',
-        endPointLastTracking: '/getLastTracking?device=',
+        endPointTelemtry: '/getDeviceTelemetry?device=',
+        endPointTracking: '/getDeviceTrack?device=',
         endPointTelemetryBetweenDates: '/getTelemetryBetweenDates',
         endPointTrackingBetweenDates: '/getTrackingBetweenDates',
         timer: 0,
@@ -103,24 +103,28 @@
         // this.getLastTelemetries()
       },
       async getSelectedTelemetries() {
-        var url = this.devices.selectedDevice._links.telemetrias.href
-        url = '/' + url.split('/').slice(3).join('/')
-        console.log(url)
-        api.getAll(url, this.telemetries)
+        // var url = this.devices.selectedDevice._links.telemetrias.href
+        // url = '/' + url.split('/').slice(3).join('/')
+        // console.log(url)
+        console.log(this.endPointTelemtry + this.devices.selectedDeviceName)
+        api.getAll(this.endPointTelemtry + this.devices.selectedDeviceName, this.telemetries)
         // await this.sleep()
         setTimeout(e => {
-          this.telemetries.t = this.telemetries.dataGet[0].telemetrias
+          this.telemetries.t = this.telemetries.dataGet
+          // this.telemetries.t = this.telemetries.dataGet[0].telemetrias
         }, 2000)
         // console.log(this.telemetries)
       },
       async getSelectedTrackings() {
-        var url = this.devices.selectedDevice._links.trackings.href
-        url = '/' + url.split('/').slice(3).join('/')
-        console.log(url)
-        api.getAll(url, this.trackings)
+        // var url = this.devices.selectedDevice._links.trackings.href
+        // url = '/' + url.split('/').slice(3).join('/')
+        // console.log(url)
+        console.log(this.endPointTracking + this.devices.selectedDeviceName)
+        api.getAll(this.endPointTracking + this.devices.selectedDeviceName, this.trackings)
         // await this.sleep()
         setTimeout(e => {
-          this.trackings.t = this.trackings.dataGet[0].trackings
+          this.trackings.t = this.trackings.dataGet
+          // this.trackings.t = this.trackings.dataGet[0].trackings
         }, 2000)
       },
       async getLastTelemetries() {
