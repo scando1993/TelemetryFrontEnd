@@ -58,7 +58,7 @@
                             <th class="JustifyButtonTD"></th>
                           </tr>
                         </thead>
-                        <tbody id='fields'>
+                        <tbody id='fields' v-if="full">
                           <tr class='even' role='row' v-for='dato,index in paths.dataGet[0].rutas '>
                             <td class="TextFieldC">{{box[index]}}</td>
                             <td class="TextFieldC">{{devi[index]}}</td>
@@ -192,7 +192,7 @@
   export default {
     data() {
       return {
-        inicialDelay: 3000,
+        inicialDelay: 1500,
         apiBack: '/rutas',
         apiBackBoxcar: '/furgons',
         apiBackDevice: '/devices',
@@ -204,6 +204,7 @@
         selectedStartLocal: '',
         selectedEndLocal: '',
         dataRespond: [],
+        full: false,
         box: [],
         devi: [],
         prod: [],
@@ -278,6 +279,7 @@
         this.loadData()
       }, 1000)
       setTimeout(e => {
+        if (this.prod.length !== 0) { this.full = true }
         $('#table_path').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackBoxcar, this.boxcars)
