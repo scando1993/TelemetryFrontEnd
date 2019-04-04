@@ -273,13 +273,13 @@
     },
     name: 'Rutas',
     mounted() {
+      api.getAll(this.apiBack, this.paths)
       setTimeout(e => {
         this.loadData()
-      }, 1000)
+      }, 1200)
       setTimeout(e => {
         $('#table_path').DataTable()
       }, this.inicialDelay)
-      api.getAll(this.apiBack, this.paths)
       api.getAll(this.apiBackBoxcar, this.boxcars)
       api.getAll(this.apiBackDevice, this.devices)
       api.getAll(this.apiBackProduct, this.products)
@@ -317,7 +317,7 @@
             device.push(varDevice.dataGet[2])
             locStart.push(varLocalSt.dataGet[4])
             locEnd.push(varLocalFn.dataGet[4])
-          }, 320)
+          }, 300)
         })
         this.box = boxcar
         this.prod = product
@@ -331,7 +331,10 @@
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(id) {
+        this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
+        this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
         if (this.dataPostDel.start_date !== this.dataPostDel.end_date) {
+          console.log('entro hey')
           this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
           this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
           var idLocIn = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedStartLocal).id
@@ -347,14 +350,21 @@
           var headBoxc = '/furgons/' + idBoxc
           setTimeout(e => {
             api.postWithHeader(this.apiBack + '/' + id + '/localInicio', headIni)
-            api.postWithHeader(this.apiBack + '/' + id + '/localFin', headFin)
-            api.postWithHeader(this.apiBack + '/' + id + '/producto', headProd)
-            api.postWithHeader(this.apiBack + '/' + id + '/device', headDevi)
-            api.postWithHeader(this.apiBack + '/' + id + '/furgon', headBoxc)
-            this.$router.push(this.page)
-          }, 1100)
+            setTimeout(e => {
+              api.postWithHeader(this.apiBack + '/' + id + '/localFin', headFin)
+              setTimeout(e => {
+                api.postWithHeader(this.apiBack + '/' + id + '/producto', headProd)
+                setTimeout(e => {
+                  api.postWithHeader(this.apiBack + '/' + id + '/device', headDevi)
+                  setTimeout(e => {
+                    api.postWithHeader(this.apiBack + '/' + id + '/furgon', headBoxc)
+                    this.$router.push(this.page)
+                  }, 100)
+                }, 100)
+              }, 100)
+            }, 100)
+          }, 100)
         }
-        this.get()
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)

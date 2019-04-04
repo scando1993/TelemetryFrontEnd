@@ -101,7 +101,7 @@
       cancel() {
         this.$router.push(this.page)
       },
-      save() {
+      async save() {
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
         console.log(this.dataPostDel.start_date)
@@ -119,14 +119,21 @@
             var headProd = '/productoes/' + idProd
             var headDevi = '/devices/' + idDevi
             var headBoxc = '/furgons/' + idBoxc
+            console.log(this.dataRespond[0])
+            api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
             setTimeout(e => {
-              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
               api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
-              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
-              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
-              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
-              this.$router.push(this.page)
-            }, 1500)
+              setTimeout(e => {
+                api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
+                setTimeout(e => {
+                  api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+                  setTimeout(e => {
+                    api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
+                    this.$router.push(this.page)
+                  }, 100)
+                }, 100)
+              }, 100)
+            }, 100)
           }, 1300)
         }
       }

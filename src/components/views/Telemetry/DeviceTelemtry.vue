@@ -87,9 +87,6 @@
       }
     },
     mounted() {
-      setTimeout(e => {
-        this.$nextTick(() => { $('#table_deviceTelemetry').DataTable() })
-      }, 1000)
       this.getDevices()
       // this.timer = setInterval(this.getUpdateData, 20000)
     },
