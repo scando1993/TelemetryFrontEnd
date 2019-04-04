@@ -22,11 +22,11 @@
                             <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
                         </tr>
                       </thead>
-                      <tr role='row' v-for="data1, index1 in telemetries.dataGet">
+                      <tr role='row' v-for="data1, index1 in telemetries.t">
                             <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
                             <td class="TextFieldC">{{data1.name}}</td>
                             <td class="TextFieldC">{{data1.value}}</td>
-                            <td class="TextFieldC">{{trackings.dataGet[index1].location}}</td>
+                            <td class="TextFieldC">{{trackings.t[index1].location}}</td>
                             <td class="TextFieldC">{{data1.dtm}}</td>           
                       </tr>
                     </table>
@@ -71,7 +71,8 @@
         },
         trackings: {
           error: '',
-          dataGet: []
+          dataGet: [],
+          t: []
         },
         updateTracks: {
           error: '',
