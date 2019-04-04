@@ -46,7 +46,6 @@
                     <table aria-describedby="Table_of_Products" role="grid" id="table_product" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 15px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="ToButtons sorting_asc">ID</th>
                           <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
                           <th aria-label="Temperatura máxima: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Temperatura máxima</th>
                           <th aria-label="Temperatura mínima: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Temperatura mínima</th>
@@ -56,8 +55,7 @@
                         </tr>
                       </thead>
                       <tbody id="fields">
-                        <tr class="even" role="row" v-for="dato, index in dataGet">
-                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                        <tr class="even" role="row" v-for="dato, index in products.dataGet[0].productoes">
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">{{dato.temp_max}}</td>
                           <td class="TextFieldC">{{dato.temp_min}}</td>
@@ -121,7 +119,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/products">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -158,25 +156,34 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/producto',
+        apiBack: '/productoes',
         nameToExport: 'Productos',
-        error: '', // aqui se guardara el ultimo status de error
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           name: '',
           temp_max: 0,
           temp_min: 0,
           temp_max_ideal: 0,
           temp_min_ideal: 0
+        },
+        products: {
+          error: '',
+          dataGet: [
+            {
+              productoes: [{
+                name: '',
+                temp_max: 0,
+                temp_min: 0,
+                temp_max_ideal: 0,
+                temp_min_ideal: 0
+              }]
+            }]
         }
       }
     },
     name: 'Product',
     mounted() {
       setTimeout(e => {
-        this.$nextTick(() => {
-          $('#table_product').DataTable()
-        })
+        $('#table_product').DataTable()
       }, this.inicialDelay)
       this.get()
     },
@@ -185,18 +192,19 @@
         location.reload()
       },
       get() {
-        api.getAll(this.apiBack, this.$data)
+        api.getAll(this.apiBack, this.products)
       },
       deleteOne(key) {
-        this.dataPostDel = this.dataGet[key]
-        this.dataGet.splice(key, 1)
-        var id = this.dataPostDel.id
+        var elementDeleted = this.products.dataGet[0].productoes.splice(key, 1)
+        var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      save(index) {
-        var id = this.dataGet[index].id
-        api.put(this.apiBack + '/' + id, this.$data)
-        this.get()
+      save(id) {
+        if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.temp_max.toString() !== '' && this.dataPostDel.temp_min.toString() !== '' && this.dataPostDel.temp_max_ideal.toString() !== '' && this.dataPostDel.temp_min_ideal.toString() !== '') {
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.put(this.apiBack + '/' + id, this.$data)
+          this.$router.push(this.page)
+        }
       },
       exportExcel() {
         api.exportExcel(this.nameToExport, this.dataGet)

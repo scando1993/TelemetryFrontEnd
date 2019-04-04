@@ -46,15 +46,13 @@
                     <table aria-describedby="Table_of_elements" role="grid" id="table_boxcar" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
-                          <th aria-label="ID: activate to sort column descending" aria-sort="ascending" colspan="1" rowspan="1" style="width:34px;" aria-controls="example1" tabindex="0" class="sorting_asc TextCenterTH">ID</th>
                           <th aria-label="NoFurgon: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Número del Furgón</th>
                           <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
                           <th class="JustifyButtonTD"></th>
                         </tr>
                       </thead>
                       <tbody id="fields">
-                        <tr class="even" role="row" v-for="dato, index in dataGet ">
-                          <td class="sorting_1 TextFieldC">{{dato.id}}</td>
+                        <tr class="even" role="row" v-for="dato, index in boxcars.dataGet[0].furgons ">
                           <td class="TextFieldC">{{dato.numFurgon}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="JustifyButtonTD">
@@ -96,7 +94,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/boxcar">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(index)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -133,10 +131,18 @@
     data() {
       return {
         inicialDelay: 3000,
-        apiBack: '/furgon',
+        apiBack: '/furgons',
         nameToExport: 'Furgón',
-        error: '', // aqui se guardara el ultimo status de error
-        dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
+        boxcars: {
+          dataGet: [
+            {
+              furgons: [{
+                numFurgon: 0,
+                name: ''
+              }]
+            }],
+          error: ''
+        },
         dataPostDel: { // este es basicamente un JSON
           numFurgon: 0,
           name: ''
@@ -146,9 +152,7 @@
     name: 'Boxcar',
     mounted() {
       setTimeout(e => {
-        this.$nextTick(() => {
-          $('#table_boxcar').DataTable()
-        })
+        $('#table_boxcar').DataTable()
       }, this.inicialDelay)
       this.get()
     },
@@ -157,20 +161,22 @@
         location.reload()
       },
       get() {
-        api.getAll(this.apiBack, this.$data)
+        api.getAll(this.apiBack, this.boxcars)
       },
       deleteOne(key) {
-        var id = this.dataGet[key].id
-        this.dataGet.splice(key, 1)
+        var elementDeleted = this.boxcars.dataGet[0].furgons.splice(key, 1)
+        var id = elementDeleted[0].id
         api.delete(this.apiBack + '/' + id, this.$data)
       },
-      save(index) {
-        var id = this.dataGet[index].id
-        api.put(this.apiBack + '/' + id, this.$data)
-        this.get()
+      save(id) {
+        if (this.dataPostDel.name.trim() !== '') {
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.put(this.apiBack + '/' + id, this.$data)
+          this.$router.push(this.page)
+        }
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        api.exportExcel(this.nameToExport, this.boxcars.dataGet[0].furgons)
       },
       exportPDF() {
         var columns = [
@@ -178,7 +184,7 @@
           { title: 'Numero Furgón', dataKey: 'numFurgon' },
           { title: 'Nombre', dataKey: 'name' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.boxcars.dataGet[0].furgons)
       }
     }
   }

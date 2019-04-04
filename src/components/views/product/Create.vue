@@ -53,7 +53,6 @@
                     </div>
                   </div>
                   <!--End Submit and cancel-->
-
                 </form>
               </div>
               <!-- /.box-body -->
@@ -61,7 +60,6 @@
             <!--End Box-->
           </div>
         </div>
-
       </div>
     </div>
     <!--</div>-->
@@ -79,16 +77,29 @@
         if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.temp_max.toString() !== '' && this.dataPostDel.temp_max_ideal.toString() !== '' && this.dataPostDel.temp_min.toString() !== '' && this.dataPostDel.temp_min_ideal.toString() !== '') {
           this.dataPostDel.name = this.dataPostDel.name.trim()
           api.post(this.apiBack, this.$data)
-          this.$router.push(this.page)
+          setTimeout(e => {
+            this.$router.push(this.page)
+          }, 700)
         }
       }
     },
     data() {
       return {
-        apiBack: '/producto',
+        apiBack: '/productoes',
         page: '/products',
-        error: '',
-        dataGet: [],
+        products: {
+          error: '',
+          dataGet: [
+            {
+              productoes: [{
+                name: '',
+                temp_max: 0,
+                temp_min: 0,
+                temp_max_ideal: 0,
+                temp_min_ideal: 0
+              }]
+            }]
+        },
         dataPostDel: { // este es basicamente un JSON
           name: '',
           temp_max: 0,
@@ -97,9 +108,6 @@
           temp_min_ideal: 0
         }
       }
-    },
-    mounted() {
-      api.getAll(this.apiBack, this.$data)
     }
   }
 </script>
