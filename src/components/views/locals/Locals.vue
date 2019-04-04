@@ -54,7 +54,7 @@
                           <th class="ToButtons"></th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody v-if="full" >
                         <tr class="even" role="row" v-for="dato,index in locals.dataGet[0].localeses ">
                           <td class="TextFieldC">{{dato.numLoc}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
@@ -201,6 +201,7 @@
         selectedProvince: '',
         selectedCity: '',
         dataRespond: [],
+        full: false,
         ciu: [],
         prov: [],
         zon: [],
@@ -267,7 +268,7 @@
     name: 'Locales',
     mounted() {
       setTimeout(e => {
-        this.loadRest()
+        this.loadData()
       }, 1000)
       setTimeout(e => {
         $('#table_locals').DataTable()
@@ -279,7 +280,7 @@
       refresh() {
         location.reload()
       },
-      async loadRest() {
+      async loadData() {
         var ciud = []
         var pro = []
         var zona = []
@@ -304,6 +305,7 @@
         this.ciu = ciud
         this.prov = pro
         this.zon = zona
+        if (this.zon !== 0) { this.full = true }
       },
       deleteOne(key) {
         var elementDeleted = this.locals.dataGet[0].localeses.splice(key, 1)

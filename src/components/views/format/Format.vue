@@ -52,7 +52,7 @@
                           <th class="JustifyButtonTD"></th>
                         </tr>
                       </thead>
-                      <tbody id="campos_bodega">
+                      <tbody id="fields_boxcar" v-if="full">
                         <tr class="even" role="row" v-for="dato,index in formats.dataGet[0].formatoes ">
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">{{dato.code}}</td>
@@ -147,6 +147,7 @@
         apiBackLocals: '/localeses',
         selectedLocal: '',
         local: [],
+        full: false,
         formats: {
           error: '',
           dataGet: [
@@ -202,6 +203,7 @@
           }, 200)
         })
         this.local = loc
+        if (this.local !== 0) { this.full = true }
       },
       deleteOne(key) {
         var elementDeleted = this.formats.dataGet[0].formatoes.splice(key, 1)

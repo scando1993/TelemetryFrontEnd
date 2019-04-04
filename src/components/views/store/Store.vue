@@ -37,7 +37,7 @@
               <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
                 <div class='row'>
                   <div class='col-sm-12 table-responsive'>
-                      <table aria-describedby='Table_of_elements' role='grid' id='table_store' v-if="full"class='table table-bordered table-striped dataTable'>
+                      <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
                         <thead>
                           <tr role='row'>
                             <th aria-label='Nombre: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
@@ -47,7 +47,7 @@
                             <th class="JustifyButtonTD"></th>
                           </tr>
                         </thead>
-                        <tbody id='fields'>
+                        <tbody id='fields' v-if="full">
                           <tr class='even' role='row' v-for='dato,index in stores.dataGet[0].bodegas '>
                             <td class="TextFieldC">{{dato.name}}</td>
                             <td class="TextFieldC">{{zon[index]}}</td>

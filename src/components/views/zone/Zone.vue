@@ -43,7 +43,7 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Table_of_Ubications" role="grid" id="table_zone" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Table_of_Ubications" role="grid" id="table_zone"  class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 15px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="ToButtons sorting_asc">ID</th>
@@ -52,7 +52,7 @@
                           <th class="JustifyButtonTD" ></th>
                         </tr>
                       </thead>
-                      <tbody id="fields">
+                      <tbody id="fields" v-if="full">
                         <tr class="even" role="row" v-for="dato, index in zone.dataGet[0].zonas">
                           <td class="sorting_1 TextFieldC">{{dato.id}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
@@ -145,6 +145,7 @@
         nameToExport: 'Zonas',
         DEF_DELAY: 5000,
         prov: [],
+        full: false,
         listProvinces: [],
         dataRespond: [],
         province: {
