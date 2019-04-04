@@ -245,6 +245,7 @@
         //      zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
         //      setTimeout(e => {
         //        zona.push(zone.dataGet[1])
+        // console.log(t0)
         //      }, 300)
         //    }, 300)
         //  }, 320)
