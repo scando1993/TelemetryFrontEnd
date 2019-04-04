@@ -137,7 +137,7 @@ input.form-control-modal { /*Para las cajas de texto*/
   resize: vertical;
 }
 input.form-control-search { /*Para las cajas de texto*/
-  width: 150px !important; /*Aquí va el ancho de la Celda*/
+  width: 172px !important; /*Aquí va el ancho de la Celda*/
   height: 25px; /*Aquí el Alto*/
 }
 input.FormatDate {
