@@ -43,7 +43,7 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Tabla_de_elementos" role="grid" id="tabla_formato" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Tabla_de_elementos" role="grid" id="table_format" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
@@ -182,7 +182,7 @@
         this.loadData()
       }, 100)
       setTimeout(e => {
-        $('#table_formato').DataTable()
+        $('#table_format').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackLocals, this.locals)
     },

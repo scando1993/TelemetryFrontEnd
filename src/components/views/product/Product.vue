@@ -43,7 +43,7 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Table_of_Products" role="grid" id="table_product" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Table_of_Products" role="grid" id="table_products" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
@@ -183,7 +183,7 @@
     name: 'Product',
     mounted() {
       setTimeout(e => {
-        $('#table_product').DataTable()
+        $('#table_products').DataTable()
       }, this.inicialDelay)
       this.get()
     },

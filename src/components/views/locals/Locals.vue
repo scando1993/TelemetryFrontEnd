@@ -40,7 +40,7 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="example1_info" role="grid" id="tabla_locals" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="example1_info" role="grid" id="table_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">No. Loc</th>
