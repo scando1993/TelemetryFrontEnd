@@ -60,15 +60,15 @@
                         </thead>
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in paths.dataGet[0].rutas '>
-                            <td class="TextFieldC">{{dato.id}}</td>
-                            <td class="TextFieldC">{{dato.id}}</td>
-                            <td class="TextFieldC">{{dato.id}}</td>
+                            <td class="TextFieldC">{{box[index]}}</td>
+                            <td class="TextFieldC">{{devi[index]}}</td>
+                            <td class="TextFieldC">{{prod[index]}}</td>
                             <td class="TextFieldC">{{dato.start_date.split('T')[0]}}</td>
                             <td class="TextFieldC">{{dato.start_date.split('T')[1]}}</td>
                             <td class="TextFieldC">{{dato.end_date.split('T')[0]}}</td>
                             <td class="TextFieldC">{{dato.end_date.split('T')[1]}}</td>
-                            <td class="TextFieldC">{{dato.id}}</td>
-                            <td class="TextFieldC">{{dato.id}}</td>
+                            <td class="TextFieldC">{{localStart[index]}}</td>
+                            <td class="TextFieldC">{{localEnd[index]}}</td>
                             <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Eliminar' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                                 <i class='fa fa-trash-o'></i>
@@ -207,7 +207,8 @@
         box: [],
         devi: [],
         prod: [],
-        local: [],
+        localStart: [],
+        localEnd: [],
         nameToExport: 'Rutas',
         boxcars: {
           dataGet: [
@@ -273,7 +274,7 @@
     name: 'Rutas',
     mounted() {
       setTimeout(e => {
-        //  this.loadData()
+        this.loadData()
       }, 1000)
       setTimeout(e => {
         $('#table_path').DataTable()
@@ -288,34 +289,42 @@
       refresh() {
         location.reload()
       },
-      /*  async loadData() {
+      async loadData() {
         var boxcar = []
         var product = []
         var device = []
-        var loc = []
+        var locStart = []
+        var locEnd = []
         this.paths.dataGet[0].rutas.forEach(function (k, index) {
           var urlBoxcar = k._links.furgon.href
+          var urlProduct = k._links.producto.href
+          var urlDevice = k._links.device.href
+          var urlLocalSt = k._links.localInicio.href
+          var urlLocalFn = k._links.localFin.href
           var varBoxcar = {}
+          var varProduct = {}
+          var varDevice = {}
+          var varLocalSt = {}
+          var varLocalFn = {}
           api.getGeneral(urlBoxcar, varBoxcar)
+          api.getGeneral(urlProduct, varProduct)
+          api.getGeneral(urlDevice, varDevice)
+          api.getGeneral(urlLocalSt, varLocalSt)
+          api.getGeneral(urlLocalFn, varLocalFn)
           setTimeout(e => {
-            ciud.push(city.dataGet[1])
-            var provinc = {}
-            provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
-            setTimeout(e => {
-              var zone = {}
-              pro.push(provinc.dataGet[1])
-              zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
-              setTimeout(e => {
-                zona.push(zone.dataGet[1])
-              }, 300)
-            }, 300)
+            boxcar.push(varBoxcar.dataGet[2])
+            product.push(varProduct.dataGet[5])
+            device.push(varDevice.dataGet[2])
+            locStart.push(varLocalSt.dataGet[4])
+            locEnd.push(varLocalFn.dataGet[4])
           }, 320)
         })
         this.box = boxcar
         this.prod = product
         this.devi = device
-        this.local = loc
-      },  */
+        this.localStart = locStart
+        this.localEnd = locEnd
+      },
       deleteOne(key) {
         var elementDeleted = this.paths.dataGet[0].rutas.splice(key, 1)
         var id = elementDeleted[0].id
