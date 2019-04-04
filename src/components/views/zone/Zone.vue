@@ -211,7 +211,7 @@
         if (this.dataPostDel.name.trim() !== '' && this.checkedNames.length !== 0) {
           this.dataPostDel.name = this.dataPostDel.name.trim()
           console.log(this.$data)
-          api.post(this.apiBack + '/' + id, this.$data)
+          api.put(this.apiBack + '/' + id, this.$data)
           setTimeout(e => {
             for (var i = 0; i < this.checkedNames.length; i++) {
               var head = '/zonas/' + id

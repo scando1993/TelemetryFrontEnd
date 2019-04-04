@@ -228,6 +228,30 @@
         var ciud = []
         var pro = []
         var zona = []
+        // var bodegas = this.stores.dataGet[0].bodegas
+        var t0 = new Date().getTime()
+        // for (var i = 0, n = bodegas.length; i < n; i++) {
+        //  var urlCity = bodegas[i]._links.ciudad.href
+        //  console.log(urlCity)
+        //  var city = {}
+        //  api.getGeneral(urlCity, city)
+        //  setTimeout(e => {
+        //    ciud.push(city.dataGet[1])
+        //    var provinc = {}
+        //    provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
+        //    setTimeout(e => {
+        //      var zone = {}
+        //      pro.push(provinc.dataGet[1])
+        //      zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
+        //      setTimeout(e => {
+        //        zona.push(zone.dataGet[1])
+        //      }, 300)
+        //    }, 300)
+        //  }, 320)
+        // }
+        // this.ciu = ciud
+        // this.prov = pro
+        // this.zon = zona
         this.stores.dataGet[0].bodegas.forEach(function (k, index) {
           var urlCity = k._links.ciudad.href
           var city = {}
@@ -249,6 +273,9 @@
         this.ciu = ciud
         this.prov = pro
         this.zon = zona
+        var t1 = new Date().getTime()
+        console.log('Performance: ' + (t1 - t0) + 'miliseconds')
+
         if (this.zon !== 0) { this.full = true }
       },
       refresh() {

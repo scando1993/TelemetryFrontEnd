@@ -276,7 +276,7 @@
       api.getAll(this.apiBack, this.paths)
       setTimeout(e => {
         this.loadData()
-      }, 1200)
+      }, 1000)
       setTimeout(e => {
         $('#table_path').DataTable()
       }, this.inicialDelay)
