@@ -15,12 +15,14 @@
       <!--<label for="one">Mostrando todo</label>-->
       <div class="form-group">
         <ul id="checkboxPath" class="GroupCheckbox">
-          <li v-for="datoL, indexU in paths.dataGet[0].rutas" class="col-sm-12 controls">
+          <li v-for="datoL, indexU in pathsActive" class="col-sm-12 controls">
             <input type="radio" :value="datoL.id" :id="datoL.id" v-model="pickedAll" v-on:click="loadData(datoL.id)">
-            <!--<input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedPath" @click="check($event)">-->
-            <label>{{datoL.start_date}}******{{datoL.end_date}}</label>
+            <label>{{datoL.start_date}}****{{datoL.end_date}}</label>
+            <span>Picked: {{ pickedAll }}</span>
+            <br /><br />
           </li>
-          <span>Picked: {{ pickedAll }}</span>
+          <componentAll v-if="pickedAll!='' && showing == true" :showing="showing" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="ToProduc[0].dataGet[1]" :min="ToProduc[0].dataGet[2]" :maxIdeal="ToProduc[0].dataGet[3]" :minIdeal="ToProduc[0].dataGet[4]"></componentAll>
+          
         </ul>
       </div>
     </div>
@@ -33,6 +35,7 @@
             <input type="checkbox" :value="datoL.dataGet[0]" :id="datoL.dataGet[0]" v-model="checkedProducts" @click="check($event)">
             <label>{{datoL.dataGet[5]}}</label>
           </li>
+          <componentProducts  v-if="checkedProducts.length!=0" :checkedProducts="checkedProducts" :listCte="listLines"></componentProducts>
         </ul>
       </div>
     </div>
@@ -45,18 +48,10 @@
             <input type="checkbox" :value="datoL.dataGet[0]" :id="datoL.dataGet[0]" v-model="checkedDevices" @click="check($event)">
             <label>{{datoL.dataGet[2]}}</label>
           </li>
+          <componentDevice v-if="checkedDevices.length!=0"></componentDevice>
         </ul>
       </div>
     </div>
-    <keep-alive v-if="picked=='all'">
-      <componentAll :selectedAll="pickedAll" :listTemperature="temperatures" :listDTM="timeL" :max="ToProduc[0].dataGet[1]" :min="ToProduc[0].dataGet[2]" :maxIdeal="ToProduc[0].dataGet[3]" :minIdeal="ToProduc[0].dataGet[4]"></componentAll>
-    </keep-alive>
-    <!--<keep-alive >:highLine="ToProduc.dataGet[1]" lowLine="ToProduc.dataGet[2]" middleHigh="ToProduc.dataGet[3]" middleLow="ToProduc.dataGet[4]"
-    <componentProducts v-if="picked=='products'" :listProducts="prod"></componentProducts>
-  </keep-alive>-->
-    <!--<keep-alive >
-    <componentDevice v-if="picked=='all'"></componentDevice>
-  </keep-alive>-->
   </section>
   <!-- /.content -->
 </template>
@@ -69,6 +64,7 @@
         apiBackDevice: '/devices',
         apiBackProduct: '/productoes',
         picked: 'all',
+        showing: false,
         pickedAll: '',
         telemetry: {
           dataGet: [
@@ -101,17 +97,7 @@
             }],
           error: ''
         },
-        pathsActive: {
-          dataGet: [
-            {
-              rutas: [{
-                start_date: '',
-                end_date: '',
-                status: ''
-              }]
-            }],
-          error: ''
-        },
+        pathsActive: [],
         devices: {
           dataGet: [
             {
@@ -139,32 +125,25 @@
       'componentProducts': () => import('./ViewProductsGraph'),
       'componentDevice': () => import('./ViewDeviceGraph')
     },
-    computed: {
-    },
     methods: {
-      //  check: function (e) {
-      //  if (e.target.checked) {
-      //    console.log(e.target.value)
-      //    this.getListLines()
-      //  }
-      //  },
       fillOut() {
         var temperature = ['Temperatura']
         var listTime = []
         console.log('oeoeoeooe')
         console.log(this.telemetry)
         this.telemetry.dataGet[0].telemetrias.forEach(function (k, index) {
-          console.log('ruta seekecccionada')
-          console.log(k.value)
-          console.log('ruta seekecccionada')
           temperature.push(k.value)
-          listTime.push(k.dtm)
+          listTime.push(new Date(k.dtm).toISOString())
         })
+        console.log(this.showing)
         this.temperatures = temperature
         this.timeL = listTime
+        this.showing = true
+        console.log(this.showing)
       },
       loadData(p) {
         console.log('pciked--' + p)
+        this.showing = false
         var pathSelect = api.search(this.paths.dataGet[0].rutas, 'id', p)
         var listTelemetry = {
           dataGet: [
@@ -188,7 +167,7 @@
             console.log(varProduct)
             product.push(varProduct)
             setTimeout(e => {
-              var urlTelemetry = varDevice.dataGet[7].telemetrias.href
+              var urlTelemetry = varDevice.dataGet[6].telemetrias.href
               api.getGeneral(urlTelemetry, listTelemetry)
               setTimeout(e => {
                 this.fillOut()
@@ -201,6 +180,7 @@
       },
       getActiveDevice() {
         console.log('Obteniendo dispos activos...')
+        var activePath = []
         var device = []
         var product = []
         this.paths.dataGet[0].rutas.forEach(function (k, index) {
@@ -214,15 +194,17 @@
             api.getGeneral(urlDevice, varDevice)
             api.getGeneral(urlProduct, varProduct)
             setTimeout(e => {
-              if (k.status === 'Activa') {
+              if (k.status === 'Activo') {
                 console.log('activo')
                 console.log(varDevice)
+                activePath.push(k)
                 device.push(varDevice)
                 product.push(varProduct)
               }
             }, 600)
           }, 500)
         })
+        this.pathsActive = activePath
         this.devi = device
         this.prod = product
       },
@@ -247,8 +229,6 @@
         this.listLines = listlines
       }
     },
-    //  beforeMounth() {
-    //  },
     mounted() {
       api.getAll(this.apiBack, this.paths)
       setTimeout(e => {

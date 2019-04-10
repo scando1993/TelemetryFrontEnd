@@ -3,7 +3,7 @@
     <div>
       <label>Aqui va la grafica</label>
       <button v-if="selectedAll !== ''">Hi</button>
-      <button>Otro</button>
+      <button>Oo</button>
     </div>
     <!--<div class="col-sm-6 col-xs-12 info-box form-horizontal">
       <h1>Look:{{selectedAll}} - {{listTemperature}}</h1>

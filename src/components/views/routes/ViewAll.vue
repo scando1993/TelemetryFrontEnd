@@ -1,29 +1,23 @@
 <template>
   <section>
-    <!--<div>
-      <label>Aqui va la grafica</label>
-      <button v-if="selectedAll !== ''">Hi</button>
-      <button>Otro</button>
-    </div>-->
-    <div class="col-sm-6 col-xs-12 info-box form-horizontal">
-      <label>Look:{{selectedAll}} - {{listTemperature}}-{{max}}</label>
-      <div >
-        <vue-c3 :handler="handler"></vue-c3>
-      </div>
-      
-    </div>
+    <!--<label>Look:{{pickedAll}} - {{temperatures}}-{{max}}</label>-->
+    <br />
+    <div v-if="showing">
+      <vue-c3 :handler="handler"></vue-c3>
+    </div><br /><br /><br />
     <hr class="visible-xs-block">
-
   </section>
 </template>
+
 <style src="./../../../../node_modules/c3/c3.css"></style>
+
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
   import api from '@/api/goApi.js'
   export default {
     name: 'componentAll',
-    props: ['selectedAll', 'listTemperature', 'listDTM', 'max', 'min', 'maxIdeal', 'minIdeal'],
+    props: ['pickedAll', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing'],
     components: {
       VueC3
     },
@@ -78,7 +72,7 @@
     },
     mounted() {
       // to init the graph call:
-      for (var i = 0, n = this.listDTM.length; i < n; i++) {
+      for (var i = 0, n = this.timeL.length; i < n; i++) {
         this.maximum.push(this.max)
         this.minimum.push(this.min)
         this.maximumIdeal.push(this.maxIdeal)
@@ -86,33 +80,28 @@
       }
       const options = {
         data: {
+          //  x: 'date',
+          //  xFormat: '%Y-%m-%dT%H:%M:%S.%LZ',
           columns: [
-            this.listTemperature, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal
-            //  ['data2', 7, 2, 4, 6, 10, 1] , max
+            this.temperatures, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal
           ],
           axes: {
             Temperatura: 'y2'
           }
         },
         regions: [
-          { axis: 'x', start: '2019-03-31T19:50:18', end: '2019-03-31T20:10:17', class: 'regionX' },
-          { axis: 'y2', start: 80, end: 140, class: 'regionY' }
+          { start: new Date('2019-03-30T12:21:41').toISOString(), end: new Date('2019-09-30T12:21:41').toISOString() }
         ],
-        //  grid: {
-        //  y: {
-        //    lines: [{ value: 2 }]
-        //  }
-        //  }
-        //  types: {
-        //  Interval: 'bar'
-        //  },
         axis: {
           y2: {
             show: true
           },
           x: {
             type: 'categorized',
-            categories: this.listDTM,
+            tick: {
+              format: '%Y-%m-%dT%H:%M:%S.%LZ'
+            },
+            categories: this.timeL,
             show: false
           }
         }
@@ -386,6 +375,14 @@
                 xFormat: '%Y-%m-%dT%H:%M:%S',
                 json: data["chartjs-" + i]["data"]
             },
+        //  grid: {
+        //  y: {
+        //    lines: [{ value: 2 }]
+        //  }
+        //  }
+        //  types: {
+        //  Interval: 'bar'
+        //  },
             axis: {
                 x: {
                     type: 'timeseries',
