@@ -4,7 +4,7 @@ import JsPDF from 'jspdf'
 import 'jspdf-autotable'
 //  var apiUrlBase = 'http://172.16.10.108:2222'
 var apiUrlBase = 'http://192.168.10.101:2222'
-// var apiUrlBase = 'http://25.4.250.51:2222'
+//  var apiUrlBase = 'http://25.4.250.51:2222'
 // var apiUrlBase = 'http://localhost:2222'
 //  var apiUrlBase = 'http://104.209.196.204:8080'
 
@@ -231,14 +231,6 @@ export default {
         return myArray[i]
       }
     }
-  },
-  boolSearch(myArray, key, value) {
-    for (var i = 0; i < myArray.length; i++) {
-      if (myArray[i][key] === value) {
-        return true
-      }
-    }
-    return false
   },
   searchActive(show, tag) {
     if (show === true) {

@@ -1,241 +1,267 @@
 <template>
   <!-- Main content -->
   <section class="content ">
-    <!-- Info boxes -->
-    <div class="row">
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-green icofont-broccoli">Verduras</span>
-          <div class="info-box-content">
-            <span class="info-box-number"><br/><br />Temperatura ideal: ( 1ºC a 4ºC )</span>
-            <span class="info-box-number">Temperatura aceptable: ( -2ºC a 8ºC )</span>
-          </div>
-        </div>
+    <div class="radioGroup">
+      <input type="radio" id="all" value="all" v-model="picked">
+      <label for="all">Todas</label>
+      <input type="radio" id="products" value="products" v-model="picked">
+      <label for="products">Productos</label>
+      <input type="radio" id="devices" value="devices" v-model="picked">
+      <label for="devices">Dispositivos</label>
+      <br />
+      <span>Picked: {{ picked }}</span>
+    </div>
+    <div class="routeDialog info-box form-horizontal" v-if="picked=='all'">
+      <!--<label for="one">Mostrando todo</label>-->
+      <div class="form-group">
+        <ul id="checkboxPath" class="GroupCheckbox">
+          <li v-for="datoL, indexU in paths.dataGet[0].rutas" class="col-sm-12 controls">
+            <input type="radio" :value="datoL.id" :id="datoL.id" v-model="pickedAll" v-on:click="loadData(datoL.id)">
+            <!--<input type="checkbox" :value="datoL.id" :id="datoL.id" v-model="checkedPath" @click="check($event)">-->
+            <label>{{datoL.start_date}}******{{datoL.end_date}}</label>
+          </li>
+          <span>Picked: {{ pickedAll }}</span>
+        </ul>
       </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-aqua icofont-sausage">Embutidos</span>
-          <div class="info-box-content">
-            <span class="info-box-number"><br /><br />Temperatura ideal: ( 2ºC a 3ºC )</span>
-            <span class="info-box-number">Temperatura aceptable: ( -1ºC a 4ºC )</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-yellow icofont-chicken">Pollos</span>
-          <div class="info-box-content">
-            <span class="info-box-number"><br /><br />Temperatura ideal: ( 1ºC a 3ºC )</span>
-            <span class="info-box-number">Temperatura aceptable: ( -2ºC a 5ºC )</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-blue icofont-ice-cream-alt">Helado</span>
-          <div class="info-box-content">
-            <span class="info-box-number"><br /><br />Temperatura ideal: ( -2ºC a 0ºC )</span>
-            <span class="info-box-number">Temperatura aceptable: ( -4ºC a 2ºC )</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-orange icofont-shrimp">Mariscos</span>
-          <div class="info-box-content">
-            <span class="info-box-number"><br /><br />Temperatura ideal: ( -3ºC a 2ºC )</span>
-            <span class="info-box-number">Temperatura aceptable: ( -5ºC a 4ºC )</span>
-          </div>
-        </div>
-      </div>
-      <!-- /.col -->
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-red icofont-cow">Carnes</span>
-          <div class="info-box-content">
-            <span class="info-box-number"><br /><br />Temperatura ideal: ( -2ºC a 1ºC )</span>
-            <span class="info-box-number">Temperatura aceptable: ( -3ºC a 2ºC )</span>
-          </div>
-        </div>
-      </div>
-      <!-- /.col -->
-      <!-- fix for small devices only -->
-      <div class="clearfix visible-sm-block"></div>
-      <!-- /.col -->
     </div>
 
-    <!--<section class="content-header">-->
-      <!--<div id='reportContainer' style="height: 800px"></div>-->
-    <!--</section>-->
-
-    <!--&lt;!&ndash; /.row &ndash;&gt;-->
-    <div class="col-xs-12">
-      <div class="box">
-        <!--<div class="box-header with-border">-->
-          <!--<div class="box-body">-->
-            <!--<div class="col-sm-6 col-xs-12">-->
-              <div id="reportContainer" style="height: 600px; width: 100%;"></div>
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+    <div class="routeDialog info-box form-horizontal" v-if="picked=='products'">
+      <!--<label for="one">Mostrando lista productos</label>-->
+      <div class="form-group">
+        <ul id="checkboxZone" class="GroupCheckbox">
+          <li v-for="datoL, indexU in prod" class="col-sm-12 controls">
+            <input type="checkbox" :value="datoL.dataGet[0]" :id="datoL.dataGet[0]" v-model="checkedProducts" @click="check($event)">
+            <label>{{datoL.dataGet[5]}}</label>
+          </li>
+        </ul>
       </div>
     </div>
-    <!-- /.row -->
-    <!-- Main row -->
-    
+
+    <div class="routeDialog info-box form-horizontal" v-if="picked=='devices'">
+      <!--<label for="one">Mostrando devices</label>-->
+      <div class="form-group">
+        <ul id="checkboxZone" class="GroupCheckbox">
+          <li v-for="datoL, indexU in devi" class="col-sm-12 controls">
+            <input type="checkbox" :value="datoL.dataGet[0]" :id="datoL.dataGet[0]" v-model="checkedDevices" @click="check($event)">
+            <label>{{datoL.dataGet[2]}}</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <keep-alive v-if="picked=='all'">
+      <!--<component v-bind:is="componentAll"></component>-->
+      <componentAll :selectedAll="pickedAll" :listTemperature="temperatures" :listDTM="timeL" :highLine="ToProduc.dataGet[1]" lowLine="ToProduc.dataGet[2]" middleHigh="ToProduc.dataGet[3]" middleLow="ToProduc.dataGet[4]"></componentAll>
+    </keep-alive>
+    <!--<keep-alive >
+    <componentProducts v-if="picked=='products'" :listProducts="prod"></componentProducts>
+  </keep-alive>-->
+    <!--<keep-alive >
+    <componentDevice v-if="picked=='all'"></componentDevice>
+  </keep-alive>-->
   </section>
   <!-- /.content -->
 </template>
 <script type="text/javascript">
-  import api from './apiPowerBi.js'
-  import Chart from 'chart.js'
-  window.onload = function () {
-    var aceptableMinima = -5
-    var aceptableMaxima = 10
-    var idealMinima = 0
-    var idealMaxima = 5
-    var data = [[2002, 4], [2003, 3], [2004, 8], [2005, 11], [2006, 4], [2007, 2], [2008, -1], [2009, -2], [2010, -8], [2011, 4], [2012, 6], [2013, 9]]
-    var values = []
-    for (let i = 0; i < data.length; i++) {
-      if (data[i][1] <= aceptableMinima) {
-        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'red', markerType: 'cross' })
-      } else if (data[i][1] <= idealMinima) {
-        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'yellow', markerType: 'triangle' })
-      } else if (data[i][1] >= aceptableMaxima) {
-        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'red', markerType: 'cross' })
-      } else if (data[i][1] >= idealMaxima) {
-        values.push({ x: new Date(data[i][0], 0), y: data[i][1], indexLabel: 'alerta', markerColor: 'yellow', markerType: 'triangle' })
-      } else {
-        values.push({ x: new Date(data[i][0], 0), y: data[i][1] })
-      }
-    }
-    var chart = new Chart('chartContainer', {
-      animationEnabled: true,
-      title: {
-        text: 'Music Album Sales by Year'
-      },
-      axisY: {
-        title: 'Units Sold',
-        valueFormatString: '##,#',
-        suffix: ' ℃',
-        stripLines: [
-
-          {
-
-            value: idealMinima,
-            label: 'Ideal minima',
-            color: 'black',
-            thickness: 2,
-            labelPlacement: 'inside',
-            labelFontColor: 'black',
-            lineDashType: 'longDashDot'
-          },
-          {
-            value: idealMaxima,
-            label: 'Ideal maxima',
-            labelAlign: 'near',
-            color: 'black',
-            labelFontColor: 'black',
-            labelPlacement: 'inside',
-            lineDashType: 'longDash',
-            thickness: 2
-          },
-          {
-            value: aceptableMinima,
-            label: 'Aceptable minima',
-            color: 'red',
-            labelPlacement: 'inside',
-            labelFontColor: 'green',
-            lineDashType: 'longDashDot',
-            thickness: 2
-          },
-          {
-            value: aceptableMaxima,
-            label: 'Aceptable maxima',
-            color: 'red',
-            labelFontColor: 'green',
-            lineDashType: 'longDash',
-            labelPlacement: 'inside',
-            labelAlign: 'near',
-            thickness: 2
-          }
-        ]
-      },
-      data: [{
-        showInLegend: true,
-        legendText: 'Valores',
-        yValueFormatString: '##,# ',
-        xValueFormatString: 'YYYY',
-        type: 'spline',
-        dataPoints: values
-      }]
-    })
-    chart.render()
-  }
+  import api from '@/api/goApi.js'
   export default {
     data() {
       return {
-        generateRandomNumbers: function (numbers, max, min) {
-          var a = []
-          for (var i = 0; i < numbers; i++) {
-            a.push(Math.floor(Math.random() * (max - min + 1)) + max)
-          }
-          return a
+        apiBack: '/rutas',
+        apiBackDevice: '/devices',
+        apiBackProduct: '/productoes',
+        picked: 'all',
+        pickedAll: '',
+        telemetry: {
+          dataGet: [
+            {
+              telemetrias: [{
+                dtm: '',
+                value: 0
+              }]
+            }],
+          error: ''
+        },
+        listLines: [],
+        temperatures: [],
+        timeL: [],
+        ToProduc: [],
+        pathP: '',
+        devi: [],
+        prod: [],
+        checkedProducts: [],
+        checkedDevices: [],
+        checkedPaths: [],
+        paths: {
+          dataGet: [
+            {
+              rutas: [{
+                start_date: '',
+                end_date: '',
+                status: ''
+              }]
+            }],
+          error: ''
+        },
+        pathsActive: {
+          dataGet: [
+            {
+              rutas: [{
+                start_date: '',
+                end_date: '',
+                status: ''
+              }]
+            }],
+          error: ''
+        },
+        devices: {
+          dataGet: [
+            {
+              devices: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
+        },
+        products: {
+          dataGet: [
+            {
+              productoes: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
         }
       }
     },
+    components: {
+      'componentAll': () => import('./ViewAll'),
+      'componentProducts': () => import('./ViewProductsGraph'),
+      'componentDevice': () => import('./ViewDeviceGraph')
+    },
     computed: {
-      coPilotNumbers () {
-        return this.generateRandomNumbers(12, 1000000, 10000)
+    },
+    methods: {
+      check: function (e) {
+        if (e.target.checked) {
+          console.log(e.target.value)
+          this.getListLines()
+        }
       },
-      personalNumbers () {
-        return this.generateRandomNumbers(12, 1000000, 10000)
+      fillOut() {
+        var temperature = ['']
+        var listTime = []
+        console.log('oeoeoeooe')
+        console.log(this.telemetry)
+        this.telemetry.dataGet[0].telemetrias.forEach(function (k, index) {
+          console.log('ruta seekecccionada')
+          console.log(k.value)
+          console.log('ruta seekecccionada')
+          temperature.push(k.value)
+          console.log(temperature)
+          listTime.push(k.dtm)
+          console.log(listTime)
+        })
+        this.temperatures = temperature
+        this.timeL = listTime
       },
-      isMobile () {
-        return (window.innerWidth <= 800 && window.innerHeight <= 600)
+      loadData(p) {
+        console.log('pciked--' + p)
+        var pathSelect = api.search(this.paths.dataGet[0].rutas, 'id', p)
+        var listTelemetry = {
+          dataGet: [
+            {
+              telemetrias: [{
+                dtm: '',
+                value: 0
+              }]
+            }],
+          error: ''
+        }
+        var product = []
+        var urlProd = pathSelect._links.producto.href
+        var urlDev = pathSelect._links.device.href
+        setTimeout(e => {
+          var varProduct = {}
+          var varDevice = {}
+          api.getGeneral(urlProd, varProduct)
+          api.getGeneral(urlDev, varDevice)
+          setTimeout(e => {
+            console.log(varProduct)
+            product.push(varProduct)
+            setTimeout(e => {
+              var urlTelemetry = varDevice.dataGet[7].telemetrias.href
+              api.getGeneral(urlTelemetry, listTelemetry)
+              setTimeout(e => {
+                this.fillOut()
+              }, 250)
+            }, 250)
+          }, 250)
+        }, 200)
+        this.ToProduc = product
+        console.log(product)
+        this.telemetry = listTelemetry
+      },
+      getActiveDevice() {
+        console.log('Obteniendo dispos activos...')
+        var device = []
+        var product = []
+        this.paths.dataGet[0].rutas.forEach(function (k, index) {
+          console.log(k._links.device.href)
+          var urlProduct = k._links.producto.href
+          var urlDevice = k._links.device.href
+          var varDevice = {}
+          var varProduct = {}
+          setTimeout(e => {
+            console.log(urlDevice)
+            console.log(urlProduct)
+            api.getGeneral(urlDevice, varDevice)
+            api.getGeneral(urlProduct, varProduct)
+            setTimeout(e => {
+              if (k.status === 'Activo') {
+                console.log(varDevice)
+                device.push(varDevice)
+                product.push(varProduct)
+              }
+            }, 700)
+          }, 700)
+        })
+        this.devi = device
+        this.prod = product
+      },
+      getListLines() {
+        console.log('enlistando products')
+        var listlines = []
+        this.checkedProducts.forEach(function (k, index) {
+          var productElement = api.search(this.products.dataGet[0].productoes, 'id', k)
+          setTimeout(e => {
+            console.log(productElement)
+            var max = productElement.dataGet[2]
+            var min = productElement.dataGet[3]
+            var maxIdeal = productElement.dataGet[4]
+            var minIdeal = productElement.dataGet[5]
+            listlines.push(max)
+            listlines.push(min)
+            listlines.push(maxIdeal)
+            listlines.push(minIdeal)
+          }, 200)
+        })
+        this.listLines = listlines
       }
     },
-    mounted () {
-      api.callPowerBi()
-      this.$nextTick(() => {
-        // var ctx = document.getElementById('trafficBar').getContext('2d')
-        // var config = {
-        //   type: 'line',
-        //   data: {
-        //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        //     datasets: [{
-        //       label: 'CoPilot',
-        //       fill: false,
-        //       borderColor: '#284184',
-        //       pointBackgroundColor: '#284184',
-        //       backgroundColor: 'rgba(0, 0, 0, 0)',
-        //       data: this.coPilotNumbers
-        //     }, {
-        //       label: 'Personal Site',
-        //       borderColor: '#4BC0C0',
-        //       pointBackgroundColor: '#4BC0C0',
-        //       backgroundColor: 'rgba(0, 0, 0, 0)',
-        //       data: this.personalNumbers
-        //     }]
-        //   },
-        //   options: {
-        //     responsive: true,
-        //     maintainAspectRatio: !this.isMobile,
-        //     legend: {
-        //       position: 'bottom',
-        //       display: true
-        //     },
-        //     tooltips: {
-        //       mode: 'label',
-        //       xPadding: 10,
-        //       yPadding: 10,
-        //       bodySpacing: 10
-        //     }
-        //   }
-        // }
-        //
-        // new Chart(ctx, config) // eslint-disable-line no-new
-      })
+    //  beforeMounth() {
+    //  },
+    mounted() {
+      api.getAll(this.apiBack, this.paths)
+      setTimeout(e => {
+        console.log('heyyyyyyyyyy route')
+        console.log(this.paths)
+        this.getActiveDevice()
+      }, 500)
+      api.getAll(this.apiBackDevice, this.devices)
+      api.getAll(this.apiBackProduct, this.products)
+      console.log(this.products)
     }
 }</script>
 <style>

@@ -1,16 +1,28 @@
 <template>
   <ul class="sidebar-menu">
     <li class="header">DASHBOARD</li>
-    <router-link tag="li" class="pageLink" to="/routes">
+    <router-link tag="li" class="pageLink" to="/path">
       <a>
         <i class="fa fa-road"></i>
+        <span class="page">Rutas</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/routes">
+      <a>
+        <i class="fa fa-tasks"></i>
         <span class="page">Rutas Activas</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/activeRoutes">
       <a>
-        <i class="fa fa-tasks"></i>
-        <span class="page">En Ruta</span>
+        <i class="fa fa-bullhorn"></i>
+        <span class="page">Alertas</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/routesHistory">
+      <a>
+        <i class="fa fa-book"></i>
+        <span class="page">Histórico de rutas</span>
       </a>
     </router-link>
     <li class="header">ADQUISICIÓN DE DATOS</li>
@@ -34,7 +46,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/format">
       <a>
-        <i class="fa fa-puzzle-piece"></i>
+        <i class="formatIcon icofont-file-text"></i>
         <span class="page">Formatos</span>
       </a>
     </router-link>
@@ -42,6 +54,12 @@
       <a>
         <i class="formatIcon icofont-micro-chip"></i>
         <span class="page">Dispositivos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/telemetry">
+      <a>
+        <i class="formatIcon icofont-wifi-router"></i>
+        <span class="page">Telemetrías</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/products">
@@ -54,12 +72,6 @@
       <a>
         <i class="fa fa-truck"></i>
         <span class="page">Furgón</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/path">
-      <a>
-        <i class="fa fa-road"></i>
-        <span class="page">Rutas</span>
       </a>
     </router-link>
     <li class="header">REPORTES</li>
