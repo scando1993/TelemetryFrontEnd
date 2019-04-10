@@ -124,16 +124,18 @@
               var headProd = '/productoes/' + idProd
               var headDevi = '/devices/' + idDevi
               var headBoxc = '/furgons/' + idBoxc
-              var headAlert = '/rutas/' + idAlert
+              var headAlert = '/rutas/' + this.dataRespond[0]
               console.log(this.dataRespond[0])
               api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
               setTimeout(e => {
                 api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
                 setTimeout(e => {
-                  api.postWithHeader(this.apiBackAlerts + '/' + this.dataRespond[0] + '/ruta', headAlert)
                   api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
                   setTimeout(e => {
                     api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+                    setTimeout(e => {
+                      api.postWithHeader(this.apiBackAlerts + '/' + idAlert + '/ruta', headAlert)
+                    }, 100)
                     setTimeout(e => {
                       api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
                       this.$router.push(this.page)

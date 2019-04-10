@@ -56,6 +56,7 @@ export default {
     //  Request failed.
       data.error = err
     })
+    console.log(data)
     return data
   },
   getWithData(url, data2) {

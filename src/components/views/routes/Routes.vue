@@ -209,23 +209,23 @@
         var product = []
         this.paths.dataGet[0].rutas.forEach(function (k, index) {
           console.log(k._links.device.href)
+          console.log(k.status)
           var urlProduct = k._links.producto.href
           var urlDevice = k._links.device.href
           var varDevice = {}
           var varProduct = {}
           setTimeout(e => {
-            console.log(urlDevice)
-            console.log(urlProduct)
             api.getGeneral(urlDevice, varDevice)
             api.getGeneral(urlProduct, varProduct)
             setTimeout(e => {
-              if (k.status === 'Activo') {
+              if (k.status === 'Activa') {
+                console.log('activo')
                 console.log(varDevice)
                 device.push(varDevice)
                 product.push(varProduct)
               }
-            }, 700)
-          }, 700)
+            }, 600)
+          }, 500)
         })
         this.devi = device
         this.prod = product
