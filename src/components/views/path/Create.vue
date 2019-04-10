@@ -143,8 +143,8 @@
                   }, 100)
                 }, 100)
               }, 100)
-            }, 1300)
-          }, 1300)
+            }, 1200)
+          }, 1200)
         }
       }
     },
@@ -172,8 +172,8 @@
           start_date: '',
           end_date: '',
           status: 'Registrada',
-          typeAlert: '',
-          mensaje: '',
+          typeAlert: 'ruta_registrada',
+          mensaje: 'Se ha registrado la ruta',
           dtm: ''
         },
         boxcars: {
