@@ -6,7 +6,7 @@
       <button>Otro</button>
     </div>-->
     <div class="col-sm-6 col-xs-12 info-box form-horizontal">
-      <!--<h1>Look:{{selectedAll}} - {{listTemperature}}</h1>-->
+      <label>Look:{{selectedAll}} - {{listTemperature}}-{{max}}</label>
       <div >
         <vue-c3 :handler="handler"></vue-c3>
       </div>
@@ -23,7 +23,7 @@
   import api from '@/api/goApi.js'
   export default {
     name: 'componentAll',
-    props: ['selectedAll', 'listTemperature', 'listDTM', 'highLine', 'lowLine', 'middleHigh', 'middleLow'],
+    props: ['selectedAll', 'listTemperature', 'listDTM', 'max', 'min', 'maxIdeal', 'minIdeal'],
     components: {
       VueC3
     },
@@ -39,6 +39,11 @@
         apiBack: '/rutas',
         apiBackDevice: '/devices',
         apiBackProduct: '/productoes',
+        maximum: ['Max'],
+        minimum: ['Min'],
+        datesRanges: ['Interval', 6, 6],
+        maximumIdeal: ['MaxIdeal'],
+        minimumIdeal: ['MinIdeal'],
         products: {
           dataGet: [
             {
@@ -73,32 +78,42 @@
     },
     mounted() {
       // to init the graph call:
-      var max = ['max']
-      var min = ['min']
-      var maxIdeal = ['maxIdeal']
-      var minIdeal = ['minIdeal']
       for (var i = 0, n = this.listDTM.length; i < n; i++) {
-        max.push(this.highLine)
-        min.push(this.lowLine)
-        maxIdeal.push(this.middleHigh)
-        minIdeal.push(this.middleLow)
+        this.maximum.push(this.max)
+        this.minimum.push(this.min)
+        this.maximumIdeal.push(this.maxIdeal)
+        this.minimumIdeal.push(this.minIdeal)
       }
       const options = {
         data: {
           columns: [
-            this.listTemperature, max, min, maxIdeal, minIdeal
-            //  ['data2', 7, 2, 4, 6, 10, 1]
-          ]
+            this.listTemperature, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal
+            //  ['data2', 7, 2, 4, 6, 10, 1] , max
+          ],
+          axes: {
+            Temperatura: 'y2'
+          }
         },
+        regions: [
+          { axis: 'x', start: '2019-03-31T19:50:18', end: '2019-03-31T20:10:17', class: 'regionX' },
+          { axis: 'y2', start: 80, end: 140, class: 'regionY' }
+        ],
         //  grid: {
         //  y: {
         //    lines: [{ value: 2 }]
         //  }
+        //  }
+        //  types: {
+        //  Interval: 'bar'
         //  },
         axis: {
+          y2: {
+            show: true
+          },
           x: {
             type: 'categorized',
-            categories: this.listDTM
+            categories: this.listDTM,
+            show: false
           }
         }
       }

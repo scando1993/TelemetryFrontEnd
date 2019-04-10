@@ -49,10 +49,9 @@
       </div>
     </div>
     <keep-alive v-if="picked=='all'">
-      <!--<component v-bind:is="componentAll"></component>-->
-      <componentAll :selectedAll="pickedAll" :listTemperature="temperatures" :listDTM="timeL" :highLine="ToProduc.dataGet[1]" lowLine="ToProduc.dataGet[2]" middleHigh="ToProduc.dataGet[3]" middleLow="ToProduc.dataGet[4]"></componentAll>
+      <componentAll :selectedAll="pickedAll" :listTemperature="temperatures" :listDTM="timeL" :max="ToProduc[0].dataGet[1]" :min="ToProduc[0].dataGet[2]" :maxIdeal="ToProduc[0].dataGet[3]" :minIdeal="ToProduc[0].dataGet[4]"></componentAll>
     </keep-alive>
-    <!--<keep-alive >
+    <!--<keep-alive >:highLine="ToProduc.dataGet[1]" lowLine="ToProduc.dataGet[2]" middleHigh="ToProduc.dataGet[3]" middleLow="ToProduc.dataGet[4]"
     <componentProducts v-if="picked=='products'" :listProducts="prod"></componentProducts>
   </keep-alive>-->
     <!--<keep-alive >
@@ -84,7 +83,7 @@
         listLines: [],
         temperatures: [],
         timeL: [],
-        ToProduc: [],
+        ToProduc: [{ dataGet: [] }],
         pathP: '',
         devi: [],
         prod: [],
@@ -143,14 +142,14 @@
     computed: {
     },
     methods: {
-      check: function (e) {
-        if (e.target.checked) {
-          console.log(e.target.value)
-          this.getListLines()
-        }
-      },
+      //  check: function (e) {
+      //  if (e.target.checked) {
+      //    console.log(e.target.value)
+      //    this.getListLines()
+      //  }
+      //  },
       fillOut() {
-        var temperature = ['']
+        var temperature = ['Temperatura']
         var listTime = []
         console.log('oeoeoeooe')
         console.log(this.telemetry)
@@ -159,9 +158,7 @@
           console.log(k.value)
           console.log('ruta seekecccionada')
           temperature.push(k.value)
-          console.log(temperature)
           listTime.push(k.dtm)
-          console.log(listTime)
         })
         this.temperatures = temperature
         this.timeL = listTime
@@ -200,7 +197,6 @@
           }, 250)
         }, 200)
         this.ToProduc = product
-        console.log(product)
         this.telemetry = listTelemetry
       },
       getActiveDevice() {
@@ -247,6 +243,7 @@
             listlines.push(minIdeal)
           }, 200)
         })
+        console.log(listlines)
         this.listLines = listlines
       }
     },
