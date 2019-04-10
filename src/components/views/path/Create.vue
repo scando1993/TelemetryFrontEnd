@@ -112,28 +112,36 @@
           var idProd = api.search(this.products.dataGet[0].productoes, 'name', this.selectedProduct).id
           var idDevi = api.search(this.devices.dataGet[0].devices, 'name', this.selectedDevice).id
           var idBoxc = api.search(this.boxcars.dataGet[0].furgons, 'name', this.selectedBoxcar).id
-          api.post(this.apiBack, this.$data)
+          api.post(this.apiBackAlerts, this.$data)
           setTimeout(e => {
-            var headIni = '/localeses/' + idLocIn
-            var headFin = '/localeses/' + idLocFn
-            var headProd = '/productoes/' + idProd
-            var headDevi = '/devices/' + idDevi
-            var headBoxc = '/furgons/' + idBoxc
-            console.log(this.dataRespond[0])
-            api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
+            var idAlert = this.dataRespond[0]
+            console.log(idAlert)
+            console.log('alertaaa!')
+            api.post(this.apiBack, this.$data)
             setTimeout(e => {
-              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
+              var headIni = '/localeses/' + idLocIn
+              var headFin = '/localeses/' + idLocFn
+              var headProd = '/productoes/' + idProd
+              var headDevi = '/devices/' + idDevi
+              var headBoxc = '/furgons/' + idBoxc
+              var headAlert = '/rutas/' + idAlert
+              console.log(this.dataRespond[0])
+              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
               setTimeout(e => {
-                api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
+                api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
                 setTimeout(e => {
-                  api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+                  api.postWithHeader(this.apiBackAlerts + '/' + this.dataRespond[0] + '/ruta', headAlert)
+                  api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
                   setTimeout(e => {
-                    api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
-                    this.$router.push(this.page)
+                    api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+                    setTimeout(e => {
+                      api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
+                      this.$router.push(this.page)
+                    }, 100)
                   }, 100)
                 }, 100)
               }, 100)
-            }, 100)
+            }, 1300)
           }, 1300)
         }
       }
@@ -145,6 +153,7 @@
         apiBackDevice: '/devices',
         apiBackProduct: '/productoes',
         apiBackLocals: '/localeses',
+        apiBackAlerts: '/alertas',
         page: '/path',
         selectedBoxcar: '',
         selectedDevice: '',
@@ -159,7 +168,11 @@
         dataRespond: [],
         dataPostDel: { // este es basicamente un JSON
           start_date: '',
-          end_date: ''
+          end_date: '',
+          status: 'Registrada',
+          typeAlert: '',
+          mensaje: '',
+          dtm: ''
         },
         boxcars: {
           dataGet: [

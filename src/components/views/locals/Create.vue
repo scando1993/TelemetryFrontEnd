@@ -31,6 +31,12 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label class="col-sm-4 control-label">MACs(separadas por comas)</label>
+                    <div class="col-sm-9 controls">
+                      <input type="text" class="form-control"  v-model="dataPostDel.macs" name="macs" id="macs" maxlength="10000" value="">
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label class="col-sm-3 control-label">Zona</label>
                     <div class="col-sm-9 col-lg-10 controls-create">
                       <select v-model="selectedZone" required v-on:click="loadProvinces" class="FormatSelect">
@@ -172,7 +178,8 @@
           name: '',
           family: '',
           length: 0,
-          latitude: 0
+          latitude: 0,
+          macs: ''
         }
       }
     },

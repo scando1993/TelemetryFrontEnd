@@ -23,7 +23,8 @@ import ProductsView from './components/views/product/Product.vue'
 import CreateProductView from './components/views/product/Create.vue'
 import DeviceView from './components/views/device/Device.vue'
 import CreateDeviceView from './components/views/device/Create.vue'
-import DeviceTelemtryView from './components/views/Telemetry/DeviceTelemtry.vue'
+import DeviceTelemtryView from './components/views/telemetry/DeviceTelemtry.vue'
+import RoutesHistoryView from './components/views/routes/History.vue'
 // Routes.
 const routes = [
   {
@@ -120,9 +121,13 @@ const routes = [
         component: CreateDeviceView,
         name: 'Crear Dispositivos'
       }, {
-        path: 'deviceTelemetry',
+        path: 'telemetry',
         component: DeviceTelemtryView,
-        name: 'Telemetria'
+        name: 'Telemetría'
+      }, {
+        path: 'routesHistory',
+        component: RoutesHistoryView,
+        name: 'Histórico de rutas'
       }
     ],
     meta: { requiresAuth: false }

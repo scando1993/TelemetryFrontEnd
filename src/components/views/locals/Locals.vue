@@ -64,15 +64,57 @@
                           <td class="TextFieldC">{{dato.family}}</td>
                           <td class="TextFieldC">{{dato.length}}</td>
                           <td class="TextFieldC">{{dato.latitude}}</td>
-                          <td class="JustifyButtonTD">
+                          <td class="JustifyButtonTD" style="width: 150px;">
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" data-target="#modalConfig" role="button" title="Config">
+                              <i class="fa fa-cog"></i>
+                            </a>
+                            <!-- Modal Edit / Ventana / Overlay en HTML  -->
+                            <div v-bind:id="index+'s'" class="modal fade" id="modalConfig">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!--modal header-->
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Añadir MACs</h4>
+                                  </div>
+                                  <!--end modal-header-->
+                                  <!--Modal-body-->
+                                  <div class="modal-body">
+                                    <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+
+                                      <div class="form-group">
+                                        <label class="col-sm-3 col-lg-2 control-label">Seleccione un archivo</label>
+                                        <div class="col-sm-12 col-lg-15 controls">
+                                          <input type="file" id="archivoParaSubir" />
+                                          <input type="submit" value="Subir archivo" name="submit">
+                                          <br />
+                                        </div>
+                                      </div>
+                                      
+                                    </form>
+                                  </div>
+                                  <!--end modal-body-->
+                                  <!--Modal-footer-->
+                                  <div class="modal-footer">
+                                    <router-link class="pageLink" to="/devices">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="saveConfig(dato.id)">Guardar</button>
+                                    </router-link>
+                                  </div>
+                                  <!--end modal-footer Config-->
+                                </div>
+                              </div>
+                            </div>
+                            <!--end modal Config-->
+
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" data-target="#modalEdit" v-on:click='editOne(index)'>
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
-                            <div v-bind:id="index+'s'" class="modal fade">
+                            <div v-bind:id="index+'s'" class="modal fade" id="modalEdit">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <!--Modal header-->
@@ -100,6 +142,12 @@
                                         <label class="col-sm-4 control-label">Familia</label>
                                         <div class="col-sm-9 controls">
                                           <input type="text" class="form-control-modal" v-bind:placeholder="dato.family" v-model="dataPostDel.family" name="name" id="family" maxlength="50" value="">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-4 control-label">MACs(separadas por comas)</label>
+                                        <div class="col-sm-9 controls">
+                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.macs" v-model="dataPostDel.macs" name="macs" id="macs" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
@@ -186,6 +234,13 @@
   import api from '@/api/goApi.js'
   import GoogleMap from './../../Geocalization/GoogleMap.vue'
   import { setTimeout } from 'timers'
+  //  document.getElementById('archivoParaSubir').addEventListener('change', function () {
+  //  var file = this.files[0]
+  //  console.log('name : ' + file.name)
+  //  console.log('size : ' + file.size)
+  //  console.log('type : ' + file.type)
+  //  console.log('date : ' + file.lastModified)
+  //  }, false)
   export default {
     components: {
       GoogleMap
@@ -254,7 +309,8 @@
           name: '',
           family: '',
           length: 0,
-          latitude: 0
+          latitude: 0,
+          macs: ''
         },
         generateRandomNumbers(numbers, max, min) {
           var a = []
@@ -266,15 +322,17 @@
       }
     },
     name: 'Locales',
-    mounted() {
+    beforeMount() {
+      api.getAll(this.apiBack, this.locals)
+      api.getAll(this.apiBackZone, this.zones)
       setTimeout(e => {
         this.loadData()
       }, 1000)
+    },
+    mounted() {
       setTimeout(e => {
         $('#table_locals').DataTable()
       }, this.inicialDelay)
-      api.getAll(this.apiBack, this.locals)
-      api.getAll(this.apiBackZone, this.zones)
     },
     methods: {
       refresh() {
