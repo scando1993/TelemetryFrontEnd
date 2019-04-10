@@ -43,7 +43,7 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Table_of_Ubications" role="grid" id="table_ubication" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Table_of_Ubications" role="grid" id="table_zone"  class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="ID: activate to sort column descending" aria-sort="ascending" style="width: 15px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="ToButtons sorting_asc">ID</th>
@@ -52,12 +52,12 @@
                           <th class="JustifyButtonTD" ></th>
                         </tr>
                       </thead>
-                      <tbody id="fields">
+                      <tbody id="fields" v-if="full">
                         <tr class="even" role="row" v-for="dato, index in zone.dataGet[0].zonas">
                           <td class="sorting_1 TextFieldC">{{dato.id}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">
-                            <tdd tdd v-for="provincia, index1 in listProvinces[index]" v-bind:data="index1" v-bind:key="index1.text">{{provincia.name}}<br /></tdd>
+                            <tdd tdd v-for="provincia, index1 in prov[index].dataGet[0].provincias" v-bind:data="index1" v-bind:key="index1.text">{{provincia.name}}<br /></tdd>
                           </td>
                           
                           <td class="JustifyButtonTD">
@@ -144,6 +144,8 @@
         page: '/zone',
         nameToExport: 'Zonas',
         DEF_DELAY: 5000,
+        prov: [],
+        full: false,
         listProvinces: [],
         dataRespond: [],
         province: {
@@ -177,12 +179,13 @@
     },
     name: 'Zone',
     mounted() {
-      setTimeout(e => {
-        this.$nextTick(() => {
-          $('#table_zone').DataTable()
-        })
-      }, this.inicialDelay)
       api.getAll(this.apiBack, this.zone)
+      setTimeout(e => {
+        this.loadData()
+      }, 1100)
+      setTimeout(e => {
+        $('#table_zone').DataTable()
+      }, this.inicialDelay)
       api.getAll(this.apiBackProvince, this.province)
     },
     methods: {
@@ -191,26 +194,24 @@
           console.log(e.target.value)
         }
       },
-      /*  async generateArray() {
-        await this.sleep()
-        for (var i = 0; i < this.zone.dataGet[0].zonas.length; i++) {
-          listP = this.getProvinces(this.zone.dataGet[0].zonas[i]._links.provincias.href)
-          this.listProvinces.push(listP.dataGet[0].provincias)
-        }
-      },  */
-      async getProvinces(url) {
-        var listProvince = {
-          dataGet: [{provincias: [{}]}], error: '' }
-        listProvince = api.getGeneral(url, listProvince)
-        await this.sleep()
-        console.log(listProvince.dataGet[0].provincias)
-        this.listProvinces = listProvince
+      async loadData() {
+        var pro = []
+        this.zone.dataGet[0].zonas.forEach(function (k, index) {
+          var urlProv = k._links.provincias.href
+          var listProv = []
+          api.getGeneral(urlProv, listProv)
+          setTimeout(e => {
+            pro.push(listProv)
+          }, 320)
+        })
+        this.prov = pro
+        if (this.prov !== 0) { this.full = true }
       },
       save(id) {
         if (this.dataPostDel.name.trim() !== '' && this.checkedNames.length !== 0) {
           this.dataPostDel.name = this.dataPostDel.name.trim()
           console.log(this.$data)
-          api.post(this.apiBack + '/' + id, this.$data)
+          api.put(this.apiBack + '/' + id, this.$data)
           setTimeout(e => {
             for (var i = 0; i < this.checkedNames.length; i++) {
               var head = '/zonas/' + id

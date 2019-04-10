@@ -40,7 +40,7 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="example1_info" role="grid" id="tabla_locals" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="example1_info" role="grid" id="table_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">No. Loc</th>
@@ -54,7 +54,7 @@
                           <th class="ToButtons"></th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody v-if="full" >
                         <tr class="even" role="row" v-for="dato,index in locals.dataGet[0].localeses ">
                           <td class="TextFieldC">{{dato.numLoc}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
@@ -201,6 +201,7 @@
         selectedProvince: '',
         selectedCity: '',
         dataRespond: [],
+        full: false,
         ciu: [],
         prov: [],
         zon: [],
@@ -267,19 +268,19 @@
     name: 'Locales',
     mounted() {
       setTimeout(e => {
-        api.getAll(this.apiBack, this.locals)
-        setTimeout(e => {
-          this.loadRest()
-          $('#table_locals').DataTable()
-        }, 1200)
+        this.loadData()
+      }, 1000)
+      setTimeout(e => {
+        $('#table_locals').DataTable()
       }, this.inicialDelay)
+      api.getAll(this.apiBack, this.locals)
       api.getAll(this.apiBackZone, this.zones)
     },
     methods: {
       refresh() {
         location.reload()
       },
-      async loadRest() {
+      async loadData() {
         var ciud = []
         var pro = []
         var zona = []
@@ -304,6 +305,7 @@
         this.ciu = ciud
         this.prov = pro
         this.zon = zona
+        if (this.zon !== 0) { this.full = true }
       },
       deleteOne(key) {
         var elementDeleted = this.locals.dataGet[0].localeses.splice(key, 1)

@@ -12,14 +12,14 @@
               <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
                 <div class='row'>
                   <div class='col-sm-12 table-responsive'>
-                    <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
+                    <table aria-describedby='Table_of_elements' role='grid' id='table_deviceTelemetry' class='table table-bordered table-striped dataTable'>
                       <thead>
-                        <tr role='row'> 
-                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th> 
-                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Telemetria</th>
-                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0'  class='sorting ToButtons'>Valor</th>
-                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ubicacion</th>
-                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
+                        <tr role='row'>
+                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
+                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Telemetria</th>
+                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Valor</th>
+                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ubicacion</th>
+                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
                         </tr>
                       </thead>
                       <tr role='row' v-for="data1, index1 in trackings.t">

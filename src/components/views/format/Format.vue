@@ -43,7 +43,7 @@
 
                 <div class="row">
                   <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="Tabla_de_elementos" role="grid" id="tabla_formato" class="table table-bordered table-striped dataTable">
+                    <table aria-describedby="Tabla_de_elementos" role="grid" id="table_format" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
                           <th aria-label="Nombre: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
@@ -52,7 +52,7 @@
                           <th class="JustifyButtonTD"></th>
                         </tr>
                       </thead>
-                      <tbody id="campos_bodega">
+                      <tbody id="fields_boxcar" v-if="full">
                         <tr class="even" role="row" v-for="dato,index in formats.dataGet[0].formatoes ">
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">{{dato.code}}</td>
@@ -147,6 +147,7 @@
         apiBackLocals: '/localeses',
         selectedLocal: '',
         local: [],
+        full: false,
         formats: {
           error: '',
           dataGet: [
@@ -177,12 +178,12 @@
     },
     name: 'Formato',
     mounted() {
+      api.getAll(this.apiBack, this.formats)
       setTimeout(e => {
-        api.getAll(this.apiBack, this.formats)
-        setTimeout(e => {
-          this.loadData()
-          $('#table_formato').DataTable()
-        }, 1200)
+        this.loadData()
+      }, 100)
+      setTimeout(e => {
+        $('#table_format').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackLocals, this.locals)
     },
@@ -202,6 +203,7 @@
           }, 200)
         })
         this.local = loc
+        if (this.local !== 0) { this.full = true }
       },
       deleteOne(key) {
         var elementDeleted = this.formats.dataGet[0].formatoes.splice(key, 1)
