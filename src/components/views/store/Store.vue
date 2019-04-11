@@ -1,0 +1,358 @@
+<template>
+  <section class='content'>
+    <div class='span12'>
+      <div class='box'>
+        <!--Box content-->
+        <div class='box-content'>
+          <div class='btn-toolbar pull-right clearfix'>
+            <div class='btn-group'>
+              <!--<TableMenu/>-->
+              <a class='btn btn-circle show-tooltip export-to-file' name='bodega.xls' title='Exportar a Excel' v-on:click='exportExcel' data-table='table-terminals'>
+                <i class='fa fa-file-excel-o'></i>
+              </a>
+              <a class='btn btn-circle show-tooltip export-to-file' title='Exportar a PDF' v-on:click='exportPDF' data-table='table-terminals'>
+                <i class='fa fa-file-pdf-o'></i>
+              </a>
+              <router-link class='pageLink' to='/createStore'>
+                <a class='btn btn-circle show-tooltip' title='Añadir bodega' href='/createStore'>
+                  <i class='fa fa-plus'></i>
+                </a>
+              </router-link>             
+              <router-link class="pageLink" to="/store">
+                <a class="btn btn-circle show-tooltip" title="Actualizar" v-on:click='refresh' id="refresh-administrators" href="/store">
+                  <i class="fa fa-repeat"></i>
+                </a>
+              </router-link>
+            </div>
+          </div>
+          <br />
+          <br />
+        </div>
+        <!-- END Box Content -->
+
+        <div class='row center-block'>
+          <div class='col-md-12'>
+            <!--Box-body-->
+            <div class='box-body'>
+              <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
+                <div class='row'>
+                  <div class='col-sm-12 table-responsive'>
+                      <table aria-describedby='Table_of_elements' role='grid' id='table_store' class='table table-bordered table-striped dataTable'>
+                        <thead>
+                          <tr role='row'>
+                            <th aria-label='Nombre: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
+                            <th aria-label='Zone: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Zona</th>
+                            <th aria-label='Province: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Provincia</th>
+                            <th aria-label='City: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ciudad</th>
+                            <th class="JustifyButtonTD"></th>
+                          </tr>
+                        </thead>
+                        <tbody id='fields' v-if="full">
+                          <tr class='even' role='row' v-for='dato,index in stores.dataGet[0].bodegas '>
+                            <td class="TextFieldC">{{dato.name}}</td>
+                            <td class="TextFieldC">{{zon[index]}}</td>
+                            <td class="TextFieldC">{{prov[index]}}</td>
+                            <td class="TextFieldC">{{ciu[index]}}</td>
+                            <!--Start Buttom-->
+                            <td class='JustifyButtonTD'>
+                              <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
+                                <i class='fa fa-trash-o'></i>
+                              </a>
+                              <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                              </a>
+                              <!-- Modal / Ventana / Overlay en HTML  -->
+                              <div v-bind:id="index+'s'" class="modal fade">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <!--modal header-->
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" @click="editar(index)" aria-hidden="true">&times;</button>
+                                      <h4 class="modal-title">Editar</h4>
+                                    </div>
+                                    <!--end modal-header-->
+                                    <!--Modal-body-->
+                                    <div class="modal-body">
+                                      <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
+                                        <div class="form-group">
+                                          <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
+                                          <div class="col-sm-12 col-lg-15 controls">
+                                            <input type="text" required class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
+                                            <br />
+                                          </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Zona</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedZone" required="required" v-on:click="loadProvinces" class="FormatSelect">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoB in zones.dataGet[0].zonas">{{datoB.name}}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Provincia</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedProvince" required="required" v-on:click="loadCities" class="FormatSelect">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoP in provinces.dataGet[0].provincias">{{datoP.name}}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Ciudad</label>
+                                          <div class="col-sm-9 col-lg-10 controls">
+                                            <select v-model="selectedCity" required="required" class="FormatSelect">
+                                              <option disabled value="">Por favor seleccionar uno</option>
+                                              <option v-for="datoC in cities.dataGet[0].ciudads">{{datoC.name}}</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                      </form>
+                                    </div>
+                                    <!--end modal-body-->
+                                    <!--Modal-footer-->
+                                    <div class="modal-footer">
+                                      <router-link class="pageLink" to="/store">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
+                                      </router-link>
+                                    </div>
+                                    <!--end modal-footer-->
+                                  </div>
+                                </div>
+                              </div>
+                              <!--end modal-->
+                            </td>
+                            <!--End Buttom-->
+                          </tr>
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--End Box-body -->
+          </div>
+          <!--End Box-->
+        </div>
+      </div>
+    </div>
+    <!--</div>-->
+    <!--End content-->
+  </section>
+</template>
+<script>
+  import $ from 'jquery'
+  import 'datatables.net'
+  import 'datatables.net-bs'
+  import api from '@/api/goApi.js'
+  //  import TableMenu from './../TableMenu'
+  export default {
+    //  components: { TableMenu },
+    data() {
+      return {
+        inicialDelay: 2500,
+        apiBack: '/bodegas',
+        apiBackZone: '/zonas',
+        apiBackCity: '/ciudads',
+        apiBackProvince: '/provincias',
+        selectedZone: '',
+        selectedProvince: '',
+        selectedCity: '',
+        full: false,
+        dataRespond: [],
+        page: '/store',
+        nameToExport: 'Bodega',
+        ciu: [],
+        prov: [],
+        zon: [],
+        zones: {
+          dataGet: [
+            {
+              zone: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
+        },
+        provinces: {
+          dataGet: [
+            {
+              provinces: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
+        },
+        cities: {
+          dataGet: [
+            {
+              cities: [{
+                id: '',
+                name: ''
+              }]
+            }],
+          error: ''
+        },
+        stores: {
+          error: '',
+          dataGet: [
+            {
+              bodegas: [{
+                name: ''
+              }]
+            }]
+        },
+        dataPostDel: { // este es basicamente un JSON
+          name: ''
+        }
+      }
+    },
+    name: 'Store',
+    mounted() {
+      api.getAll(this.apiBack, this.stores)
+      setTimeout(e => {
+        this.loadData()
+      }, 1200)
+      setTimeout(e => {
+        $('#table_store').DataTable()
+      }, this.inicialDelay)
+      api.getAll(this.apiBackZone, this.zones)
+    },
+    methods: {
+      async loadData() {
+        var ciud = []
+        var pro = []
+        var zona = []
+        // var bodegas = this.stores.dataGet[0].bodegas
+        var t0 = new Date().getTime()
+        // for (var i = 0, n = bodegas.length; i < n; i++) {
+        //  var urlCity = bodegas[i]._links.ciudad.href
+        //  console.log(urlCity)
+        //  var city = {}
+        //  api.getGeneral(urlCity, city)
+        //  setTimeout(e => {
+        //    ciud.push(city.dataGet[1])
+        //    var provinc = {}
+        //    provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
+        //    setTimeout(e => {
+        //      var zone = {}
+        //      pro.push(provinc.dataGet[1])
+        //      zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
+        //      setTimeout(e => {
+        //        zona.push(zone.dataGet[1])
+        // console.log(t0)
+        //      }, 300)
+        //    }, 300)
+        //  }, 320)
+        // }
+        // this.ciu = ciud
+        // this.prov = pro
+        // this.zon = zona
+        this.stores.dataGet[0].bodegas.forEach(function (k, index) {
+          var urlCity = k._links.ciudad.href
+          var city = {}
+          api.getGeneral(urlCity, city)
+          setTimeout(e => {
+            ciud.push(city.dataGet[1])
+            var provinc = {}
+            provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
+            setTimeout(e => {
+              var zone = {}
+              pro.push(provinc.dataGet[1])
+              zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
+              setTimeout(e => {
+                zona.push(zone.dataGet[1])
+              }, 300)
+            }, 300)
+          }, 320)
+        })
+        this.ciu = ciud
+        this.prov = pro
+        this.zon = zona
+        var t1 = new Date().getTime()
+        console.log('Performance: ' + (t1 - t0) + 'miliseconds')
+
+        if (this.zon !== 0) { this.full = true }
+      },
+      refresh() {
+        location.reload()
+      },
+      loadProvinces() {
+        var url = api.search(this.zones.dataGet[0].zonas, 'name', this.selectedZone)._links.provincias.href
+        api.getGeneral(url, this.provinces)
+      },
+      loadCities() {
+        var url = api.search(this.provinces.dataGet[0].provincias, 'name', this.selectedProvince)._links.ciudades.href
+        api.getGeneral(url, this.cities)
+      },
+      deleteOne(key) {
+        var elementDeleted = this.stores.dataGet[0].bodegas.splice(key, 1)
+        var id = elementDeleted[0].id
+        api.delete(this.apiBack + '/' + id, this.$data)
+      },
+      save (id) {
+        if (this.dataPostDel.name.trim() !== '') {
+          var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
+          this.dataPostDel.name = this.dataPostDel.name.trim()
+          api.put(this.apiBack + '/' + id, this.$data)
+          var head = '/ciudads/' + idCity
+          setTimeout(e => {
+            api.postWithHeader(this.apiBack + '/' + id + '/ciudad', head)
+            this.$router.push(this.page)
+          }, 1100)
+        }
+      },
+      exportExcel() {
+        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
+        api.exportExcel(this.nameToExport, rep)
+      },
+      exportPDF() {
+        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
+        var columns = [
+          {title: 'ID', dataKey: 'id'},
+          { title: 'Nombre', dataKey: 'name' },
+          { title: 'Zona', dataKey: 'zoneName' },
+          { title: 'Provincia', dataKey: 'provinceName' },
+          { title: 'Ciudad', dataKey: 'cityName' }
+        ]
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
+      }
+    }
+  }
+</script>
+<style>
+
+    /* Using the bootstrap style, but overriding the font to not draw in
+     the Glyphicons Halflings font as an additional requirement for sorting icons.
+
+     An alternative to the solution active below is to use the jquery style
+     which uses images, but the color on the images does not match adminlte.
+
+  @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
+  */
+
+    @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:after {
+      font-family: 'FontAwesome';
+    }
+
+    table.dataTable thead .sorting:after {
+      content: '\f0dc';
+    }
+
+    table.dataTable thead .sorting_asc:after {
+      content: '\f0dd';
+    }
+
+    table.dataTable thead .sorting_desc:after {
+      content: '\f0de';
+    }
+</style>

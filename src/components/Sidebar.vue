@@ -1,32 +1,15 @@
 <template>
   <aside class="main-sidebar">
-
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img :src="pictureUrl" />
-        </div>
-        <div class="pull-left info">
-          <div>
-            <p class="white">{{ displayName }}</p>
-          </div>
-          <a href="javascript:;">
-            <i class="fa fa-circle text-success"></i> Online
-          </a>
-        </div>
-      </div>
-
       <!-- search form (Optional) -->
       <form v-on:submit.prevent class="sidebar-form" style="border: none; padding-left: 0; padding-right: 0">
         <div class="input-group">
           <input type="text"
             name="search"
             id="search"
-            class="search form-control"
-            data-toggle="hideseek" placeholder="Search Menus"
+            class="search form-control-search"
+            data-toggle="hideseek" placeholder="Buscar Menus"
             data-list=".sidebar-menu">
           <span class="input-group-btn">
             <button type="submit" name="search" id="search-btn" class="btn btn-flat">

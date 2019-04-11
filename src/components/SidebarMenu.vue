@@ -1,80 +1,93 @@
 <template>
   <ul class="sidebar-menu">
-    <li class="header">TOOLS</li>
-    <router-link tag="li" class="pageLink" to="/">
+    <li class="header">DASHBOARD</li>
+    <router-link tag="li" class="pageLink" to="/path">
       <a>
-        <i class="fa fa-desktop"></i>
-        <span class="page">Dashboard</span>
+        <i class="fa fa-road"></i>
+        <span class="page">Rutas</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/chatbot">
-      <a>
-        <i class="fa fa-table"></i>
-        <span class="page">ChatBot</span>
-      </a>
-    </router-link>
-
-    <li class="treeview">
-      <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Files</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left fa-fw pull-right"></i>
-        </span>
-      </a>
-      <ul class="treeview-menu">
-        <li>
-          <a href="#">
-            <i class="fa fa-file-word-o"></i> Item 1
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-picture-o"></i> Item 2
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-pdf-o"></i> Item 3
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li class="header">MANAGEMENT</li>
-    <router-link tag="li" class="pageLink" to="/tasks">
+    <router-link tag="li" class="pageLink" to="/routes">
       <a>
         <i class="fa fa-tasks"></i>
-        <span class="page">Tasks</span>
+        <span class="page">Rutas Activas</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/setting">
+    <router-link tag="li" class="pageLink" to="/activeRoutes">
       <a>
-        <i class="fa fa-cog"></i>
-        <span class="page">Settings</span>
+        <i class="fa fa-bullhorn"></i>
+        <span class="page">Alertas</span>
       </a>
     </router-link>
-
-    <li class="header">LOGS</li>
-    <router-link tag="li" class="pageLink" to="/access">
+    <router-link tag="li" class="pageLink" to="/routesHistory">
       <a>
         <i class="fa fa-book"></i>
-        <span class="page">Access</span>
+        <span class="page">Histórico de rutas</span>
       </a>
     </router-link>
+    <li class="header">ADQUISICIÓN DE DATOS</li>
+    <router-link tag="li" class="pageLink" to="/zone">
+      <a>
+        <i class="fa fa-building"></i>
+        <span class="page">Zonas</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/store">
+      <a>
+        <i class="formatIcon icofont-industries-4"></i>
+        <span class="page">Bodegas</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/locals">
+      <a>
+        <i class="formatIcon icofont-food-cart"></i>
+        <span class="page">Locales</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/format">
+      <a>
+        <i class="formatIcon icofont-file-text"></i>
+        <span class="page">Formatos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/devices">
+      <a>
+        <i class="formatIcon icofont-micro-chip"></i>
+        <span class="page">Dispositivos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/telemetry">
+      <a>
+        <i class="formatIcon icofont-wifi-router"></i>
+        <span class="page">Telemetrías</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/products">
+      <a>
+        <i class="formatIcon icofont-chicken-fry"></i>
+        <span class="page">Productos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/boxcar">
+      <a>
+        <i class="fa fa-truck"></i>
+        <span class="page">Furgón</span>
+      </a>
+    </router-link>
+    <li class="header">REPORTES</li>
+    <router-link tag="li" class="pageLink" to="/reports">
+      <a>
+        <i class="fa fa-book"></i>
+        <span class="page">Reportes</span>
+      </a>
+    </router-link>
+    <li class="header">ADMINISTRACIÓN</li>
     <router-link tag="li" class="pageLink" to="/server">
       <a>
         <i class="fa fa-hdd-o"></i>
-        <span class="page">Server</span>
+        <span class="page">Administrador</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/repos">
-      <a>
-        <i class="fa fa-heart"></i>
-        <span class="page">Repos</span>
-        <small class="label pull-right bg-green">AJAX</small>
-      </a>
-    </router-link>
-
   </ul>
 </template>
 <script>

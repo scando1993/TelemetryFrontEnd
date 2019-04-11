@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <div>
     <h1 class="text-center">Our Environment</h1>
     <section class="content">
@@ -33,4 +33,4 @@
 </script>
 
 <style>
-</style>
+</style>-->
