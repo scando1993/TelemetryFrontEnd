@@ -18,7 +18,7 @@ setTimeout(e => {
       //  var path = {}
       //  path = api.getGeneral(url, path)
       var hour = k.dtm.split('T')[0] + ' ' + k.dtm.split('T')[1]
-      var timeli = {}
+      var timeli = { title: '' }
       setTimeout(e => {
         if (k.typeAlert === 'inicio_ruta') {
           timeli = {
@@ -53,7 +53,7 @@ setTimeout(e => {
             body: k.mensaje
           }
         }
-        timeline.push(timeli)
+        if (timeli.title !== '') { timeline.push(timeli) }
       }, 100)
     })
   }, 500)
