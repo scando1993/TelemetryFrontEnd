@@ -81,24 +81,19 @@
                                   <!--Modal-body-->
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
-
-                                      <div class="form-group">
-                                        <label class="col-sm-3 col-lg-2 control-label">Seleccione un archivo</label>
-                                        <div class="col-sm-12 col-lg-15 controls">
-                                          <input type="file" id="archivoParaSubir" />
-                                          <input type="submit" value="Subir archivo" name="submit">
-                                          <br />
-                                        </div>
+                                      <div id="Locales" class="textAreaMac">
+                                        <textarea rows="10" v-model="text"></textarea>
+                                        <br>
+                                        <text-reader @load="text = $event"></text-reader>
                                       </div>
-                                      
                                     </form>
                                   </div>
                                   <!--end modal-body-->
                                   <!--Modal-footer-->
                                   <div class="modal-footer">
-                                    <router-link class="pageLink" to="/devices">
+                                    <router-link class="pageLink" to="/locals">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="saveConfig(dato.id)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="sendMACs(dato.id)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer Config-->
@@ -234,16 +229,11 @@
   import api from '@/api/goApi.js'
   import GoogleMap from './../../Geocalization/GoogleMap.vue'
   import { setTimeout } from 'timers'
-  //  document.getElementById('archivoParaSubir').addEventListener('change', function () {
-  //  var file = this.files[0]
-  //  console.log('name : ' + file.name)
-  //  console.log('size : ' + file.size)
-  //  console.log('type : ' + file.type)
-  //  console.log('date : ' + file.lastModified)
-  //  }, false)
+  import TextReader from './TextReader'
   export default {
     components: {
-      GoogleMap
+      GoogleMap,
+      TextReader
     },
     data() {
       return {
@@ -257,6 +247,7 @@
         selectedCity: '',
         dataRespond: [],
         full: false,
+        text: '',
         ciu: [],
         prov: [],
         zon: [],
@@ -310,14 +301,7 @@
           family: '',
           length: 0,
           latitude: 0,
-          macs: ''
-        },
-        generateRandomNumbers(numbers, max, min) {
-          var a = []
-          for (var i = 0; i < numbers; i++) {
-            a.push(Math.floor(Math.random() * (max - min + 1)) + max)
-          }
-          return a
+          cadena: ''
         }
       }
     },
@@ -337,6 +321,10 @@
     methods: {
       refresh() {
         location.reload()
+      },
+      sendMACs(id) {
+        api.post('saveMacLocales?localid=' + id, this.$data)
+        console.log(this.text)
       },
       async loadData() {
         var ciud = []

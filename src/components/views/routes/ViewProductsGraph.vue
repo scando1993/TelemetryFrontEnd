@@ -1,10 +1,9 @@
 <template>
   <section>
-    <label>Look:{{checkedProducts}}</label>
     <br />
-    <div v-if="show">
+    <div v-if="showing">
       <vue-c3 :handler="handler"></vue-c3>
-    </div><br /><br /><br />
+    </div>
     <hr class="visible-xs-block">
   </section>
 </template>
@@ -14,55 +13,50 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  import api from '@/api/goApi.js'
+  //  import api from '@/api/goApi.js'
   export default {
     name: 'componentProducts',
-    props: ['checkedProducts'],
+    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal'],
     components: {
       VueC3
     },
     beforeMount() {
-      api.getAll(this.apiBackProduct, this.products)
     },
     data() {
       return {
         handler: new Vue(),
-        apiBack: '/rutas',
-        apiBackProduct: '/productoes',
-        products: {
-          dataGet: [
-            {
-              productoes: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        paths: {
-          dataGet: [
-            {
-              rutas: [{
-                start_date: '',
-                end_date: ''
-              }]
-            }],
-          error: ''
-        }
+        maximum: ['Max'],
+        minimum: ['Min'],
+        maximumIdeal: ['MaxIdeal'],
+        minimumIdeal: ['MinIdeal']
       }
     },
     mounted() {
       // to init the graph call:
+      for (var i = 0, n = this.listTemp.length; i < n; i++) {
+        this.maximum.push(this.Max)
+        this.minimum.push(this.Min)
+        this.maximumIdeal.push(this.MaxIdeal)
+        this.minimumIdeal.push(this.MinIdeal)
+      }
       const options = {
         data: {
-          columns: [
-            this.listTemperature
-          ]
+          columns: [this.listTemp, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal]
         },
+        regions: [
+          { start: 2, end: 50 }
+        ],
         axis: {
+          y2: {
+            show: true
+          },
           x: {
             type: 'categorized',
-            categories: this.listDTM
+            tick: {
+              format: '%Y-%m-%dT%H:%M:%S.%LZ'
+            },
+            categories: this.listDTMs,
+            show: false
           }
         }
       }

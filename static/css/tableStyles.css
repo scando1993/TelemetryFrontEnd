@@ -5,9 +5,18 @@ i.iconsActive {
   line-height: 36px;
   position: absolute;
 }
+div.lineButton {
+  width: 100%;
+  text-align: right;
+  padding: 1% 8% 1% 1%;
+}
+div.textAreaMac{
+  width: 100%;
+}
 div.routeDialog {
   background: #fff;
   width: 100%;
+  cursor: auto;
 }
 td.ToButtons {
   width:auto; /*Aquí va el ancho de la Celda*/

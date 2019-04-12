@@ -1,12 +1,11 @@
 <template>
   <section>
     <!--<label>Look:{{pickedAll}} - {{temperatures}}-{{max}}</label>-->
-    <br />
-    <div v-if="showing">
-      <vue-c3 :handler="handler"></vue-c3>
-    </div><br /><br /><br />
-    <hr class="visible-xs-block">
-  </section>
+      <div v-if="showing">
+        <vue-c3 :handler="handler"></vue-c3>
+      </div><br />
+      <hr class="visible-xs-block">
+</section>
 </template>
 
 <style src="./../../../../node_modules/c3/c3.css"></style>
@@ -23,9 +22,6 @@
     },
     beforeMount() {
       api.getAll(this.apiBack, this.paths)
-      //  setTimeout(e => {
-      //  this.loadData()
-      //  }, 200)
     },
     data() {
       return {
@@ -80,28 +76,30 @@
       }
       const options = {
         data: {
-          //  x: 'date',
-          //  xFormat: '%Y-%m-%dT%H:%M:%S.%LZ',
+          x: 'date',
+          xFormat: '%Y-%m-%dT%H:%M:%S',
           columns: [
-            this.temperatures, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal
+            this.timeL, this.temperatures, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal
           ],
           axes: {
             Temperatura: 'y2'
           }
         },
         regions: [
-          { start: new Date('2019-03-30T12:21:41').toISOString(), end: new Date('2019-09-30T12:21:41').toISOString() }
+          {
+            start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
+          }
         ],
         axis: {
           y2: {
             show: true
           },
           x: {
-            type: 'categorized',
+            type: 'timeseries',
             tick: {
-              format: '%Y-%m-%dT%H:%M:%S.%LZ'
+              format: '%Y-%m-%dT%H:%M:%S'
             },
-            categories: this.timeL,
+            //  categories: this.timeL,
             show: false
           }
         }
@@ -110,6 +108,15 @@
     }
   }
 </script>
+<style>
+  .c3-region.regionX {
+    fill: red;
+  }
+
+  .c3-region.regionX2 {
+    fill: green;
+  }
+</style>
 <!--<script>
   import c3 from 'c3'
   export default {
@@ -144,91 +151,6 @@
   }
 </script>-->
 <!--<script>
-  import c3 from 'c3'
-  import { debounce, cloneDeep, defaultsDeep } from 'lodash'
-  export default {
-    name: 'c3-chart',
-    props: {
-      config: {
-        type: Object,
-        default: () => ({})
-      },
-      data: {
-        type: Object,
-        default: () => ({})
-      },
-      type: {
-        type: String,
-        default: 'bar'
-      }
-    },
-    watch: {
-      data: {
-        handler: 'reload',
-        deep: true
-      },
-      type: 'transform'
-    },
-    methods: {
-      getArgs() {
-        const data = this.getData()
-        const config = this.getConfig()
-        return defaultsDeep({ data }, config)
-      },
-      getData() {
-        const { type } = this
-        const data = cloneDeep(this.data)
-        return defaultsDeep({ type }, data)
-      },
-      getConfig() {
-        const config = cloneDeep(this.config)
-        const color = {
-          pattern: ['#0a4f8a', '#0a88c2', '#75bcdd', '#E0E1E2', '#21BA45', '#DB2828', '#31CCEC', '#F2C037']
-        }
-        const axis = {
-          x: {
-            type: 'category',
-            padding: {
-              left: 0,
-              right: 0
-            },
-            tick: {
-              multiline: true
-            }
-          }
-        }
-        return defaultsDeep({ axis, color }, config)
-      },
-      update: debounce(function update() {
-        const data = this.getData()
-        this.$chart.load(data)
-        this.$emit('update', data)
-      }, 500),
-      transform: debounce(function transform(...args) {
-        this.$chart.transform(...args)
-      }, 100),
-      reload: debounce(function reload() {
-        this.$emit('reloading')
-        this.$chart.unload()
-        this.$nextTick(() => {
-          this.update()
-        })
-      }, 700)
-    },
-    mounted() {
-      const args = this.getArgs()
-      this.$chart = c3.generate({
-        bindto: this.$refs.root,
-        ...args
-      })
-      this.$emit('init', args)
-    },
-    beforeDestroy() {
-      this.$chart = this.$chart.destroy()
-    }
-  }
-</script>-->
-<!--<script>
   import c3 from 'vue-c3'
   import Chart from 'chart.js'
   var chart = c3.generate({
@@ -251,116 +173,6 @@
     }
   })
   console.log(chart)
-</script>-->
-<!--<script>
-  import c3 from 'vue-c3'
-  import Chart from 'chart.js'
-  var chart = c3.generate({
-    bindto: '#chartjs-' + i,
-    size: { height: 300 },
-    data: {
-      xs: data['chartjs-' + i]['xs'],
-      xFormat: '%Y-%m-%dT%H:%M:%S',
-      json: data['chartjs-' + i]['data']
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          rotate: 90,
-          format: '%Y-%m-%dT%H:%M:%S',
-          multiline: false
-        }
-      }
-    }
-  })
-  console.log(chart)
-</script>-->
-<!--<script>
-  //  import Chart from 'chart.js'
-  import c3 from 'c3'
-  import api from '@/api/goApi.js'
-
-  export default {
-    name: 'componentAll',
-    props: ['selectedAll', 'listTemperature', 'listDTM'],
-    data() {
-      return {
-        apiBack: '/rutas',
-        apiBackDevice: '/devices',
-        apiBackProduct: '/productoes',
-        products: {
-          dataGet: [
-            {
-              productoes: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        devices: {
-          dataGet: [
-            {
-              devices: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        paths: {
-          dataGet: [
-            {
-              rutas: [{
-                start_date: '',
-                end_date: ''
-              }]
-            }],
-          error: ''
-        },
-        aceptableMinima: -5,
-        aceptableMaxima: 10,
-        idealMinima: 3,
-        idealMaxima: 4
-      }
-    },
-    methods: {
-    },
-    computed: {
-      coPilotNumbers() {
-        return this.generateRandomNumbers(12, 1000000, 10000)
-      },
-      personalNumbers() {
-        return this.generateRandomNumbers(12, 1000000, 10000)
-      },
-      isMobile() {
-        return (window.innerWidth <= 800 && window.innerHeight <= 600)
-      }
-    },
-    beforeMount() {
-      api.getAll(this.apiBack, this.paths)
-      //  setTimeout(e => {
-      //  this.loadData()
-      //  }, 200)
-    },
-    mounted() {
-      this.$nextTick(() => {
-        var chart = c3.generate({
-          size: {
-            height: 240,
-            width: 480
-          },
-          data: {
-            columns: [
-              ['sample', 30, 200, 100, 400, 150, 250]
-            ]
-          }
-        })
-        console.log(chart)
-      })
-    }
-  }
 </script>-->
 <!--<script>
   export default {

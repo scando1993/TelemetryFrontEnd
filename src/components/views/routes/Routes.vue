@@ -9,7 +9,6 @@
       <input type="radio" id="devices" value="devices" v-model="picked">
       <label for="devices">Dispositivos</label>
       <br />
-      <span>Picked: {{ picked }}</span>
     </div>
     <div class="routeDialog info-box form-horizontal" v-if="picked=='all'">
       <!--<label for="one">Mostrando todo</label>-->
@@ -17,14 +16,12 @@
         <ul id="checkboxPath" class="GroupCheckbox">
           <li v-for="datoL, indexU in pathsActive" class="col-sm-12 controls">
             <input type="radio" :value="datoL.id" :id="datoL.id" v-model="pickedAll" v-on:click="loadData(datoL.id)">
-            <label>{{datoL.start_date}}****{{datoL.end_date}}</label>
-            <span>Picked: {{ pickedAll }}</span>
-            <br /><br />
+            <label>Ruta{{datoL.id}} con fecha fin:  {{datoL.end_date}}</label>
           </li>
-          <componentAll v-if="pickedAll!='' && showing == true" :showing="showing" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="ToProduc[0].dataGet[1]" :min="ToProduc[0].dataGet[2]" :maxIdeal="ToProduc[0].dataGet[3]" :minIdeal="ToProduc[0].dataGet[4]"></componentAll>
-          
         </ul>
       </div>
+      <componentAll v-if="pickedAll!='' && showing == true" :showing="showing" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="ToProduc[0].dataGet[1]" :min="ToProduc[0].dataGet[2]" :maxIdeal="ToProduc[0].dataGet[3]" :minIdeal="ToProduc[0].dataGet[4]"></componentAll>
+
     </div>
 
     <div class="routeDialog info-box form-horizontal" v-if="picked=='products'">
@@ -35,8 +32,13 @@
             <input type="checkbox" :value="datoL.dataGet[0]" :id="datoL.dataGet[0]" v-model="checkedProducts" @click="check($event)">
             <label>{{datoL.dataGet[5]}}</label>
           </li>
-          <componentProducts  v-if="checkedProducts.length!=0" :checkedProducts="checkedProducts" :listCte="listLines"></componentProducts>
         </ul>
+      </div>
+      <div class="lineButton">
+        <button class="btn btn-default " v-on:click="getRoutesOfProduct()">Generar Gráficas</button>
+      </div>
+      <div v-for="dato, index in AllProduct">
+        <componentProducts v-if="showing" :listTemp="dato.listTemp" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentProducts>
       </div>
     </div>
 
@@ -63,9 +65,12 @@
         apiBack: '/rutas',
         apiBackDevice: '/devices',
         apiBackProduct: '/productoes',
+        apiBackGetProduct: '/getProductos',
         picked: 'all',
         showing: false,
         pickedAll: '',
+        ProductsTelem: [{}],
+        AllProduct: [{}],
         telemetry: {
           dataGet: [
             {
@@ -126,23 +131,23 @@
       'componentDevice': () => import('./ViewDeviceGraph')
     },
     methods: {
+      check: function (e) {
+      },
       fillOut() {
         var temperature = ['Temperatura']
-        var listTime = []
-        console.log('oeoeoeooe')
-        console.log(this.telemetry)
+        var listTime = ['date']
+        console.log(this.telemetry.dataGet[0].telemetrias)
         this.telemetry.dataGet[0].telemetrias.forEach(function (k, index) {
           temperature.push(k.value)
-          listTime.push(new Date(k.dtm).toISOString())
+          console.log('horaaaaa')
+          console.log(k.dtm)
+          listTime.push(new Date(k.dtm)) // .toISOString()
         })
-        console.log(this.showing)
         this.temperatures = temperature
         this.timeL = listTime
         this.showing = true
-        console.log(this.showing)
       },
       loadData(p) {
-        console.log('pciked--' + p)
         this.showing = false
         var pathSelect = api.search(this.paths.dataGet[0].rutas, 'id', p)
         var listTelemetry = {
@@ -168,15 +173,19 @@
             product.push(varProduct)
             setTimeout(e => {
               var urlTelemetry = varDevice.dataGet[6].telemetrias.href
-              api.getGeneral(urlTelemetry, listTelemetry)
+              listTelemetry = api.getGeneral(urlTelemetry, listTelemetry)
+              console.log('algo aquiii ')
+              console.log(listTelemetry)
               setTimeout(e => {
-                this.fillOut()
+                this.telemetry = listTelemetry
+                setTimeout(e => {
+                  this.fillOut()
+                }, 250)
               }, 250)
             }, 250)
           }, 250)
         }, 200)
         this.ToProduc = product
-        this.telemetry = listTelemetry
       },
       getActiveDevice() {
         console.log('Obteniendo dispos activos...')
@@ -194,7 +203,7 @@
             api.getGeneral(urlDevice, varDevice)
             api.getGeneral(urlProduct, varProduct)
             setTimeout(e => {
-              if (k.status === 'Activo') {
+              if (k.status === 'Activo' || k.status === 'No efectivo' || k.status === 'No ideal') {
                 console.log('activo')
                 console.log(varDevice)
                 activePath.push(k)
@@ -208,36 +217,65 @@
         this.devi = device
         this.prod = product
       },
-      getListLines() {
-        console.log('enlistando products')
-        var listlines = []
-        this.checkedProducts.forEach(function (k, index) {
-          var productElement = api.search(this.products.dataGet[0].productoes, 'id', k)
-          setTimeout(e => {
-            console.log(productElement)
-            var max = productElement.dataGet[2]
-            var min = productElement.dataGet[3]
-            var maxIdeal = productElement.dataGet[4]
-            var minIdeal = productElement.dataGet[5]
-            listlines.push(max)
-            listlines.push(min)
-            listlines.push(maxIdeal)
-            listlines.push(minIdeal)
-          }, 200)
-        })
-        console.log(listlines)
-        this.listLines = listlines
+      getRoutesOfProduct() {
+        this.showing = false
+        this.AllProduct = [{}]
+        for (var i = 0, n = this.checkedProducts.length; i < n; i++) {
+          var AllProduct = {
+            listDTMs: [],
+            listTemp: [],
+            Max: 0,
+            Min: 0,
+            MaxIdeal: 0,
+            MinIdeal: 0
+          }
+          console.log(this.checkedProducts[i])
+          // buscamos cada producto y obtenemos las URL de cada ruta
+          var product = api.search(this.ProductsTelem.dataGet, 'id', this.checkedProducts[i])
+          for (var j = 0, k = product.rutas.length; j < k; j++) {
+            AllProduct = {
+              listDTMs: [],
+              listTemp: [],
+              Max: 0,
+              Min: 0,
+              MaxIdeal: 0,
+              MinIdeal: 0
+            }
+            // agregamos en ese orden los límites de la gráfica
+            AllProduct.Max = product.temp_max
+            AllProduct.Min = product.temp_min
+            AllProduct.MaxIdeal = product.temp_max_ideal
+            AllProduct.MinIdeal = product.temp_min_ideal
+            var title = 'Temperatura-' + product.name + '-'
+            if (product.rutas[j].status === 'Activo' || product.rutas[j].status === 'No ideal' || product.rutas[j].status === 'No efectiva') {
+              var temperatures = [title + 'Ruta' + product.rutas[j].id + '-Estado: ' + product.rutas[j].status]
+              var dtms = []
+              console.log('una vez mas')
+              for (var p = 0, m = product.rutas[j].device.telemetrias.length; p < m; p++) {
+                temperatures.push(product.rutas[j].device.telemetrias[p].value)
+                dtms.push(product.rutas[j].device.telemetrias[p].dtm)
+              }
+              AllProduct.listTemp = temperatures
+              AllProduct.listDTMs = dtms
+              this.AllProduct.push(AllProduct)
+            }
+          }
+          console.log(this.AllProduct)
+        }
+        this.showing = true
+        this.checkedProducts = []
       }
+    },
+    beforeMount() {
+      api.getAll(this.apiBackProduct, this.products)
+      api.getAll(this.apiBackGetProduct, this.ProductsTelem)
     },
     mounted() {
       api.getAll(this.apiBack, this.paths)
       setTimeout(e => {
-        console.log('heyyyyyyyyyy route')
-        console.log(this.paths)
         this.getActiveDevice()
       }, 500)
       api.getAll(this.apiBackDevice, this.devices)
-      api.getAll(this.apiBackProduct, this.products)
       console.log(this.products)
     }
 }</script>
