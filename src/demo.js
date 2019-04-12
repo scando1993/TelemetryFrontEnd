@@ -4,6 +4,7 @@ import api from '@/api/goApi.js'
 var apiBackAlerts = '/getAlertasRuta?rutaid=0'
 var alerts = { dataGet: [] }
 export const timeline = []
+//  print(id){}
 setTimeout(e => {
   alerts = api.getAll(apiBackAlerts, alerts)
   setTimeout(e => {

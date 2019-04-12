@@ -1,6 +1,6 @@
 <template>
   <section>
-    <label>Look:{{pickedAll}} - {{timeL}}-{{max}}</label>
+    <label>Look:{{pickedAll}}-{{min}}-{{max}}</label>
       <div v-if="showing">
         <vue-c3 :handler="handler"></vue-c3>
       </div><br />
@@ -16,7 +16,7 @@
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentAll',
-    props: ['pickedAll', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing'],
+    props: ['pickedAll', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
     components: {
       VueC3
     },
@@ -45,9 +45,7 @@
         data: {
           x: 'date',
           xFormat: '%Y-%m-%dT%H:%M:%S',
-          columns: [
-            this.timeL, this.temperatures, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal
-          ],
+          columns: [this.timeL, this.temperatures, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
           axes: {
             Temperatura: 'y2'
           }
@@ -57,10 +55,11 @@
             start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
           }
         ],
+        title: {
+          text: this.titleGraph
+        },
         axis: {
-          y2: {
-            show: true
-          },
+          y2: { show: true },
           x: {
             type: 'timeseries',
             tick: {

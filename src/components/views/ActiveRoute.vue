@@ -32,7 +32,7 @@
 </template>
 <script>
   import moment from 'moment'
-  import {timeline} from '../../demo'
+  import { timeline } from '../../demo'
   import api from '@/api/goApi.js'
 
   //  export const timeline = []
@@ -49,6 +49,11 @@
     },
     mounted() {
       api.getAll(this.apiBackAlerts, this.alerts)
+    },
+    methods: {
+      presentaralertas(id) {
+        //  demo.printAlertas(id)
+      }
     },
     //  console.log('heyyyy demo')
     //  setTimeout(e => {

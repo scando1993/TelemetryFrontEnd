@@ -14,7 +14,7 @@
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentDevice',
-    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal'],
+    props: ['titleGraph', 'listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal', 'n'],
     components: {
       VueC3
     },
@@ -31,7 +31,9 @@
     },
     mounted() {
       // to init the graph call:
-      for (var i = 0, n = this.listTemp.length; i < n; i++) {
+      var n = this.listTemp.length
+      console.log(n)
+      for (var i = 0; i < n; i++) {
         this.maximum.push(this.Max)
         this.minimum.push(this.Min)
         this.maximumIdeal.push(this.MaxIdeal)
@@ -45,6 +47,9 @@
           axes: {
             Temperatura: 'y2'
           }
+        },
+        title: {
+          text: this.titleGraph
         },
         regions: [
           {
@@ -69,4 +74,13 @@
     }
   }
 </script>
+<style>
+  .c3-region.regionX {
+    fill: red;
+  }
+
+  .c3-region.regionX2 {
+    fill: green;
+  }
+</style>
 

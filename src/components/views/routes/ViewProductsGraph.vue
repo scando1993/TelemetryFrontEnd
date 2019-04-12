@@ -16,7 +16,7 @@
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentProducts',
-    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal'],
+    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal', 'titleGraph'],
     components: {
       VueC3
     },
@@ -47,6 +47,9 @@
           axes: {
             Temperatura: 'y2'
           }
+        },
+        title: {
+          text: this.titleGraph
         },
         regions: [
           {
