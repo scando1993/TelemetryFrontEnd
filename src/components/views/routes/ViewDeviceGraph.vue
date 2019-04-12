@@ -1,97 +1,72 @@
 <template>
   <section>
-    <div>
-      <label>Aqui va la grafica</label>
-      <button v-if="selectedAll !== ''">Hi</button>
-      <button>Oo</button>
+    <br />
+    <div v-if="showing">
+      <vue-c3 :handler="handler"></vue-c3>
     </div>
-    <!--<div class="col-sm-6 col-xs-12 info-box form-horizontal">
-      <h1>Look:{{selectedAll}} - {{listTemperature}}</h1>
-      <div>
-        <vue-c3 :handler="handler"></vue-c3>
-      </div>
-
-    </div>-->
-    <!--<hr class="visible-xs-block">-->
-
+    <hr class="visible-xs-block">
   </section>
 </template>
 <style src="./../../../../node_modules/c3/c3.css"></style>
-<!--<script>
+<script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  import api from '@/api/goApi.js'
+  //  import api from '@/api/goApi.js'
   export default {
-    name: 'componentAll',
-    props: ['selectedAll', 'listTemperature', 'listDTM'],
+    name: 'componentDevice',
+    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal'],
     components: {
       VueC3
     },
     beforeMount() {
-      api.getAll(this.apiBack, this.paths)
-      //  setTimeout(e => {
-      //  this.loadData()
-      //  }, 200)
     },
     data() {
       return {
         handler: new Vue(),
-        apiBack: '/rutas',
-        apiBackDevice: '/devices',
-        apiBackProduct: '/productoes',
-        products: {
-          dataGet: [
-            {
-              productoes: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        devices: {
-          dataGet: [
-            {
-              devices: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        paths: {
-          dataGet: [
-            {
-              rutas: [{
-                start_date: '',
-                end_date: ''
-              }]
-            }],
-          error: ''
-        },
-        aceptableMinima: -5,
-        aceptableMaxima: 10,
-        idealMinima: 3,
-        idealMaxima: 4
+        maximum: ['Max'],
+        minimum: ['Min'],
+        maximumIdeal: ['MaxIdeal'],
+        minimumIdeal: ['MinIdeal']
       }
     },
     mounted() {
       // to init the graph call:
+      for (var i = 0, n = this.listTemp.length; i < n; i++) {
+        this.maximum.push(this.Max)
+        this.minimum.push(this.Min)
+        this.maximumIdeal.push(this.MaxIdeal)
+        this.minimumIdeal.push(this.MinIdeal)
+      }
       const options = {
         data: {
-          columns: [
-            this.listTemperature
-            //  ['data2', 7, 2, 4, 6, 10, 1]
-          ]
+          x: 'date',
+          xFormat: '%Y-%m-%dT%H:%M:%S',
+          columns: [this.listDTMs, this.listTemp, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
+          axes: {
+            Temperatura: 'y2'
+          }
         },
+        regions: [
+          {
+            start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
+          }
+        ],
         axis: {
+          y2: {
+            show: true
+          },
           x: {
-            type: 'categorized',
-            categories: this.listDTM
+            type: 'timeseries',
+            tick: {
+              format: '%Y-%m-%dT%H:%M:%S'
+            },
+            //  categories: this.timeL,
+            show: false
           }
         }
       }
       this.handler.$emit('init', options)
     }
   }
-</script>-->
+</script>
+

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <!--<label>Look:{{pickedAll}} - {{temperatures}}-{{max}}</label>-->
+    <label>Look:{{pickedAll}} - {{timeL}}-{{max}}</label>
       <div v-if="showing">
         <vue-c3 :handler="handler"></vue-c3>
       </div><br />
@@ -13,7 +13,7 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  import api from '@/api/goApi.js'
+  //  import api from '@/api/goApi.js'
   export default {
     name: 'componentAll',
     props: ['pickedAll', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing'],
@@ -21,49 +21,16 @@
       VueC3
     },
     beforeMount() {
-      api.getAll(this.apiBack, this.paths)
+      //  api.getAll(this.apiBack, this.paths)
     },
     data() {
       return {
         handler: new Vue(),
-        apiBack: '/rutas',
-        apiBackDevice: '/devices',
-        apiBackProduct: '/productoes',
         maximum: ['Max'],
         minimum: ['Min'],
-        datesRanges: ['Interval', 6, 6],
+        datesRanges: ['Interval'],
         maximumIdeal: ['MaxIdeal'],
-        minimumIdeal: ['MinIdeal'],
-        products: {
-          dataGet: [
-            {
-              productoes: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        devices: {
-          dataGet: [
-            {
-              devices: [{
-                id: '',
-                name: ''
-              }]
-            }],
-          error: ''
-        },
-        paths: {
-          dataGet: [
-            {
-              rutas: [{
-                start_date: '',
-                end_date: ''
-              }]
-            }],
-          error: ''
-        }
+        minimumIdeal: ['MinIdeal']
       }
     },
     mounted() {
