@@ -28,8 +28,7 @@
         minimum: ['Min'],
         datesRanges: ['Interval'],
         maximumIdeal: ['MaxIdeal'],
-        minimumIdeal: ['MinIdeal'],
-        regionsArrive: [{}]
+        minimumIdeal: ['MinIdeal']
       }
     },
     methods: {
@@ -62,6 +61,7 @@
           this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
           console.log(lista[i].start_date)
           var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), class: regionColor }
+          console.log(region)
           regions.push(region)
         }
         return regions
@@ -77,7 +77,7 @@
       }
       console.log(this.get_random_color())
       console.log(this.getPeriodRegions(json))
-      this.generateClassCss('.c3-region.regionX', 'fill: ' + this.get_random_color() + ';')
+      //  this.generateClassCss('.c3-region.regionX', 'fill: ' + this.get_random_color() + ';')
 
       const options = {
         data: {
