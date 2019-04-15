@@ -116,7 +116,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.idBodega)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -299,8 +299,9 @@
         api.getGeneral(url, this.cities)
       },
       deleteOne(key) {
-        var elementDeleted = this.stores.dataGet[0].bodegas.splice(key, 1)
-        var id = elementDeleted[0].id
+        this.dataPostDel = this.store.dataGet[key]
+        this.store.dataGet.splice(key, 1)
+        var id = this.dataPostDel.idBodega
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save (id) {
@@ -316,17 +317,17 @@
         }
       },
       exportExcel() {
-        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
+        var rep = JSON.parse(JSON.stringify(this.store.dataGet))
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
+        var rep = JSON.parse(JSON.stringify(this.store.dataGet))
         var columns = [
-          {title: 'ID', dataKey: 'id'},
-          { title: 'Nombre', dataKey: 'name' },
-          { title: 'Zona', dataKey: 'zoneName' },
-          { title: 'Provincia', dataKey: 'provinceName' },
-          { title: 'Ciudad', dataKey: 'cityName' }
+          {title: 'ID', dataKey: 'idBodega'},
+          { title: 'Nombre', dataKey: 'nameBodega' },
+          { title: 'Zona', dataKey: 'nameZona' },
+          { title: 'Provincia', dataKey: 'nameProvincia' },
+          { title: 'Ciudad', dataKey: 'nameCiudad' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }
