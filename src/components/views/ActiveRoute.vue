@@ -1,18 +1,20 @@
 <template>
   <section class="content">
-    <!--<select v-model="selectedAlert" v-on:change="">
+    <select v-model="rutas.selectedRuta" v-on:change="showAlerts"  class="FormatSelect">
       <option>Todas</option>
-      <option v-for="(item, index) in alerts.dataGet[0].alertas" :key="index">{{item.type_alert}}</option>
-    </select>-->
-    <div class="row center-block">
-      <!--<h1 class="text-center">Tasks</h1>-->
-      <ul class="timeline">
+      <option v-for="(item, index) in rutas.dataGet" :key="index" v-on:click='isOpen = !isOpen'>Ruta{{item.id}}</option>
+    </select>
+
+    <div class="row center-block" v-show="isOpen && alertitas.length!=0"><br />
+      <ul class="timeline" v-for="dato in alertitas">
+
         <!-- timeline time label -->
         <li class="time-label">
-          <span class="bg-green">{{today}}</span>
+          <span class="bg-green">{{dato.dtm}}</span>
         </li>
-        <!-- timeline item -->
-        <li v-for="line in timeline">
+        <!-- timeline item label-->
+        <!--<li v-for="line in timeline">-->
+        <li v-for="line in dato.timeline">
           <!-- timeline icon -->
           <i v-bind:class="'fa ' + line.icon + ' bg-' + line.color"></i>
           <div class="timeline-item">
@@ -20,9 +22,6 @@
             <h3 class="timeline-header">{{line.title}}</h3>
             <div class="timeline-body" v-if="line.body" v-html="line.body">
             </div>
-            <!--<div class="timeline-footer" v-if="line.buttons">
-            <a v-for="btn in line.buttons" v-bind:class="'btn btn-' + btn.type + ' btn-xs'" v-bind:href="btn.href" v-bind:target="btn.target">{{btn.message}}</a>
-          </div>-->
           </div>
         </li>
         <!-- END timeline item -->
@@ -32,63 +31,57 @@
 </template>
 <script>
   import moment from 'moment'
-  import { timeline } from '../../demo'
+  import { printAlerts } from '../../demo'
   import api from '@/api/goApi.js'
-
-  //  export const timeline = []
 
   export default {
     name: 'Tasks',
     computed: {
       today () {
         return moment().format('MMM Do YY')
-      },
-      timeline () {
-        return timeline
+      }
+      //  alertitas() {
+      //  return alertitas
+      //  }
+    },
+    data() {
+      return {
+        isOpen: false,
+        endPointRutasNotEnd: '/getRutasNotEnd',
+        endPointAlertasRuta: '/getAlertasRuta?rutaid=',
+        apiBackAlerts: '/alertas',
+        selectedAlert: '',
+        alertitas: [],
+        alerts: {
+          dataGet: [],
+          error: ''
+        },
+        rutas: {
+          error: '',
+          dataGet: [],
+          selectedRuta: ''
+        },
+        alertas: {
+          error: '',
+          dataGet: [],
+          selectedAlerta: ''
+        }
       }
     },
     mounted() {
-      api.getAll(this.apiBackAlerts, this.alerts)
+      this.getRutasNotEnd()
     },
     methods: {
-      presentaralertas(id) {
-        //  demo.printAlertas(id)
-      }
-    },
-    //  console.log('heyyyy demo')
-    //  setTimeout(e => {
-    //    //  alerts.dataGet[0].alertas.forEach(function (k, index) {
-    //    for (var i = 0; i < this.alerts.dataGet[0].alertas.length; i++) {
-    //      console.log(this.alerts.dataGet[0].alertas[i]._links.device.href)
-    //      var timeli = {
-    //        icon: 'icofont-map-pins',
-    //        color: 'blue',
-    //        title: this.alerts.dataGet[0].alertas[i].type_alert,
-    //        time: moment('20150620', 'MMM Do YY').fromNow(),
-    //        body: this.alerts.dataGet[0].alertas[i].mensaje
-    //      }
-    //      timeline.push(timeli)
-    //    }
-    //  }, 100)
-    //  },
-    data() {
-      return {
-        apiBackAlerts: '/alertas',
-        selectedAlert: '',
-        alerts: {
-          dataGet: [
-            {
-              alertas: [{
-                id: 0,
-                type_alert: '',
-                mensaje: '',
-                _links: {
-                  device: { href: '' }
-                }
-              }]
-            }],
-          error: ''
-        }
+      async showAlerts() {
+        this.alertitas = []
+        this.isOpen = false
+        var n = this.rutas.selectedRuta
+        printAlerts(n.slice(4), this.alertitas)
+        this.isOpen = true
+      },
+      async getRutasNotEnd() {
+        await api.getAll(this.endPointRutasNotEnd, this.rutas)
+        //  await this.sleep()
       }
     }
   }

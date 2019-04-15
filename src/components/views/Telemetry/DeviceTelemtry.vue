@@ -1,45 +1,47 @@
 <template>
-    <div id ='main'>
-      <select v-model="devices.selectedDeviceName" v-on:change="getGetData">
+  <section class="content">
+    <div id='main'>
+      <select v-model="devices.selectedDeviceName" v-on:change="getGetData" class="FormatSelectTelem">
         <option v-for="(item, index) in devices.lastDevices" :key="index">{{item.name}}</option>
       </select>
-      <button v-on:click="getGetData">Reload</button>
+      <button class="btn btn-default" v-on:click="getGetData">Reload</button>
       <div class='span12'>
-      <div class='box'>
-      <div class='row center-block'>
-          <div class='col-md-12'>
-            <div class='box-body'>
-              <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
-                <div class='row'>
-                  <div class='col-sm-12 table-responsive'>
-                    <table aria-describedby='Table_of_elements' role='grid' id='table_deviceTelemetry' class='table table-bordered table-striped dataTable'>
-                      <thead>
-                        <tr role='row'>
-                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
-                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Telemetria</th>
-                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Valor</th>
-                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ubicacion</th>
-                          <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
+        <div class='box'>
+          <div class='row center-block'>
+            <div class='col-md-12'>
+              <div class='box-body'>
+                <div class='dataTables_wrapper form-inline dt-bootstrap' id='example1_wrapper'>
+                  <div class='row'>
+                    <div class='col-sm-12 table-responsive'>
+                      <table aria-describedby='Table_of_elements' role='grid' id='table_deviceTelemetry' class='table table-bordered table-striped dataTable'>
+                        <thead>
+                          <tr role='row'>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Nombre</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Telemetria</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Valor</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Ubicacion</th>
+                            <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
+                          </tr>
+                        </thead>
+                        <tr role='row' v-for="data1, index1 in trackings.t">
+                          <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
+                          <td class="TextFieldC">{{telemetries.t[index1].name}}</td>
+                          <td class="TextFieldC">{{telemetries.t[index1].value}}</td>
+                          <td class="TextFieldC">{{data1.location}}</td>
+                          <td class="TextFieldC">{{telemetries.t[index1].dtm}}</td>
                         </tr>
-                      </thead>
-                      <tr role='row' v-for="data1, index1 in trackings.t">
-                            <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
-                            <td class="TextFieldC">{{telemetries.t[index1].name}}</td>
-                            <td class="TextFieldC">{{telemetries.t[index1].value}}</td>
-                            <td class="TextFieldC">{{data1.location}}</td>
-                            <td class="TextFieldC">{{telemetries.t[index1].dtm}}</td>           
-                      </tr>
-                    </table>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
+
             </div>
-         
           </div>
         </div>
       </div>
-      </div>
     </div>
+  </section>
 </template>
 <<script>
   import api from '@/api/goApi.js'

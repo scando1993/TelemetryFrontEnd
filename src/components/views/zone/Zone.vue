@@ -237,7 +237,7 @@
       },
       exportExcel() {
         // var rep = this.dataGet
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var rep = JSON.parse(JSON.stringify(this.zone.dataGet[0].zonas))
         var cad = ''
         rep.forEach(element => {
           element.provincias.forEach(e => {
@@ -250,19 +250,19 @@
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.dataGet))
+        var rep = JSON.parse(JSON.stringify(this.zone.dataGet[0].zonas))
         var cad = ''
-        rep.forEach(element => {
-          element.provincias.forEach(e => {
+        rep.forEach(function (k, index) {
+          this.prov[index].dataGet[0].provincias.forEach(e => {
             cad = cad + e.name + ', '
           })
-          element.provincias = cad
+          k._links = cad
           cad = ''
         })
         var columns = [
           { title: 'ID', dataKey: 'id' },
           { title: 'Nombre', dataKey: 'name' },
-          { title: 'Provincias asociadas', dataKey: 'provincias' }
+          { title: 'Provincias asociadas', dataKey: '_links' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }

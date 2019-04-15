@@ -1,12 +1,6 @@
 <template>
   <ul class="sidebar-menu">
     <li class="header">DASHBOARD</li>
-    <router-link tag="li" class="pageLink" to="/path">
-      <a>
-        <i class="fa fa-road"></i>
-        <span class="page">Rutas</span>
-      </a>
-    </router-link>
     <router-link tag="li" class="pageLink" to="/routes">
       <a>
         <i class="fa fa-tasks"></i>
@@ -26,6 +20,12 @@
       </a>
     </router-link>
     <li class="header">ADQUISICIÓN DE DATOS</li>
+    <router-link tag="li" class="pageLink" to="/path">
+      <a>
+        <i class="fa fa-road"></i>
+        <span class="page">Rutas</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/zone">
       <a>
         <i class="fa fa-building"></i>

@@ -16,12 +16,12 @@
         <ul id="checkboxPath" class="GroupCheckbox">
           <li v-for="datoL, indexU in pathsActive" class="col-sm-12 controls">
             <input type="radio" :value="datoL.id" :id="datoL.id" v-model="pickedAll" v-on:click="loadDataRoute(datoL.id)">
-            <label>Ruta{{datoL.id}} con Device:  {{datoL.device.name}}</label>
+            <label>Ruta{{datoL.id}} con Device:  {{datoL.device.name}} {{showing}}</label>
           </li>
         </ul>
       </div>
       <!--Graph View-->
-      <componentAll v-if="pickedAll!=''" :showing="showing" :titleGraph="titleGraph" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="RouteProductObj.temp_max" :min="RouteProductObj.temp_min" :maxIdeal="RouteProductObj.temp_max_deal" :minIdeal="RouteProductObj.temp_min_ideal"></componentAll>
+      <componentAll v-if="showing" :showing="showing" :titleGraph="titleGraph" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="RouteProductObj.temp_max" :min="RouteProductObj.temp_min" :maxIdeal="RouteProductObj.temp_max_ideal" :minIdeal="RouteProductObj.temp_min_ideal"></componentAll>
 
     </div>
 
@@ -79,7 +79,7 @@
         RouteProductObj: {}, // All: Objeto Producto para la ruta seleccionada
         ProductsTelem: [{}], // contiene el json del API
         DeviceTelem: [{}], // json del API
-        RoutesAll: [{ dataGet: [] }],
+        RoutesAll: [{}],
         AllProduct: [{}], // Todas las rutas de un producto
         AllDevice: [{}], // Todas las rutas de un device
         listLines: [],
@@ -111,10 +111,8 @@
         this.showing = false
         var pathSelect = api.search(this.RoutesAll.dataGet, 'id', id)
         this.RouteProductObj = pathSelect.producto // object
-        console.log(this.RouteProductObj)
         var temperature = ['Temperatura']
         var listTime = ['date']
-        console.log(pathSelect.device.telemetrias)
         pathSelect.device.telemetrias.forEach(function (k, index) {
           temperature.push(k.value)
           listTime.push(new Date(k.dtm)) // .toISOString()
@@ -125,12 +123,13 @@
         this.showing = true
       },
       //  Método para Obtener Productos, devices de Rutas Activas
-      async getRoutesActive() {
+      getRoutesActive(listAct) {
         console.log('Obteniendo dispos activos...')
         var activePath = []
         var device = []
         var product = []
-        await this.RoutesAll.dataGet.forEach(function (k, index) {
+        console.log(listAct)
+        listAct.forEach(function (k, index) {
           if (k.status === 'Activo' || k.status === 'No efectiva' || k.status === 'No ideal') {
             activePath.push(k)
             device.push(k.device)
@@ -234,12 +233,15 @@
     beforeMount() {
       api.getAll(this.apiBackGetProduct, this.ProductsTelem)
       api.getAll(this.apiBackGetDevice, this.DeviceTelem)
+      api.getAll(this.apiBackGetRoutes, this.RoutesAll)
     },
     mounted() {
-      api.getAll(this.apiBackGetRoutes, this.RoutesAll)
       setTimeout(e => {
-        this.getRoutesActive()
-      }, 500)
+        api.getAll(this.apiBackGetRoutes, this.RoutesAll)
+        console.log(this.RoutesAll.dataGet)
+        this.getRoutesActive(this.RoutesAll.dataGet)
+        this.showing = false
+      }, 1500)
     }
 }</script>
 <style>

@@ -111,7 +111,7 @@ const routes = [
       }, {
         path: 'activeRoutes',
         component: ActiveRouteView,
-        name: 'Actividad Rutas'
+        name: 'Alertas de Rutas Activas'
       }, {
         path: 'devices',
         component: DeviceView,

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <label>Look:{{pickedAll}}-{{min}}-{{max}}</label>
+    <label>Look:{{pickedAll}}-{{min}}-{{max}}-{{maxIdeal}}-{{showing}}</label>
       <div v-if="showing">
         <vue-c3 :handler="handler"></vue-c3>
       </div><br />
@@ -13,15 +13,13 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  //  import api from '@/api/goApi.js'
+  import json from './json1.json'
+  //  import VueD3 as d3 from "d3"
   export default {
     name: 'componentAll',
     props: ['pickedAll', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
     components: {
       VueC3
-    },
-    beforeMount() {
-      //  api.getAll(this.apiBack, this.paths)
     },
     data() {
       return {
@@ -30,10 +28,46 @@
         minimum: ['Min'],
         datesRanges: ['Interval'],
         maximumIdeal: ['MaxIdeal'],
-        minimumIdeal: ['MinIdeal']
+        minimumIdeal: ['MinIdeal'],
+        regionsArrive: [{}]
       }
     },
+    methods: {
+      generateClassCss(name, rules) {
+        var style = document.createElement('style')
+        style.type = 'text/css'
+        document.getElementsByTagName('head')[0].appendChild(style)
+        if (!(style.sheet || {}).insertRule) {
+          (style.styleSheet || style.sheet).addRule(name, rules)
+        } else {
+          style.sheet.insertRule(name + '{' + rules + '}', 0)
+        }
+      },
+      get_random_color() {
+        // generate hex color
+        var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
+        return randomColor
+      },
+      get_random_colorRGB() {
+        //  generate rgb color
+        var r = function () { return Math.floor(Math.random() * 256) }
+        console.log('rgb(' + r() + ',' + r() + ',' + r() + ')')
+        return 'rgb(' + r() + ',' + r() + ',' + r() + ')'
+      },
+      getPeriodRegions(lista) {
+        var regions = []
+        for (var i = 0; i < lista.length; i++) {
+          var regionColor = 'regionX' + i
+          var regionClass = '.c3-region.' + regionColor
+          this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
+          console.log(lista[i].start_date)
+          var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), class: regionColor }
+          regions.push(region)
+        }
+        return regions
+      }    },
     mounted() {
+      console.log(json)
       // to init the graph call:
       for (var i = 0, n = this.timeL.length; i < n; i++) {
         this.maximum.push(this.max)
@@ -41,6 +75,10 @@
         this.maximumIdeal.push(this.maxIdeal)
         this.minimumIdeal.push(this.minIdeal)
       }
+      console.log(this.get_random_color())
+      console.log(this.getPeriodRegions(json))
+      this.generateClassCss('.c3-region.regionX', 'fill: ' + this.get_random_color() + ';')
+
       const options = {
         data: {
           x: 'date',
@@ -50,11 +88,15 @@
             Temperatura: 'y2'
           }
         },
-        regions: [
-          {
-            start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
-          }
-        ],
+        //  regions: [
+        //  {
+        //    start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
+        //  },
+        //  {
+        //    start: new Date('2019-03-06T12:21:41'), end: new Date('2019-06-30T12:21:41'), class: 'regionX2'
+        //  }
+        //  ],
+        regions: this.getPeriodRegions(json),
         title: {
           text: this.titleGraph
         },
@@ -76,9 +118,10 @@
 </script>
 <style>
   .c3-region.regionX {
-    fill: red;
   }
-
+  .c3-chart{
+    fill: green;
+  }
   .c3-region.regionX2 {
     fill: green;
   }

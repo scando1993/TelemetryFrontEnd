@@ -1,64 +1,81 @@
 import moment from 'moment'
 import api from '@/api/goApi.js'
 
-var apiBackAlerts = '/getAlertasRuta?rutaid=0'
-var alerts = { dataGet: [] }
-export const timeline = []
-//  print(id){}
-setTimeout(e => {
-  alerts = api.getAll(apiBackAlerts, alerts)
+var apiBackAlerts = '/getAlertasOrder'
+var apiAlertsRuta = '/getAlertasRuta?rutaid='
+var alerts = [{}]
+
+//  export var alertitas = []
+export function printAlerts(id, alertitas) {
+  //  var alertitas = []
+  alerts = [{}]
+  if (id === 's') {
+    alerts = api.getAll(apiBackAlerts, alerts)
+  } else {
+    alerts = api.getAll(apiAlertsRuta + id, alerts)
+  }
   setTimeout(e => {
-    console.log('heyyyy demoo')
-    console.log(alerts.dataGet)
-    console.log('heyyyy demoo')
     alerts.dataGet.forEach(function (k, index) {
-    //  for (var i = 0; i < alerts.dataGet[0].alertas.length; i++) {
-    //  new Date(path.start_date).format('MMMM Do YYYY, h:mm:ss a'),
-      //  console.log(k._links.device.href)
-      //  var url = k._links.device.href
-      //  var path = {}
-      //  path = api.getGeneral(url, path)
-      var hour = k.dtm.split('T')[0] + ' ' + k.dtm.split('T')[1]
-      var timeli = { title: '' }
-      setTimeout(e => {
-        if (k.typeAlert === 'inicio_ruta') {
+      var group = {
+        dtm: k.Dtm.split('T')[0],
+        timeline: []
+      }
+      k.Alertas.forEach(function (m, index) {
+        var hour = m.dtm.split('T')[0] + ' ' + m.dtm.split('T')[1]
+        var timeli = { title: '' }
+        console.log(hour)
+        if (m.typeAlert === 'inicio_ruta') {
           timeli = {
             icon: 'icofont-map-pins',
             color: 'blue',
             title: 'Inicio de ruta',
             time: moment(hour, 'YYYY-MM-DD HH:mm').format('MMMM Do YYYY, h:mm:ss a'),
-            body: k.mensaje
+            body: m.mensaje
           }
-        } else if (k.typeAlert === 'llego_ruta') {
+        } else if (m.typeAlert === 'llego_ruta') {
           timeli = {
             icon: 'icofont-industries-4',
             color: 'yellow',
             title: 'Llego a ...',
             time: moment(hour, 'YYYY-MM-DD HH:mm').format('MMMM Do YYYY, h:mm:ss a'),
-            body: k.mensaje
+            body: m.mensaje
           }
-        } else if (k.typeAlert === 'fin_ruta') {
+        } else if (m.typeAlert === 'cambio_zona') {
+          timeli = {
+            icon: 'icofont-industries-4',
+            color: 'orange',
+            title: 'Cambio de zona',
+            time: moment(hour, 'YYYY-MM-DD HH:mm').format('MMMM Do YYYY, h:mm:ss a'),
+            body: m.mensaje
+          }
+        } else if (m.typeAlert === 'fin_ruta') {
           timeli = {
             icon: 'icofont-pin',
             color: 'purple',
             title: 'Llego a ...',
             time: moment(hour, 'YYYY-MM-DD HH:mm').format('MMMM Do YYYY, h:mm:ss a'),
-            body: k.mensaje
+            body: m.mensaje
           }
-        } else if (k.typeAlert === 'temperatura_limite_maximas') {
+        } else if (m.typeAlert === 'temperatura_limite_maximas') {
           timeli = {
             icon: 'icofont-eye-alt',
             color: 'red',
             title: 'ALERTA!',
             time: moment(hour, 'YYYY-MM-DD HH:mm').format('MMMM Do YYYY, h:mm:ss a'),
-            body: k.mensaje
+            body: m.mensaje
           }
         }
-        if (timeli.title !== '') { timeline.push(timeli) }
-      }, 100)
+        if (timeli.title !== '') {
+          group.timeline.push(timeli)
+        }
+      })
+      console.log('grupo')
+      alertitas.push(group)
+      console.log(alertitas)
     })
   }, 500)
-}, 500)
+  return alertitas
+}
 
 //  export const timeline = [{
 //  icon: 'icofont-map-pins',

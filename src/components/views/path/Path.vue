@@ -46,6 +46,7 @@
                     <table aria-describedby='Table_of_elements' role='grid' id='table_path' class='table table-bordered table-striped dataTable'>
                       <thead>
                         <tr role='row'>
+                          <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 15px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc TextCenterTH'>ID</th>
                           <th aria-label='Boxcar: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Furgón</th>
                           <th aria-label='Device: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Dispositivo</th>
                           <th aria-label='Product: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Producto</th>
@@ -59,16 +60,18 @@
                         </tr>
                       </thead>
                       <tbody id='fields' v-if="full">
-                        <tr class='even' role='row' v-for='dato,index in paths.dataGet[0].rutas '>
-                          <td class="TextFieldC">{{box[index]}}</td>
-                          <td class="TextFieldC">{{devi[index]}}</td>
-                          <td class="TextFieldC">{{prod[index]}}</td>
-                          <td class="TextFieldC">{{dato.start_date.split('T')[0]}}</td>
+                        <!--<tr class='even' role='row' v-for='dato,index in paths.dataGet[0].rutas '>-->
+                        <tr class='even' role='row' v-for='dato,index in path.dataGet'>
+                          <td class='sorting_1 TextFieldC'>{{dato.idRuta}}</td>
+                          <td class="TextFieldC">{{dato.nameFurgon}}</td><!--<td class="TextFieldC">{{box[index]}}</td>-->
+                          <td class="TextFieldC">{{dato.nameDevice}}</td><!--<td class="TextFieldC">{{devi[index]}}</td>-->
+                          <td class="TextFieldC">{{dato.nameProducto}}</td><!--<td class="TextFieldC">{{prod[index]}}</td>-->
+                          <td class="TextFieldC">{{dato.start_date.split('T')[0]}}</td><!--<td class="TextFieldC">{{dato.start_date.split('T')[0]}}</td>-->
                           <td class="TextFieldC">{{dato.start_date.split('T')[1]}}</td>
                           <td class="TextFieldC">{{dato.end_date.split('T')[0]}}</td>
                           <td class="TextFieldC">{{dato.end_date.split('T')[1]}}</td>
-                          <td class="TextFieldC">{{localStart[index]}}</td>
-                          <td class="TextFieldC">{{localEnd[index]}}</td>
+                          <td class="TextFieldC">{{dato.nameLocalInicio}}</td><!--<td class="TextFieldC">{{localStart[index]}}</td>-->
+                          <td class="TextFieldC">{{dato.nameLocalFin}}</td><!--<td class="TextFieldC">{{localEnd[index]}}</td>-->
                           <td class='JustifyButtonTD'>
                             <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Eliminar' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
                               <i class='fa fa-trash-o'></i>
@@ -156,7 +159,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/path">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id, dato.status)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.idRuta, dato.status)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -191,7 +194,8 @@
   export default {
     data() {
       return {
-        inicialDelay: 2100,
+        inicialDelay: 2500,
+        apiBackPath: '/getAllRutas',
         apiBack: '/rutas',
         apiBackBoxcar: '/furgons',
         apiBackDevice: '/devices',
@@ -204,6 +208,7 @@
         selectedEndLocal: '',
         dataRespond: [],
         full: false,
+        path: [],
         box: [],
         devi: [],
         prod: [],
@@ -274,14 +279,17 @@
     },
     name: 'Rutas',
     beforeMount() {
+      api.getAll(this.apiBackPath, this.path)
       api.getAll(this.apiBack, this.paths)
-      setTimeout(e => {
-        this.loadData()
-      }, 1000)
+      //  setTimeout(e => {
+      //    this.loadData()
+      //  }, 1000)
     },
     mounted() {
       setTimeout(e => {
-        if (this.prod.length !== 0) { this.full = true }
+        api.getAll(this.apiBackPath, this.path)
+        console.log(this.path.dataGet)
+        if (this.path.dataGet.length !== 0) { this.full = true }
         $('#table_path').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackBoxcar, this.boxcars)
@@ -293,49 +301,49 @@
       refresh() {
         location.reload()
       },
-      loadData() {
-        var boxcar = []
-        var product = []
-        var device = []
-        var locStart = []
-        var locEnd = []
-        this.paths.dataGet[0].rutas.forEach(function (k, index) {
-          var urlBoxcar = k._links.furgon.href
-          var urlProduct = k._links.producto.href
-          var urlDevice = k._links.device.href
-          var urlLocalSt = k._links.localInicio.href
-          var urlLocalFn = k._links.localFin.href
-          setTimeout(e => {
-            var varBoxcar = {}
-            var varProduct = {}
-            var varDevice = {}
-            var varLocalSt = {}
-            var varLocalFn = {}
-            api.getGeneral(urlBoxcar, varBoxcar)
-            api.getGeneral(urlProduct, varProduct)
-            api.getGeneral(urlDevice, varDevice)
-            api.getGeneral(urlLocalSt, varLocalSt)
-            api.getGeneral(urlLocalFn, varLocalFn)
-            setTimeout(e => {
-              console.log(varBoxcar)
-              console.log(varProduct)
-              console.log(varDevice)
-              console.log(varLocalSt)
-              console.log(varLocalFn)
-              boxcar.push(varBoxcar.dataGet[2])
-              product.push(varProduct.dataGet[5])
-              device.push(varDevice.dataGet[2])
-              locStart.push(varLocalSt.dataGet[4])
-              locEnd.push(varLocalFn.dataGet[4])
-            }, 500)
-          }, 500)
-        })
-        this.box = boxcar
-        this.prod = product
-        this.devi = device
-        this.localStart = locStart
-        this.localEnd = locEnd
-      },
+      //  loadData() {
+      //  var boxcar = []
+      //  var product = []
+      //  var device = []
+      //  var locStart = []
+      //  var locEnd = []
+      //  this.paths.dataGet[0].rutas.forEach(function (k, index) {
+      //    var urlBoxcar = k._links.furgon.href
+      //    var urlProduct = k._links.producto.href
+      //    var urlDevice = k._links.device.href
+      //    var urlLocalSt = k._links.localInicio.href
+      //    var urlLocalFn = k._links.localFin.href
+      //    setTimeout(e => {
+      //      var varBoxcar = {}
+      //      var varProduct = {}
+      //      var varDevice = {}
+      //      var varLocalSt = {}
+      //      var varLocalFn = {}
+      //      api.getGeneral(urlBoxcar, varBoxcar)
+      //      api.getGeneral(urlProduct, varProduct)
+      //      api.getGeneral(urlDevice, varDevice)
+      //      api.getGeneral(urlLocalSt, varLocalSt)
+      //      api.getGeneral(urlLocalFn, varLocalFn)
+      //      setTimeout(e => {
+      //        console.log(varBoxcar)
+      //        console.log(varProduct)
+      //        console.log(varDevice)
+      //        console.log(varLocalSt)
+      //        console.log(varLocalFn)
+      //        boxcar.push(varBoxcar.dataGet[2])
+      //        product.push(varProduct.dataGet[5])
+      //        device.push(varDevice.dataGet[2])
+      //        locStart.push(varLocalSt.dataGet[4])
+      //        locEnd.push(varLocalFn.dataGet[4])
+      //      }, 500)
+      //    }, 500)
+      //  })
+      //  this.box = boxcar
+      //  this.prod = product
+      //  this.devi = device
+      //  this.localStart = locStart
+      //  this.localEnd = locEnd
+      //  },
       deleteOne(key) {
         var elementDeleted = this.paths.dataGet[0].rutas.splice(key, 1)
         var id = elementDeleted[0].id
@@ -379,20 +387,20 @@
         }
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        api.exportExcel(this.nameToExport, this.path.dataGet)
       },
       exportPDF() {
         var columns = [
-          { title: 'ID', dataKey: 'id' },
+          { title: 'ID', dataKey: 'idRuta' },
           { title: 'Número del furgón', dataKey: 'nameFurgon' },
           { title: 'Dispositivo', dataKey: 'nameDevice' },
-          { title: 'Producto', dataKey: 'nameProduct' },
-          { title: 'Fecha inicio', dataKey: 'startDate' },
-          { title: 'Fecha fin', dataKey: 'endDate' },
-          { title: 'Local Inicio', dataKey: 'nameStartLocal' },
-          { title: 'Local Fin', dataKey: 'nameEndLocal' }
+          { title: 'Producto', dataKey: 'nameProducto' },
+          { title: 'Fecha inicio', dataKey: 'start_date' },
+          { title: 'Fecha fin', dataKey: 'end_date' },
+          { title: 'Local Inicio', dataKey: 'nameLocalInicio' },
+          { title: 'Local Fin', dataKey: 'nameLocalFin' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.path.dataGet)
       }
     }
   }
