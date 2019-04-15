@@ -48,11 +48,11 @@
                           </tr>
                         </thead>
                         <tbody id='fields' v-if="full">
-                          <tr class='even' role='row' v-for='dato,index in stores.dataGet[0].bodegas '>
-                            <td class="TextFieldC">{{dato.name}}</td>
-                            <td class="TextFieldC">{{zon[index]}}</td>
-                            <td class="TextFieldC">{{prov[index]}}</td>
-                            <td class="TextFieldC">{{ciu[index]}}</td>
+                          <tr class='even' role='row' v-for='dato,index in store.dataGet '>
+                            <td class="TextFieldC">{{dato.nameBodega}}</td>
+                            <td class="TextFieldC">{{dato.nameZona}}</td>
+                            <td class="TextFieldC">{{dato.nameProvincia}}</td>
+                            <td class="TextFieldC">{{dato.nameCiudad}}</td>
                             <!--Start Buttom-->
                             <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
@@ -153,16 +153,18 @@
     //  components: { TableMenu },
     data() {
       return {
-        inicialDelay: 2500,
+        inicialDelay: 1500,
         apiBack: '/bodegas',
         apiBackZone: '/zonas',
         apiBackCity: '/ciudads',
+        apiBackGetStore: '/getBodegas',
         apiBackProvince: '/provincias',
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
         full: false,
         dataRespond: [],
+        store: [],
         page: '/store',
         nameToExport: 'Bodega',
         ciu: [],
@@ -213,12 +215,18 @@
       }
     },
     name: 'Store',
+    beforeMount() {
+      api.getAll(this.apiBackGetStore, this.store)
+    },
     mounted() {
       api.getAll(this.apiBack, this.stores)
+      //  setTimeout(e => {
+      //  this.loadData()
+      //  }, 1200)
       setTimeout(e => {
-        this.loadData()
-      }, 1200)
-      setTimeout(e => {
+        api.getAll(this.apiBackGetStore, this.store)
+        console.log(this.store.dataGet)
+        if (this.store.dataGet.length !== 0) { this.full = true }
         $('#table_store').DataTable()
       }, this.inicialDelay)
       api.getAll(this.apiBackZone, this.zones)

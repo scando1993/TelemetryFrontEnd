@@ -23,7 +23,7 @@
                             <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
                           </tr>
                         </thead>
-                        <tr role='row' v-for="data1, index1 in trackings.t">
+                        <tr role='row' v-for="data1, index1 in trackings.t" >
                           <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
                           <td class="TextFieldC">{{telemetries.t[index1].name}}</td>
                           <td class="TextFieldC">{{telemetries.t[index1].value}}</td>

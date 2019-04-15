@@ -13,12 +13,12 @@
         <span class="page">Alertas</span>
       </a>
     </router-link>
-    <!--<router-link tag="li" class="pageLink" to="/routesHistory">
+    <router-link tag="li" class="pageLink" to="/routesHistory">
       <a>
         <i class="fa fa-book"></i>
         <span class="page">Histórico de rutas</span>
       </a>
-    </router-link>-->
+    </router-link>
     <li class="header">ADQUISICIÓN DE DATOS</li>
     <router-link tag="li" class="pageLink" to="/path">
       <a>
