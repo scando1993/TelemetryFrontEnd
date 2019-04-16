@@ -290,7 +290,9 @@
         api.getAll(this.apiBackPath, this.path)
         console.log(this.path.dataGet)
         if (this.path.dataGet.length !== 0) { this.full = true }
-        $('#table_path').DataTable()
+        this.$nextTick(() => {
+          $('#table_path').DataTable()
+        })
       }, this.inicialDelay)
       api.getAll(this.apiBackBoxcar, this.boxcars)
       api.getAll(this.apiBackDevice, this.devices)
@@ -345,8 +347,10 @@
       //  this.localEnd = locEnd
       //  },
       deleteOne(key) {
-        var elementDeleted = this.paths.dataGet[0].rutas.splice(key, 1)
-        var id = elementDeleted[0].id
+        this.dataPostDel = this.path.dataGet[key]
+        console.log(this.dataPostDel)
+        this.path.dataGet.splice(key, 1)
+        var id = this.dataPostDel.idRuta
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(id, statusAnt) {

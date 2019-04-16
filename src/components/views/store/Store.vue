@@ -224,10 +224,12 @@
       //  this.loadData()
       //  }, 1200)
       setTimeout(e => {
-        api.getAll(this.apiBackGetStore, this.store)
+        //  api.getAll(this.apiBackGetStore, this.store)
         console.log(this.store.dataGet)
         if (this.store.dataGet.length !== 0) { this.full = true }
-        $('#table_store').DataTable()
+        this.$nextTick(() => {
+          $('#table_store').DataTable()
+        })
       }, this.inicialDelay)
       api.getAll(this.apiBackZone, this.zones)
     },

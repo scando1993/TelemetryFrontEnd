@@ -3,7 +3,7 @@
     <select v-model="routes.selectedRuta" v-on:change="showAlerts" class="FormatSelect">
       <option v-for="(item, index) in routes.dataGet" :key="index" v-on:click='isOpen = !isOpen'>Ruta{{item.id}}</option>
     </select>
-    <label>{{routes.selectedRuta}} - {{isOpen}}- {{alertitas.length}}</label>
+    <label>{{routes.selectedRuta}} - {{isOpen}}</label>
 
     <div class="row center-block" v-show="isOpen && alertitas.length!=0">
       <br />
@@ -32,20 +32,11 @@
   </section>
 </template>
 <script>
-  import moment from 'moment'
   import { printAlerts } from './past'
   import api from '@/api/goApi.js'
 
   export default {
     name: 'Tasks',
-    computed: {
-      today() {
-        return moment().format('MMM Do YY')
-      }
-      //  alertitas() {
-      //  return alertitas
-      //  }
-    },
     data() {
       return {
         isOpen: false,

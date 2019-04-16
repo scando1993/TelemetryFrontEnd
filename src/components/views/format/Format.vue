@@ -53,10 +53,10 @@
                         </tr>
                       </thead>
                       <tbody id="fields_boxcar" v-if="full">
-                        <tr class="even" role="row" v-for="dato,index in formats.dataGet[0].formatoes ">
-                          <td class="TextFieldC">{{dato.name}}</td>
+                        <tr class="even" role="row" v-for="dato,index in getFormat.dataGet">
+                          <td class="TextFieldC">{{dato.nameFormato}}</td>
                           <td class="TextFieldC">{{dato.code}}</td>
-                          <td class="TextFieldC">{{local[index]}}</td>
+                          <td class="TextFieldC">{{dato.nameLocal}}</td>
                           <td class="JustifyButtonTD">
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
@@ -106,7 +106,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/format">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.idFormato)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer-->
@@ -142,10 +142,12 @@
   export default {
     data() {
       return {
-        inicialDelay: 3000,
+        inicialDelay: 2100,
         apiBack: '/formatoes',
         apiBackLocals: '/localeses',
+        apiBackGetFormats: '/getFormatoes',
         selectedLocal: '',
+        getFormat: [],
         local: [],
         full: false,
         formats: {
@@ -177,13 +179,21 @@
       }
     },
     name: 'Formato',
+    beforeMount() {
+      api.getAll(this.apiBackGetFormats, this.getFormat)
+    },
     mounted() {
       api.getAll(this.apiBack, this.formats)
+      //  setTimeout(e => {
+      //  this.loadData()
+      //  }, 100)
       setTimeout(e => {
-        this.loadData()
-      }, 100)
-      setTimeout(e => {
-        $('#table_format').DataTable()
+        //  api.getAll(this.apiBackGetFormats, this.getFormat)
+        console.log(this.getFormat.dataGet)
+        if (this.getFormat.dataGet.length !== 0) { this.full = true }
+        this.$nextTick(() => {
+          $('#table_format').DataTable()
+        })
       }, this.inicialDelay)
       api.getAll(this.apiBackLocals, this.locals)
     },
@@ -206,8 +216,9 @@
         if (this.local !== 0) { this.full = true }
       },
       deleteOne(key) {
-        var elementDeleted = this.formats.dataGet[0].formatoes.splice(key, 1)
-        var id = elementDeleted[0].id
+        this.dataPostDel = this.getFormat.dataGet[key]
+        this.getFormat.dataGet.splice(key, 1)
+        var id = this.dataPostDel.idFormato
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(id) {
@@ -224,16 +235,16 @@
         }
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        api.exportExcel(this.nameToExport, this.getFormat.dataGet)
       },
       exportPDF() {
         var columns = [
-          { title: 'ID', dataKey: 'id' },
-          { title: 'Nombre', dataKey: 'name' },
+          { title: 'ID', dataKey: 'idFormato' },
+          { title: 'Nombre', dataKey: 'nameFormato' },
           { title: 'Código', dataKey: 'code' },
-          { title: 'Local', dataKey: 'localName' }
+          { title: 'Local', dataKey: 'nameLocal' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.getFormat.dataGet)
       }
     }
   }

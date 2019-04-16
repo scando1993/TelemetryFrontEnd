@@ -23,19 +23,20 @@
                             <th colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>DTM</th>
                           </tr>
                         </thead>
-                        <tr role='row' v-for="data1, index1 in trackings.t" >
-                          <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
-                          <td class="TextFieldC">{{telemetries.t[index1].name}}</td>
-                          <td class="TextFieldC">{{telemetries.t[index1].value}}</td>
-                          <td class="TextFieldC">{{data1.location}}</td>
-                          <td class="TextFieldC">{{telemetries.t[index1].dtm}}</td>
-                        </tr>
+                        <tbody id='fields'>
+                          <tr class='even' role='row' v-for="data1, index1 in trackings.t">
+                            <td class="TextFieldC">{{devices.selectedDevice.name}}</td>
+                            <td class="TextFieldC">{{telemetries.t[index1].name}}</td>
+                            <td class="TextFieldC">{{telemetries.t[index1].value}}</td>
+                            <td class="TextFieldC">{{data1.location}}</td>
+                            <td class="TextFieldC">{{telemetries.t[index1].dtm}}</td>
+                          </tr>
+                        </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -43,7 +44,7 @@
     </div>
   </section>
 </template>
-<<script>
+<script>
   import api from '@/api/goApi.js'
   export default {
     data() {
@@ -90,6 +91,11 @@
     },
     mounted() {
       this.getDevices()
+      setTimeout(e => {
+        this.$nextTick(() => {
+          $('#table_deviceTelemetry').DataTable()
+        })
+      }, 1000)
       // this.timer = setInterval(this.getUpdateData, 20000)
     },
     beforeDestroy() {
