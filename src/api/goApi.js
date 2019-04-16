@@ -177,6 +177,7 @@ export default {
         console.log(error)
         //  alert('Error')
       })
+    console.log('done')
   },
   delete(url, data) {
     console.log(url)
