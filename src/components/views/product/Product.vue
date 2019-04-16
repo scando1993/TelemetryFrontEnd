@@ -207,7 +207,7 @@
         }
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        api.exportExcel(this.nameToExport, this.products.dataGet[0].productoes)
       },
       exportPDF() {
         var columns = [
@@ -218,7 +218,7 @@
           { title: 'Temperatura máxima ideal', dataKey: 'temp_max_ideal' },
           { title: 'Temperatura mínima ideal', dataKey: 'temp_min_ideal' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.products.dataGet[0].productoes)
       }
     }
   }

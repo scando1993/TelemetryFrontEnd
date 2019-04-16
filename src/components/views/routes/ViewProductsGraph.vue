@@ -16,7 +16,7 @@
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentProducts',
-    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal'],
+    props: ['listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal', 'titleGraph'],
     components: {
       VueC3
     },
@@ -41,21 +41,31 @@
       }
       const options = {
         data: {
-          columns: [this.listTemp, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal]
+          x: 'date',
+          xFormat: '%Y-%m-%dT%H:%M:%S',
+          columns: [this.listDTMs, this.listTemp, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
+          axes: {
+            Temperatura: 'y2'
+          }
+        },
+        title: {
+          text: this.titleGraph
         },
         regions: [
-          { start: 2, end: 50 }
+          {
+            start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
+          }
         ],
         axis: {
           y2: {
             show: true
           },
           x: {
-            type: 'categorized',
+            type: 'timeseries',
             tick: {
-              format: '%Y-%m-%dT%H:%M:%S.%LZ'
+              format: '%Y-%m-%dT%H:%M:%S'
             },
-            categories: this.listDTMs,
+            //  categories: this.timeL,
             show: false
           }
         }

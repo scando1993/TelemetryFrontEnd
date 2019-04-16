@@ -101,6 +101,41 @@
       cancel() {
         this.$router.push(this.page)
       },
+      save4() {
+        this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
+        this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
+        console.log(this.dataPostDel.start_date)
+        console.log(this.dataPostDel.end_date)
+        console.log(this.getPath)
+        if (this.dataPostDel.start_date !== this.dataPostDel.end_date) {
+          var idLocIn = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedStartLocal).id
+          var idLocFn = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedEndLocal).id
+          var idProd = api.search(this.products.dataGet[0].productoes, 'name', this.selectedProduct).id
+          var idDevi = api.search(this.devices.dataGet[0].devices, 'name', this.selectedDevice).id
+          var idBoxc = api.search(this.boxcars.dataGet[0].furgons, 'name', this.selectedBoxcar).id
+          api.post(this.apiBackAlerts, this.$data)
+          var idAlert = this.dataRespond[0]
+          console.log(idAlert)
+          console.log('alertaaa!')
+          api.post(this.apiBack, this.$data)
+          var headIni = '/localeses/' + idLocIn
+          var headFin = '/localeses/' + idLocFn
+          var headProd = '/productoes/' + idProd
+          var headDevi = '/devices/' + idDevi
+          var headBoxc = '/furgons/' + idBoxc
+          var headAlert = '/rutas/' + this.dataRespond[0]
+          console.log(this.dataRespond[0])
+          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
+          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
+          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
+          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+          api.postWithHeader(this.apiBackAlerts + '/' + idAlert + '/ruta', headAlert)
+          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
+          setTimeout(e => {
+            this.$router.push(this.page)
+          }, 3000)
+        }
+      },
       async save() {
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
@@ -126,31 +161,36 @@
               var headBoxc = '/furgons/' + idBoxc
               var headAlert = '/rutas/' + this.dataRespond[0]
               console.log(this.dataRespond[0])
-              api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
               setTimeout(e => {
-                api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
+                api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
                 setTimeout(e => {
-                  api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
+                  api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
                   setTimeout(e => {
-                    api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+                    api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
                     setTimeout(e => {
-                      api.postWithHeader(this.apiBackAlerts + '/' + idAlert + '/ruta', headAlert)
-                    }, 100)
-                    setTimeout(e => {
-                      api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
-                      this.$router.push(this.page)
-                    }, 100)
-                  }, 100)
-                }, 100)
-              }, 100)
-            }, 1200)
-          }, 1200)
+                      api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
+                      setTimeout(e => {
+                        api.postWithHeader(this.apiBackAlerts + '/' + idAlert + '/ruta', headAlert)
+                      }, 100)
+                      setTimeout(e => {
+                        api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
+                        setTimeout(e => {
+                          this.$router.push(this.page)
+                        }, 300)
+                      }, 120)
+                    }, 120)
+                  }, 120)
+                }, 120)
+              }, 120)
+            }, 1100)
+          }, 1000)
         }
       }
     },
     data() {
       return {
         apiBack: '/rutas',
+        apiBackPath: '/getAllRutas',
         apiBackBoxcar: '/furgons',
         apiBackDevice: '/devices',
         apiBackProduct: '/productoes',
@@ -162,6 +202,7 @@
         selectedProduct: '',
         selectedStartLocal: '',
         selectedEndLocal: '',
+        getPath: [],
         box: [],
         devi: [],
         prod: [],
@@ -224,6 +265,7 @@
       }
     },
     mounted() {
+      api.getAll(this.apiBackPath, this.getPath)
       api.getAll(this.apiBackBoxcar, this.boxcars)
       api.getAll(this.apiBackDevice, this.devices)
       api.getAll(this.apiBackProduct, this.products)

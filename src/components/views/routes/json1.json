@@ -1,0 +1,17 @@
+[
+  {
+    "start_date": "2019-03-03T15:30:00",
+    "end_date": "2019-03-07T17:02:00",
+    "lugar": "bodegaL"
+  },
+  {
+    "start_date": "2019-03-08T15:30:00",
+    "end_date": "2019-03-25T17:02:00",
+    "lugar": "localNI"
+  },
+  {
+    "start_date": "2019-03-27T15:30:00",
+    "end_date": "2019-03-31T17:02:00",
+    "lugar": "bodegaRR"
+  }
+]

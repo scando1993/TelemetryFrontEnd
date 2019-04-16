@@ -48,11 +48,11 @@
                           </tr>
                         </thead>
                         <tbody id='fields' v-if="full">
-                          <tr class='even' role='row' v-for='dato,index in stores.dataGet[0].bodegas '>
-                            <td class="TextFieldC">{{dato.name}}</td>
-                            <td class="TextFieldC">{{zon[index]}}</td>
-                            <td class="TextFieldC">{{prov[index]}}</td>
-                            <td class="TextFieldC">{{ciu[index]}}</td>
+                          <tr class='even' role='row' v-for='dato,index in store.dataGet '>
+                            <td class="TextFieldC">{{dato.nameBodega}}</td>
+                            <td class="TextFieldC">{{dato.nameZona}}</td>
+                            <td class="TextFieldC">{{dato.nameProvincia}}</td>
+                            <td class="TextFieldC">{{dato.nameCiudad}}</td>
                             <!--Start Buttom-->
                             <td class='JustifyButtonTD'>
                               <a class='btn btn-circle btn-danger show-tooltip confirm hidden-xs' title='Delete' message='Are you sure to delete this device?' v-on:click='deleteOne(index)'>
@@ -116,7 +116,7 @@
                                     <div class="modal-footer">
                                       <router-link class="pageLink" to="/store">
                                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.idBodega)">Guardar</button>
                                       </router-link>
                                     </div>
                                     <!--end modal-footer-->
@@ -153,16 +153,18 @@
     //  components: { TableMenu },
     data() {
       return {
-        inicialDelay: 2500,
+        inicialDelay: 1500,
         apiBack: '/bodegas',
         apiBackZone: '/zonas',
         apiBackCity: '/ciudads',
+        apiBackGetStore: '/getBodegas',
         apiBackProvince: '/provincias',
         selectedZone: '',
         selectedProvince: '',
         selectedCity: '',
         full: false,
         dataRespond: [],
+        store: [],
         page: '/store',
         nameToExport: 'Bodega',
         ciu: [],
@@ -213,13 +215,21 @@
       }
     },
     name: 'Store',
+    beforeMount() {
+      api.getAll(this.apiBackGetStore, this.store)
+    },
     mounted() {
       api.getAll(this.apiBack, this.stores)
+      //  setTimeout(e => {
+      //  this.loadData()
+      //  }, 1200)
       setTimeout(e => {
-        this.loadData()
-      }, 1200)
-      setTimeout(e => {
-        $('#table_store').DataTable()
+        //  api.getAll(this.apiBackGetStore, this.store)
+        console.log(this.store.dataGet)
+        if (this.store.dataGet.length !== 0) { this.full = true }
+        this.$nextTick(() => {
+          $('#table_store').DataTable()
+        })
       }, this.inicialDelay)
       api.getAll(this.apiBackZone, this.zones)
     },
@@ -291,8 +301,9 @@
         api.getGeneral(url, this.cities)
       },
       deleteOne(key) {
-        var elementDeleted = this.stores.dataGet[0].bodegas.splice(key, 1)
-        var id = elementDeleted[0].id
+        this.dataPostDel = this.store.dataGet[key]
+        this.store.dataGet.splice(key, 1)
+        var id = this.dataPostDel.idBodega
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save (id) {
@@ -308,17 +319,17 @@
         }
       },
       exportExcel() {
-        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
+        var rep = JSON.parse(JSON.stringify(this.store.dataGet))
         api.exportExcel(this.nameToExport, rep)
       },
       exportPDF() {
-        var rep = JSON.parse(JSON.stringify(this.stores.dataGet[0].bodegas))
+        var rep = JSON.parse(JSON.stringify(this.store.dataGet))
         var columns = [
-          {title: 'ID', dataKey: 'id'},
-          { title: 'Nombre', dataKey: 'name' },
-          { title: 'Zona', dataKey: 'zoneName' },
-          { title: 'Provincia', dataKey: 'provinceName' },
-          { title: 'Ciudad', dataKey: 'cityName' }
+          {title: 'ID', dataKey: 'idBodega'},
+          { title: 'Nombre', dataKey: 'nameBodega' },
+          { title: 'Zona', dataKey: 'nameZona' },
+          { title: 'Provincia', dataKey: 'nameProvincia' },
+          { title: 'Ciudad', dataKey: 'nameCiudad' }
         ]
         api.exportPDF(this.nameToExport, 'La Favorita', columns, rep)
       }

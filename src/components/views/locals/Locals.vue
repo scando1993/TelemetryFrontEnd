@@ -55,15 +55,25 @@
                         </tr>
                       </thead>
                       <tbody v-if="full" >
-                        <tr class="even" role="row" v-for="dato,index in locals.dataGet[0].localeses ">
+                        <tr class="even" role="row" v-for="dato,index in local.dataGet">
                           <td class="TextFieldC">{{dato.numLoc}}</td>
+                          <td class="TextFieldC">{{dato.nameLocal}}</td>
+                          <td class="TextFieldC">{{dato.nameZona}}</td>
+                          <td class="TextFieldC">{{dato.nameProvincia}}</td>
+                          <td class="TextFieldC">{{dato.nameCiudad}}</td>
+                          <td class="TextFieldC">{{dato.family}}</td>
+                          <td class="TextFieldC">{{dato.length}}</td>
+                          <td class="TextFieldC">{{dato.latitude}}</td>
+
+                          <!--<td class="TextFieldC">{{dato.numLoc}}</td>
                           <td class="TextFieldC">{{dato.name}}</td>
                           <td class="TextFieldC">{{zon[index]}}</td>
                           <td class="TextFieldC">{{prov[index]}}</td>
                           <td class="TextFieldC">{{ciu[index]}}</td>
                           <td class="TextFieldC">{{dato.family}}</td>
                           <td class="TextFieldC">{{dato.length}}</td>
-                          <td class="TextFieldC">{{dato.latitude}}</td>
+                          <td class="TextFieldC">{{dato.latitude}}</td>-->
+
                           <td class="JustifyButtonTD" style="width: 150px;">
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" data-target="#modalConfig" role="button" title="Config">
                               <i class="fa fa-cog"></i>
@@ -82,7 +92,7 @@
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
                                       <div id="Locales" class="textAreaMac">
-                                        <textarea rows="10" v-model="text"></textarea>
+                                        <textarea rows="10" cols="65%" v-model="text"></textarea>
                                         <br>
                                         <text-reader @load="text = $event"></text-reader>
                                       </div>
@@ -93,7 +103,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/locals">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="sendMACs(dato.id)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="sendMACs(dato.idLocal)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--end modal-footer Config-->
@@ -137,12 +147,6 @@
                                         <label class="col-sm-4 control-label">Familia</label>
                                         <div class="col-sm-9 controls">
                                           <input type="text" class="form-control-modal" v-bind:placeholder="dato.family" v-model="dataPostDel.family" name="name" id="family" maxlength="50" value="">
-                                        </div>
-                                      </div>
-                                      <div class="form-group">
-                                        <label class="col-sm-4 control-label">MACs(separadas por comas)</label>
-                                        <div class="col-sm-9 controls">
-                                          <input type="text" class="form-control-modal" v-bind:placeholder="dato.macs" v-model="dataPostDel.macs" name="macs" id="macs" value="">
                                         </div>
                                       </div>
                                       <div class="form-group">
@@ -192,7 +196,7 @@
                                   <div class="modal-footer">
                                     <router-link class="pageLink" to="/locals">
                                       <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Cerrar</button>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.id)">Guardar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="save(dato.idLocal)">Guardar</button>
                                     </router-link>
                                   </div>
                                   <!--End Modal-Footer-->
@@ -239,6 +243,7 @@
       return {
         inicialDelay: 3000,
         apiBack: '/localeses',
+        apiBackGetLocals: '/getLocales',
         apiBackZone: '/zonas',
         apiBackCity: '/ciudads',
         apiBackProvince: '/provincias',
@@ -246,6 +251,7 @@
         selectedProvince: '',
         selectedCity: '',
         dataRespond: [],
+        local: [],
         full: false,
         text: '',
         ciu: [],
@@ -309,12 +315,16 @@
     beforeMount() {
       api.getAll(this.apiBack, this.locals)
       api.getAll(this.apiBackZone, this.zones)
-      setTimeout(e => {
-        this.loadData()
-      }, 1000)
+      api.getAll(this.apiBackGetLocals, this.local)
+      //  setTimeout(e => {
+      //  this.loadData()
+      //  }, 1000)
     },
     mounted() {
       setTimeout(e => {
+        api.getAll(this.apiBackGetLocals, this.local)
+        console.log(this.local.dataGet)
+        if (this.local.dataGet.length !== 0) { this.full = true }
         $('#table_locals').DataTable()
       }, this.inicialDelay)
     },
@@ -326,33 +336,33 @@
         api.post('saveMacLocales?localid=' + id, this.$data)
         console.log(this.text)
       },
-      async loadData() {
-        var ciud = []
-        var pro = []
-        var zona = []
-        this.locals.dataGet[0].localeses.forEach(function (k, index) {
-          var urlCity = k._links.ciudad.href
-          var city = {}
-          api.getGeneral(urlCity, city)
-          setTimeout(e => {
-            ciud.push(city.dataGet[1])
-            var provinc = {}
-            provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
-            setTimeout(e => {
-              var zone = {}
-              pro.push(provinc.dataGet[1])
-              zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
-              setTimeout(e => {
-                zona.push(zone.dataGet[1])
-              }, 300)
-            }, 300)
-          }, 320)
-        })
-        this.ciu = ciud
-        this.prov = pro
-        this.zon = zona
-        if (this.zon !== 0) { this.full = true }
-      },
+      //  async loadData() {
+      //  var ciud = []
+      //  var pro = []
+      //  var zona = []
+      //  this.locals.dataGet[0].localeses.forEach(function (k, index) {
+      //    var urlCity = k._links.ciudad.href
+      //    var city = {}
+      //    api.getGeneral(urlCity, city)
+      //    setTimeout(e => {
+      //      ciud.push(city.dataGet[1])
+      //      var provinc = {}
+      //      provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
+      //      setTimeout(e => {
+      //        var zone = {}
+      //        pro.push(provinc.dataGet[1])
+      //        zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
+      //        setTimeout(e => {
+      //          zona.push(zone.dataGet[1])
+      //        }, 300)
+      //      }, 300)
+      //    }, 320)
+      //  })
+      //  this.ciu = ciud
+      //  this.prov = pro
+      //  this.zon = zona
+      //  if (this.zon !== 0) { this.full = true }
+      //  },
       deleteOne(key) {
         var elementDeleted = this.locals.dataGet[0].localeses.splice(key, 1)
         var id = elementDeleted[0].id
@@ -367,8 +377,10 @@
         api.getGeneral(url, this.cities)
       },
       save(id) {
+        console.log(id)
         if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.family.trim() !== '') {
           var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
+          console.log(idCity)
           this.dataPostDel.name = this.dataPostDel.name.trim()
           this.dataPostDel.family = this.dataPostDel.family.trim()
           api.put(this.apiBack + '/' + id, this.$data)
@@ -380,21 +392,21 @@
         }
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.dataGet)
+        api.exportExcel(this.nameToExport, this.local.dataGet)
       },
       exportPDF() {
         var columns = [
-          { title: 'ID', dataKey: 'id' },
+          { title: 'ID', dataKey: 'idLocal' },
           { title: 'No.Local', dataKey: 'numLoc' },
-          { title: 'Nombre', dataKey: 'name' },
+          { title: 'Nombre', dataKey: 'nameLocal' },
           { title: 'Familia', dataKey: 'family' },
-          { title: 'Zona', dataKey: 'zoneName' },
-          { title: 'Provincia', dataKey: 'provinceName' },
-          { title: 'Ciudad', dataKey: 'cityName' },
+          { title: 'Zona', dataKey: 'nameZona' },
+          { title: 'Provincia', dataKey: 'nameProvincia' },
+          { title: 'Ciudad', dataKey: 'nameCiudad' },
           { title: 'Longitud', dataKey: 'length' },
           { title: 'Latitud', dataKey: 'latitude' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.locals.dataGet[0].localeses)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.local.dataGet)
       }
     }
   }

@@ -50,7 +50,7 @@
                         </thead>
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in devices.dataGet[0].devices'>
-                            <td class='sorting_1 TextFieldC'>{{dato.id}}</td>
+                            <td class='sorting_1 TextFieldC'>{{dato.uuid}}</td>
                             <td class="TextFieldC"><a v-bind:href="'#'+index+'s'" v-on:click="showMore(index)">{{dato.name}}</a></td>
                             <td class="TextFieldC">{{dato.family}}</td>
                             <td class="TextFieldC">{{dato.group["name"]}}</td>
@@ -85,9 +85,16 @@
                                     <div class="modal-body">
                                       <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
                                         <div class="form-group">
+                                          <label class="col-sm-3 col-lg-2 control-label">UUID</label>
+                                          <div class="col-sm-12 col-lg-15 controls">
+                                            <input type="text" required class="form-control-modal" name="uuid" v-bind:placeholder="dato.uuid" v-model="dataPostDel.uuid" id="uuid" maxlength="50" value="">
+                                            <br />
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
                                           <label class="col-sm-3 col-lg-2 control-label">Nombre</label>
                                           <div class="col-sm-12 col-lg-15 controls">
-                                            <input type="text" required class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
+                                            <input type="text" required class="form-control-modal" name="name" v-bind:placeholder="dato.name" v-model="dataPostDel.name" id="name" maxlength="50" value="">
                                             <br />
                                           </div>
                                         </div>
@@ -194,6 +201,7 @@
         dataGet: [], // debe dejarse como arreglo vacio, ahora unicamente como prueba
         dataPostDel: { // este es basicamente un JSON
           name: '',
+          uuid: '',
           family: '',
           description: ''
         }

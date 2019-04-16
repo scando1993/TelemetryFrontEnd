@@ -12,11 +12,16 @@
               <div class="box-content-create table-responsive">
                 <iframe name="hiddenFrame" class="hide"></iframe>
                 <form id="create-store" method="post" class="form-horizontal-create" target="hiddenFrame">
-
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">UUID</label>
+                    <div class="col-sm-9 col-lg-10 controls">
+                      <input type="text" class="form-control" required name="uuid" v-model="dataPostDel.uuid" id="uuid" maxlength="50" value="">
+                    </div>
+                  </div>
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Nombre</label>
                     <div class="col-sm-9 col-lg-10 controls">
-                      <input type="text" class="form-control" required name="name" v-model="dataPostDel.name" id="name_store" maxlength="50" value="">
+                      <input type="text" class="form-control" required name="name" v-model="dataPostDel.name" id="name" maxlength="50" value="">
                     </div>
                   </div>
                   <div class="form-group">
@@ -101,6 +106,7 @@
         dataRespond: [],
         dataPostDel: { // este es basicamente un JSON
           name: '',
+          uuid: '',
           family: '',
           description: 'Registrado'
         },

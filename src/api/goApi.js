@@ -168,6 +168,7 @@ export default {
   },
   postWithHeader(url, head) {
     console.log('header:...' + head)
+    console.log(apiUrlBase + url)
     axios.put(apiUrlBase + url, this.apiUrlBase + head, { headers: {'Content-Type': 'text/uri-list'} })
       .then(function (response) {
         console.log(response.data)
@@ -176,6 +177,7 @@ export default {
         console.log(error)
         //  alert('Error')
       })
+    console.log('done')
   },
   delete(url, data) {
     console.log(url)
