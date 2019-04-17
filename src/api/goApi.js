@@ -235,6 +235,17 @@ export default {
       }
     }
   },
+  searchById(myArray, value) {
+    console.log('searching...')
+    for (var i = 0; i < myArray.length; i++) {
+      console.log(myArray[i].id)
+      console.log(value)
+      if (myArray[i].id.toString() === value.toString()) {
+        console.log('igual')
+        return myArray[i]
+      }
+    }
+  },
   searchActive(show, tag) {
     if (show === true) {
       document.getElementById(tag).style.visibility = 'visible'

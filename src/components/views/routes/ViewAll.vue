@@ -23,6 +23,7 @@
     },
     data() {
       return {
+        showin: false,
         handler: new Vue(),
         maximum: ['Max'],
         minimum: ['Min'],

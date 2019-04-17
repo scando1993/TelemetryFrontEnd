@@ -43,10 +43,11 @@
                     <table aria-describedby="example1_info" role="grid" id="table_locals" class="table table-bordered table-striped dataTable">
                       <thead>
                         <tr role="row">
+                          <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">ID</th>
                           <th aria-label="No.Loc: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">No. Loc</th>
                           <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Nombre</th>
-                          <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Zona</th>
-                          <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Provincia</th>
+                          <th aria-label="Zone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Zona</th>
+                          <th aria-label="Province: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Provincia</th>
                           <th aria-label="City: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Ciudad</th>
                           <th aria-label="Family : activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Familia</th>
                           <th aria-label="Length: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting ToButtons">Longitud</th>
@@ -55,7 +56,8 @@
                         </tr>
                       </thead>
                       <tbody v-if="full" >
-                        <tr class="even" role="row" v-for="dato,index in local.dataGet">
+                        <tr class="even" role="row" v-for="dato,index in dataGet">
+                          <td class="TextFieldC">{{dato.idLocal}}</td>
                           <td class="TextFieldC">{{dato.numLoc}}</td>
                           <td class="TextFieldC">{{dato.nameLocal}}</td>
                           <td class="TextFieldC">{{dato.nameZona}}</td>
@@ -65,16 +67,7 @@
                           <td class="TextFieldC">{{dato.length}}</td>
                           <td class="TextFieldC">{{dato.latitude}}</td>
 
-                          <!--<td class="TextFieldC">{{dato.numLoc}}</td>
-                          <td class="TextFieldC">{{dato.name}}</td>
-                          <td class="TextFieldC">{{zon[index]}}</td>
-                          <td class="TextFieldC">{{prov[index]}}</td>
-                          <td class="TextFieldC">{{ciu[index]}}</td>
-                          <td class="TextFieldC">{{dato.family}}</td>
-                          <td class="TextFieldC">{{dato.length}}</td>
-                          <td class="TextFieldC">{{dato.latitude}}</td>-->
-
-                          <td class="JustifyButtonTD" style="width: 150px;">
+                          <td class="JustifyButtonTD" style="width: 150px;"><label>{{dato.idLocal}}-{{index}}</label>
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" data-target="#modalConfig" role="button" title="Añadir MACs">
                               <i class="fa fa-plus"></i>
                             </a>
@@ -85,7 +78,7 @@
                                   <!--modal header-->
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Añadir MACs</h4>
+                                    <h4 class="modal-title">Añadir MACs{{dato.idLocal}}{{index}}</h4>
                                   </div>
                                   <!--end modal-header-->
                                   <!--Modal-body-->
@@ -111,21 +104,20 @@
                               </div>
                             </div>
                             <!--end modal Config-->
-
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" data-target="#modalEdit" v-on:click='editOne(index)'>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" data-target="#modalEdit" >
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
                             <div v-bind:id="index+'s'" class="modal fade" id="modalEdit">
                               <div class="modal-dialog">
                                 <div class="modal-content">
-                                  <!--Modal header-->
+                                  <!--modal header-->
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Editar</h4>
+                                    <h4 class="modal-title">Editar{{dato.idLocal}}</h4>
                                   </div>
                                   <!--End Modal-Header-->
                                   <!--Modal-Body-->
@@ -213,8 +205,6 @@
               </div>
             </div>
             <!--End Box-body -->
-            <hr class="visible-xs-block">
-           
           </div>
           <!--End Box-->
         </div>
@@ -251,7 +241,7 @@
         selectedProvince: '',
         selectedCity: '',
         dataRespond: [],
-        local: [],
+        dataGet: [],
         full: false,
         text: '',
         ciu: [],
@@ -315,16 +305,13 @@
     beforeMount() {
       api.getAll(this.apiBack, this.locals)
       api.getAll(this.apiBackZone, this.zones)
-      api.getAll(this.apiBackGetLocals, this.local)
-      //  setTimeout(e => {
-      //  this.loadData()
-      //  }, 1000)
+      api.getAll(this.apiBackGetLocals, this.$data)
     },
     mounted() {
       setTimeout(e => {
-        api.getAll(this.apiBackGetLocals, this.local)
-        console.log(this.local.dataGet)
-        if (this.local.dataGet.length !== 0) { this.full = true }
+        api.getAll(this.apiBackGetLocals, this.$data)
+        console.log(this.dataGet)
+        if (this.dataGet.length !== 0) { this.full = true }
         this.$nextTick(() => {
           $('#table_locals').DataTable()
         })
@@ -340,36 +327,10 @@
         api.post('/saveMacLocales?localid=' + id, this.$data)
         console.log(this.text)
       },
-      //  async loadData() {
-      //  var ciud = []
-      //  var pro = []
-      //  var zona = []
-      //  this.locals.dataGet[0].localeses.forEach(function (k, index) {
-      //    var urlCity = k._links.ciudad.href
-      //    var city = {}
-      //    api.getGeneral(urlCity, city)
-      //    setTimeout(e => {
-      //      ciud.push(city.dataGet[1])
-      //      var provinc = {}
-      //      provinc = api.getGeneral(city.dataGet[2].provincia.href, provinc)
-      //      setTimeout(e => {
-      //        var zone = {}
-      //        pro.push(provinc.dataGet[1])
-      //        zone = api.getGeneral(provinc.dataGet[2].zona.href, zone)
-      //        setTimeout(e => {
-      //          zona.push(zone.dataGet[1])
-      //        }, 300)
-      //      }, 300)
-      //    }, 320)
-      //  })
-      //  this.ciu = ciud
-      //  this.prov = pro
-      //  this.zon = zona
-      //  if (this.zon !== 0) { this.full = true }
-      //  },
       deleteOne(key) {
-        var elementDeleted = this.locals.dataGet[0].localeses.splice(key, 1)
-        var id = elementDeleted[0].id
+        this.dataPostDel = this.dataGet[key]
+        this.dataGet.splice(key, 1)
+        var id = this.dataPostDel.idLocal
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       loadProvinces() {
@@ -384,7 +345,6 @@
         console.log(id)
         if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.family.trim() !== '') {
           var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
-          console.log(idCity)
           this.dataPostDel.name = this.dataPostDel.name.trim()
           this.dataPostDel.family = this.dataPostDel.family.trim()
           api.put(this.apiBack + '/' + id, this.$data)

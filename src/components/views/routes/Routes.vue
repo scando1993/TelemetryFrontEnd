@@ -15,13 +15,13 @@
       <div class="form-group">
         <ul id="checkboxPath" class="GroupCheckbox">
           <li v-for="datoL, indexU in pathsActive" class="col-sm-12 controls">
-            <input type="radio" :value="datoL.id" :id="datoL.id" v-model="pickedAll" v-on:click="loadDataRoute(datoL.id)">
-            <label>Ruta{{datoL.id}} con Device:  {{datoL.device.name}} {{showing}}</label>
+            <input type="radio" :value="datoL.id" :id="datoL.id" v-model="pickedAll" onclick="loadDataRoute(datoL.id)">
+            <label :for="datoL.id">Ruta{{datoL.id}} con Device:  {{datoL.device.name}}-{{showing}}-{{pickedAll}}</label>
           </li>
         </ul>
       </div>
       <!--Graph View-->
-      <componentAll v-if="showing" :showing="showing" :titleGraph="titleGraph" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="RouteProductObj.temp_max" :min="RouteProductObj.temp_min" :maxIdeal="RouteProductObj.temp_max_ideal" :minIdeal="RouteProductObj.temp_min_ideal"></componentAll>
+      <componentAll v-if="showing && pickedAll!=''" :showing="showing" :titleGraph="titleGraph" :pickedAll="pickedAll" :temperatures="temperatures" :timeL="timeL" :max="RouteProductObj.temp_max" :min="RouteProductObj.temp_min" :maxIdeal="RouteProductObj.temp_max_ideal" :minIdeal="RouteProductObj.temp_min_ideal"></componentAll>
 
     </div>
 
@@ -108,6 +108,7 @@
         })
       },
       loadDataRoute(id) {
+        //  if (this.showing) { this.showin = false }
         this.showing = false
         var pathSelect = api.search(this.RoutesAll.dataGet, 'id', id)
         this.RouteProductObj = pathSelect.producto // object
@@ -238,9 +239,7 @@
     mounted() {
       setTimeout(e => {
         api.getAll(this.apiBackGetRoutes, this.RoutesAll)
-        console.log(this.RoutesAll.dataGet)
         this.getRoutesActive(this.RoutesAll.dataGet)
-        this.showing = false
       }, 1500)
     }
 }</script>
