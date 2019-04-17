@@ -29,7 +29,7 @@
                     <div class="col-sm-9 col-lg-10 controls">
                       <select v-model="selectedLocal" required="required" class="FormatSelect">
                         <option disabled value="">Por favor seleccionar uno</option>
-                        <option v-for="datoL in locals.dataGet[0].localeses ">{{ datoL.name }}</option>
+                        <option v-for="datoL in Local">{{ datoL.name }}</option>
                       </select>
                     </div>
                   </div>
@@ -65,6 +65,31 @@
       cancel() {
         this.$router.push(this.page)
       },
+      removeDuplicates(arreglo) {
+        var noDuplicate = arreglo.filter((objeto, index, self) =>
+          index === self.findIndex((t) => (t.id === objeto.id
+          )))
+        return noDuplicate
+      },
+      async getListLocal(listF) {
+        var local = []
+        local = this.locals.dataGet[0].localeses
+        console.log(local)
+        console.log(listF) // contiene los formatos usados
+        listF.forEach(function (m, indexM) {
+          local.forEach(function (k, index) {
+            console.log('lista local')
+            console.log(m.nameLocal)
+            console.log(k.name)
+            console.log('lista local')
+            if (k.id === m.idLocal) {
+              console.log('cumple')
+              console.log(local.splice(index, 1))
+            } else { }
+          })
+        })
+        this.Local = local
+      },
       save() {
         if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.code.trim() !== '') {
           var idLocal = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedLocal).id
@@ -84,9 +109,12 @@
       return {
         page: '/format',
         apiBack: '/formatoes',
+        apiBackGetFormats: '/getFormatoes',
         apiBackLocals: '/localeses',
         selectedLocal: '',
         dataRespond: [],
+        getFormat: [],
+        Local: [],
         formats: {
           error: '',
           dataGet: [
@@ -112,8 +140,17 @@
         }
       }
     },
+    beforeMount() {
+      api.getAll(this.apiBackLocals, this.locals)
+      api.getAll(this.apiBackGetFormats, this.getFormat)
+    },
     mounted() {
       api.getAll(this.apiBackLocals, this.locals)
+      setTimeout(e => {
+        api.getAll(this.apiBackGetFormats, this.getFormat)
+        console.log(this.getFormat.dataGet)
+        this.getListLocal(this.getFormat.dataGet)
+      }, 500)
     }
   }
 </script>

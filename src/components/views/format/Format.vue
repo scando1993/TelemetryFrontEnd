@@ -144,6 +144,7 @@
       return {
         inicialDelay: 2100,
         apiBack: '/formatoes',
+        apiBackForm: '/formato',
         apiBackLocals: '/localeses',
         apiBackGetFormats: '/getFormatoes',
         selectedLocal: '',
@@ -219,7 +220,8 @@
         this.dataPostDel = this.getFormat.dataGet[key]
         this.getFormat.dataGet.splice(key, 1)
         var id = this.dataPostDel.idFormato
-        api.delete(this.apiBack + '/' + id, this.$data)
+        console.log(id)
+        console.log(api.delete(this.apiBackForm + '/' + id, this.$data))
       },
       save(id) {
         if (this.dataPostDel.name.trim() !== '' && this.dataPostDel.code.trim() !== '') {

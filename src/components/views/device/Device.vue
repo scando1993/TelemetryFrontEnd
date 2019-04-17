@@ -51,16 +51,16 @@
                         <tbody id='fields'>
                           <tr class='even' role='row' v-for='dato,index in devices.dataGet[0].devices'>
                             <td class='sorting_1 TextFieldC'>{{dato.uuid}}</td>
-                            <td class="TextFieldC"><a v-bind:href="'#'+index+'s'" v-on:click="showMore(index)">{{dato.name}}</a></td>
+                            <td class="TextFieldC"><a v-bind:href="'#'+index+'s'" v-on:click="showMore(index, dato.id)">{{dato.name}}</a></td>
                             <td class="TextFieldC">{{dato.family}}</td>
                             <td class="TextFieldC">{{dato.group["name"]}}</td>
                             <td class="TextFieldC">
                               <b><u>{{dato.description}}</u></b><br/>
                               <span v-if="full && index===indexSelect">
-                                <tdd id="moveView1"><small><b>Batería:</b> {{showMoreText.dataGet[1]}}</small></tdd><br />
-                                <tdd id="moveView2"><small><b>Última transmisión: </b> {{showMoreText.dataGet[2]}}</small></tdd><br />
-                                <tdd id="moveView3"><small><b>Nivel de la señal: </b>{{showMoreText.dataGet[3]}}</small></tdd><br />
-                                <tdd id="moveView4"><small><b>Última actualización: </b>{{showMoreText.dataGet[4]}}</small></tdd>
+                                <tdd id="moveView1"><small><b>Batería:</b> {{showMoreText[1]}}</small></tdd><br />
+                                <tdd id="moveView2"><small><b>Última transmisión: </b> {{showMoreText[2]}}</small></tdd><br />
+                                <tdd id="moveView3"><small><b>Nivel de la señal: </b>{{showMoreText[3]}}</small></tdd><br />
+                                <tdd id="moveView4"><small><b>Última actualización: </b>{{showMoreText[4]}}</small></tdd>
                               </span>
                             </td>
                             <!--Start Buttom-->
@@ -163,8 +163,9 @@
         apiBack: '/devices',
         apiBackGroup: '/groups',
         apiBackStatus: '/statuses',
+        apiBackGetStatus: '/getLastStatus?deviceid=',
         nameToExport: 'Dispositivos',
-        showMoreText: { dataGet: [] },
+        showMoreText: [],
         full: false,
         indexSelect: 0,
         selectedGroup: '',
@@ -219,24 +220,25 @@
     },
     methods: {
       activeStatus(text) {
-        if (text.dataGet[2] !== null && this.full === false) {
+        if (text[2] !== null && this.full === false) {
           this.full = true
         } else if (this.full === true) {
           this.full = false
         } else { }
       },
-      showMore(index) {
+      showMore(index, id) {
         console.log('mostrando mas info...')
-        setTimeout(e => {
-          if (this.devices.dataGet[0].devices[index].description === 'Activo') {
-            var link = this.devices.dataGet[0].devices[index]._links.status.href
-            var statu = { dataGet: [] }
-            api.getGeneral(link, statu)
-            this.showMoreText = statu
+        if (this.devices.dataGet[0].devices[index].description === 'Activo') {
+          //  var link = this.devices.dataGet[0].devices[index]._links.status.href
+          //  var statu = { dataGet: [] }
+          var statu = []
+          statu = api.getAll(this.apiBackGetStatus + id, statu)
+          setTimeout(e => {
+            this.showMoreText = statu.dataGet
             this.indexSelect = index
             this.activeStatus(this.showMoreText)
-          } else { }
-        }, 300)
+          }, 300)
+        } else { }
       },
       refresh() {
         location.reload()

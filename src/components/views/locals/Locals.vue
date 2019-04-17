@@ -75,8 +75,8 @@
                           <td class="TextFieldC">{{dato.latitude}}</td>-->
 
                           <td class="JustifyButtonTD" style="width: 150px;">
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" data-target="#modalConfig" role="button" title="Config">
-                              <i class="fa fa-cog"></i>
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" data-target="#modalConfig" role="button" title="Añadir MACs">
+                              <i class="fa fa-plus"></i>
                             </a>
                             <!-- Modal Edit / Ventana / Overlay en HTML  -->
                             <div v-bind:id="index+'s'" class="modal fade" id="modalConfig">
@@ -325,7 +325,9 @@
         api.getAll(this.apiBackGetLocals, this.local)
         console.log(this.local.dataGet)
         if (this.local.dataGet.length !== 0) { this.full = true }
-        $('#table_locals').DataTable()
+        this.$nextTick(() => {
+          $('#table_locals').DataTable()
+        })
       }, this.inicialDelay)
     },
     methods: {
@@ -333,7 +335,9 @@
         location.reload()
       },
       sendMACs(id) {
-        api.post('saveMacLocales?localid=' + id, this.$data)
+        this.dataPostDel.cadena = this.text + ''
+        //  console.log(this.dataPostDel.cadena.split('\n')[2])
+        api.post('/saveMacLocales?localid=' + id, this.$data)
         console.log(this.text)
       },
       //  async loadData() {
