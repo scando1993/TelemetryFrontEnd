@@ -61,7 +61,7 @@
                       </thead>
                       <tbody id='fields' v-if="full">
                         <!--<tr class='even' role='row' v-for='dato,index in paths.dataGet[0].rutas '>-->
-                        <tr class='even' role='row' v-for='dato,index in path.dataGet'>
+                        <tr class='even' role='row' v-for='dato,index in dataGet'>
                           <td class='sorting_1 TextFieldC'>{{dato.idRuta}}</td>
                           <td class="TextFieldC">{{dato.nameFurgon}}</td><!--<td class="TextFieldC">{{box[index]}}</td>-->
                           <td class="TextFieldC">{{dato.nameDevice}}</td><!--<td class="TextFieldC">{{devi[index]}}</td>-->
@@ -208,7 +208,7 @@
         selectedEndLocal: '',
         dataRespond: [],
         full: false,
-        path: [],
+        dataGet: [],
         box: [],
         devi: [],
         prod: [],
@@ -279,17 +279,14 @@
     },
     name: 'Rutas',
     beforeMount() {
-      api.getAll(this.apiBackPath, this.path)
+      api.getAll(this.apiBackPath, this.$data)
       api.getAll(this.apiBack, this.paths)
-      //  setTimeout(e => {
-      //    this.loadData()
-      //  }, 1000)
     },
     mounted() {
       setTimeout(e => {
-        api.getAll(this.apiBackPath, this.path)
-        console.log(this.path.dataGet)
-        if (this.path.dataGet.length !== 0) { this.full = true }
+        api.getAll(this.apiBackPath, this.$data)
+        console.log(this.dataGet)
+        if (this.dataGet.length !== 0) { this.full = true }
         this.$nextTick(() => {
           $('#table_path').DataTable()
         })
@@ -303,95 +300,32 @@
       refresh() {
         location.reload()
       },
-      //  loadData() {
-      //  var boxcar = []
-      //  var product = []
-      //  var device = []
-      //  var locStart = []
-      //  var locEnd = []
-      //  this.paths.dataGet[0].rutas.forEach(function (k, index) {
-      //    var urlBoxcar = k._links.furgon.href
-      //    var urlProduct = k._links.producto.href
-      //    var urlDevice = k._links.device.href
-      //    var urlLocalSt = k._links.localInicio.href
-      //    var urlLocalFn = k._links.localFin.href
-      //    setTimeout(e => {
-      //      var varBoxcar = {}
-      //      var varProduct = {}
-      //      var varDevice = {}
-      //      var varLocalSt = {}
-      //      var varLocalFn = {}
-      //      api.getGeneral(urlBoxcar, varBoxcar)
-      //      api.getGeneral(urlProduct, varProduct)
-      //      api.getGeneral(urlDevice, varDevice)
-      //      api.getGeneral(urlLocalSt, varLocalSt)
-      //      api.getGeneral(urlLocalFn, varLocalFn)
-      //      setTimeout(e => {
-      //        console.log(varBoxcar)
-      //        console.log(varProduct)
-      //        console.log(varDevice)
-      //        console.log(varLocalSt)
-      //        console.log(varLocalFn)
-      //        boxcar.push(varBoxcar.dataGet[2])
-      //        product.push(varProduct.dataGet[5])
-      //        device.push(varDevice.dataGet[2])
-      //        locStart.push(varLocalSt.dataGet[4])
-      //        locEnd.push(varLocalFn.dataGet[4])
-      //      }, 500)
-      //    }, 500)
-      //  })
-      //  this.box = boxcar
-      //  this.prod = product
-      //  this.devi = device
-      //  this.localStart = locStart
-      //  this.localEnd = locEnd
-      //  },
       deleteOne(key) {
-        this.dataPostDel = this.path.dataGet[key]
-        console.log(this.dataPostDel)
-        this.path.dataGet.splice(key, 1)
+        this.dataPostDel = this.dataGet[key]
+        this.dataGet.splice(key, 1)
         var id = this.dataPostDel.idRuta
         api.delete(this.apiBack + '/' + id, this.$data)
       },
       save(id, statusAnt) {
-        this.dataPostDel.status = statusAnt
+        console.log(id + ' ' + statusAnt)
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
+        this.dataPostDel.status = statusAnt
+        console.log(this.getPath)
         if (this.dataPostDel.start_date !== this.dataPostDel.end_date) {
-          console.log('entro hey')
-          this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
-          this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
           var idLocIn = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedStartLocal).id
           var idLocFn = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedEndLocal).id
           var idProd = api.search(this.products.dataGet[0].productoes, 'name', this.selectedProduct).id
           var idDevi = api.search(this.devices.dataGet[0].devices, 'name', this.selectedDevice).id
           var idBoxc = api.search(this.boxcars.dataGet[0].furgons, 'name', this.selectedBoxcar).id
-          api.put(this.apiBack + '/' + id, this.$data)
-          var headIni = '/localeses/' + idLocIn
-          var headFin = '/localeses/' + idLocFn
-          var headProd = '/productoes/' + idProd
-          var headDevi = '/devices/' + idDevi
-          var headBoxc = '/furgons/' + idBoxc
+          api.put(this.apiBack + '/' + id + '?furgon=' + idBoxc + '&localInicio=' + idLocIn + '&localFin=' + idLocFn + '&device=' + idDevi + '&producto=' + idProd, this.$data)
           setTimeout(e => {
-            api.postWithHeader(this.apiBack + '/' + id + '/localInicio', headIni)
-            setTimeout(e => {
-              api.postWithHeader(this.apiBack + '/' + id + '/localFin', headFin)
-              setTimeout(e => {
-                api.postWithHeader(this.apiBack + '/' + id + '/producto', headProd)
-                setTimeout(e => {
-                  api.postWithHeader(this.apiBack + '/' + id + '/device', headDevi)
-                  setTimeout(e => {
-                    api.postWithHeader(this.apiBack + '/' + id + '/furgon', headBoxc)
-                    this.$router.push(this.page)
-                  }, 100)
-                }, 100)
-              }, 100)
-            }, 100)
-          }, 100)
+            this.$router.push(this.page)
+          }, 1000)
         }
       },
       exportExcel() {
-        api.exportExcel(this.nameToExport, this.path.dataGet)
+        api.exportExcel(this.nameToExport, this.dataGet)
       },
       exportPDF() {
         var columns = [
@@ -404,7 +338,7 @@
           { title: 'Local Inicio', dataKey: 'nameLocalInicio' },
           { title: 'Local Fin', dataKey: 'nameLocalFin' }
         ]
-        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.path.dataGet)
+        api.exportPDF(this.nameToExport, 'La Favorita', columns, this.dataGet)
       }
     }
   }

@@ -1,20 +1,16 @@
 import moment from 'moment'
 import api from '@/api/goApi.js'
 
-var apiBackAlerts = '/getAlertasOrder'
-var apiAlertsRuta = '/getAlertasRuta?rutaid='
+var apiAlertsRuta = '/getAlertasRuta?rutaid=-1'
 var alerts = [{}]
 
 //  export var alertitas = []
 export function printAlerts(id, alertitas) {
-  //  var alertitas = []
-  //  var idCity = api.search(this.cities.dataGet[0].ciudads, 'name', this.selectedCity).id
   alerts = [{}]
-  if (id === 's') {
-    alerts = api.getAll(apiBackAlerts, alerts)
-  } else {
-    alerts = api.getAll(apiAlertsRuta + id, alerts)
-  }
+  alerts = api.getAll(apiAlertsRuta, alerts).dataGet
+  var path = {}
+  path = api.search(alerts, 'id', id)
+  console.log(path)
   setTimeout(e => {
     alerts.dataGet.forEach(function (k, index) {
       var group = {
