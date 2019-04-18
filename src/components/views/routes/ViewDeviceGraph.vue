@@ -11,7 +11,6 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  import json from './json1.json'
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentDevice',
@@ -88,12 +87,7 @@
         title: {
           text: this.titleGraph
         },
-        //  regions: [
-        //  {
-        //    start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
-        //  }
-        //  ],
-        regions: this.getPeriodRegions(json),
+        regions: this.getPeriodRegions(this.listRegions),
         axis: {
           y2: {
             show: true

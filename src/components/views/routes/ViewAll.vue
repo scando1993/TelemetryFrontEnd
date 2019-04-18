@@ -1,7 +1,6 @@
 <template>
   <section>
     <div v-if="showing">
-      <label>{{listRegions}}</label>
       <vue-c3 :handler="handler"></vue-c3>
     </div><br />
 </section>
