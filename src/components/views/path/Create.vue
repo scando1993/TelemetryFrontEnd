@@ -101,11 +101,9 @@
       cancel() {
         this.$router.push(this.page)
       },
-      save4() {
+      save() {
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
-        console.log(this.dataPostDel.start_date)
-        console.log(this.dataPostDel.end_date)
         console.log(this.getPath)
         if (this.dataPostDel.start_date !== this.dataPostDel.end_date) {
           var idLocIn = api.search(this.locals.dataGet[0].localeses, 'name', this.selectedStartLocal).id
@@ -113,30 +111,13 @@
           var idProd = api.search(this.products.dataGet[0].productoes, 'name', this.selectedProduct).id
           var idDevi = api.search(this.devices.dataGet[0].devices, 'name', this.selectedDevice).id
           var idBoxc = api.search(this.boxcars.dataGet[0].furgons, 'name', this.selectedBoxcar).id
-          api.post(this.apiBackAlerts, this.$data)
-          var idAlert = this.dataRespond[0]
-          console.log(idAlert)
-          console.log('alertaaa!')
-          api.post(this.apiBack, this.$data)
-          var headIni = '/localeses/' + idLocIn
-          var headFin = '/localeses/' + idLocFn
-          var headProd = '/productoes/' + idProd
-          var headDevi = '/devices/' + idDevi
-          var headBoxc = '/furgons/' + idBoxc
-          var headAlert = '/rutas/' + this.dataRespond[0]
-          console.log(this.dataRespond[0])
-          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localInicio', headIni)
-          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/localFin', headFin)
-          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/producto', headProd)
-          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/device', headDevi)
-          api.postWithHeader(this.apiBackAlerts + '/' + idAlert + '/ruta', headAlert)
-          api.postWithHeader(this.apiBack + '/' + this.dataRespond[0] + '/furgon', headBoxc)
+          api.post(this.apiBack + '?furgon=' + idBoxc + '&localInicio=' + idLocIn + '&localFin=' + idLocFn + '&device=' + idDevi + '&producto=' + idProd, this.$data)
           setTimeout(e => {
             this.$router.push(this.page)
-          }, 3000)
+          }, 1000)
         }
       },
-      async save() {
+      async save2() {
         this.dataPostDel.start_date = new Date(this.startDate + 'T' + this.start_hour)
         this.dataPostDel.end_date = new Date(this.endDate + 'T' + this.end_hour)
         console.log(this.dataPostDel.start_date)
@@ -182,8 +163,8 @@
                   }, 120)
                 }, 120)
               }, 120)
-            }, 1100)
-          }, 1000)
+            }, 1200)
+          }, 1200)
         }
       }
     },

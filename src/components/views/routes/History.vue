@@ -3,13 +3,10 @@
     <select v-model="routes.selectedRuta" v-on:change="showAlerts" class="FormatSelect">
       <option v-for="(item, index) in routes.dataGet" :key="index" v-on:click='isOpen = !isOpen'>Ruta{{item.id}}</option>
     </select>
-    <label>{{routes.selectedRuta}} - {{isOpen}}</label>
 
     <div class="row center-block" v-show="isOpen && alertitas.length!=0">
       <br />
-      <label>{{isOpen}}</label>
       <ul class="timeline" v-for="dato in alertitas">
-
         <!-- timeline time label -->
         <li class="time-label">
           <span class="bg-green">{{dato.dtm}}</span>
@@ -63,7 +60,6 @@
       },
       async getRoutesEnd() {
         await api.getAll(this.endPointAlertasRuta, this.routes)
-        //  await this.sleep()
       }
     }
   }

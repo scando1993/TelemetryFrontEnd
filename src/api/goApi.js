@@ -2,8 +2,8 @@ import axios from 'axios'
 import XLSX from 'xlsx'
 import JsPDF from 'jspdf'
 import 'jspdf-autotable'
-//  var apiUrlBase = 'http://172.16.10.108:2222'
-//  var apiUrlBase = 'http://192.168.10.101:2222'
+//  var apiUrlBase = 'http://172.16.10.188:2222'
+//  var apiUrlBase = 'http://192.168.10.188:2222'
 //  var apiUrlBase = 'http://25.4.250.51:2222'
 // var apiUrlBase = 'http://localhost:2222'
 var apiUrlBase = 'http://181.198.224.115:2222'
@@ -180,7 +180,7 @@ export default {
     console.log('done')
   },
   delete(url, data) {
-    console.log(url)
+    console.log(apiUrlBase + url)
     axios.delete(apiUrlBase + url)
     .then(response => {
       if (response.status !== 200) {
@@ -231,6 +231,17 @@ export default {
   search(myArray, key, value) {
     for (var i = 0; i < myArray.length; i++) {
       if (myArray[i][key] === value) {
+        return myArray[i]
+      }
+    }
+  },
+  searchById(myArray, value) {
+    console.log('searching...')
+    for (var i = 0; i < myArray.length; i++) {
+      console.log(myArray[i].id)
+      console.log(value)
+      if (myArray[i].id.toString() === value.toString()) {
+        console.log('igual')
         return myArray[i]
       }
     }

@@ -5,12 +5,9 @@
     "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\src\\components\\views\\device",
-    "\\src\\components\\views\\locals",
     "\\src\\components\\views\\routes",
-    "\\src\\components\\views\\store",
-    "\\static\\css"
+    "\\src\\components\\views\\store"
   ],
-  "SelectedNode": "\\src\\components\\views\\device\\Device.vue",
+  "SelectedNode": "\\src\\components\\views\\routes\\ViewAll.vue",
   "PreviewInSolutionExplorer": false
 }
