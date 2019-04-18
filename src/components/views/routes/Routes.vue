@@ -101,7 +101,7 @@
     },
     methods: {
       check: function (e) {
-        this.showing = false
+        this.loadDataRoute(this.pickedAll)
       },
       isInArray(list, idS) {
         list.forEach(function (k, index) {
