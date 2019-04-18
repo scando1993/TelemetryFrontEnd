@@ -16,7 +16,7 @@
         <ul id="checkboxPath" class="GroupCheckbox">
           <li v-for="datoL, indexU in pathsActive" class="col-sm-12 controls">
             <input type="radio" v-on:click="loadDataRoute(datoL.id)" :value="datoL.id" :id="datoL.id" v-model="pickedAll" >
-            <label :for="datoL.id">Ruta{{datoL.id}} con Device:  {{datoL.device.name}}-{{showing}}-{{pickedAll}}</label>
+            <label :for="datoL.id">Ruta{{datoL.id}} con Device:  {{datoL.device.name}}</label>
           </li>
         </ul>
       </div>
