@@ -101,19 +101,14 @@
     },
     methods: {
       check: function (e) {
-        this.loadDataRoute(this.pickedAll)
-      },
-      isInArray(list, idS) {
-        list.forEach(function (k, index) {
-          if (k.id === idS) { return true }
-        })
+        this.showing = false
       },
       loadDataRoute(id) {
         console.log(id)
         this.showing = false
-        var listRegions = api.getAll(this.apiBackRegion + id.toString(), listRegions).dataGet
-        console.log(listRegions)
-        this.listRegions = listRegions
+        //  var listRegions = api.getAll(this.apiBackRegion + id.toString(), listRegions).dataGet
+        //  console.log(listRegions)
+        //  this.listRegions = listRegions
         //  if (this.showing) { this.showin = false }
         this.showing = false
         var pathSelect = api.search(this.RoutesAll.dataGet, 'id', id)
