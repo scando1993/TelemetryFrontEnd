@@ -1,6 +1,5 @@
 <template>
   <section>
-    <label>Look:{{pickedAll}}-{{min}}-{{max}}-{{maxIdeal}}</label>
       <div>
         <vue-c3 :handler="handler"></vue-c3>
       </div><br />
@@ -12,11 +11,11 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  import json from './json1.json'
-  //  import VueD3 as d3 from "d3"
+  //  import json from './json1.json'
+  import d3 from 'd3'
   export default {
     name: 'componentAll',
-    props: ['pickedAll', 'listRegions', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
+    props: ['pickedAll', 'showing', 'listRegions', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
     components: {
       VueC3
     },
@@ -89,15 +88,15 @@
             Temperatura: 'y2'
           }
         },
-        //  regions: [
-        //  {
-        //    start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
-        //  },
-        //  {
-        //    start: new Date('2019-03-06T12:21:41'), end: new Date('2019-06-30T12:21:41'), class: 'regionX2'
-        //  }
-        //  ],
-        regions: this.getPeriodRegions(json),
+        regions: [
+          {
+            start: new Date('2019-02-28T12:21:41'), end: new Date('2019-03-05T12:21:41'), text: 'hi', class: 'regionX'
+          },
+          {
+            start: new Date('2019-03-06T12:21:41'), end: new Date('2019-06-30T12:21:41'), class: 'regionX2'
+          }
+        ],
+        //  regions: this.getPeriodRegions(json),
         title: {
           text: this.titleGraph
         },
@@ -113,6 +112,14 @@
           }
         }
       }
+      var rectOffset = function () { return +d3.select(this.parentNode).select('rect').attr('x') }
+      d3.selectAll('.c3-region.regionX')
+        .append('text')
+        .text('Some Text')
+        .attr('dy', '15')
+        .attr('dx', rectOffset)
+        .style('fill-opacity', 1)
+        .attr('text-anchor', 'start')
       this.handler.$emit('init', options)
     }
   }
@@ -120,7 +127,10 @@
 <style>
   .c3-region.regionX {
   }
-  .c3-chart{
+  .d3-region-label{
+    text-anchor: middle;
+  }
+  .c3-chart {
     fill: green;
   }
   .c3-region.regionX2 {
