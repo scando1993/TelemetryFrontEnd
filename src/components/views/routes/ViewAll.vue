@@ -1,10 +1,9 @@
 <template>
   <section>
-    <label>Look:{{pickedAll}}-{{min}}-{{max}}-{{maxIdeal}}-{{showing}}</label>
-      <div v-if="showing">
+    <label>Look:{{pickedAll}}-{{min}}-{{max}}-{{maxIdeal}}</label>
+      <div>
         <vue-c3 :handler="handler"></vue-c3>
       </div><br />
-      <hr class="visible-xs-block">
 </section>
 </template>
 
@@ -17,13 +16,14 @@
   //  import VueD3 as d3 from "d3"
   export default {
     name: 'componentAll',
-    props: ['pickedAll', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
+    props: ['pickedAll', 'listRegions', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
     components: {
       VueC3
     },
     data() {
       return {
-        showin: false,
+        apiBack: '/getDataTrack?rutaid=',
+        dataGet: [],
         handler: new Vue(),
         maximum: ['Max'],
         minimum: ['Min'],
@@ -31,6 +31,9 @@
         maximumIdeal: ['MaxIdeal'],
         minimumIdeal: ['MinIdeal']
       }
+    },
+    beforeMount() {
+      console.log(this.listRegions)
     },
     methods: {
       generateClassCss(name, rules) {
@@ -55,20 +58,20 @@
         return 'rgb(' + r() + ',' + r() + ',' + r() + ')'
       },
       getPeriodRegions(lista) {
+        //  class:( i & 1 ) ? "gameOdd match"+(i+1)*1 : "gameEven match-region match"+(i+1)*1
         var regions = []
         for (var i = 0; i < lista.length; i++) {
           var regionColor = 'regionX' + i
           var regionClass = '.c3-region.' + regionColor
           this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
-          console.log(lista[i].start_date)
           var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), class: regionColor }
           console.log(region)
           regions.push(region)
         }
         return regions
-      }    },
+      }
+    },
     mounted() {
-      console.log(json)
       // to init the graph call:
       for (var i = 0, n = this.timeL.length; i < n; i++) {
         this.maximum.push(this.max)
@@ -76,10 +79,7 @@
         this.maximumIdeal.push(this.maxIdeal)
         this.minimumIdeal.push(this.minIdeal)
       }
-      console.log(this.get_random_color())
-      console.log(this.getPeriodRegions(json))
       //  this.generateClassCss('.c3-region.regionX', 'fill: ' + this.get_random_color() + ';')
-
       const options = {
         data: {
           x: 'date',
@@ -127,94 +127,3 @@
     fill: green;
   }
 </style>
-<!--<script>
-  import c3 from 'c3'
-  export default {
-    mounted: function () {
-      //  el: '#app'
-      c3.generate({
-        bindto: '#puppa',
-        data: {
-          type: 'area',
-          x: 'x',
-          xFormat: '%H:%M',
-          columns: [
-            ['x', '12:38', '12:38', '12:38', '12:38', '12:39', '12:39', '12:39', '12:39', '12:40', '12:40', '12:40', '12:41', '12:41', '12:41', '12:41', '12:42', '12:42', '12:42', '12:42', '12:43', '12:43', '12:43', '12:43', '12:44', '12:44'],
-            ['write', 14709198848, 14709313536, 14709522432, 14709633024, 14710034432, 14710157312, 14710341632, 14710583296, 14710788096, 14710931456, 14711058432, 14711291904, 14711508992, 14711668736, 14711771136, 14712008704, 14712107008, 14712381440, 14712586240, 14712795136, 14712963072, 14713077760, 14713331712, 14713565184, 14713729024],
-            ['read', 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080, 3778094080]
-          ]
-        },
-        axis: {
-          x: {
-            type: 'timeseries',
-            tick: {
-              format: function (x) {
-                if (x.getDate() === 1) {
-                  return x.toLocaleDateString()
-                }
-              }
-            }
-          }
-        }
-      })
-    }
-  }
-</script>-->
-<!--<script>
-  import c3 from 'vue-c3'
-  import Chart from 'chart.js'
-  var chart = c3.generate({
-    bindto: '#chartjs-' + i,
-    size: { height: 300 },
-    data: {
-      xs: data['chartjs-' + i]['xs'],
-      xFormat: '%Y-%m-%dT%H:%M:%S',
-      json: data['chartjs-' + i]['data']
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          rotate: 90,
-          format: '%Y-%m-%dT%H:%M:%S',
-          multiline: false
-        }
-      }
-    }
-  })
-  console.log(chart)
-</script>-->
-<!--<script>
-  export default {
-    name: 'componentAll'
-    var chart = c3.generate({
-            bindto: '#chartjs-' + i,
-            size: {
-                height: 300
-            },
-            data: {
-                xs: data["chartjs-" + i]["xs"],
-                xFormat: '%Y-%m-%dT%H:%M:%S',
-                json: data["chartjs-" + i]["data"]
-            },
-        //  grid: {
-        //  y: {
-        //    lines: [{ value: 2 }]
-        //  }
-        //  }
-        //  types: {
-        //  Interval: 'bar'
-        //  },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    tick: {
-                        rotate: 90,
-                        format: '%Y-%m-%dT%H:%M:%S',
-                        multiline: false
-                    },
-                }
-            }
-        });
-  }
-</script>-->
