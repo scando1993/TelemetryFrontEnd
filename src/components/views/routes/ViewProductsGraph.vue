@@ -69,19 +69,36 @@
     },
     mounted() {
       // to init the graph call:
-      for (var i = 0, n = this.listTemp.length; i < n; i++) {
-        this.maximum.push(this.Max)
-        this.minimum.push(this.Min)
-        this.maximumIdeal.push(this.MaxIdeal)
-        this.minimumIdeal.push(this.MinIdeal)
-      }
+      //  for (var i = 0, n = this.listTemp.length; i < n; i++) {
+      //  this.maximum.push(this.Max)
+      //  this.minimum.push(this.Min)
+      //  this.maximumIdeal.push(this.MaxIdeal)
+      //  this.minimumIdeal.push(this.MinIdeal)
+      //  }
       const options = {
         data: {
           x: 'date',
           xFormat: '%Y-%m-%dT%H:%M:%S',
-          columns: [this.listDTMs, this.listTemp, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
+          columns: [this.listDTMs, this.listTemp], // this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
           axes: {
             Temperatura: 'y2'
+          }
+        },
+        zoom: {
+          enabled: true,
+          rescale: true,
+          onzoom: function (domain) {
+            console.log('zoom', domain)
+          }
+        },
+        grid: {
+          y: {
+            lines: [
+              { value: this.Max, text: 'Máxima: ' + this.Max, position: 'start', class: 'grid80' },
+              { value: this.Min, text: 'Minima: ' + this.Min, position: 'start', class: 'grid81' },
+              { value: this.MaxIdeal, text: 'Máxima Ideal: ' + this.MaxIdeal, position: 'start', class: 'grid82' },
+              { value: this.MinIdeal, text: 'Minima Ideal: ' + this.MinIdeal, position: 'start', class: 'grid83' }
+            ]
           }
         },
         title: {
@@ -95,10 +112,11 @@
           x: {
             type: 'timeseries',
             tick: {
-              format: '%Y-%m-%dT%H:%M:%S'
+              format: '%Y-%m-%dT%H:%M:%S',
+              rotate: 50
             },
             //  categories: this.timeL,
-            show: false
+            show: true
           }
         }
       }
@@ -106,3 +124,36 @@
     }
   }
 </script>
+<style>
+  .c3-ygrid-line.grid80 line {
+    stroke: coral;
+  }
+
+  .c3-ygrid-line.grid80 text {
+    fill: coral;
+  }
+
+  .c3-ygrid-line.grid81 line {
+    stroke: greenyellow;
+  }
+
+  .c3-ygrid-line.grid81 text {
+    fill: greenyellow;
+  }
+
+  .c3-ygrid-line.grid82 line {
+    stroke: violet;
+  }
+
+  .c3-ygrid-line.grid82 text {
+    fill: violet;
+  }
+
+  .c3-ygrid-line.grid83 line {
+    stroke: darkviolet;
+  }
+
+  .c3-ygrid-line.grid83 text {
+    fill: darkviolet;
+  }
+</style>

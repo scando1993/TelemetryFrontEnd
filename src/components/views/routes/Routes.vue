@@ -216,7 +216,6 @@
           var device = api.search(this.DeviceTelem.dataGet, 'id', this.checkedDevices[i])
           if (device.ruta.status === 'Activo' || device.ruta.status === 'No ideal' || device.ruta.status.trim() === 'No efectiva') {
             // agregamos en ese orden los límites de la gráfica
-            api.getAll(this.apiBackRegion + device.ruta.id.toString(), this.$data)
             AllDevice.Max = device.ruta.producto.temp_max
             AllDevice.Min = device.ruta.producto.temp_min
             AllDevice.MaxIdeal = device.ruta.producto.temp_max_ideal
@@ -228,6 +227,7 @@
               temperatures.push(device.telemetrias[p].value)
               dtms.push(new Date(device.telemetrias[p].dtm))
             }
+            api.getAll(this.apiBackRegion + device.ruta.id.toString(), this.$data)
             AllDevice.titleGraph = title
             AllDevice.listTemp = temperatures
             AllDevice.listDTMs = dtms
