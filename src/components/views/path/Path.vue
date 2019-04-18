@@ -197,6 +197,8 @@
         inicialDelay: 2500,
         apiBackPath: '/getAllRutas',
         apiBack: '/rutas',
+        apiBackPut: '/putRutas',
+        apiBackDel: '/delRutas',
         apiBackBoxcar: '/furgons',
         apiBackDevice: '/devices',
         apiBackProduct: '/productoes',
@@ -304,7 +306,7 @@
         this.dataPostDel = this.dataGet[key]
         this.dataGet.splice(key, 1)
         var id = this.dataPostDel.idRuta
-        api.delete(this.apiBack + '/' + id, this.$data)
+        api.delete(this.apiBackDel + '/' + id, this.$data)
       },
       save(id, statusAnt) {
         console.log(id + ' ' + statusAnt)
@@ -318,7 +320,7 @@
           var idProd = api.search(this.products.dataGet[0].productoes, 'name', this.selectedProduct).id
           var idDevi = api.search(this.devices.dataGet[0].devices, 'name', this.selectedDevice).id
           var idBoxc = api.search(this.boxcars.dataGet[0].furgons, 'name', this.selectedBoxcar).id
-          api.put(this.apiBack + '/' + id + '?furgon=' + idBoxc + '&localInicio=' + idLocIn + '&localFin=' + idLocFn + '&device=' + idDevi + '&producto=' + idProd, this.$data)
+          api.put(this.apiBackPut + '/' + id + '?furgon=' + idBoxc + '&localInicio=' + idLocIn + '&localFin=' + idLocFn + '&device=' + idDevi + '&producto=' + idProd, this.$data)
           setTimeout(e => {
             this.$router.push(this.page)
           }, 1000)

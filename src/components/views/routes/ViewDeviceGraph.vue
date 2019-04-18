@@ -11,10 +11,11 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
+  import json from './json1.json'
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentDevice',
-    props: ['titleGraph', 'listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal', 'n'],
+    props: ['titleGraph', 'listRegions', 'listDTMs', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal', 'n'],
     components: {
       VueC3
     },
@@ -27,6 +28,42 @@
         minimum: ['Min'],
         maximumIdeal: ['MaxIdeal'],
         minimumIdeal: ['MinIdeal']
+      }
+    },
+    methods: {
+      generateClassCss(name, rules) {
+        var style = document.createElement('style')
+        style.type = 'text/css'
+        document.getElementsByTagName('head')[0].appendChild(style)
+        if (!(style.sheet || {}).insertRule) {
+          (style.styleSheet || style.sheet).addRule(name, rules)
+        } else {
+          style.sheet.insertRule(name + '{' + rules + '}', 0)
+        }
+      },
+      get_random_color() {
+        // generate hex color
+        var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
+        return randomColor
+      },
+      get_random_colorRGB() {
+        //  generate rgb color
+        var r = function () { return Math.floor(Math.random() * 256) }
+        console.log('rgb(' + r() + ',' + r() + ',' + r() + ')')
+        return 'rgb(' + r() + ',' + r() + ',' + r() + ')'
+      },
+      getPeriodRegions(lista) {
+        //  class:( i & 1 ) ? "gameOdd match"+(i+1)*1 : "gameEven match-region match"+(i+1)*1
+        var regions = []
+        for (var i = 0; i < lista.length; i++) {
+          var regionColor = 'regionX' + i
+          var regionClass = '.c3-region.' + regionColor
+          this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
+          var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), label: lista[i].lugar, class: regionColor }
+          console.log(region)
+          regions.push(region)
+        }
+        return regions
       }
     },
     mounted() {
@@ -51,11 +88,12 @@
         title: {
           text: this.titleGraph
         },
-        regions: [
-          {
-            start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
-          }
-        ],
+        //  regions: [
+        //  {
+        //    start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
+        //  }
+        //  ],
+        regions: this.getPeriodRegions(json),
         axis: {
           y2: {
             show: true

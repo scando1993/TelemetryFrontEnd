@@ -39,7 +39,7 @@
       </div>
       <!--Graph View-->
       <div v-for="dato, index in AllProduct">
-        <componentProducts v-if="showing" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentProducts>
+        <componentProducts v-if="showing" :listRegionsP="listRegionsP" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentProducts>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
         <button class="btn btn-default " v-on:click="getRoutesOfDevice()">Generar Gráficas</button>
       </div>
       <div v-for="dato, index in AllDevice">
-        <componentDevice v-if="showing" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentDevice>
+        <componentDevice v-if="showing" :listRegionsD="listRegionsD" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentDevice>
       </div>
     </div>
 </section>
@@ -76,7 +76,10 @@
         picked: 'all',
         pickedAll: '',
         showing: false,
+        dataGet: [],
         listRegions: [],
+        listRegionsP: [],
+        listRegionsD: [],
         RouteProductObj: {}, // All: Objeto Producto para la ruta seleccionada
         ProductsTelem: [{}], // contiene el json del API
         DeviceTelem: [{}], // json del API
@@ -103,14 +106,11 @@
       check: function (e) {
         this.showing = false
       },
-      loadDataRoute(id) {
-        console.log(id)
+      async loadDataRoute(id) {
+        console.log(id + '--------')
         this.showing = false
-        //  var listRegions = api.getAll(this.apiBackRegion + id.toString(), listRegions).dataGet
-        //  console.log(listRegions)
-        //  this.listRegions = listRegions
-        //  if (this.showing) { this.showin = false }
-        this.showing = false
+        await api.getAll(this.apiBackRegion + id.toString(), this.$data)
+        this.listRegions = this.dataGet
         var pathSelect = api.search(this.RoutesAll.dataGet, 'id', id)
         this.RouteProductObj = pathSelect.producto // object
         var temperature = ['Temperatura']
@@ -164,6 +164,7 @@
             AllProduct = {
               listDTMs: [],
               listTemp: [],
+              listRegions: [],
               titleGraph: '',
               Max: 0,
               Min: 0,
@@ -183,9 +184,14 @@
                 temperatures.push(product.rutas[j].device.telemetrias[p].value)
                 dtms.push(new Date(product.rutas[j].device.telemetrias[p].dtm))
               }
+              var listR = []
+              await api.getAll(this.apiBackRegion + product.rutas[j].id, listR)
+              console.log(product.rutas[j].id)
+              console.log(listR.dataGet)
               AllProduct.titleGraph = title
               AllProduct.listTemp = temperatures
               AllProduct.listDTMs = dtms
+              AllProduct.listRegions = listR.dataGet
               this.AllProduct.push(AllProduct)
             }
           }

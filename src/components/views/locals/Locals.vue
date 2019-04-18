@@ -67,7 +67,7 @@
                           <td class="TextFieldC">{{dato.length}}</td>
                           <td class="TextFieldC">{{dato.latitude}}</td>
 
-                          <td class="JustifyButtonTD" style="width: 150px;"><label>{{dato.idLocal}}-{{index}}</label>
+                          <td class="JustifyButtonTD" style="width: 150px;">
                             <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'ss'" data-toggle="modal" role="button" title="Añadir MACs">
                               <i class="fa fa-plus"></i>
                             </a>
@@ -78,14 +78,14 @@
                                   <!--modal header-->
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Añadir MACs{{dato.idLocal}}{{index}}</h4>
+                                    <h4 class="modal-title">Añadir MACs</h4>
                                   </div>
                                   <!--end modal-header-->
                                   <!--Modal-body-->
                                   <div class="modal-body">
                                     <form action="/create" method="POST" class="form-horizontal" id="bodega-form">
                                       <div id="Locales" class="textAreaMac">
-                                        <textarea rows="10" cols="65%" v-model="text"></textarea>
+                                        <textarea rows="10%" cols="65%" v-model="text"></textarea>
                                         <br>
                                         <text-reader @load="text = $event"></text-reader>
                                       </div>
@@ -117,7 +117,7 @@
                                   <!--modal header-->
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Editar{{dato.idLocal}}</h4>
+                                    <h4 class="modal-title">Editar</h4>
                                   </div>
                                   <!--End Modal-Header-->
                                   <!--Modal-Body-->
@@ -325,6 +325,7 @@
         this.dataPostDel.cadena = this.text + ''
         //  console.log(this.dataPostDel.cadena.split('\n')[2])
         api.post('/saveMacLocales?localid=' + id, this.$data)
+        alert('Se guardó exitosamente')
         console.log(this.text)
       },
       deleteOne(key) {

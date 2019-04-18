@@ -1,8 +1,9 @@
 <template>
   <section>
-      <div>
-        <vue-c3 :handler="handler"></vue-c3>
-      </div><br />
+    <div v-if="showing">
+      <label>{{listRegions}}</label>
+      <vue-c3 :handler="handler"></vue-c3>
+    </div><br />
 </section>
 </template>
 
@@ -11,8 +12,7 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  //  import json from './json1.json'
-  import d3 from 'd3'
+  //  import d3 from 'd3'
   export default {
     name: 'componentAll',
     props: ['pickedAll', 'showing', 'listRegions', 'temperatures', 'timeL', 'max', 'min', 'maxIdeal', 'minIdeal', 'showing', 'titleGraph'],
@@ -22,7 +22,6 @@
     data() {
       return {
         apiBack: '/getDataTrack?rutaid=',
-        dataGet: [],
         handler: new Vue(),
         maximum: ['Max'],
         minimum: ['Min'],
@@ -63,7 +62,7 @@
           var regionColor = 'regionX' + i
           var regionClass = '.c3-region.' + regionColor
           this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
-          var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), class: regionColor }
+          var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), title: lista[i].lugar, class: regionColor }
           console.log(region)
           regions.push(region)
         }
@@ -88,15 +87,15 @@
             Temperatura: 'y2'
           }
         },
-        regions: [
-          {
-            start: new Date('2019-02-28T12:21:41'), end: new Date('2019-03-05T12:21:41'), text: 'hi', class: 'regionX'
-          },
-          {
-            start: new Date('2019-03-06T12:21:41'), end: new Date('2019-06-30T12:21:41'), class: 'regionX2'
-          }
-        ],
-        //  regions: this.getPeriodRegions(json),
+        //  regions: [
+        //  {
+        //    start: new Date('2019-02-28T12:21:41'), end: new Date('2019-03-05T12:21:41'), text: 'hi', class: 'regionX'
+        //  },
+        //  {
+        //    start: new Date('2019-03-06T12:21:41'), end: new Date('2019-06-30T12:21:41'), class: 'regionX2'
+        //  }
+        //  ],
+        regions: this.getPeriodRegions(this.listRegions),
         title: {
           text: this.titleGraph
         },
@@ -112,14 +111,6 @@
           }
         }
       }
-      var rectOffset = function () { return +d3.select(this.parentNode).select('rect').attr('x') }
-      d3.selectAll('.c3-region.regionX')
-        .append('text')
-        .text('Some Text')
-        .attr('dy', '15')
-        .attr('dx', rectOffset)
-        .style('fill-opacity', 1)
-        .attr('text-anchor', 'start')
       this.handler.$emit('init', options)
     }
   }
