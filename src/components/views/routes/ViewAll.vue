@@ -1,7 +1,6 @@
 <template>
   <section>
     <div v-if="showing">
-      <label>{{listRegions}}</label>
       <vue-c3 :handler="handler"></vue-c3>
     </div><br />
 </section>
@@ -71,20 +70,37 @@
     },
     mounted() {
       // to init the graph call:
-      for (var i = 0, n = this.timeL.length; i < n; i++) {
-        this.maximum.push(this.max)
-        this.minimum.push(this.min)
-        this.maximumIdeal.push(this.maxIdeal)
-        this.minimumIdeal.push(this.minIdeal)
-      }
+      //  for (var i = 0, n = this.timeL.length; i < n; i++) {
+      //  this.maximum.push(this.max)
+      //  this.minimum.push(this.min)
+      //  this.maximumIdeal.push(this.maxIdeal)
+      //  this.minimumIdeal.push(this.minIdeal)
+      //  }
       //  this.generateClassCss('.c3-region.regionX', 'fill: ' + this.get_random_color() + ';')
       const options = {
         data: {
           x: 'date',
           xFormat: '%Y-%m-%dT%H:%M:%S',
-          columns: [this.timeL, this.temperatures, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
+          columns: [this.timeL, this.temperatures], // , this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
           axes: {
             Temperatura: 'y2'
+          }
+        },
+        grid: {
+          y: {
+            lines: [
+              { value: this.max, text: 'Máxima: ' + this.max, position: 'start', class: 'grid80' },
+              { value: this.min, text: 'Minima: ' + this.min, position: 'start', class: 'grid81' },
+              { value: this.maxIdeal, text: 'Máxima Ideal: ' + this.maxIdeal, position: 'start', class: 'grid82' },
+              { value: this.minIdeal, text: 'Minima Ideal: ' + this.minIdeal, position: 'start', class: 'grid83' }
+            ]
+          }
+        },
+        zoom: {
+          enabled: true,
+          rescale: true,
+          onzoom: function (domain) {
+            console.log('zoom', domain)
           }
         },
         //  regions: [
@@ -104,10 +120,11 @@
           x: {
             type: 'timeseries',
             tick: {
-              format: '%Y-%m-%dT%H:%M:%S'
+              format: '%Y-%m-%dT%H:%M:%S',
+              rotate: 50
             },
             //  categories: this.timeL,
-            show: false
+            show: true
           }
         }
       }
@@ -120,6 +137,30 @@
   }
   .d3-region-label{
     text-anchor: middle;
+  }
+  .c3-ygrid-line.grid80 line {
+    stroke: coral;
+  }
+  .c3-ygrid-line.grid80 text {
+    fill: coral;
+  }
+  .c3-ygrid-line.grid81 line {
+    stroke: greenyellow;
+  }
+  .c3-ygrid-line.grid81 text {
+    fill: greenyellow;
+  }
+  .c3-ygrid-line.grid82 line {
+    stroke: violet;
+  }
+  .c3-ygrid-line.grid82 text {
+    fill: violet;
+  }
+  .c3-ygrid-line.grid83 line {
+    stroke: darkviolet;
+  }
+  .c3-ygrid-line.grid83 text {
+    fill: darkviolet;
   }
   .c3-chart {
     fill: green;

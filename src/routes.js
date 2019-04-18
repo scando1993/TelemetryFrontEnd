@@ -123,7 +123,7 @@ const routes = [
       }, {
         path: 'telemetry',
         component: DeviceTelemtryView,
-        name: 'Telemetría'
+        name: 'Telemetrías'
       }, {
         path: 'routesHistory',
         component: RoutesHistoryView,

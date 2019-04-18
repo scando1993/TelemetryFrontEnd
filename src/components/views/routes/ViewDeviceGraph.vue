@@ -11,7 +11,6 @@
 <script>
   import Vue from 'vue'
   import VueC3 from 'vue-c3'
-  import json from './json1.json'
   //  import api from '@/api/goApi.js'
   export default {
     name: 'componentDevice',
@@ -70,30 +69,42 @@
       // to init the graph call:
       var n = this.listTemp.length
       console.log(n)
-      for (var i = 0; i < n; i++) {
-        this.maximum.push(this.Max)
-        this.minimum.push(this.Min)
-        this.maximumIdeal.push(this.MaxIdeal)
-        this.minimumIdeal.push(this.MinIdeal)
-      }
+      //  for (var i = 0; i < n; i++) {
+      //  this.maximum.push(this.Max)
+      //  this.minimum.push(this.Min)
+      //  this.maximumIdeal.push(this.MaxIdeal)
+      //  this.minimumIdeal.push(this.MinIdeal)
+      //  }
       const options = {
         data: {
           x: 'date',
           xFormat: '%Y-%m-%dT%H:%M:%S',
-          columns: [this.listDTMs, this.listTemp, this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
+          columns: [this.listDTMs, this.listTemp], // this.maximum, this.minimum, this.maximumIdeal, this.minimumIdeal],
           axes: {
             Temperatura: 'y2'
+          }
+        },
+        zoom: {
+          enabled: true,
+          rescale: true,
+          onzoom: function (domain) {
+            console.log('zoom', domain)
+          }
+        },
+        grid: {
+          y: {
+            lines: [
+              { value: this.Max, text: 'Máxima: ' + this.Max, position: 'start', class: 'grid80' },
+              { value: this.Min, text: 'Minima: ' + this.Min, position: 'start', class: 'grid81' },
+              { value: this.MaxIdeal, text: 'Máxima Ideal: ' + this.MaxIdeal, position: 'start', class: 'grid82' },
+              { value: this.MinIdeal, text: 'Minima Ideal: ' + this.MinIdeal, position: 'start', class: 'grid83' }
+            ]
           }
         },
         title: {
           text: this.titleGraph
         },
-        //  regions: [
-        //  {
-        //    start: new Date('2019-03-30T12:21:41'), end: new Date('2019-09-30T12:21:41'), class: 'regionX'
-        //  }
-        //  ],
-        regions: this.getPeriodRegions(json),
+        regions: this.getPeriodRegions(this.listRegions),
         axis: {
           y2: {
             show: true
@@ -101,10 +112,11 @@
           x: {
             type: 'timeseries',
             tick: {
-              format: '%Y-%m-%dT%H:%M:%S'
+              format: '%Y-%m-%dT%H:%M:%S',
+              rotate: 50
             },
             //  categories: this.timeL,
-            show: false
+            show: true
           }
         }
       }
@@ -116,7 +128,37 @@
   .c3-region.regionX {
     fill: red;
   }
+  .c3-ygrid-line.grid80 line {
+    stroke: coral;
+  }
 
+  .c3-ygrid-line.grid80 text {
+    fill: coral;
+  }
+
+  .c3-ygrid-line.grid81 line {
+    stroke: greenyellow;
+  }
+
+  .c3-ygrid-line.grid81 text {
+    fill: greenyellow;
+  }
+
+  .c3-ygrid-line.grid82 line {
+    stroke: violet;
+  }
+
+  .c3-ygrid-line.grid82 text {
+    fill: violet;
+  }
+
+  .c3-ygrid-line.grid83 line {
+    stroke: darkviolet;
+  }
+
+  .c3-ygrid-line.grid83 text {
+    fill: darkviolet;
+  }
   .c3-region.regionX2 {
     fill: green;
   }

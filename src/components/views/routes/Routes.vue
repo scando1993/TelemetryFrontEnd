@@ -16,7 +16,7 @@
         <ul id="checkboxPath" class="GroupCheckbox">
           <li v-for="datoL, indexU in pathsActive" class="col-sm-12 controls">
             <input type="radio" v-on:click="loadDataRoute(datoL.id)" :value="datoL.id" :id="datoL.id" v-model="pickedAll" >
-            <label :for="datoL.id">Ruta{{datoL.id}} con Device:  {{datoL.device.name}}-{{showing}}-{{pickedAll}}</label>
+            <label :for="datoL.id">Ruta{{datoL.id}} con Device:  {{datoL.device.name}}</label>
           </li>
         </ul>
       </div>
@@ -39,7 +39,7 @@
       </div>
       <!--Graph View-->
       <div v-for="dato, index in AllProduct">
-        <componentProducts v-if="showing" :listRegionsP="listRegionsP" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentProducts>
+        <componentProducts v-if="showing" :listRegions="dato.listRegions" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentProducts>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
         <button class="btn btn-default " v-on:click="getRoutesOfDevice()">Generar Gráficas</button>
       </div>
       <div v-for="dato, index in AllDevice">
-        <componentDevice v-if="showing" :listRegionsD="listRegionsD" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentDevice>
+        <componentDevice v-if="showing" :listRegions="dato.listRegions" :listTemp="dato.listTemp" :titleGraph="dato.titleGraph" :showing="showing" :listDTMs="dato.listDTMs" :Max="dato.Max" :Min="dato.Min" :MaxIdeal="dato.MaxIdeal" :MinIdeal="dato.MinIdeal"></componentDevice>
       </div>
     </div>
 </section>
@@ -78,8 +78,8 @@
         showing: false,
         dataGet: [],
         listRegions: [],
-        listRegionsP: [],
         listRegionsD: [],
+        listRegionsP: [],
         RouteProductObj: {}, // All: Objeto Producto para la ruta seleccionada
         ProductsTelem: [{}], // contiene el json del API
         DeviceTelem: [{}], // json del API
@@ -152,6 +152,7 @@
           var AllProduct = {
             listDTMs: [],
             listTemp: [],
+            listRegions: [],
             Max: 0,
             Min: 0,
             MaxIdeal: 0,
@@ -184,14 +185,11 @@
                 temperatures.push(product.rutas[j].device.telemetrias[p].value)
                 dtms.push(new Date(product.rutas[j].device.telemetrias[p].dtm))
               }
-              var listR = []
-              await api.getAll(this.apiBackRegion + product.rutas[j].id, listR)
-              console.log(product.rutas[j].id)
-              console.log(listR.dataGet)
+              api.getAll(this.apiBackRegion + product.rutas[j].id.toString(), this.$data)
               AllProduct.titleGraph = title
               AllProduct.listTemp = temperatures
               AllProduct.listDTMs = dtms
-              AllProduct.listRegions = listR.dataGet
+              AllProduct.listRegions = this.dataGet
               this.AllProduct.push(AllProduct)
             }
           }
@@ -200,14 +198,14 @@
         this.checkedProducts = []
       },
       // Método para obtener las telemetrias de un device
-      getRoutesOfDevice() {
+      async getRoutesOfDevice() {
         this.showing = false
         this.AllDevice = [{}]
-        //  console.log(this.checkedDevices)
         for (var i = 0, n = this.checkedDevices.length; i < n; i++) {
           var AllDevice = {
             listDTMs: [],
             listTemp: [],
+            listRegions: [],
             Max: 0,
             titleGraph: '',
             Min: 0,
@@ -229,9 +227,11 @@
               temperatures.push(device.telemetrias[p].value)
               dtms.push(new Date(device.telemetrias[p].dtm))
             }
+            api.getAll(this.apiBackRegion + device.ruta.id.toString(), this.$data)
             AllDevice.titleGraph = title
             AllDevice.listTemp = temperatures
             AllDevice.listDTMs = dtms
+            AllDevice.listRegions = this.dataGet
             this.AllDevice.push(AllDevice)
           }
         }

@@ -108,6 +108,7 @@
         api.getAll(this.endPointDevices, this.devices)
         await this.sleep()
         this.devices.lastDevices = this.devices.dataGet[0].devices
+        //  console.log(this.devices.dataGet[0].devices)
         // this.getLastTelemetries()
       },
       async getSelectedTelemetries() {
@@ -119,6 +120,7 @@
         // await this.sleep()
         setTimeout(e => {
           this.telemetries.t = this.telemetries.dataGet
+          //  console.log(this.telemetries.dataGet)
           // this.telemetries.t = this.telemetries.dataGet[0].telemetrias
         }, 2000)
         // console.log(this.telemetries)
