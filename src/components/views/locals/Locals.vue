@@ -68,11 +68,11 @@
                           <td class="TextFieldC">{{dato.latitude}}</td>
 
                           <td class="JustifyButtonTD" style="width: 150px;"><label>{{dato.idLocal}}-{{index}}</label>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" data-target="#modalConfig" role="button" title="Añadir MACs">
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'ss'" data-toggle="modal" role="button" title="Añadir MACs">
                               <i class="fa fa-plus"></i>
                             </a>
                             <!-- Modal Edit / Ventana / Overlay en HTML  -->
-                            <div v-bind:id="index+'s'" class="modal fade" id="modalConfig">
+                            <div v-bind:id="index+'ss'" class="modal fade">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <!--modal header-->
@@ -107,11 +107,11 @@
                             <a class="btn btn-circle btn-danger show-tooltip confirm hidden-xs" title="Delete" message="Are you sure to delete the selected device?" v-on:click='deleteOne(index)'>
                               <i class="fa fa-trash-o"></i>
                             </a>
-                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" data-target="#modalEdit" >
+                            <a class="btn btn-circle btn-link show-tooltip confirm hidden-xs" v-bind:href="'#'+index+'s'" data-toggle="modal" role="button" title="Edit" >
                               <i class="fa fa-pencil"></i>
                             </a>
                             <!-- Modal / Ventana / Overlay en HTML  -->
-                            <div v-bind:id="index+'s'" class="modal fade" id="modalEdit">
+                            <div v-bind:id="index+'s'" class="modal fade" >
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <!--modal header-->
