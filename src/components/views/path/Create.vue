@@ -111,7 +111,7 @@
           var idProd = api.search(this.products.dataGet[0].productoes, 'name', this.selectedProduct).id
           var idDevi = api.search(this.devices.dataGet[0].devices, 'name', this.selectedDevice).id
           var idBoxc = api.search(this.boxcars.dataGet[0].furgons, 'name', this.selectedBoxcar).id
-          api.post(this.apiBack + '?furgon=' + idBoxc + '&localInicio=' + idLocIn + '&localFin=' + idLocFn + '&device=' + idDevi + '&producto=' + idProd, this.$data)
+          api.post(this.apiBackPost + '?furgon=' + idBoxc + '&localInicio=' + idLocIn + '&localFin=' + idLocFn + '&device=' + idDevi + '&producto=' + idProd, this.$data)
           setTimeout(e => {
             this.$router.push(this.page)
           }, 1000)
@@ -171,6 +171,7 @@
     data() {
       return {
         apiBack: '/rutas',
+        apiBackPost: '/postRutas',
         apiBackPath: '/getAllRutas',
         apiBackBoxcar: '/furgons',
         apiBackDevice: '/devices',
