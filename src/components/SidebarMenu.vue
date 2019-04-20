@@ -26,6 +26,18 @@
         <span class="page">Rutas</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/groups">
+      <a>
+        <i class="formatIcon icofont-connection"></i>
+        <span class="page">Grupos</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/family">
+      <a>
+        <i class="formatIcon icofont-users-alt-2"></i>
+        <span class="page">Familias</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/zone">
       <a>
         <i class="fa fa-building"></i>

@@ -49,6 +49,7 @@
                           <th aria-label='ID: activate to sort column descending' aria-sort='ascending' style='width: 15px;' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting_asc TextCenterTH'>ID</th>
                           <th aria-label='Boxcar: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Furgón</th>
                           <th aria-label='Device: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Dispositivo</th>
+                          <th aria-label='Devicestatus: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Estado del Dispositivo</th>
                           <th aria-label='Product: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Producto</th>
                           <th aria-label='StartDate: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Fecha inicio </th>
                           <th aria-label='StarHour: activate to sort column ascending' colspan='1' rowspan='1' aria-controls='example1' tabindex='0' class='sorting ToButtons'>Hora inicio </th>
@@ -65,6 +66,7 @@
                           <td class='sorting_1 TextFieldC'>{{dato.idRuta}}</td>
                           <td class="TextFieldC">{{dato.nameFurgon}}</td><!--<td class="TextFieldC">{{box[index]}}</td>-->
                           <td class="TextFieldC">{{dato.nameDevice}}</td><!--<td class="TextFieldC">{{devi[index]}}</td>-->
+                          <td class="TextFieldC">{{dato.descriptionDevice}}</td>
                           <td class="TextFieldC">{{dato.nameProducto}}</td><!--<td class="TextFieldC">{{prod[index]}}</td>-->
                           <td class="TextFieldC">{{dato.start_date.split('T')[0]}}</td><!--<td class="TextFieldC">{{dato.start_date.split('T')[0]}}</td>-->
                           <td class="TextFieldC">{{dato.start_date.split('T')[1]}}</td>

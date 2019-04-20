@@ -25,6 +25,10 @@ import DeviceView from './components/views/device/Device.vue'
 import CreateDeviceView from './components/views/device/Create.vue'
 import DeviceTelemtryView from './components/views/telemetry/DeviceTelemtry.vue'
 import RoutesHistoryView from './components/views/routes/History.vue'
+import GroupView from './components/views/groups/Group.vue'
+import CreateGroupView from './components/views/groups/Create.vue'
+import FamilyView from './components/views/family/Family.vue'
+import CreateFamilyView from './components/views/family/Create.vue'
 // Routes.
 const routes = [
   {
@@ -120,6 +124,22 @@ const routes = [
         path: 'createDevice',
         component: CreateDeviceView,
         name: 'Crear Dispositivos'
+      }, {
+        path: 'groups',
+        component: GroupView,
+        name: 'Grupos'
+      }, {
+        path: 'createGroup',
+        component: CreateGroupView,
+        name: 'Crear Grupos'
+      }, {
+        path: 'family',
+        component: FamilyView,
+        name: 'Familias'
+      }, {
+        path: 'createFamily',
+        component: CreateFamilyView,
+        name: 'Crear familias'
       }, {
         path: 'telemetry',
         component: DeviceTelemtryView,

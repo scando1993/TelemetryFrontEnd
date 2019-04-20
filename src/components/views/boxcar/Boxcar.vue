@@ -152,7 +152,9 @@
     name: 'Boxcar',
     mounted() {
       setTimeout(e => {
-        $('#table_boxcar').DataTable()
+        this.$nextTick(() => {
+          $('#table_boxcar').DataTable()
+        })
       }, this.inicialDelay)
       this.get()
     },
