@@ -1,9 +1,19 @@
 <template>
-  <section>
-    <div v-if="showing">
-      <vue-c3 :handler="handler"></vue-c3>
-    </div><br />
-</section>
+  <section class='content'>
+    <div class='span12' >
+      <div v-if="showing" >
+        <div class="col-sm-11">
+          <vue-c3 :handler="handler"></vue-c3><br />
+        </div>
+        <table class="info-box-color col-sm-1" style="width:2%;">
+          <tr class=" controlsRegion" v-for="dato in listRegionToChart">
+            <td id="circle" style="width:20px;height:20px;cursor:pointer;" v-bind:title="dato.text" v-bind:style="{background:dato.color}"></td>
+          </tr>
+        </table>
+        <br /><br />
+      </div>
+    </div>
+  </section>  
 </template>
 
 <style src="./../../../../node_modules/c3/c3.css"></style>
@@ -21,6 +31,7 @@
     data() {
       return {
         apiBack: '/getDataTrack?rutaid=',
+        listRegionToChart: [],
         handler: new Vue(),
         maximum: ['Max'],
         minimum: ['Min'],
@@ -55,14 +66,32 @@
         return 'rgb(' + r() + ',' + r() + ',' + r() + ')'
       },
       getPeriodRegions(lista) {
-        //  class:( i & 1 ) ? "gameOdd match"+(i+1)*1 : "gameEven match-region match"+(i+1)*1
         var regions = []
         for (var i = 0; i < lista.length; i++) {
+          var regi = {
+            color: '',
+            text: ''
+          }
+          var flagR = false
           var regionColor = 'regionX' + i
           var regionClass = '.c3-region.' + regionColor
-          this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
-          var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), title: lista[i].lugar, class: regionColor }
-          console.log(region)
+          var colorReg = this.get_random_color()
+          for (var a = 0; a < this.listRegionToChart.length; a++) {
+            if (this.listRegionToChart[a].text === lista[i].lugar) {
+              colorReg = this.listRegionToChart[a].color
+              flagR = true
+              break
+            }
+          }
+          if (!flagR) {
+            regi.color = colorReg
+            regi.text = lista[i].lugar
+            this.listRegionToChart.push(regi)
+          }
+
+          this.generateClassCss(regionClass, 'fill: ' + colorReg + ';')
+          var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), class: regionColor }
+          console.log(this.listRegionToChart)
           regions.push(region)
         }
         return regions
@@ -133,7 +162,21 @@
   }
 </script>
 <style>
-  .c3-region.regionX {
+  #circle {
+    width: 10px;
+    height: 10px;
+    background: red;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+  }
+  .col-sm-11 {
+    width: 95.666667%;
+  }
+  .content {
+    min-height: 353px;
+  }
+    .c3-region.regionX {
   }
   .d3-region-label{
     text-anchor: middle;

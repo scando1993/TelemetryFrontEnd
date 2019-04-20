@@ -104,6 +104,18 @@ div.controls { /*Contenedor de objetos modal*/
   height: auto;
   text-align: left !important;
 }
+div.controlsRegion { /*Contenedor de objetos */
+  width: auto;
+  height: auto;
+  text-align: left !important;
+}
+div.info-box-color {
+  /*background-color: gainsboro;*/
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  padding: 1% 2% 1% 2%;
+}
 form.form-horizontal { /*Grupo modal */
   padding: 2% 14% 2% 14%;
   width: -webkit-fill-available;
