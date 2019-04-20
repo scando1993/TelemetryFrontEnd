@@ -6,10 +6,11 @@ var apiAlertsRuta = '/getAlertasRuta?rutaid='
 var alerts = [{}]
 
 //  export var alertitas = []
-export function printAlerts(id, alertitas) {
+export async function printAlerts(id, alertitas) {
+  console.log(id)
   //  var alertitas = []
   alerts = [{}]
-  api.getAll(apiBackAlerts, alerts)
+  await api.getAll(apiBackAlerts, alerts)
   setTimeout(e => {
     if (id !== 's') {
       alerts = api.getAll(apiAlertsRuta + id, alerts)
