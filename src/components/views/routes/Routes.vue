@@ -132,12 +132,10 @@
         var device = []
         var product = []
         console.log(listAct)
-        var flagP = false
-        var flagD = false
-        var flagR = false
         listAct.forEach(function (k, index) {
-          console.log('k')
-          console.log(k)
+          var flagP = false
+          var flagD = false
+          var flagR = false
           for (var a = 0; a < activePath.length; a++) {
             if (activePath[a].id === k.id) {
               flagR = true
@@ -242,7 +240,7 @@
           }
           // buscamos cada device y obtenemos las URL de cada ruta
           var device = api.search(this.DeviceTelem.dataGet, 'id', this.checkedDevices[i])
-          if (device.ruta.status === 'Activo' || device.ruta.status === 'No ideal' || device.ruta.status.trim() === 'No efectiva') {
+          if (device.ruta.status !== 'Finalizado') {
             // agregamos en ese orden los límites de la gráfica
             AllDevice.Max = device.ruta.producto.temp_max
             AllDevice.Min = device.ruta.producto.temp_min
