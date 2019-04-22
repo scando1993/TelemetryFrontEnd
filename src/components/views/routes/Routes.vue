@@ -271,10 +271,12 @@
       api.getAll(this.apiBackGetRoutes, this.RoutesAll)
     },
     mounted() {
-      setTimeout(e => {
+      /*
+       setTimeout(e => {
         api.getAll(this.apiBackGetRoutes, this.RoutesAll)
         this.getRoutesActive(this.RoutesAll.dataGet)
       }, 1500)
+      */
     }
 }</script>
 <style>
