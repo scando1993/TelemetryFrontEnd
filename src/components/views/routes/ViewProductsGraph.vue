@@ -1,10 +1,19 @@
 <template>
-  <section>
-    <br />
-    <div v-if="showing">
-      <vue-c3 :handler="handler"></vue-c3>
+  <section class='content'>
+    <div class='span12'>
+      <div v-if="showing">
+        <div class="col-sm-11">
+          <vue-c3 :handler="handler"></vue-c3><br />
+          <!--<label>{{listRegionToChart}}</label>-->
+        </div>
+        <table class="info-box-color col-sm-1" style="width:2%;">
+          <tr class=" controlsRegion" v-for="dato in listRegionToChart">
+            <td id="circle" style="width:20px;height:20px;cursor:pointer;" v-bind:title="dato.text" v-bind:style="{background:dato.color}"></td>
+          </tr>
+        </table>
+        <br /><br />
+      </div>
     </div>
-    <hr class="visible-xs-block">
   </section>
 </template>
 
@@ -19,8 +28,6 @@
     props: ['listDTMs', 'listRegions', 'listTemp', 'showing', 'Max', 'Min', 'MaxIdeal', 'MinIdeal', 'titleGraph'],
     components: {
       VueC3
-    },
-    beforeMount() {
     },
     methods: {
       generateClassCss(name, rules) {
@@ -45,22 +52,44 @@
         return 'rgb(' + r() + ',' + r() + ',' + r() + ')'
       },
       getPeriodRegions(lista) {
-        //  class:( i & 1 ) ? "gameOdd match"+(i+1)*1 : "gameEven match-region match"+(i+1)*1
         var regions = []
+        this.listRegionToChart = []
         for (var i = 0; i < lista.length; i++) {
+          var regi = {
+            color: '',
+            text: ''
+          }
+          var flagR = false
           var regionColor = 'regionX' + i
           var regionClass = '.c3-region.' + regionColor
-          this.generateClassCss(regionClass, 'fill: ' + this.get_random_color() + ';')
+          var colorReg = this.get_random_color()
+          for (var a = 0; a < this.listRegionToChart.length; a++) {
+            if (this.listRegionToChart[a].text === lista[i].lugar) {
+              colorReg = this.listRegionToChart[a].color
+              flagR = true
+              break
+            }
+          }
+          if (!flagR) {
+            regi.color = colorReg
+            regi.text = lista[i].lugar
+            this.listRegionToChart.push(regi)
+          }
+          console.log('REgionsss')
+          console.log(colorReg)
+          this.generateClassCss(regionClass, 'fill: ' + colorReg + ';')
           var region = { start: new Date(lista[i].start_date), end: new Date(lista[i].end_date), class: regionColor }
           console.log(region)
           regions.push(region)
         }
+        //  console.log(regions)
         return regions
       }
     },
     data() {
       return {
         handler: new Vue(),
+        listRegionToChart: [],
         maximum: ['Max'],
         minimum: ['Min'],
         maximumIdeal: ['MaxIdeal'],
@@ -68,13 +97,8 @@
       }
     },
     mounted() {
-      // to init the graph call:
-      //  for (var i = 0, n = this.listTemp.length; i < n; i++) {
-      //  this.maximum.push(this.Max)
-      //  this.minimum.push(this.Min)
-      //  this.maximumIdeal.push(this.MaxIdeal)
-      //  this.minimumIdeal.push(this.MinIdeal)
-      //  }
+      var Reg = this.getPeriodRegions(this.listRegions)
+      console.log(Reg)
       const options = {
         data: {
           x: 'date',
@@ -104,7 +128,7 @@
         title: {
           text: this.titleGraph
         },
-        regions: this.getPeriodRegions(this.listRegions),
+        regions: Reg,
         axis: {
           y2: {
             show: true
@@ -125,6 +149,22 @@
   }
 </script>
 <style>
+  #circle {
+    width: 10px;
+    height: 10px;
+    background: red;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+  }
+
+  .col-sm-11 {
+    width: 95.666667%;
+  }
+
+  .content {
+    min-height: 353px;
+  }
   .c3-ygrid-line.grid80 line {
     stroke: coral;
   }

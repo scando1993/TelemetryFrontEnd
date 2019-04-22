@@ -84,8 +84,8 @@
         ProductsTelem: [{}], // contiene el json del API
         DeviceTelem: [{}], // json del API
         RoutesAll: [{}],
-        AllProduct: [{}], // Todas las rutas de un producto
-        AllDevice: [{}], // Todas las rutas de un device
+        AllProduct: [], // Todas las rutas de un producto
+        AllDevice: [], // Todas las rutas de un device
         listLines: [],
         temperatures: [],
         timeL: [],
@@ -133,9 +133,34 @@
         var product = []
         console.log(listAct)
         listAct.forEach(function (k, index) {
-          if (k.status === 'Activo' || k.status === 'No efectiva' || k.status === 'No ideal') {
+          var flagP = false
+          var flagD = false
+          var flagR = false
+          for (var a = 0; a < activePath.length; a++) {
+            if (activePath[a].id === k.id) {
+              flagR = true
+              break
+            }
+          }
+          for (var b = 0; b < device.length; b++) {
+            if (device[b].id === k.device.id) {
+              flagD = true
+              break
+            }
+          }
+          for (var c = 0; c < product.length; c++) {
+            if (product[c].id === k.producto.id) {
+              flagP = true
+              break
+            }
+          }
+          if (k.status !== 'Finalizado' && !flagR) {
             activePath.push(k)
+          }
+          if (k.status !== 'Finalizado' && !flagD) {
             device.push(k.device)
+          }
+          if (k.status !== 'Finalizado' && !flagP) {
             product.push(k.producto)
           }
         })
@@ -147,7 +172,7 @@
       //  Método para obtener las rutas de un producto enviarlo a graficar
       async getRoutesOfProduct() {
         this.showing = false
-        this.AllProduct = [{}]
+        this.AllProduct = []
         for (var i = 0, n = this.checkedProducts.length; i < n; i++) {
           var AllProduct = {
             listDTMs: [],
@@ -194,13 +219,14 @@
             }
           }
         }
+        console.log(this.AllProduct)
         this.showing = true
         this.checkedProducts = []
       },
       // Método para obtener las telemetrias de un device
       async getRoutesOfDevice() {
         this.showing = false
-        this.AllDevice = [{}]
+        this.AllDevice = []
         for (var i = 0, n = this.checkedDevices.length; i < n; i++) {
           var AllDevice = {
             listDTMs: [],
@@ -214,7 +240,7 @@
           }
           // buscamos cada device y obtenemos las URL de cada ruta
           var device = api.search(this.DeviceTelem.dataGet, 'id', this.checkedDevices[i])
-          if (device.ruta.status === 'Activo' || device.ruta.status === 'No ideal' || device.ruta.status.trim() === 'No efectiva') {
+          if (device.ruta.status !== 'Finalizado') {
             // agregamos en ese orden los límites de la gráfica
             AllDevice.Max = device.ruta.producto.temp_max
             AllDevice.Min = device.ruta.producto.temp_min
